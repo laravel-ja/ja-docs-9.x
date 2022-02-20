@@ -18,13 +18,15 @@ This is a Japanese translation repository for Laravel 9.x official documentation
 
 * GitHub Sponsorsでの支援
 
-<iframe src="https://github.com/sponsors/HiroKws/button" title="Sponsor HiroKws" height="35" width="116" style="border: 0;"></iframe>
+<https://github.com/sponsors/HiroKws>
 
 英語のUIです。毎月の支援と一回限りの支援の２つを用意しています。金額は自由にお決めください。
 
 GitHubがオープンソース貢献者を支援する方々を金銭面で支援するために作ったプラットフォームです。GitHub画面で支援していただいたかたにSponsor表示が付き、その旨が通知されます。
 
 * PayPalでの支援
+
+<https://paypal.me/hirokws>
 
 英語が苦手な方に役立てていただくための翻訳を提供しているのに、英語UIだけを紹介するのは筋が悪いので、日本語での寄付方法を探しました。PayPalではブラウザなどの設定をもとに表示言語を決めているとサポートが回答してますので、日本語UIから寄付してくださる方は、こちらをご利用ください。昔のような「寄付」ボタンはもう提供されていませんが、寄付は「個人間送金」で可能です。
 
