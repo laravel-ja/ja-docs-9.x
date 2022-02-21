@@ -144,7 +144,7 @@ Sailの`up`コマンドをはじめて実行すると、Sailのアプリケー�
 <a name="choosing-your-sail-services"></a>
 ### Sailサービスの選択
 
-Sailで新しいLaravelアプリケーションを作成する際に、`with`というクエリ文字列変数を使って、新しいアプリケーションの`docker-compose.yml`ファイルで設定するサービスを選択することができます。利用可能なサービスは、`mysql`、`pgsql`、`mariadb`、`redis`、`memcached`、`meilisearch`、`minio`、`selenium`、`mailhog`です。
+Sailで新しいLaravelアプリケーションを作成する際に、`with`というクエリ文字列変数を使って、新しいアプリケーションの`docker-compose.yml`ファイルで設定するサービスを選択できます。利用可能なサービスは、`mysql`、`pgsql`、`mariadb`、`redis`、`memcached`、`meilisearch`、`minio`、`selenium`、`mailhog`です。
 
 ```shell
 curl -s "https://laravel.build/example-app?with=mysql,redis" | bash
@@ -152,7 +152,7 @@ curl -s "https://laravel.build/example-app?with=mysql,redis" | bash
 
 設定したいサービスを指定しない場合は、`mysql`、`redis`、`meilisearch`、`mailhog`、`selenium`のデフォルトのスタックが設定されます。
 
-You may instruct Sail to install a default [Devcontainer](/docs/{{version}}/sail#using-devcontainers) by adding the `devcontainer` parameter to the URL:
+URLへ`devcontainer`パラメータを追加し、デフォルトの[Devcontainer](/docs/{{version}}/sail#using-devcontainers)をインストールするよう、Sailに指示できます。
 
 ```shell
 curl -s "https://laravel.build/example-app?with=mysql,redis&devcontainer" | bash
@@ -283,4 +283,3 @@ Laravelは、JavaScriptシングルページアプリケーションまたはモ
 この方法でLaravelの使用を計画している場合は、[ルーティング](/docs/{{version}}/routing)、[Laravel Sanctum](/docs/{{version}}/sanctum)、[Eloquent ORM](/docs/{{version}}/eloquent)に関するドキュメントを確認することをお勧めします。
 
 > {tip} LaravelのバックエンドとNext.jsのフロントエンドのスカフォールドから始める必要がありますか？Laravel Breezeは、[APIスタック](/docs/{{version}}/starter-kits#breeze-and-next)と[Next.jsフロントエンド実装](https://github.com/laravel/breeze-next)を提供しているため、すぐに開始できます。
-
