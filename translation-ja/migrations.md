@@ -53,7 +53,7 @@ Laravelは、マイグレーションの名前からテーブル名と新しい�
 ```shell
 php artisan schema:dump
 
-# Dump the current database schema and prune all existing migrations...
+# 現在のデータベーススキームをダンプし、既存のマイグレーションをすべて整理する..
 php artisan schema:dump --prune
 ```
 
@@ -193,7 +193,7 @@ php artisan migrate:reset
 ```shell
 php artisan migrate:refresh
 
-# Refresh the database and run all database seeds...
+# データベースを真新しくし、データベースの初期設定を実行する
 php artisan migrate:refresh --seed
 ```
 
@@ -1073,8 +1073,8 @@ LaravelのスキーマビルダBlueprintクラスは、Laravelでサポートし
 `$table->primary(['id', 'parent_id']);`  |  複合キーを追加
 `$table->unique('email');`  |  一意のインデックスを追加
 `$table->index('state');`  |  インデックスを追加
-`$table->fullText('body');`  |  Adds a full text index (MySQL/PostgreSQL).
-`$table->fullText('body')->language('english');`  |  Adds a full text index of the specified language (PostgreSQL).
+`$table->fullText('body');`  |  フルテキストインデックスを追加（MySQL／PostgreSQL）
+`$table->fullText('body')->language('english');`  | 特定言語のフルテキストインデックス追加（PostgreSQL）
 `$table->spatialIndex('location');`  |  空間インデックスを追加（SQLiteを除く）
 
 <a name="index-lengths-mysql-mariadb"></a>
@@ -1118,7 +1118,7 @@ LaravelのスキーマビルダBlueprintクラスは、Laravelでサポートし
 インデックスを削除するメソッドにカラムの配列を渡すと、テーブル名、カラム、およびインデックスタイプに基づいてインデックス名が生成されます。
 
     Schema::table('geo', function (Blueprint $table) {
-        $table->dropIndex(['state']); // Drops index 'geo_state_index'
+        $table->dropIndex(['state']); // 'geo_state_index'インデックスを削除
     });
 
 <a name="foreign-key-constraints"></a>
@@ -1173,7 +1173,7 @@ Laravelは、データベースレベルで参照整合性を強制するため�
 <a name="dropping-foreign-keys"></a>
 #### 外部キーの削除
 
-外部キーを削除するには、`dropForeign`メソッドを使用して、削除する外部キー制約の名前を引数として渡してください。外部キー制約は、インデックスと同じ命名規約を使用しています。つまり、外部キー制約名は、制約内のテーブルとカラムの名前に基づいており、その後に「\_foreign」サフィックスが続きます。
+外部キーを削除するには、`dropForeign`メソッドを使用して、削除する外部キー制約の名前を引数として渡してください。外部キー制約は、インデックスと同じ命名規約を使用しています。つまり、外部キー制約名は、制約内のテーブルとカラムの名前に基づいており、その後に「_foreign」サフィックスが続きます。
 
     $table->dropForeign('posts_user_id_foreign');
 
@@ -1195,12 +1195,11 @@ Laravelは、データベースレベルで参照整合性を強制するため�
 <a name="events"></a>
 ## イベント
 
-便宜上、各マイグレート操作は[イベント](/docs/{{version}}/events)を発行します。以下のイベントはすべて、`Illuminate\Database\Events\MigrationEvent`基本クラスを継承しています。
+利便が良いように、各マイグレート操作は[イベント](/docs/{{version}}/events)を発行します。以下のイベントはすべて、`Illuminate\Database\Events\MigrationEvent`基本クラスを継承しています。
 
- Class | Description
+ クラス | 説明
 -------|-------
-| `Illuminate\Database\Events\MigrationsStarted` | マイグレーションのバッチが実行されようとしています。 |
-| `Illuminate\Database\Events\MigrationsEnded` | マイグレーションのバッチが実行終了しました。 |
-| `Illuminate\Database\Events\MigrationStarted` | 単一マイグレーションが実行されようとしています。 |
-| `Illuminate\Database\Events\MigrationEnded` | 単一マイグレーションが実行完了しました。 |
-
+| `Illuminate\Database\Events\MigrationsStarted` | マイグレーションのバッチが実行されようとしている |
+| `Illuminate\Database\Events\MigrationsEnded` | マイグレーションのバッチが実行終了した |
+| `Illuminate\Database\Events\MigrationStarted` | 単一マイグレーションが実行されようとしている |
+| `Illuminate\Database\Events\MigrationEnded` | 単一マイグレーションが実行終了した |

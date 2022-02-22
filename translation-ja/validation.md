@@ -194,7 +194,7 @@ Laravelの強力なバリデーション機能について学ぶため、フォ�
 <a name="quick-customizing-the-error-messages"></a>
 #### エラーメッセージのカスタマイズ
 
-Laravel's built-in validation rules each has an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
+Laravelの組み込みバリデーションルールは、それぞれエラーメッセージを持っており、アプリケーションの`lang/en/validation.php`ファイルに格納しています。このファイルに各バリデーションルールの翻訳エントリーがあります。アプリケーションに合うように、これらメッセージを自由に変更・修正してください。
 
 さらに、アプリケーションの言語へメッセージを翻訳するために、このファイルを別の翻訳言語ディレクトリにコピーできます。Laravelのローカリゼーションの詳細については、完全な[多言語化ドキュメント](/docs/{{version}}/localization)をご覧ください。
 
@@ -690,14 +690,14 @@ Laravelの組み込みエラーメッセージの多くには、バリデーシ�
 <a name="specifying-custom-messages-in-language-files"></a>
 ### 言語ファイルでのカスタムメッセージの指定
 
-Laravel's built-in validation rules each has an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
+Laravelの組み込みバリデーションルールは、それぞれエラーメッセージを持っており、アプリケーションの`lang/en/validation.php`ファイルに格納しています。このファイルに各バリデーションルールの翻訳エントリーがあります。アプリケーションに合うように、これらメッセージを自由に変更・修正してください。
 
 さらに、アプリケーションの言語へメッセージを翻訳するために、このファイルを別の翻訳言語ディレクトリにコピーできます。Laravelのローカリゼーションの詳細については、完全な[多言語化ドキュメント](/docs/{{version}}/localization)をご覧ください。
 
 <a name="custom-messages-for-specific-attributes"></a>
 #### 特定の属性のカスタムメッセージ
 
-You may customize the error messages used for specified attribute and rule combinations within your application's validation language files. To do so, add your message customizations to the `custom` array of your application's `lang/xx/validation.php` language file:
+アプリケーションのバリデーション言語ファイルでは、特定の属性とルールの組み合わせで使用するエラーメッセージをカスタマイズできます。これを実現するには、アプリケーションの`lang/xx/validation.php`言語ファイルの`custom`配列に、カスタマイズメッセージを追加します。
 
     'custom' => [
         'email' => [
@@ -709,7 +709,7 @@ You may customize the error messages used for specified attribute and rule combi
 <a name="specifying-attribute-in-language-files"></a>
 ### 言語ファイルでの属性の指定
 
-Many of Laravel's built-in error messages include an `:attribute` placeholder that is replaced with the name of the field or attribute under validation. If you would like the `:attribute` portion of your validation message to be replaced with a custom value, you may specify the custom attribute name in the `attributes` array of your `lang/xx/validation.php` language file:
+Laravelの組み込みエラーメッセージの多くには、`:attribute`プレースホルダーが含まれており、バリデーション中のフィールドや属性の名前に置き換えられます。もし、バリデーションメッセージの`:attribute`部分をカスタム値に置き換えたい場合は、言語ファイル`lang/xx/validation.php`の`attributes`配列でカスタム属性名を指定できます。
 
     'attributes' => [
         'email' => 'email address',
@@ -730,7 +730,7 @@ Laravelの組み込みバリデーションルールエラーメッセージの�
 The credit card number field is required when payment type is cc.
 ```
 
-Instead of displaying `cc` as the payment type value, you may specify a more user-friendly value representation in your `lang/xx/validation.php` language file by defining a `values` array:
+支払タイプの値に`cc`と表示する代わりに、`lang/xx/validation.php`言語ファイルで`values`配列を定義し、よりユーザーフレンドリーな値表現を指定できます。
 
     'values' => [
         'payment_type' => [
@@ -832,7 +832,7 @@ The credit card number field is required when payment type is credit card.
 [全指定フィールド存在時必須](#rule-required-with-all)
 [指定フィールド非存在時必須](#rule-required-without)
 [全指定フィールド非存在時必須](#rule-required-without-all)
-[Required Array Keys](#rule-required-array-keys)
+[配列かつキー包含必須](#rule-required-array-keys)
 [同一](#rule-same)
 [サイズ](#rule-size)
 [存在時バリデート実行](#validating-when-present)
@@ -912,7 +912,7 @@ The credit card number field is required when payment type is credit card.
         'user' => 'array:username,locale',
     ]);
 
-In general, you should always specify the array keys that are allowed to be present within your array.
+一般に、配列に存在を許すキーは、常に指定する必要があります。
 
 <a name="rule-bail"></a>
 #### bail
@@ -1077,7 +1077,7 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
         'status' => [new Enum(ServerStatus::class)],
     ]);
 
-> {note} Enums are only available on PHP 8.1+.
+> {note} Enumsは、PHP8.1以上のバージョンで使用できます。
 
 <a name="rule-exclude"></a>
 #### exclude
@@ -1303,7 +1303,7 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 フィールドが指定した正規表現と一致しないことをバリデートします。
 
-Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'not_regex:/^.+$/i'`.
+このルールは、内部でPHPの`preg_match`関数を使用します。指定するパターンは`preg_match`が要求するものと同じフォーマットと、有効なデリミタに従う必要があります。一例は、`'email' => 'not_regex:/^.+$/i'`です。
 
 > {note} `regex`／`not_regex`パターンを使用するとき、特に正規表現に`|`文字が含まれている場合は、`|`区切り文字を使用する代わりに配列を使用してバリデーションルールを指定する必要があります。
 
@@ -1354,7 +1354,7 @@ Internally, this rule uses the PHP `preg_match` function. The pattern specified 
 
 フィールドが指定された正規表現にマッチすることをバリデートします。
 
-Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'regex:/^.+@.+$/i'`.
+このルールは、内部でPHPの`preg_match`関数を使用します。指定するパターンは`preg_match`が要求するものと同じフォーマットと、有効なデリミタに従う必要があります。一例は、`'email' => 'regex:/^.+@.+$/i'`です。
 
 > {note} `regex`／`not_regex`パターンを使用するとき、特に正規表現に`|`文字が含まれている場合は、`|`区切り文字を使用する代わりに、配列でルールを指定する必要があります。
 
@@ -1420,7 +1420,7 @@ Internally, this rule uses the PHP `preg_match` function. The pattern specified 
 <a name="rule-required-array-keys"></a>
 #### required_array_keys:_foo_,_bar_,...
 
-The field under validation must be an array and must contain at least the specified keys.
+フィールドは配列であり、少なくとも指定したキーを含んでいることをバリデートします。
 
 <a name="rule-same"></a>
 #### same:_フィールド_
@@ -1667,9 +1667,9 @@ The field under validation must be an array and must contain at least the specif
     ],
 
 <a name="accessing-nested-array-data"></a>
-#### Accessing Nested Array Data
+#### ネストした配列データへのアクセス
 
-Sometimes you may need to access the value for a given nested array element when assigning validation rules to the attribute. You may accomplish this using the `Rule::foreEach` method. The `forEach` method accepts a closure that will be invoked for each iteration of the array attribute under validation and will receive the attribute's value and explicit, fully-expanded attribute name. The closure should return an array of rules to assign to the array element:
+バリデーションルールを属性へ指定するとき、ネストした配列要素の値にアクセスする必要おきる場合があります。この場合は、`Rule::foreEach`メソッドを使用してください。`forEach`メソッドが受け取るクロージャは、バリデーション対象の配列の属性が繰り返し実行されるたびに呼び出され、属性の値と明示的な属性名 (完全に展開されたもの) を受け取ります。このクロージャは、配列の要素に割り当てるルールの配列を返す必要があります。
 
     use App\Rules\HasPermission;
     use Illuminate\Support\Facades\Validator;

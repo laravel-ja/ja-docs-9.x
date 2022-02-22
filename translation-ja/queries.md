@@ -10,7 +10,7 @@
 - [JOIN](#joins)
 - [UNION](#unions)
 - [基本WHERE句](#basic-where-clauses)
-    - [Where Clauses](#where-clauses)
+    - [WHERE句](#where-clauses)
     - [OR WHERE句](#or-where-clauses)
     - [JSON WHERE句](#json-where-clauses)
     - [その他のWHERE句](#additional-where-clauses)
@@ -18,7 +18,7 @@
 - [上級WHERE節](#advanced-where-clauses)
     - [WHERE EXISTS句](#where-exists-clauses)
     - [サブクエリWHERE句](#subquery-where-clauses)
-    - [Full Text Where Clauses](#full-text-where-clauses)
+    - [フルテキストのWhere句](#full-text-where-clauses)
 - [順序、グループ化、件数制限、オフセット](#ordering-grouping-limit-and-offset)
     - [順序](#ordering)
     - [グループ化](#grouping)
@@ -396,7 +396,7 @@ DB::table('users')->where('active', false)
 ## 基本WHERE句
 
 <a name="where-clauses"></a>
-### Where句
+### WHERE句
 
 クエリビルダの`where`メソッドを使用して、クエリに"where"句を追加できます。`where`メソッドのもっとも基本的な呼び出しには、３つの引数が必要です。最初の引数はカラムの名前です。２番目の引数は演算子であり、データベースがサポートしている任意の演算子が指定できます。３番目の引数はカラムの値と比較する値です。
 
@@ -465,7 +465,7 @@ select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 <a name="json-where-clauses"></a>
 ### JSON WHERE句
 
-Laravel also supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 5.7+, PostgreSQL, SQL Server 2016, and SQLite 3.9.0 (with the [JSON1 extension](https://www.sqlite.org/json1.html)). To query a JSON column, use the `->` operator:
+Laravelは、JSONカラム型のサポートを提供するデータベースで、JSONカラム型のクエリもサポートしています。現在、MySQL5.7以上、PostgreSQL、SQL Server 2016、SQLite3.9.0（[JSON1拡張](https://www.sqlite.org/json1.html)を使用）がこれに該当します。JSONカラムをクエリするには、`->`演算子を使用します。
 
     $users = DB::table('users')
                     ->where('preferences->dining->meal', 'salad')
@@ -668,11 +668,11 @@ where exists (
     })->get();
 
 <a name="full-text-where-clauses"></a>
-### Full Text Where Clauses
+### フルテキストのWHERE句
 
-> {note} Full text where clauses are currently supported by MySQL and PostgreSQL.
+> {note} フルテキストのwhere句は現在、MySQLとPostgreSQLでサポートされています。
 
-The `whereFullText` and `orWhereFullText` methods may be used to add full text "where" clauses to a query for columns that have [full text indexes](/docs/{{version}}/migrations#available-index-types). These methods will be transformed into the appropriate SQL for the underlying database system by Laravel. For example, a `MATCH AGAINST` clause will be generated for applications utilizing MySQL:
+`whereFullText`と`orWhereFullText`メソッドを使用すると、[フルテキストインデックス](/docs/{{version}}/migrations#available-index-types)を持つカラムヘのクエリに、フルテキストの"where"句を追加できます。これらのメソッドは、Laravelによって、利用するデータベースシステムに適したSQLへ変換されます。例えば、MySQLを利用するアプリケーションでは、`MATCH AGAINST`句を生成します。
 
     $users = DB::table('users')
                ->whereFullText('bio', 'web developer')
@@ -883,7 +883,7 @@ havingBetween`メソッドを使うと、指定した範囲内の結果をフィ
 <a name="updating-json-columns"></a>
 ### JSONカラムの更新
 
-When updating a JSON column, you should use `->` syntax to update the appropriate key in the JSON object. This operation is supported on MySQL 5.7+ and PostgreSQL 9.5+:
+JSONカラムを更新する場合は、JSON オブジェクトの適切なキーを更新するために、`->` 構文を使用する必要があります。この操作はMySQL5.7以上、およびPostgreSQL9.5以上でサポートします。
 
     $affected = DB::table('users')
                   ->where('id', 1)
