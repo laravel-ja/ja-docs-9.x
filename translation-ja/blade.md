@@ -10,13 +10,13 @@
     - [繰り返し](#loops)
     - [ループ変数](#the-loop-variable)
     - [条件クラス](#conditional-classes)
-    - [Checked / Selected / Disabled](#checked-and-selected)
+    - [Checked／Selected／Disabled](#checked-and-selected)
     - [サブビューの読み込み](#including-subviews)
     - [`@once`ディレクティブ](#the-once-directive)
     - [生PHP](#raw-php)
     - [コメント](#comments)
 - [コンポーネント](#components)
-    - [コンポーネントのレンダー](#rendering-components)
+    - [コンポーネントのレンダ](#rendering-components)
     - [コンポーネントへのデータ渡し](#passing-data-to-components)
     - [コンポーネント属性](#component-attributes)
     - [予約語](#reserved-keywords)
@@ -34,7 +34,7 @@
     - [バリデーションエラー](#validation-errors)
 - [スタック](#stacks)
 - [サービス注入](#service-injection)
-- [Rendering Inline Blade Templates](#rendering-inline-blade-templates)
+- [インラインBladeテンプレートのレンダ](#rendering-inline-blade-templates)
 - [Bladeの拡張](#extending-blade)
     - [カスタムEchoハンドラ](#custom-echo-handlers)
     - [カスタムIf文](#custom-if-statements)
@@ -127,15 +127,15 @@ Hello, @{{ name }}.
 `@`記号は、Bladeディレクティブをエスケープするためにも使用できます。
 
 ```blade
-{{-- Blade template --}}
+{{-- Bladeテンプレート --}}
 @@if()
 
-<!-- HTML output -->
+<!-- HTML出力 -->
 @if()
 ```
 
 <a name="rendering-json"></a>
-#### JSONのレンダー
+#### JSONのレンダ
 
 JavaScript変数を初期化するために、配列をJSONとしてレンダリングする目的でビューに配列を渡す場合があります。一例を確認してください。
 
@@ -161,7 +161,7 @@ JavaScript変数を初期化するために、配列をJSONとしてレンダリ
 </script>
 ```
 
-> {note} 既存の変数をJSONとしてレンダーするには、`Js::from`メソッドのみ使用してください。Bladeのテンプレートは正規表現に基づいているため、複雑な表現をディレクティブに渡そうとすると、予期せぬ失敗を引き起こす可能性があります。
+> {note} 既存の変数をJSONとしてレンダするには、`Js::from`メソッドのみ使用してください。Bladeのテンプレートは正規表現に基づいているため、複雑な表現をディレクティブに渡そうとすると、予期せぬ失敗を引き起こす可能性があります。
 
 <a name="the-at-verbatim-directive"></a>
 #### `@verbatim`ディレクティブ
@@ -188,11 +188,11 @@ JavaScript変数を初期化するために、配列をJSONとしてレンダリ
 
 ```blade
 @if (count($records) === 1)
-    I have one record!
+    １レコードあります。
 @elseif (count($records) > 1)
-    I have multiple records!
+    複数レコードあります。
 @else
-    I don't have any records!
+    レコードがありません。
 @endif
 ```
 
@@ -200,7 +200,7 @@ JavaScript変数を初期化するために、配列をJSONとしてレンダリ
 
 ```blade
 @unless (Auth::check())
-    You are not signed in.
+    あなたはサインインしていません。
 @endunless
 ```
 
@@ -208,11 +208,11 @@ JavaScript変数を初期化するために、配列をJSONとしてレンダリ
 
 ```blade
 @isset($records)
-    // $records is defined and is not null...
+    // $recordsが定義済みで、NULLではない…
 @endisset
 
 @empty($records)
-    // $records is "empty"...
+    // $recordsは「空」だ…
 @endempty
 ```
 
@@ -223,11 +223,11 @@ JavaScript変数を初期化するために、配列をJSONとしてレンダリ
 
 ```blade
 @auth
-    // The user is authenticated...
+    // ユーザーは認証済み…
 @endauth
 
 @guest
-    // The user is not authenticated...
+    // ユーザーは認証されていない…
 @endguest
 ```
 
@@ -235,11 +235,11 @@ JavaScript変数を初期化するために、配列をJSONとしてレンダリ
 
 ```blade
 @auth('admin')
-    // The user is authenticated...
+    // ユーザーは認証済み…
 @endauth
 
 @guest('admin')
-    // The user is not authenticated...
+    // ユーザーは認証されていない…
 @endguest
 ```
 
@@ -250,7 +250,7 @@ JavaScript変数を初期化するために、配列をJSONとしてレンダリ
 
 ```blade
 @production
-    // Production specific content...
+    // Production限定コンテンツ…
 @endproduction
 ```
 
@@ -258,11 +258,11 @@ JavaScript変数を初期化するために、配列をJSONとしてレンダリ
 
 ```blade
 @env('staging')
-    // The application is running in "staging"...
+    // アプリケーションは"staging"で動作している…
 @endenv
 
 @env(['staging', 'production'])
-    // The application is running in "staging" or "production"...
+    // アプリケーションは"staging"か"production"で動作している…
 @endenv
 ```
 
@@ -299,15 +299,15 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 ```blade
 @switch($i)
     @case(1)
-        First case...
+        最初のケース…
         @break
 
     @case(2)
-        Second case...
+        ２番めのケース…
         @break
 
     @default
-        Default case...
+        デフォルトのケース…
 @endswitch
 ```
 
@@ -318,21 +318,21 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 
 ```blade
 @for ($i = 0; $i < 10; $i++)
-    The current value is {{ $i }}
+    現在の値は、{{ $i }}
 @endfor
 
 @foreach ($users as $user)
-    <p>This is user {{ $user->id }}</p>
+    <p>このユーザーは：{{ $user->id }}</p>
 @endforeach
 
 @forelse ($users as $user)
     <li>{{ $user->name }}</li>
 @empty
-    <p>No users</p>
+    <p>ユーザーはいません。</p>
 @endforelse
 
 @while (true)
-    <p>I'm looping forever.</p>
+    <p>無限ループ中です。</p>
 @endwhile
 ```
 
@@ -374,14 +374,14 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 ```blade
 @foreach ($users as $user)
     @if ($loop->first)
-        This is the first iteration.
+        これが最初の繰り返しです。
     @endif
 
     @if ($loop->last)
-        This is the last iteration.
+        これが最後の繰り返しです。
     @endif
 
-    <p>This is user {{ $user->id }}</p>
+    <p>このユーザーは：{{ $user->id }}</p>
 @endforeach
 ```
 
@@ -391,7 +391,7 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 @foreach ($users as $user)
     @foreach ($user->posts as $post)
         @if ($loop->parent->first)
-            This is the first iteration of the parent loop.
+            これは親ループの最初の繰り返しです。
         @endif
     @endforeach
 @endforeach
@@ -434,9 +434,9 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 ```
 
 <a name="checked-and-selected"></a>
-### Checked / Selected / Disabled
+### Checked／Selected／Disabled
 
-For convenience, you may use the `@checked` directive to easily indicate if a given HTML checkbox input is "checked". This directive will echo `checked` if the provided condition evaluates to `true`:
+利便が良いよう、指定したHTMLのチェックボックス入力が"checked"であることを簡単に表すため、`@checked`ディレクティブを使用できます。このディレクティブは、指定条件が`true`と評価された場合、`checked`をechoします。
 
 ```blade
 <input type="checkbox"
@@ -445,7 +445,7 @@ For convenience, you may use the `@checked` directive to easily indicate if a gi
         @checked(old('active', $user->active)) />
 ```
 
-Likewise, the `@selected` directive may be used to indicate if a given select option should be "selected":
+同様に、`@selected`ディレクティブは、特定のセレクトオプションが"selected"であることを表すために使用します。
 
 ```blade
 <select name="version">
@@ -457,7 +457,7 @@ Likewise, the `@selected` directive may be used to indicate if a given select op
 </select>
 ```
 
-Additionally, the `@disabled` directive may be used to indicate if a given element should be "disabled":
+さらに、`@disabled`ディレクティブは、指定要素が"disabled"であることを表すために使用します。
 
 ```blade
 <button type="submit" @disabled($errors->isNotEmpty())>Submit</button>
@@ -509,7 +509,7 @@ Bladeの`@include`ディレクティブを使用すると、別のビュー内�
 > {note} Bladeビューで`__DIR__`と`__FILE__`定数は使用しないでください。これらは、キャッシュされコンパイルされたビューの場所を参照するためです。
 
 <a name="rendering-views-for-collections"></a>
-#### コレクションのビューのレンダー
+#### コレクションのビューのレンダ
 
 ループと読み込みをBladeの`@each`ディレクティブで1行に組み合わせられます。
 
@@ -517,37 +517,37 @@ Bladeの`@include`ディレクティブを使用すると、別のビュー内�
 @each('view.name', $jobs, 'job')
 ```
 
-`@each`ディレクティブの最初の引数は、配列またはコレクション内の各要素に対してレンダーするビューです。２番目の引数は、反復する配列またはコレクションであり、３番目の引数は、ビュー内で現在の反復要素に割り当てる変数名です。したがって、たとえば`jobs`配列を反復処理する場合、通常はビュー内で`job`変数として各ジョブにアクセスしたいと思います。現在の反復の配列キーは、ビュー内で`key`変数として使用できます。
+`@each`ディレクティブの最初の引数は、配列またはコレクション内の各要素に対してレンダするビューです。２番目の引数は、反復する配列またはコレクションであり、３番目の引数は、ビュー内で現在の反復要素に割り当てる変数名です。したがって、たとえば`jobs`配列を反復処理する場合、通常はビュー内で`job`変数として各ジョブにアクセスしたいと思います。現在の反復の配列キーは、ビュー内で`key`変数として使用できます。
 
-`@each`ディレクティブに４番目の引数を渡すこともできます。この引数は、指定された配列が空の場合にレンダーするビューを指定します。
+`@each`ディレクティブに４番目の引数を渡すこともできます。この引数は、指定された配列が空の場合にレンダするビューを指定します。
 
 ```blade
 @each('view.name', $jobs, 'job', 'view.empty')
 ```
 
-> {note} `@each`を使いレンダーするビューは、親ビューから変数を継承しません。子ビューでそうした変数が必要な場合は、代わりに`@foreach`と`@include`ディレクティブを使用する必要があります。
+> {note} `@each`を使いレンダするビューは、親ビューから変数を継承しません。子ビューでそうした変数が必要な場合は、代わりに`@foreach`と`@include`ディレクティブを使用する必要があります。
 
 <a name="the-once-directive"></a>
 ### `@once`ディレクティブ
 
-`@once`ディレクティブを使用すると、レンダリングサイクルごとに１回だけ評価されるテンプレートの部分を定義できます。これは、[stacks](#stacks)を使用してJavaScriptの特定の部分をページのヘッダへ入れ込むのに役立つでしょう。たとえば、ループ内で特定の[コンポーネント](#components)をレンダーする場合に、コンポーネントが最初にレンダーされるときにのみ、あるJavaScriptをヘッダに入れ込みたい場合があるとしましょう。
+`@once`ディレクティブを使用すると、レンダリングサイクルごとに１回だけ評価されるテンプレートの部分を定義できます。これは、[stacks](#stacks)を使用してJavaScriptの特定の部分をページのヘッダへ入れ込むのに役立つでしょう。たとえば、ループ内で特定の[コンポーネント](#components)をレンダする場合に、コンポーネントが最初にレンダされるときにのみ、あるJavaScriptをヘッダに入れ込みたい場合があるとしましょう。
 
 ```blade
 @once
     @push('scripts')
         <script>
-            // Your custom JavaScript...
+            // カスタムJavaScript…
         </script>
     @endpush
 @endonce
 ```
 
-Since the `@once` directive is often used in conjunction with the `@push` or `@prepend` directives, the `@pushOnce` and `@prependOnce` directives are available for your convenience:
+`@once`ディレクティブは、`@push`や`@prepend`ディレクティブと一緒に使われることが多いため、便利なように`@pushOnce`と`@prependOnce`ディレクティブを用意しました。
 
 ```blade
 @pushOnce('scripts')
     <script>
-        // Your custom JavaScript...
+        // カスタムJavaScript…
     </script>
 @endPushOnce
 ```
@@ -569,7 +569,7 @@ Since the `@once` directive is often used in conjunction with the `@push` or `@p
 また、Bladeでは、ビューにコメントを定義することができます。ただし、HTMLのコメントとは異なり、Bladeのコメントは、アプリケーションが返すHTMLには含まれません。
 
 ```blade
-{{-- This comment will not be present in the rendered HTML --}}
+{{-- このコメントはHTMLのなかに存在しない --}}
 ```
 
 <a name="components"></a>
@@ -593,13 +593,13 @@ php artisan make:component Forms/Input
 
 上記のコマンドは、`App\View\Components\Forms`ディレクトリに`Input`コンポーネントを作成し、ビューは`resources/views/components/forms`ディレクトリに配置します。
 
-If you would like to create an anonymous component (a component with only a Blade template and no class), you may use the `--view` flag when invoking the `make:component` command:
+匿名コンポーネント(Bladeテンプレートのみでクラスを持たないコンポーネント)を作成したい場合は、`make:component`コマンドを実行するとき、`--view`フラグを使用します。
 
 ```shell
 php artisan make:component forms.input --view
 ```
 
-The command above will create a Blade file at `resources/views/components/forms/input.blade.php` which can be rendered as a component via `<x-forms.input />`.
+上記のコマンドは、`resources/views/components/forms/input.blade.php`へBladeファイルを作成します。このファイルは`<x-forms.input />`により、コンポーネントとしてレンダできます。
 
 <a name="manually-registering-package-components"></a>
 #### パッケージコンポーネントの手動登録
@@ -648,7 +648,7 @@ The command above will create a Blade file at `resources/views/components/forms/
 Bladeは、コンポーネント名のパスカルケースを使い、コンポーネントにリンクしているクラスを自動的に検出します。サブディレクトリもサポートしており、「ドット」表記を使用します。
 
 <a name="rendering-components"></a>
-### コンポーネントのレンダー
+### コンポーネントのレンダ
 
 コンポーネントを表示するために、Bladeテンプレート１つの中でBladeコンポーネントタグを使用できます。Bladeコンポーネントタグは、文字列`x-`で始まり、その後にコンポーネントクラスのケバブケース名を続けます。
 
@@ -721,7 +721,7 @@ HTML属性を使用してBladeコンポーネントへデータを渡せます�
         }
     }
 
-コンポーネントをレンダーするときに、変数を名前でエコーすることにより、コンポーネントのパブリック変数の内容を表示できます。
+コンポーネントをレンダするときに、変数を名前でエコーすることにより、コンポーネントのパブリック変数の内容を表示できます。
 
 ```blade
 <div class="alert alert-{{ $type }}">
@@ -752,7 +752,7 @@ HTML属性を使用してBladeコンポーネントへデータを渡せます�
 ```
 
 <a name="escaping-attribute-rendering"></a>
-#### 属性レンダーのエスケープ
+#### 属性レンダのエスケープ
 
 alpine.jsなどのJavaScriptフレームワークもコロンプレフィックスで属性を指定するため、属性がPHP式ではないことをBladeへ知らせるために二重のコロン(`::`)プレフィックスを使用してください。たとえば、以下のコンポーネントが存在しているとしましょう。
 
@@ -762,7 +762,7 @@ alpine.jsなどのJavaScriptフレームワークもコロンプレフィック�
 </x-button>
 ```
 
-Bladeにより、以下のHTMLとしてレンダーされます。
+Bladeにより、以下のHTMLとしてレンダされます。
 
 ```blade
 <button :class="{ danger: isDeleting }">
@@ -907,7 +907,7 @@ public function __construct(AlertCreator $creator, $type, $message)
 <x-alert type="error" :message="$message" class="mb-4"/>
 ```
 
-コンポーネントが最終的にレンダーするHTMLは、以下のようになります。
+コンポーネントが最終的にレンダするHTMLは、以下のようになります。
 
 ```blade
 <div class="alert alert-error mb-4">
@@ -918,7 +918,7 @@ public function __construct(AlertCreator $creator, $type, $message)
 <a name="conditionally-merge-classes"></a>
 #### 条件付きマージクラス
 
-特定の条件が`true`である場合に、クラスをマージしたい場合があります。これは`class`メソッドで実行でき、クラスの配列を引数に取ります。配列のキーには追加したいクラスを含み、値に論理式を指定します。配列要素に数字キーがある場合は、レンダーするクラスリストへ常に含まれます。
+特定の条件が`true`である場合に、クラスをマージしたい場合があります。これは`class`メソッドで実行でき、クラスの配列を引数に取ります。配列のキーには追加したいクラスを含み、値に論理式を指定します。配列要素に数字キーがある場合は、レンダするクラスリストへ常に含まれます。
 
 ```blade
 <div {{ $attributes->class(['p-4', 'bg-red' => $hasError]) }}>
@@ -947,7 +947,7 @@ public function __construct(AlertCreator $creator, $type, $message)
 </button>
 ```
 
-カスタム`type`を指定してボタンコンポーネントをレンダーすると、このコンポーネントを使用するときにそれが指定されます。タイプが指定されない場合、`button`タイプを使用します。
+カスタム`type`を指定してボタンコンポーネントをレンダすると、このコンポーネントを使用するときにそれが指定されます。タイプが指定されない場合、`button`タイプを使用します。
 
 ```blade
 <x-button type="submit">
@@ -992,7 +992,7 @@ public function __construct(AlertCreator $creator, $type, $message)
 {{ $attributes->whereDoesntStartWith('wire:model') }}
 ```
 
-`first`メソッドを使用して、特定の属性バッグの最初の属性をレンダーできます。
+`first`メソッドを使用して、特定の属性バッグの最初の属性をレンダできます。
 
 ```blade
 {{ $attributes->whereStartsWith('wire:model')->first() }}
@@ -1015,7 +1015,7 @@ public function __construct(AlertCreator $creator, $type, $message)
 <a name="reserved-keywords"></a>
 ### 予約語
 
-コンポーネントをレンダーするBladeの内部使用のため、いくつかのキーワードを予約しています。以下のキーワードは、コンポーネント内のパブリックプロパティまたはメソッド名として定できません。
+コンポーネントをレンダするBladeの内部使用のため、いくつかのキーワードを予約しています。以下のキーワードは、コンポーネント内のパブリックプロパティまたはメソッド名として定できません。
 
 <div class="content-list" markdown="1">
 
@@ -1032,7 +1032,7 @@ public function __construct(AlertCreator $creator, $type, $message)
 <a name="slots"></a>
 ### スロット
 
-多くの場合、「スロット」を利用して追加のコンテンツをコンポーネントに渡す必要があることでしょう。コンポーネントスロットは、`$slot`変数をエコーしレンダーします。この概念を学習するために、`alert`コンポーネントに次のマークアップがあると過程してみましょう。
+多くの場合、「スロット」を利用して追加のコンテンツをコンポーネントに渡す必要があることでしょう。コンポーネントスロットは、`$slot`変数をエコーしレンダします。この概念を学習するために、`alert`コンポーネントに次のマークアップがあると過程してみましょう。
 
 ```blade
 <!-- /resources/views/components/alert.blade.php -->
@@ -1050,7 +1050,7 @@ public function __construct(AlertCreator $creator, $type, $message)
 </x-alert>
 ```
 
-コンポーネント内の異なる場所へ、複数の異なるスロットをレンダーする必要のある場合があります。「タイトル（"title"）」スロットへ挿入できるようにするため、アラートコンポーネントを変更してみましょう。
+コンポーネント内の異なる場所へ、複数の異なるスロットをレンダする必要のある場合があります。「タイトル（"title"）」スロットへ挿入できるようにするため、アラートコンポーネントを変更してみましょう。
 
 ```blade
 <!-- /resources/views/components/alert.blade.php -->
@@ -1151,7 +1151,7 @@ VueのようなJavaScriptフレームワークを使用している方は「ス�
 <a name="generating-inline-view-components"></a>
 #### インラインビューコンポーネントの生成
 
-インラインビューをレンダーするコンポーネントを作成するには、`make:component`コマンドを実行するときに`inline`オプションを使用します。
+インラインビューをレンダするコンポーネントを作成するには、`make:component`コマンドを実行するときに`inline`オプションを使用します。
 
 ```shell
 php artisan make:component Alert --inline
@@ -1160,7 +1160,7 @@ php artisan make:component Alert --inline
 <a name="anonymous-components"></a>
 ### 匿名コンポーネント
 
-インラインコンポーネントと同様に、匿名コンポーネントは、単一のファイルを介してコンポーネントを管理するためのメカニズムを提供します。ただし、匿名コンポーネントは単一のビューファイルを利用し、関連するクラスはありません。匿名コンポーネントを定義するには、`resources/views/components`ディレクトリ内にBladeテンプレートを配置するだけで済みます。たとえば、`resources/views/components/alert.blade.php`でコンポーネントを定義すると、以下のようにレンダーできます。
+インラインコンポーネントと同様に、匿名コンポーネントは、単一のファイルを介してコンポーネントを管理するためのメカニズムを提供します。ただし、匿名コンポーネントは単一のビューファイルを利用し、関連するクラスはありません。匿名コンポーネントを定義するには、`resources/views/components`ディレクトリ内にBladeテンプレートを配置するだけで済みます。たとえば、`resources/views/components/alert.blade.php`でコンポーネントを定義すると、以下のようにレンダできます。
 
 ```blade
 <x-alert/>
@@ -1182,7 +1182,7 @@ php artisan make:component Alert --inline
 /resources/views/components/accordion/item.blade.php
 ```
 
-このディレクトリ構造を使用すると、アコーディオン・コンポーネントとそのアイテムを以下のようにレンダーできます。
+このディレクトリ構造を使用すると、アコーディオン・コンポーネントとそのアイテムを以下のようにレンダできます。
 
 ```blade
 <x-accordion>
@@ -1192,9 +1192,9 @@ php artisan make:component Alert --inline
 </x-accordion>
 ```
 
-しかし、`x-accordion`でアコーディオンコンポーネントをレンダーするには、他のアコーディオン関連のテンプレートと一緒に`accordion`ディレクトリ内に入れ子にするのではなく、"index"アコーディオン・コンポーネントテンプレートを`resources/views/components`ディレクトリ内に配置する必要がありました。
+しかし、`x-accordion`でアコーディオンコンポーネントをレンダするには、他のアコーディオン関連のテンプレートと一緒に`accordion`ディレクトリ内に入れ子にするのではなく、"index"アコーディオン・コンポーネントテンプレートを`resources/views/components`ディレクトリ内に配置する必要がありました。
 
-Bladeでは幸い、コンポーネントのテンプレートディレクトリ内に `index.blade.php` ファイルを配置することができます。index.blade.php`のテンプレートがコンポーネントに存在する場合、そのテンプレートはコンポーネントの「ルート」ノードとしてレンダーされます。そこで、上記の例で示したのと同じBladeの構文を引き続き使用することができますが、ディレクトリ構造を次のように調整します。
+Bladeでは幸い、コンポーネントのテンプレートディレクトリ内に `index.blade.php` ファイルを配置することができます。index.blade.php`のテンプレートがコンポーネントに存在する場合、そのテンプレートはコンポーネントの「ルート」ノードとしてレンダされます。そこで、上記の例で示したのと同じBladeの構文を引き続き使用することができますが、ディレクトリ構造を次のように調整します。
 
 ```none
 /resources/views/components/accordion/index.blade.php
@@ -1218,7 +1218,7 @@ Bladeでは幸い、コンポーネントのテンプレートディレクトリ
 </div>
 ```
 
-上記のコンポーネント定義をすると、そのコンポーネントは次のようにレンダーできます。
+上記のコンポーネント定義をすると、そのコンポーネントは次のようにレンダできます。
 
 ```blade
 <x-alert type="error" :message="$message" class="mb-4"/>
@@ -1260,12 +1260,12 @@ Bladeでは幸い、コンポーネントのテンプレートディレクトリ
 </li>
 ```
 
-> {note} The `@aware` directive can not access parent data that is not explicitly passed to the parent component via HTML attributes. Default `@props` values that are not explicitly passed to the parent component can not be accessed by the `@aware` directive.
+> {note} `@aware`ディレクティブは、HTML属性によって親コンポーネントに明示的に渡されていない親データにはアクセスできません。親コンポーネントに明示的に渡されていないデフォルトの`@props`値は、`@aware`ディレクティブではアクセスすることができません。
 
 <a name="dynamic-components"></a>
 ### 動的コンポーネント
 
-コンポーネントをレンダーする必要があるが、実行時までどのコンポーネントをレンダーする必要のわからない場合があります。その状況では、Laravel組み込みの`dynamic-component`コンポーネントを使用して、ランタイム値または変数に基づいてコンポーネントをレンダーできます。
+コンポーネントをレンダする必要があるが、実行時までどのコンポーネントをレンダする必要のわからない場合があります。その状況では、Laravel組み込みの`dynamic-component`コンポーネントを使用して、ランタイム値または変数に基づいてコンポーネントをレンダできます。
 
 ```blade
 <x-dynamic-component :component="$componentName" class="mt-4" />
@@ -1447,11 +1447,11 @@ Bladeは、コンポーネント名のパスカルケースを使い、コンポ
 @endsection
 ```
 
-この例では、`sidebar`のセクションは、`@parent`ディレクティブを利用して、(上書きするのではなく)、レイアウトのサイドバーにコンテンツを追加しています。`@parent`ディレクティブは、ビューをレンダーするときにレイアウトの内容へ置き換えられます。
+この例では、`sidebar`のセクションは、`@parent`ディレクティブを利用して、(上書きするのではなく)、レイアウトのサイドバーにコンテンツを追加しています。`@parent`ディレクティブは、ビューをレンダするときにレイアウトの内容へ置き換えられます。
 
 > {tip} 前の例とは反対に、この「サイドバー」のセクションは`@show`の代わりに`@endection`で終わります。`@endection`ディレクティブはセクションを定義するだけですが、一方の`@show`は定義し、そのセクションを**すぐに挿入**します。
 
-`@yield`ディレクティブは、デフォルト値を２番目の引数に取ります。この値は、生成するセクションが未定義の場合にレンダーされます。
+`@yield`ディレクティブは、デフォルト値を２番目の引数に取ります。この値は、生成するセクションが未定義の場合にレンダされます。
 
 ```blade
 @yield('content', 'Default content')
@@ -1505,7 +1505,7 @@ HTMLフォームは`put`、`patch`、または`delete`リクエストを作る�
 @enderror
 ```
 
-`@error`ディレクティブは"if"文へコンパイルされるため、属性のエラーがない場合にコンテンツをレンダーしたい場合は、`@else`ディレクティブを使用できます。
+`@error`ディレクティブは"if"文へコンパイルされるため、属性のエラーがない場合にコンテンツをレンダしたい場合は、`@else`ディレクティブを使用できます。
 
 ```blade
 <!-- /resources/views/auth.blade.php -->
@@ -1536,7 +1536,7 @@ HTMLフォームは`put`、`patch`、または`delete`リクエストを作る�
 <a name="stacks"></a>
 ## スタック
 
-Bladeを使用すると、別のビューまたはレイアウトのどこか別の場所でレンダーできる名前付きスタックに入れ込めます。これは、子ビューに必要なJavaScriptライブラリを指定する場合、とくに便利です。
+Bladeを使用すると、別のビューまたはレイアウトのどこか別の場所でレンダできる名前付きスタックに入れ込めます。これは、子ビューに必要なJavaScriptライブラリを指定する場合、とくに便利です。
 
 ```blade
 @push('scripts')
@@ -1544,7 +1544,7 @@ Bladeを使用すると、別のビューまたはレイアウトのどこか別
 @endpush
 ```
 
-必要な回数だけスタックに入れ込めます。スタックしたコンテンツを完全にレンダーするには、スタックの名前を`@stack`ディレクティブに渡します。
+必要な回数だけスタックに入れ込めます。スタックしたコンテンツを完全にレンダするには、スタックの名前を`@stack`ディレクティブに渡します。
 
 ```blade
 <head>
@@ -1582,9 +1582,9 @@ Bladeを使用すると、別のビューまたはレイアウトのどこか別
 ```
 
 <a name="rendering-inline-blade-templates"></a>
-## Rendering Inline Blade Templates
+## インラインBladeテンプレートのレンダ
 
-Sometimes you may need to transform a raw Blade template string into valid HTML. You may accomplish this using the `render` method provided by the `Blade` facade. The `render` method accepts the Blade template string and an optional array of data to provide to the template:
+素のBladeテンプレート文字列を有効なHTMLに変換する必要が起きるかもしれません。このような場合、`Blade`ファサードが提供する`render`メソッドを使用します。`render`メソッドはBladeテンプレート文字列と、テンプレートに提供するデータの配列をオプションで受け取ります。
 
 ```php
 use Illuminate\Support\Facades\Blade;
@@ -1592,7 +1592,7 @@ use Illuminate\Support\Facades\Blade;
 return Blade::render('Hello, {{ $name }}', ['name' => 'Julian Bashir']);
 ```
 
-Laravel renders inline Blade templates by writing them to the `storage/framework/views` directory. If you would like Laravel to remove these temporary files after rendering the Blade template, you may provide the `deleteCachedView` argument to the method:
+LaravelはインラインのBladeテンプレートを`storage/framework/views`ディレクトリに書き込むことによってレンダします。Bladeテンプレートをレンダリングした後、Laravelにこれらの一時ファイルを削除させたい場合は、このメソッドに`deleteCachedView`引数を指定してください。
 
 ```php
 return Blade::render(
