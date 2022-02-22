@@ -1410,6 +1410,7 @@ php artisan make:observer UserObserver --model=User
     }
 
 あるいは、アプリケーションの`App\Providers\EventServiceProvider`クラスの`$observers`プロパティへオブザーバをリストすることもできます。
+
     use App\Models\User;
     use App\Observers\UserObserver;
 
