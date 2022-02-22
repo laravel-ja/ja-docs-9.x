@@ -16,7 +16,7 @@
     - [ルート名のプレフィックス](#route-group-name-prefixes)
 - [ルートモデル結合](#route-model-binding)
     - [暗黙の結合](#implicit-binding)
-    - [Implicit Enum Binding](#implicit-enum-binding)
+    - [暗黙のEnumバインディング](#implicit-enum-binding)
     - [明示的な結合](#explicit-binding)
 - [フォールバックルート](#fallback-routes)
 - [レート制限](#rate-limiting)
@@ -486,9 +486,9 @@ Laravelは、タイプヒントの変数名がルートセグメント名と一�
             });
 
 <a name="implicit-enum-binding"></a>
-### Implicit Enum Binding
+### 暗黙のEnumバインディング
 
-PHP 8.1 introduced support for [Enums](https://www.php.net/manual/en/language.enumerations.backed.php). To compliment this feature, Laravel allows you to type-hint an Enum on your route definition and Laravel will only invoke the route if that route segment corresponds to a valid Enum value. Otherwise, a 404 HTTP response will be returned automatically. For example, given the following Enum:
+PHP8.1から、[Enums](https://www.php.net/manual/ja/language.enumerations.backed.php)のサポートが導入されました。この機能を補完するために、Laravelではルート定義にEnumをタイプヒントすることができ、Laravelはそのルートセグメントが有効なEnum値に対応する場合のみルートを呼び出します。そうでない場合は、404 HTTPレスポンスが自動的に返されます。例えば、次のようなEnumがあるとします。
 
 ```php
 <?php
@@ -502,7 +502,7 @@ enum Category: string
 }
 ```
 
-You may define a route that will only be invoked if the `{category}` route segment is `fruits` or `people`. Otherwise, Laravel will return a 404 HTTP response:
+`{category}`ルートセグメントが、`fruits`または`people`である場合にのみ呼び出されるルートを定義できます。そうでなければ、Laravelは404 HTTPレスポンスを返します。
 
 ```php
 use App\Enums\Category;
