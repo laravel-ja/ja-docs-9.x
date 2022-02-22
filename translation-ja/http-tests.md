@@ -11,7 +11,7 @@
     - [FluentなJSONテスト](#fluent-json-testing)
 - [ファイルアップロードのテスト](#testing-file-uploads)
 - [ビューのテスト](#testing-views)
-    - [Bladeとコンポーネントのレンダー](#rendering-blade-and-components)
+    - [Bladeとコンポーネントのレンダ](#rendering-blade-and-components)
 - [利用可能なアサート](#available-assertions)
     - [レスポンスのアサート](#response-assertions)
     - [認証のアサート](#authentication-assertions)
@@ -535,7 +535,7 @@ JSONレスポンス内のプロパティが特定の型のものであること�
 <a name="testing-views"></a>
 ## ビューのテスト
 
-Laravelを使用すると、アプリケーションに対してシミュレートするHTTPリクエストを作成せずにビューをレンダーすることもできます。それには、テスト内で`view`メソッドを呼び出してください。`view`メソッドは、ビュー名とオプションのデータ配列を引数に取ります。このメソッドは`Illuminate\Testing\TestView`のインスタンスを返します。これは、ビューのコンテンツに関するアサートを簡単に作成するためのメソッドをいくつか提供しています。
+Laravelを使用すると、アプリケーションに対してシミュレートするHTTPリクエストを作成せずにビューをレンダすることもできます。それには、テスト内で`view`メソッドを呼び出してください。`view`メソッドは、ビュー名とオプションのデータ配列を引数に取ります。このメソッドは`Illuminate\Testing\TestView`のインスタンスを返します。これは、ビューのコンテンツに関するアサートを簡単に作成するためのメソッドをいくつか提供しています。
 
     <?php
 
@@ -571,9 +571,9 @@ Laravelを使用すると、アプリケーションに対してシミュレー�
     $view->assertSee('Please provide a valid name.');
 
 <a name="rendering-blade-and-components"></a>
-### Bladeとコンポーネントのレンダー
+### Bladeとコンポーネントのレンダ
 
-必要に応じて、`blade`メソッドを使用して、素の[Blade](/docs/{{version}}/blade)文字列を評価およびレンダーできます。`view`メソッドと同様に、`blade`メソッドは`Illuminate\Testing\TestView`のインスタンスを返します。
+必要に応じて、`blade`メソッドを使用して、素の[Blade](/docs/{{version}}/blade)文字列を評価およびレンダできます。`view`メソッドと同様に、`blade`メソッドは`Illuminate\Testing\TestView`のインスタンスを返します。
 
     $view = $this->blade(
         '<x-component :name="$name" />',
@@ -582,7 +582,7 @@ Laravelを使用すると、アプリケーションに対してシミュレー�
 
     $view->assertSee('Taylor');
 
-`component`メソッドを使用して、[ブレードコンポーネント](/docs/{{version}}/Blade#components)を評価およびレンダーできます。`view`メソッドと同様に、`component`メソッドは`Illuminate\Testing\TestView`のインスタンスを返します。
+`component`メソッドを使用して、[ブレードコンポーネント](/docs/{{version}}/Blade#components)を評価およびレンダできます。`view`メソッドと同様に、`component`メソッドは`Illuminate\Testing\TestView`のインスタンスを返します。
 
     $view = $this->component(Profile::class, ['name' => 'Taylor']);
 

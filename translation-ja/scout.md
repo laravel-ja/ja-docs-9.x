@@ -490,7 +490,7 @@ Scoutを使用すると、検索クエリに単純な「where」節を追加で�
 
     $orders = Order::search('Star Trek')->paginate(15);
 
-結果が取得できたら、通常のEloquentクエリのペジネーションと同様に、結果を表示し、[Blade](/docs/{{version}}/blade)を使用してページリンクをレンダーできます。
+結果が取得できたら、通常のEloquentクエリのペジネーションと同様に、結果を表示し、[Blade](/docs/{{version}}/blade)を使用してページリンクをレンダできます。
 
 ```html
 <div class="container">

@@ -823,7 +823,7 @@ The `Arr::isList` method returns `true` if the given array's keys are sequential
 <a name="method-array-to-css-classes"></a>
 #### `Arr::toCssClasses()` {.collection-method}
 
-`Arr::toCssClasses`は、CSSクラス文字列を条件付きでコンパイルします。この方法はクラスの配列を引数に取り、配列キーに追加したいクラス、値は論理式です。配列要素に数字キーがある場合は、レンダーするクラスリストへ常に含めます。
+`Arr::toCssClasses`は、CSSクラス文字列を条件付きでコンパイルします。この方法はクラスの配列を引数に取り、配列キーに追加したいクラス、値は論理式です。配列要素に数字キーがある場合は、レンダするクラスリストへ常に含めます。
 
     use Illuminate\Support\Arr;
 
@@ -3057,7 +3057,7 @@ If necessary, you may pass the HTTP status code that should be assigned to the r
 <a name="method-abort"></a>
 #### `abort()` {.collection-method}
 
-`abort`関数は、[例外ハンドラ](/docs/{{version}}/errors#the-exception-handler)によりレンダーされるであろう、[HTTP例外](/docs/{{version}}/errors#http-exceptions)を投げます。
+`abort`関数は、[例外ハンドラ](/docs/{{version}}/errors#the-exception-handler)によりレンダされるであろう、[HTTP例外](/docs/{{version}}/errors#http-exceptions)を投げます。
 
     abort(403);
 

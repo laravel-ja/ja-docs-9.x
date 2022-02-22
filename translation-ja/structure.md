@@ -130,7 +130,7 @@ The `resources` directory contains your [views](/docs/{{version}}/views) as well
 <a name="the-exceptions-directory"></a>
 #### Exceptionsディレクトリ
 
-`Exceptions`ディレクトリはアプリケーションの例外ハンドラで構成します。また、アプリケーションから投げる例外を用意するにも適した場所でしょう。例外のログやレンダー方法をカスタマイズしたい場合は、このディレクトリの`Handler`クラスを修正してください。
+`Exceptions`ディレクトリはアプリケーションの例外ハンドラで構成します。また、アプリケーションから投げる例外を用意するにも適した場所でしょう。例外のログやレンダ方法をカスタマイズしたい場合は、このディレクトリの`Handler`クラスを修正してください。
 
 <a name="the-http-directory"></a>
 #### Httpディレクトリ

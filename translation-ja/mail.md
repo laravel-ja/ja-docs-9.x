@@ -18,7 +18,7 @@
     - [コンポーネントのカスタマイズ](#customizing-the-components)
 - [メール送信](#sending-mail)
     - [メールのキュー投入](#queueing-mail)
-- [Mailableのレンダー](#rendering-mailables)
+- [Mailableのレンダ](#rendering-mailables)
     - [ブラウザによるMailableのプレビュー](#previewing-mailables-in-the-browser)
 - [Mailableの多言語化](#localizing-mailables)
 - [Mailableのテスト](#testing-mailables)
@@ -205,7 +205,7 @@ Mailableクラスを生成したら、それを開いて、その内容を調べ
 <a name="configuring-the-view"></a>
 ### ビューの設定
 
-Mailableクラスの`build`メソッド内で、`view`メソッドを使用して、電子メールのコンテンツをレンダーするときに使用するテンプレートを指定できます。通常、各メールは[Bladeテンプレート](/docs/{{version}}/Blade)を使用してコンテンツをレンダーするため、メールのHTMLを作成するときにBladeテンプレートエンジンの能力と利便性を最大限に活用できます。
+Mailableクラスの`build`メソッド内で、`view`メソッドを使用して、電子メールのコンテンツをレンダするときに使用するテンプレートを指定できます。通常、各メールは[Bladeテンプレート](/docs/{{version}}/Blade)を使用してコンテンツをレンダするため、メールのHTMLを作成するときにBladeテンプレートエンジンの能力と利便性を最大限に活用できます。
 
     /**
      * メッセージの作成
@@ -222,7 +222,7 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
 <a name="plain-text-emails"></a>
 #### 平文テキストの電子メール
 
-電子メールの平文テキストバージョンを定義する場合は、`text`メソッドを使用します。`view`メソッドと同様に、`text`メソッドは電子メールの内容をレンダーするために使用するテンプレート名を引数に取ります。メッセージのHTMLバージョンと平文テキストバージョンの両方を自由に定義できます。
+電子メールの平文テキストバージョンを定義する場合は、`text`メソッドを使用します。`view`メソッドと同様に、`text`メソッドは電子メールの内容をレンダするために使用するテンプレート名を引数に取ります。メッセージのHTMLバージョンと平文テキストバージョンの両方を自由に定義できます。
 
     /**
      * メッセージの作成
@@ -241,7 +241,7 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
 <a name="via-public-properties"></a>
 #### Publicなプロパティ経由
 
-通常、電子メールのHTMLをレンダーするときに使用するデータをビューへ渡す必要があります。ビューでデータを利用できるようにする方法は２つあります。まず、Mailableクラスで定義したパブリックプロパティは、自動的にビューで使用できるようになります。したがって、たとえばMailableクラスのコンストラクタにデータを渡し、そのデータをクラスで定義したパブリックプロパティに設定できます。
+通常、電子メールのHTMLをレンダするときに使用するデータをビューへ渡す必要があります。ビューでデータを利用できるようにする方法は２つあります。まず、Mailableクラスで定義したパブリックプロパティは、自動的にビューで使用できるようになります。したがって、たとえばMailableクラスのコンストラクタにデータを渡し、そのデータをクラスで定義したパブリックプロパティに設定できます。
 
     <?php
 
@@ -476,7 +476,7 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
 The `withSymfonyMessage` method of the `Mailable` base class allows you to register a closure which will be invoked with the Symfony Message instance before sending the message. This gives you an opportunity to deeply customize the message before it is delivered:
 
     use Symfony\Component\Mime\Email;
-    
+
     /**
      * メッセージの作成
      *
@@ -498,7 +498,7 @@ The `withSymfonyMessage` method of the `Mailable` base class allows you to regis
 <a name="markdown-mailables"></a>
 ## Markdown Mailable
 
-Markdown Mailableメッセージを使用すると、Mailableで[メール通知](/docs/{{version}}/notifys#mail-notifications)の事前に作成されたテンプレートとコンポーネントを利用できます。メッセージはMarkdownで記述されているため、Laravelはメッセージの美しくレスポンシブなHTMLテンプレートをレンダーすると同時に、平文テキスト版も自動的に生成できます。
+Markdown Mailableメッセージを使用すると、Mailableで[メール通知](/docs/{{version}}/notifys#mail-notifications)の事前に作成されたテンプレートとコンポーネントを利用できます。メッセージはMarkdownで記述されているため、Laravelはメッセージの美しくレスポンシブなHTMLテンプレートをレンダすると同時に、平文テキスト版も自動的に生成できます。
 
 <a name="generating-markdown-mailables"></a>
 ### Markdown Mailableの生成
@@ -549,7 +549,7 @@ Thanks,<br>
 <a name="button-component"></a>
 #### ボタンコンポーネント
 
-ボタンコンポーネントは、中央に配置されたボタンリンクをレンダーします。コンポーネントは、`url`とオプションの`color`の２つの引数を取ります。サポートしている色は、`primary`、`success`、`error`です。メッセージには、必要なだけのボタンコンポーネントを追加できます。
+ボタンコンポーネントは、中央に配置されたボタンリンクをレンダします。コンポーネントは、`url`とオプションの`color`の２つの引数を取ります。サポートしている色は、`primary`、`success`、`error`です。メッセージには、必要なだけのボタンコンポーネントを追加できます。
 
 ```blade
 @component('mail::button', ['url' => $url, 'color' => 'success'])
@@ -560,7 +560,7 @@ View Order
 <a name="panel-component"></a>
 #### パネルコンポーネント
 
-パネルコンポーネントは、メッセージの残りの部分とはわずかに異なる背景色を持つパネルで、指定するテキストのブロックをレンダーします。これにより、特定のテキストブロックに注意を引くことができます。
+パネルコンポーネントは、メッセージの残りの部分とはわずかに異なる背景色を持つパネルで、指定するテキストのブロックをレンダします。これにより、特定のテキストブロックに注意を引くことができます。
 
 ```blade
 @component('mail::panel')
@@ -751,7 +751,7 @@ LaravelのMarkdownコンポーネント用にまったく新しいテーマを�
 > {tip} これらの問題の回避方法の詳細は、[キュー投入したジョブとデータベーストランザクション](/docs/{{version}}/queues#jobs-and-database-transactions)に関するドキュメントを確認してください。
 
 <a name="rendering-mailables"></a>
-## Mailableのレンダー
+## Mailableのレンダ
 
 MailableのHTMLコンテンツを送信せずにキャプチャしたい場合があります。これを行うには、Mailableの`render`メソッドを呼び出してください。このメソッドは、Mailableファイルの評価済みHTMLコンテンツを文字列として返します。
 
@@ -765,7 +765,7 @@ MailableのHTMLコンテンツを送信せずにキャプチャしたい場合�
 <a name="previewing-mailables-in-the-browser"></a>
 ### ブラウザによるMailableのプレビュー
 
-Mailableのテンプレートを設計するときは、通常のBladeテンプレートのように、レンダー済みMailableをブラウザですばやくプレビューできると便利です。このためLaravelでは、ルートクロージャまたはコントローラから直接Mailableを返せます。Mailableが返されると、ブラウザでレンダーされ表示されるため、実際の電子メールアドレスへ送信しなくても、デザインをすばやくプレビューできます。
+Mailableのテンプレートを設計するときは、通常のBladeテンプレートのように、レンダ済みMailableをブラウザですばやくプレビューできると便利です。このためLaravelでは、ルートクロージャまたはコントローラから直接Mailableを返せます。Mailableが返されると、ブラウザでレンダされ表示されるため、実際の電子メールアドレスへ送信しなくても、デザインをすばやくプレビューできます。
 
     Route::get('/mailable', function () {
         $invoice = App\Models\Invoice::find(1);

@@ -281,7 +281,7 @@ If you would like to publish your package's translations to the application's `l
 <a name="anonymous-components"></a>
 #### 無名コンポーネント
 
-パッケージが無名コンポーネントを持っている場合、"views"ディレクトリ（`loadViewsFrom`で指定している場所）の`components`ディレクトリの中へ設置する必要があります。すると、パッケージのビュー名前空間を先頭に付けたコンポーネント名でレンダーできます。
+パッケージが無名コンポーネントを持っている場合、"views"ディレクトリ（`loadViewsFrom`で指定している場所）の`components`ディレクトリの中へ設置する必要があります。すると、パッケージのビュー名前空間を先頭に付けたコンポーネント名でレンダできます。
 
 ```blade
 <x-courier::alert />

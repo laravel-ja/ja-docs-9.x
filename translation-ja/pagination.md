@@ -101,7 +101,7 @@ Eloquentモデルをペジネーションするときに`simplePaginate`メソ�
 <a name="multiple-paginator-instances-per-page"></a>
 #### １ページ上のマルチペジネータインスタンス
 
-アプリケーションがレンダーするひとつの画面上で、 2つの別々のぺジネータをレンダーする必要がある場合があります。しかし、両方のペジネータのインスタンスが現在のページを格納するのに`page`というクエリ文字列パラメータを使っていると、２つのペジネータが衝突してしまいます。この衝突を解決するには`paginate`、`simplePaginate`、`cursorPaginate`の各メソッドの第３引数に、ペジネータの現在のページを格納するために使いたいクエリストリングパラメータの名前を渡してください。
+アプリケーションがレンダするひとつの画面上で、 2つの別々のぺジネータをレンダする必要がある場合があります。しかし、両方のペジネータのインスタンスが現在のページを格納するのに`page`というクエリ文字列パラメータを使っていると、２つのペジネータが衝突してしまいます。この衝突を解決するには`paginate`、`simplePaginate`、`cursorPaginate`の各メソッドの第３引数に、ペジネータの現在のページを格納するために使いたいクエリストリングパラメータの名前を渡してください。
 
     use App\Models\User;
 
@@ -209,7 +209,7 @@ paginatorによって生成されたURLに「ハッシュフラグメント」�
 
 `paginate`メソッドを呼ぶと、`Illuminate\Pagination\LengthAwarePaginator`インスタンスが返され，`simplePaginate`メソッドを呼ぶと、`Illuminate\Pagination\Paginator`インスタンスが返されます。そして、`cursorPaginate`メソッドを呼び出すと、`Illuminate\CursorPaginator`インスタンスが返されます。
 
-これらのオブジェクトは、結果セットを表示するメソッドをいくつか提供しています。これらヘルパメソッドに加え、ペジネータインスタンスはイテレータであり、配列としてループ処理も可能です。つまり、結果を取得したら、[Blade](/docs/{{version}}/blade) を使って結果を表示したり、ページリンクをレンダーしたりできるのです。
+これらのオブジェクトは、結果セットを表示するメソッドをいくつか提供しています。これらヘルパメソッドに加え、ペジネータインスタンスはイテレータであり、配列としてループ処理も可能です。つまり、結果を取得したら、[Blade](/docs/{{version}}/blade) を使って結果を表示したり、ページリンクをレンダしたりできるのです。
 
 ```blade
 <div class="container">
@@ -221,7 +221,7 @@ paginatorによって生成されたURLに「ハッシュフラグメント」�
 {{ $users->links() }}
 ```
 
-`links`メソッドは、結果セットの残りのページへのリンクをレンダーします。これらの各リンクには、適切な`page`クエリ文字列変数がすでに含まれています。`links`メソッドが生成するHTMLは、[Tailwind CSSフレームワーク](https://tailwindcss.com)と互換性があることを忘れないでください。
+`links`メソッドは、結果セットの残りのページへのリンクをレンダします。これらの各リンクには、適切な`page`クエリ文字列変数がすでに含まれています。`links`メソッドが生成するHTMLは、[Tailwind CSSフレームワーク](https://tailwindcss.com)と互換性があることを忘れないでください。
 
 <a name="adjusting-the-pagination-link-window"></a>
 ### ペジネーションリンクウィンドウの調整
@@ -270,7 +270,7 @@ Laravelペジネータクラスは`Illuminate\Contracts\Support\Jsonable`イン�
 <a name="customizing-the-pagination-view"></a>
 ## ペジネーションビューのカスタマイズ
 
-デフォルトでは、ペジネーションリンクを表示するためにレンダリングされたビューは、[Tailwind CSS](https://tailwindcss.com)フレームワークと互換性があります。ただし、Tailwindを使用しない場合は、これらのリンクをレンダーするために独自のビューを自由に定義できます。paginatorインスタンスで`links`メソッドを呼び出すとき、メソッドの最初の引数としてビュー名を渡すことができます。
+デフォルトでは、ペジネーションリンクを表示するためにレンダリングされたビューは、[Tailwind CSS](https://tailwindcss.com)フレームワークと互換性があります。ただし、Tailwindを使用しない場合は、これらのリンクをレンダするために独自のビューを自由に定義できます。paginatorインスタンスで`links`メソッドを呼び出すとき、メソッドの最初の引数としてビュー名を渡すことができます。
 
 ```blade
 {{ $paginator->links('view.name') }}

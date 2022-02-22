@@ -400,7 +400,7 @@ Stripeでサブスクリプションを作成したり、「１回限りの」�
 <a name="payment-methods-for-subscriptions"></a>
 #### サブスクリプションの支払い方法
 
-サブスクリプションで将来使用するときのため顧客のクレジットカード情報を保存する場合、Stripeの"Setup Intents" APIを使用して、顧客の支払い方法の詳細を安全に収集する必要があります。"Setup Intent "は、顧客の支払い方法により課金する意図をStripeに示します。Cashierの`Billable`トレイトには、新しいセットアップインテントを簡単に作成するための`createSetupIntent`メソッドを用意しています。顧客の支払い方法の詳細を収集するフォームをレンダーするルートまたはコントローラからこのメソッドを呼び出す必要があります。
+サブスクリプションで将来使用するときのため顧客のクレジットカード情報を保存する場合、Stripeの"Setup Intents" APIを使用して、顧客の支払い方法の詳細を安全に収集する必要があります。"Setup Intent "は、顧客の支払い方法により課金する意図をStripeに示します。Cashierの`Billable`トレイトには、新しいセットアップインテントを簡単に作成するための`createSetupIntent`メソッドを用意しています。顧客の支払い方法の詳細を収集するフォームをレンダするルートまたはコントローラからこのメソッドを呼び出す必要があります。
 
     return view('update-payment-method', [
         'intent' => $user->createSetupIntent()

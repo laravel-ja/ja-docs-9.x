@@ -5,7 +5,7 @@
 - [例外ハンドラ](#the-exception-handler)
     - [例外のレポート](#reporting-exceptions)
     - [タイプによる例外の無視](#ignoring-exceptions-by-type)
-    - [例外のレンダー](#rendering-exceptions)
+    - [例外のレンダ](#rendering-exceptions)
     - [Reportable／Renderable例外](#renderable-exceptions)
 - [HTTP例外](#http-exceptions)
     - [カスタムHTTPエラーページ](#custom-http-error-pages)
@@ -13,7 +13,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-エラーと例外の処理は、新しいLaravelプロジェクトの開始時に最初から設定されています。`App\Exceptions\Handler`クラスは、アプリケーションが投げるすべての例外がログに記録され、ユーザーへレンダーする場所です。このドキュメント全体を通して、このクラスについて詳しく説明します。
+エラーと例外の処理は、新しいLaravelプロジェクトの開始時に最初から設定されています。`App\Exceptions\Handler`クラスは、アプリケーションが投げるすべての例外がログに記録され、ユーザーへレンダする場所です。このドキュメント全体を通して、このクラスについて詳しく説明します。
 
 <a name="configuration"></a>
 ## 設定
@@ -136,11 +136,11 @@
 > {tip} Laravelは、404 HTTP "not found"エラーや無効なCSRFトークンによって生成された419 HTTPレスポンスに起因する例外など、いくつかのタイプのエラーを皆さんのために裏でこっそり無視しています。
 
 <a name="rendering-exceptions"></a>
-### 例外のレンダー
+### 例外のレンダ
 
 デフォルトでは、Laravel例外ハンドラは例外をHTTPレスポンスへ変換します。ただし、特定タイプの例外に対して、カスタムレンダリングクロージャを自由に登録できます。これは、例外ハンドラの`renderable`メソッドを介して実行します。
 
-`renderable`メソッドへ渡すクロージャは、`Response`ヘルパを介して生成される`Illuminate\Http\Response`のインスタンスを返す必要があります。Laravelは、クロージャのタイプヒントを調べることで、どのタイプの例外をクロージャがレンダーするのか推測します。
+`renderable`メソッドへ渡すクロージャは、`Response`ヘルパを介して生成される`Illuminate\Http\Response`のインスタンスを返す必要があります。Laravelは、クロージャのタイプヒントを調べることで、どのタイプの例外をクロージャがレンダするのか推測します。
 
     use App\Exceptions\InvalidOrderException;
 
@@ -156,7 +156,7 @@
         });
     }
 
-また、`renderable`メソッドを使い、`NotFoundHttpException`などのLaravelやSymfonyの組み込み例外のレンダー動作をオーバーライドすることもできます。`renderable`メソッドに指定したクロージャが値を返さない場合は、Laravelのデフォルト例外レンダーが利用されます。
+また、`renderable`メソッドを使い、`NotFoundHttpException`などのLaravelやSymfonyの組み込み例外のレンダ動作をオーバーライドすることもできます。`renderable`メソッドに指定したクロージャが値を返さない場合は、Laravelのデフォルト例外レンダが利用されます。
 
     use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -211,7 +211,7 @@
         }
     }
 
-LaravelやSymfonyの組み込み済み例外など、既存のレンダリング可能な例外を拡張している場合は、例外の`render`メソッドから`false`を返し、例外のデフォルトHTTPレスポンスをレンダーできます。
+LaravelやSymfonyの組み込み済み例外など、既存のレンダリング可能な例外を拡張している場合は、例外の`render`メソッドから`false`を返し、例外のデフォルトHTTPレスポンスをレンダできます。
 
     /**
      * Render the exception into an HTTP response.
@@ -252,7 +252,7 @@ LaravelやSymfonyの組み込み済み例外など、既存のレンダリング
 <a name="custom-http-error-pages"></a>
 ### カスタムHTTPエラーページ
 
-Laravelを使用すると、さまざまなHTTPステータスコードのカスタムエラーページを簡単に表示できます。たとえば、404 HTTPステータスコードのエラーページをカスタマイズする場合は、`resources/views/errors/404.blade.php`ビューテンプレートを作成します。このビューは、アプリケーションが生成するすべての404エラーでレンダーされます。このディレクトリ内のビューには、対応するHTTPステータスコードと一致する名前を付ける必要があります。`abort`関数によって生成された`Symfony\Component\HttpKernel\Exception\HttpException`インスタンスは`$exception`変数としてビューに渡されます。
+Laravelを使用すると、さまざまなHTTPステータスコードのカスタムエラーページを簡単に表示できます。たとえば、404 HTTPステータスコードのエラーページをカスタマイズする場合は、`resources/views/errors/404.blade.php`ビューテンプレートを作成します。このビューは、アプリケーションが生成するすべての404エラーでレンダされます。このディレクトリ内のビューには、対応するHTTPステータスコードと一致する名前を付ける必要があります。`abort`関数によって生成された`Symfony\Component\HttpKernel\Exception\HttpException`インスタンスは`$exception`変数としてビューに渡されます。
 
     <h2>{{ $exception->getMessage() }}</h2>
 

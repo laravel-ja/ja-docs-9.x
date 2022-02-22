@@ -308,7 +308,7 @@ Every notification class has a `via` method that determines on which channels th
 <a name="other-mail-notification-formatting-options"></a>
 #### その他のメール通知フォーマットオプション
 
-通知クラスの中にテキストの「行(line)」を定義する代わりに、通知メールをレンダーするためのカスタムテンプレートを`view`メソッドを使い、指定できます。
+通知クラスの中にテキストの「行(line)」を定義する代わりに、通知メールをレンダするためのカスタムテンプレートを`view`メソッドを使い、指定できます。
 
     /**
      * 通知のメールプレゼンテーションを取得
@@ -587,7 +587,7 @@ Mailableオブジェクトにファイルを添付するのとは異なり、`at
 <a name="markdown-mail-notifications"></a>
 ## Markdownメール通知
 
-Markdownメール通知により、事前に構築したテンプレートとメール通知のコンポーネントの利点をMailable中で利用できます。メッセージをMarkdownで記述すると、Laravelは美しいレスポンシブHTMLテンプレートをレンダーすると同時に、自動的に平文テキスト版も生成します。
+Markdownメール通知により、事前に構築したテンプレートとメール通知のコンポーネントの利点をMailable中で利用できます。メッセージをMarkdownで記述すると、Laravelは美しいレスポンシブHTMLテンプレートをレンダすると同時に、自動的に平文テキスト版も生成します。
 
 <a name="generating-the-message"></a>
 ### メッセージ生成
@@ -649,7 +649,7 @@ View Invoice
 <a name="panel-component"></a>
 #### Panelコンポーネント
 
-パネルコンポーネントは、メッセージの他の部分とは少し異なった背景色のパネルの中に、指定されたテキストブロックをレンダーします。これにより、指定するテキストに注目を集められます。
+パネルコンポーネントは、メッセージの他の部分とは少し異なった背景色のパネルの中に、指定されたテキストブロックをレンダします。これにより、指定するテキストに注目を集められます。
 
 ```blade
 @component('mail::panel')

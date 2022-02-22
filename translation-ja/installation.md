@@ -267,7 +267,7 @@ Laravelをどのように使用するかにより、旅の次の行き先も決�
 <a name="laravel-the-fullstack-framework"></a>
 ### Laravelフルスタックフレームワーク
 
-Laravelはフルスタックフレームワークとして機能します。「フルスタック」フレームワークとは、Laravelを使用してリクエストをアプリケーションにルーティングし、[Bladeテンプレート](/docs/{{version}}/blade)を介して、もしくは[Inertia.js](https://inertiajs.com)のようなシングルページアプリケーションハイブリッド技術を使用してフロントエンドをレンダーすることを意味します。これは、Laravelフレームワークが利用される、最も一般的な方法です。
+Laravelはフルスタックフレームワークとして機能します。「フルスタック」フレームワークとは、Laravelを使用してリクエストをアプリケーションにルーティングし、[Bladeテンプレート](/docs/{{version}}/blade)を介して、もしくは[Inertia.js](https://inertiajs.com)のようなシングルページアプリケーションハイブリッド技術を使用してフロントエンドをレンダすることを意味します。これは、Laravelフレームワークが利用される、最も一般的な方法です。
 
 Laravelをこの方法で使用しようと計画している場合は、[ルーティング](/docs/{{version}}/routing)、[ビュー](/docs/{{version}}/views) 、または[Eloquent ORM](/docs/{{version}}/eloquent)に関するドキュメントを確認するのが良いでしょう。さらに、[Livewire](https://laravel-livewire.com)や[Inertia.js](https://inertiajs.com)などのコミュニティパッケージについて学ぶこともできます。これらのパッケージを使用すると、Laravelをフルスタックフレームワークとして使用しながら、単一ページのJavaScriptアプリケーションによって提供されるUIの利点の多くを享受できます。
 
