@@ -1070,7 +1070,7 @@ public function bestImage()
         'video' => 'App\Models\Video',
     ]);
 
-You may call the `enforceMorphMap` method in the `boot` method of your `App\Providers\AppServiceProvider` class or create a separate service provider if you wish.
+`enforceMorphMap` メソッドは、`App\Providers\AppServiceProvider`クラスの`boot`メソッドで呼び出すか、お好みであれば別のサービスプロバイダを作成してください。
 
 モデルの`getMorphClass`メソッドを使用して、実行時に指定したモデルのポリモーフィックのエイリアスを取得できます。逆に、`Relation::getMorphedModel`メソッドを使用して、ポリモーフィックのエイリアスへ関連付けた完全修飾クラス名を取得もできます。
 
@@ -1133,7 +1133,7 @@ You may call the `enforceMorphMap` method in the `boot` method of your `App\Prov
 リレーションではLaravel[クエリビルダ](/docs/{{version}}/queries)メソッドのどれでも使用できるので、クエリビルダのドキュメントを調べ、使用可能な全メソッドを習んでください。
 
 <a name="chaining-orwhere-clauses-after-relationships"></a>
-#### リレーションの後へ`orWhere`句をチェーン
+#### リレーションの後で`orWhere`句をチェーン
 
 上記の例で示したように、リレーションを照会するときは、その関係に制約を自由に追加できます。ただし、`orWhere`句をリレーションにチェーンする場合には注意が必要です。これは、`orWhere`句がリレーション制約と同じレベルで論理的にグループ化されるためです。
 
@@ -1445,7 +1445,7 @@ Eloquentは、`withCount`メソッドに加えて、`withMin`、`withMax`、`wit
 <a name="eager-loading"></a>
 ## Eagerロード
 
-When accessing Eloquent relationships as properties, the related models are "lazy loaded". This means the relationship data is not actually loaded until you first access the property. However, Eloquent can "eager load" relationships at the time you query the parent model. Eager loading alleviates the "N + 1" query problem. To illustrate the N + 1 query problem, consider a `Book` model that "belongs to" to an `Author` model:
+Eloquentのリレーションへプロパティとしてアクセスする場合、リレーションモデルは「遅延ロード」されます。これは、最初にプロパティにアクセスするまで、リレーションのデータが実際にロードされないことを意味します。しかし、Eloquentでは親モデルへのクエリ時にリレーションシップを「Eagerロード」できます。Eagerロードは、「Ｎ＋１」クエリ問題を軽減します。Ｎ＋１クエリ問題を理解するため、`Book`モデルが`Author`モデルに「所属している(belongs to)」場合を考えてみましょう。
 
     <?php
 
