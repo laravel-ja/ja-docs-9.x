@@ -245,7 +245,7 @@
 <a name="method-all"></a>
 #### `all()` {.collection-method .first-collection-method}
 
-`all`メソッドはコレクションの裏の配列表現を返します。
+`all`メソッドはコレクションの元の配列表現を返します。
 
     collect([1, 2, 3])->all();
 
@@ -390,7 +390,7 @@
 
     // ['John Doe', 'Jane Doe', 'Johnny Doe']
 
-The `concat` method numerically reindexes keys for items concatenated onto the original collection. To maintain keys in associative collections, see the [merge](#method-merge) method.
+`concat`メソッドは、元のコレクションに連結したアイテムのキーを数値的に再インデックスします。連想配列のコレクションでキーを保持するには、[merge](#method-merge)メソッドを参照してください。
 
 <a name="method-contains"></a>
 #### `contains()` {.collection-method}
@@ -430,14 +430,14 @@ The `concat` method numerically reindexes keys for items concatenated onto the o
 
 `contains`メソッドは、アイテムを「緩く」比較します。つまり、ある整数の文字列とその整数値は等値として扱います。「厳密」な比較を行いたい場合は、[`containsStrict`](#method-containsstrict)メソッドを使ってください。
 
-For the inverse of `contains`, see the [doesntContain](#method-doesntcontain) method.
+`contains`の逆は、[doesntContain](#method-doesntcontain)メソッドをご覧ください。
 
 <a name="method-containsstrict"></a>
 #### `containsStrict()` {.collection-method}
 
 このメソッドは、[`contains`](#method-contains)メソッドと使用方法は同じです。しかし、「厳密」な値の比較を行います。
 
-> {tip} [Eloquentコレクション](/docs/{{version}}/eloquent-collections#method-contains)の使用時は、このメソッドの振る舞いは変わります。
+> {tip} [Eloquentコレクション](/docs/{{version}}/eloquent-collections#method-contains)の使用時は、このメソッドの振る舞いが変わります。
 
 <a name="method-count"></a>
 #### `count()` {.collection-method}
@@ -598,7 +598,7 @@ For the inverse of `contains`, see the [doesntContain](#method-doesntcontain) me
 <a name="method-doesntcontain"></a>
 #### `doesntContain()` {.collection-method}
 
-`doesntContain` メソッドは、コレクションに指定アイテムが含まれないことを判定します。`doesntContain` メソッドにクロージャを渡し、指定する真理値テストに合致する要素がコレクションに存在ことを判定できます。
+`doesntContain`メソッドは、コレクションに指定アイテムが含まれないことを判定します。`doesntContain`メソッドにクロージャを渡し、指定する真理値テストに合致する要素がコレクションに存在ことを判定できます。
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1825,7 +1825,7 @@ staticの`make`メソッドは、新しいコレクションインスタンス�
 <a name="method-reduce-many"></a>
 #### `reduceMany()` {.collection-method}
 
-The `reduceMany` method reduces the collection to an array of values, passing the results of each iteration into the subsequent iteration. This method is similar to the `reduce` method; however, it can accept multiple initial values:
+`reduceMany`メソッドは、コレクションを値の配列に減らし、各反復処理の結果を後続の反復処理に渡します。このメソッドは`reduce`メソッドに似ていますが、複数の初期値を受け取ることができます。
 
     [$creditsRemaining, $batch] = Image::where('status', 'unprocessed')
         ->get()
