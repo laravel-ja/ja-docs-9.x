@@ -11,7 +11,7 @@
 - [モデルの取得](#retrieving-models)
     - [コレクション](#collections)
     - [結果の分割](#chunking-results)
-    - [Chunk Using Lazy Collections](#chunking-using-lazy-collections)
+    - [レイジーコレクションを使用する分割](#chunking-using-lazy-collections)
     - [カーソル](#cursors)
     - [上級サブクエリ](#advanced-subqueries)
 - [単一モデル/集計の取得](#retrieving-single-models)
@@ -372,7 +372,7 @@ Flight::where('departed', true)
 ```
 
 <a name="chunking-using-lazy-collections"></a>
-### Chunking Using Lazy Collections
+### レイジーコレクションを使用する分割
 
 `lazy`メソッドは、裏でチャンク単位でクエリを実行するという意味で、[`chunk`メソッド](#chunking-results)と同様に動作します。しかし、`lazy`メソッドは、各チャンクをそのままコールバックへ渡すのではなく、フラット化したEloquentモデルの[`LazyCollection`](/docs/{{version}}/collections#lazy-collections)を返すので、結果を単一のストリームとして操作できます。
 
@@ -618,7 +618,7 @@ Eloquentモデルを操作するときは、Laravel [クエリビルダ](/docs/{
 
 Eloquentでは、`isDirty`、`isClean`、`wasChanged`メソッドを提供しており、モデルの内部状態を調べ、モデルが最初に取得されたときからその属性がどのように変更されたかを判別できます。
 
-The `isDirty` method determines if any of the model's attributes have been changed since the model was retrieved. You may pass a specific attribute name or an array of attributes to the `isDirty` method to determine if any of the attributes are "dirty". The `isClean` will determine if an attribute has remained unchanged since the model was retrieved. This method also accepts an optional attribute argument:
+`isDirty`メソッドは、モデル取得後にそのモデルの属性が変更されたかを判定します。`isDirty`メソッドに特定の属性名、あるいは属性の配列を渡せば、いずれかの属性に変更があったかを判定できます。`isClean`メソッドは、モデル取得後、属性が変更されていないことを判定します。このメソッドはオプションのattribute引数も受け付けます。
 
     use App\Models\User;
 
@@ -960,7 +960,7 @@ Prunableモデルを設定した後は、アプリケーションの`App\Console
         '--except' => [Address::class, Flight::class],
     ])->daily();
 
-`model:prune`コマンドを`--pretend`オプション付きで実行することで、`prunable`クエリをテストできます。このオプションを付けると、`model:prune`コマンドは実際にコマンドを実行する場合、どれだけのレコードが刈り取られるかだけを報告します。
+`model:prune`コマンドを`--pretend`オプション付きで実行することで、`prunable`クエリをテストできます。このオプションを付けると、`model:prune`コマンドが実際にコマンドを実行する場合、いくつのレコードを整理するかだけを報告します。
 
 ```shell
 php artisan model:prune --pretend
@@ -1409,13 +1409,12 @@ php artisan make:observer UserObserver --model=User
         User::observe(UserObserver::class);
     }
 
-Alternatively, you may list your observers within an `$observers` property of your applications' `App\Providers\EventServiceProvider` class:
-
+あるいは、アプリケーションの`App\Providers\EventServiceProvider`クラスの`$observers`プロパティへオブザーバをリストすることもできます。
     use App\Models\User;
     use App\Observers\UserObserver;
 
     /**
-     * The model observers for your application.
+     * アプリケーションのモデルオブザーバ
      *
      * @var array
      */
@@ -1423,7 +1422,7 @@ Alternatively, you may list your observers within an `$observers` property of yo
         User::class => [UserObserver::class],
     ];
 
-> {tip} オブザーバーがリッスンできる他のイベントには、`saving`や`retrieved`などがあります。これらのイベントについては、[events](#events)のドキュメントで説明しています。
+> {tip} オブザーバーがリッスンできる他のイベントには、`saving`や`retrieved`などがあります。こうしたイベントについては、[イベント](#events)のドキュメントで説明しています。
 
 <a name="observers-and-database-transactions"></a>
 #### オブザーバとデータベーストランザクション
