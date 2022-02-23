@@ -150,7 +150,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 </div>
 
 <a name="fluent-strings-method-list"></a>
-### Fluent Strings
+### Fluent文字列
 
 <div class="collection-method-list" markdown="1">
 
@@ -569,7 +569,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 <a name="method-array-isassoc"></a>
 #### `Arr::isAssoc()` {.collection-method}
 
-The `Arr::isAssoc` method returns `true` if the given array is an associative array. An array is considered "associative" if it doesn't have sequential numerical keys beginning with zero:
+`Arr::isAssoc`メソッドは、指定した配列が連想配列である場合、`true`を返します。配列が0から始まる連続したキーを持たない場合、その配列を「連想配列」であると見なします。
 
     use Illuminate\Support\Arr;
 
@@ -584,7 +584,7 @@ The `Arr::isAssoc` method returns `true` if the given array is an associative ar
 <a name="method-array-islist"></a>
 #### `Arr::isList()` {.collection-method}
 
-The `Arr::isList` method returns `true` if the given array's keys are sequential integers beginning from zero:
+`Arr::isList`メソッドは、指定した配列のキーが0から始まる連続した整数である場合、`true`を返します。
 
     use Illuminate\Support\Arr;
 
@@ -1279,7 +1279,7 @@ The `Arr::isList` method returns `true` if the given array's keys are sequential
 <a name="method-excerpt"></a>
 #### `Str::excerpt()` {.collection-method}
 
-The `Str::excerpt` method extracts an excerpt from a given string that matches the first instance of a phrase within that string:
+`Str::excerpt`メソッドは指定した文字列から、その文字列内のフレーズの最初のインスタンスにマッチする部分を抜き出します。
 
     use Illuminate\Support\Str;
 
@@ -1289,9 +1289,9 @@ The `Str::excerpt` method extracts an excerpt from a given string that matches t
 
     // '...is my na...'
 
-The `radius` option, which defaults to `100`, allows you to define the number of characters that should appear on each side of the truncated string.
+`radius`オプションはデフォルトが`100`で、抜き出した文字列の両側に表示する文字数を定義します。
 
-In addition, you may use the `omission` option to define the string that will be prepended and appended to the truncated string:
+さらに、`omission`オプションを使い、抜き出した文字列の前後に追加する文字列を定義できます。
 
     use Illuminate\Support\Str;
 
@@ -1391,7 +1391,7 @@ In addition, you may use the `omission` option to define the string that will be
 <a name="method-str-length"></a>
 #### `Str::length()` {.collection-method}
 
-`Str::length`メソッドは指定文字列の長さを返します。
+`Str::length`メソッドは、指定文字列の長さを返します。
 
     use Illuminate\Support\Str;
 
@@ -1777,7 +1777,7 @@ In addition, you may use the `omission` option to define the string that will be
 <a name="method-str-swap"></a>
 #### `Str::swap()` {.collection-method}
 
-The `Str::swap` method replaces multiple values in the given string using PHP's `strtr` function:
+`Str::swap`メソッドは、PHPの`strtr`関数を使い、指定した文字列中の複数の値を置き換えます。
 
     use Illuminate\Support\Str;
 
@@ -1864,13 +1864,13 @@ Str::wordCount('Hello, world!'); // 2
 <a name="method-str"></a>
 #### `str()` {.collection-method}
 
-The `str` function returns a new `Illuminate\Support\Stringable` instance of the given string. This function is equivalent to the `Str::of` method:
+`str`関数は、指定した文字列の新しい`Illuminate\Support\Stringable`インスタンスを返します。この関数は `Str::of`メソッドと等価です。
 
     $string = str('Taylor')->append(' Otwell');
 
     // 'Taylor Otwell'
 
-If no argument is provided to the `str` function, the function returns an instance of `Illuminate\Support\Str`:
+`str`関数に引数を与えなかった場合、`Illuminate\Support\Str`のインスタンスを返します。
 
     $snake = str()->snake('FooBar');
 
@@ -2058,7 +2058,7 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 <a name="method-fluent-str-excerpt"></a>
 #### `excerpt` {.collection-method}
 
-The `excerpt` method extracts an excerpt from the string that matches the first instance of a phrase within that string:
+`excerpt`メソッドは文字列から、その文字列内のフレーズの最初のインスタンスにマッチする部分を抜粋して抜き出します。
 
     use Illuminate\Support\Str;
 
@@ -2068,9 +2068,9 @@ The `excerpt` method extracts an excerpt from the string that matches the first 
 
     // '...is my na...'
 
-The `radius` option, which defaults to `100`, allows you to define the number of characters that should appear on each side of the truncated string.
+`radius`オプションはデフォルトが`100`で、抜き出した文字列の両側に表示する文字数を定義します。
 
-In addition, you may use the `omission` option to change the string that will be prepended and appended to the truncated string:
+さらに、`omission`オプションを使い、抜き出した文字列の前後に追加する文字列を定義できます。
 
     use Illuminate\Support\Str;
 
@@ -2663,7 +2663,7 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
 <a name="method-fluent-str-substrreplace"></a>
 #### `substrReplace` {.collection-method}
 
-The `substrReplace` method replaces text within a portion of a string, starting at the position specified by the second argument and replacing the number of characters specified by the third argument. Passing `0` to the method's third argument will insert the string at the specified position without replacing any of the existing characters in the string:
+`substrReplace`メソッドは、文字列の一部分のテキストを置き換えるもので、第２引数で指定した位置から始まり、第３引数で指定した文字数分を置き換えます。このメソッドの第3引数に`0`を渡すと、文字列内の既存の文字を一切置き換えることなく、指定された位置に文字列を挿入します。
 
     use Illuminate\Support\Str;
 
@@ -2678,7 +2678,7 @@ The `substrReplace` method replaces text within a portion of a string, starting 
 <a name="method-fluent-str-swap"></a>
 #### `swap` {.collection-method}
 
-The `swap` method replaces multiple values in the string using PHP's `strtr` function:
+`swap`メソッドは、PHPの`strtr`関数を用いて、文字列内の複数の値を置き換えます。
 
     use Illuminate\Support\Str;
 
@@ -3026,11 +3026,11 @@ Str::of('Hello, world!')->wordCount(); // 2
 <a name="method-to-route"></a>
 #### `to_route()` {.collection-method}
 
-The `to_route` function generates a [redirect HTTP response](/docs/{{version}}/responses#redirects) for a given [named route](/docs/{{version}}/routing#named-routes):
+`to_route`関数は、指定した[名前付きルート](/docs/{{version}}/routing#named-routes)に対して、[リダイレクトHTTPレスポンス](/docs/{{version}}/responses#redirects)を生成します。
 
     return to_route('users.show', ['user' => 1]);
 
-If necessary, you may pass the HTTP status code that should be assigned to the redirect and any additional response headers as the third and fourth arguments to the `to_route` method:
+必要であれば、`to_route`メソッドの第３，第４引数へ、リダイレクトに割り当てるHTTPステータスコードと、追加のレスポンスヘッダを指定できます。
 
     return to_route('users.show', ['user' => 1], 302, ['X-Framework' => 'Laravel']);
 
@@ -3216,7 +3216,7 @@ If necessary, you may pass the HTTP status code that should be assigned to the r
 <a name="method-decrypt"></a>
 #### `decrypt()` {.collection-method}
 
-The `decrypt` function [decrypts](/docs/{{version}}/encryption) the given value. You may use this function as an alternative to the `Crypt` facade:
+`decrypt`関数は、指定した値を [復号化](/docs/{{version}}/encryption) します。この関数は、`Crypt`ファサードの代わりとして使用できます。
 
     $password = decrypt($value);
 
@@ -3252,7 +3252,7 @@ The `decrypt` function [decrypts](/docs/{{version}}/encryption) the given value.
 <a name="method-encrypt"></a>
 #### `encrypt()` {.collection-method}
 
-The `encrypt` function [encrypts](/docs/{{version}}/encryption) the given value. You may use this function as an alternative to the `Crypt` facade:
+`encrypt`関数は、指定した値を[暗号化](/docs/{{version}}/encryption)します。この関数は、`Crypt`ファサードの代わりに使用できます。
 
     $secret = encrypt('my-secret-value');
 
@@ -3297,7 +3297,7 @@ The `encrypt` function [encrypts](/docs/{{version}}/encryption) the given value.
 <a name="method-info"></a>
 #### `info()` {.collection-method}
 
-`info`関数は、アプリケーションの[log](/docs/{{version}}/logging)に情報を書き込みます。
+`info`関数は、アプリケーションの[ログ](/docs/{{version}}/logging)へ情報を書き込みます。
 
     info('Some helpful information!');
 
@@ -3441,10 +3441,10 @@ The `encrypt` function [encrypts](/docs/{{version}}/encryption) the given value.
 `retry`関数は指定された最大試行回数を過ぎるまで、指定されたコールバックを実行します。コールバックが例外を投げなければ、返却値を返します。コールバックが例外を投げた場合は、自動的にリトライします。最大試行回数を超えると、例外を投げます。
 
     return retry(5, function () {
-        // Attempt 5 times while resting 100ms between attempts...
+        // 試行間に100ms待ち、5回試みる
     }, 100);
 
-If you would like to manually calculate the number of milliseconds to sleep between attempts, you may pass a closure as the third argument to the `retry` function:
+もし、試行間隔を何ミリ秒にするかを手動で計算したい場合は、`retry`関数の第３引数へクロージャを渡します。
 
     return retry(5, function () {
         // ...
@@ -3452,10 +3452,10 @@ If you would like to manually calculate the number of milliseconds to sleep betw
         return $attempt * 100;
     });
 
-For convenience, you may provide an array as the first argument to the `retry` function. This array will be used to determine how many milliseconds to sleep between subsequent attempts:
+便利なように、`retry`関数の最初の引数には配列を指定することもできます。この配列は、次の再試行の間に何ミリ秒スリープさせるかを決定するために使用されます。
 
     return retry([100, 200] function () {
-        // Sleep for 100ms on first retry, 200ms on second retry...
+        // 最初に100ms、２回目に200msスリープする
     });
 
 特定条件下でのみ再試行するには、`retry`関数への4番目の引数としてクロージャを渡せます。
