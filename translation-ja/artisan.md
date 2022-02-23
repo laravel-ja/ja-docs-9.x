@@ -312,7 +312,7 @@ php artisan mail:send foo bar
 
     'mail:send {user} {--id=*}'
 
-Such a command may be invoked by passing multiple `--id` arguments:
+このコマンドは、複数の`--id`引数を渡し、起動できます。
 
 ```shell
 php artisan mail:send --id=1 --id=2
