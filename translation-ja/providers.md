@@ -60,7 +60,7 @@ php artisan make:provider RiakServiceProvider
         }
     }
 
-このサービスプロバイダは`register`メソッドのみを定義し、このメソッドを使用してサービスコンテナー内の`App\Services\Riak\Connection`の実装を定義します。Laravelのサービスコンテナにまだ慣れていない方は、[ドキュメント](/docs/{{version}}/container)で確認してください。
+このサービスプロバイダは`register`メソッドのみを定義し、このメソッドを使用してサービスコンテナ内の`App\Services\Riak\Connection`の実装を定義します。Laravelのサービスコンテナにまだ慣れていない方は、[ドキュメント](/docs/{{version}}/container)で確認してください。
 
 <a name="the-bindings-and-singletons-properties"></a>
 #### `bindings`と`singletons`プロパティ

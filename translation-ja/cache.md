@@ -453,7 +453,7 @@ MongoDB接続を使用してこれらの各メソッドを実装する必要が�
         }
     }
 
-`extend`メソッドに渡す最初の引数はドライバーの名前です。これは、`config/cache.php`設定ファイルの`driver`オプションに対応させます。２番目の引数は、`Illuminate\Cache\Repository`インスタンスを返す必要があるクロージャです。クロージャには、[サービスコンテナー](/docs/{{version}}/container)のインスタンスである`$app`インスタンスが渡されます。
+`extend`メソッドに渡す最初の引数はドライバーの名前です。これは、`config/cache.php`設定ファイルの`driver`オプションに対応させます。２番目の引数は、`Illuminate\Cache\Repository`インスタンスを返す必要があるクロージャです。クロージャには、[サービスコンテナ](/docs/{{version}}/container)のインスタンスである`$app`インスタンスが渡されます。
 
 拡張機能を登録したら、`config/cache.php`設定ファイルの`driver`オプションを拡張機能の名前に更新します。
 

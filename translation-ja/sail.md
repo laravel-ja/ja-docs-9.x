@@ -95,9 +95,9 @@ sail up
 <a name="starting-and-stopping-sail"></a>
 ## Sailの開始と停止
 
-Laravel Sailの`docker-compose.yml`ファイルは、Laravelアプリケーションの構築を支援するために連携するさまざまなDockerコンテナーを定義します。これらの各コンテナーは、`docker-compose.yml`ファイルの`services`設定内のエントリです。`laravel.test`コンテナは、アプリケーションを提供するメインのアプリケーションコンテナです。
+Laravel Sailの`docker-compose.yml`ファイルは、Laravelアプリケーションの構築を支援するために連携するさまざまなDockerコンテナを定義します。これらの各コンテナは、`docker-compose.yml`ファイルの`services`設定内のエントリです。`laravel.test`コンテナは、アプリケーションを提供するメインのアプリケーションコンテナです。
 
-Sailを開始する前に、ローカルコンピューターで他のWebサーバまたはデータベースが実行されていないことを確認する必要があります。アプリケーションの`docker-compose.yml`ファイルで定義されているすべてのDockerコンテナーを起動するには、`up`コマンドを実行する必要があります。
+Sailを開始する前に、ローカルコンピューターで他のWebサーバまたはデータベースが実行されていないことを確認する必要があります。アプリケーションの`docker-compose.yml`ファイルで定義されているすべてのDockerコンテナを起動するには、`up`コマンドを実行する必要があります。
 
 ```shell
 sail up
@@ -120,7 +120,7 @@ sail stop
 <a name="executing-sail-commands"></a>
 ## コマンドの実行
 
-Laravel Sailを使用する場合、アプリケーションはDockerコンテナー内で実行され、ローカルコンピューターから分離されます。さらにSailは、任意のPHPコマンド、Artisanコマンド、Composerコマンド、Node / NPMコマンドなど、アプリケーションに対してさまざまなコマンドを実行するための便利な方法も提供します。
+Laravel Sailを使用する場合、アプリケーションはDockerコンテナ内で実行され、ローカルコンピューターから分離されます。さらにSailは、任意のPHPコマンド、Artisanコマンド、Composerコマンド、Node / NPMコマンドなど、アプリケーションに対してさまざまなコマンドを実行するための便利な方法も提供します。
 
 **Laravelのドキュメントを読むと、Sailを参照しないComposer、Artisan、Node／NPMコマンドの参照をよく目にするでしょう。**こうした実行例は、これらのツールがローカルコンピューターにインストールされていることを前提としています。ローカルのLaravel開発環境にSailを使用している場合は、Sailを使用してこれらのコマンドを実行する必要があります。
 
@@ -211,7 +211,7 @@ sail yarn
 <a name="redis"></a>
 ### Redis
 
-アプリケーションの`docker-compose.yml`ファイルには、[Redis](https://redis.io)コンテナーのエントリも含まれています。このコンテナは[Dockerボリューム](https://docs.docker.com/storage/volumes/)を使用しているため、コンテナを停止して再起動しても、Redisデータに保存されているデータは保持されます。コンテナを起動したら、アプリケーションの`.env`ファイル内の`REDIS_HOST`環境変数を`redis`に設定することで、アプリケーション内のRedisインスタンスに接続できます。
+アプリケーションの`docker-compose.yml`ファイルには、[Redis](https://redis.io)コンテナのエントリも含まれています。このコンテナは[Dockerボリューム](https://docs.docker.com/storage/volumes/)を使用しているため、コンテナを停止して再起動しても、Redisデータに保存されているデータは保持されます。コンテナを起動したら、アプリケーションの`.env`ファイル内の`REDIS_HOST`環境変数を`redis`に設定することで、アプリケーション内のRedisインスタンスに接続できます。
 
 ローカルマシンからアプリケーションのRedisデータベースに接続するには、[TablePlus](https://tableplus.com)などのグラフィカルデータベース管理アプリケーションを使用できます。デフォルトでは、Redisデータベースは`localhost`のポート6379でアクセスできます。
 
@@ -332,7 +332,7 @@ sail tinker
 <a name="sail-php-versions"></a>
 ## PHPバージョン
 
-Sailは現在、PHP8.1、PHP8.0、PHP7.4を利用したアプリケーションの実行をサポートしています。SailのデフォルトPHPバージョンは8.1です。アプリケーションの実行に使用するPHPバージョンを変更するには、アプリケーションの`docker-compose.yml`ファイル内の`laravel.test`コンテナーの`build`定義を更新してください。
+Sailは現在、PHP8.1、PHP8.0、PHP7.4を利用したアプリケーションの実行をサポートしています。SailのデフォルトPHPバージョンは8.1です。アプリケーションの実行に使用するPHPバージョンを変更するには、アプリケーションの`docker-compose.yml`ファイル内の`laravel.test`コンテナの`build`定義を更新してください。
 
 ```yaml
 # PHP 8.1
