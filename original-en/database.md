@@ -325,4 +325,3 @@ If needed, you may specify a database connection name to connect to a database c
 ```shell
 php artisan db mysql
 ```
-

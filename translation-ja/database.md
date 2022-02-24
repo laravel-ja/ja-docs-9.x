@@ -12,14 +12,14 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-Almost every modern web application interacts with a database. Laravel makes interacting with databases extremely simple across a variety of supported databases using raw SQL, a [fluent query builder](/docs/{{version}}/queries), and the [Eloquent ORM](/docs/{{version}}/eloquent). Currently, Laravel provides first-party support for four databases:
+最近のウェブアプリケーションは、ほとんどすべてデータベースを操作します。Laravelは、素のSQL、[Fluentクエリビルダ](/docs/{{version}}/queries)、[Eloquent ORM](/docs/{{version}}/eloquent)を使用し、サポートしている様々なデータベースの操作をとてもシンプルにしています。現在、Laravelは4つのデータベースのファーストパーティーサポートを提供しています。
 
 <div class="content-list" markdown="1">
 
-- MySQL 5.7+ ([Version Policy](https://en.wikipedia.org/wiki/MySQL#Release_history))
-- PostgreSQL 9.6+ ([Version Policy](https://www.postgresql.org/support/versioning/))
-- SQLite 3.8.8+
-- SQL Server 2017+ ([Version Policy](https://docs.microsoft.com/en-us/lifecycle/products/?products=sql-server))
+- MySQL5.7以上 ([バージョンポリシー](https://en.wikipedia.org/wiki/MySQL#Release_history))
+- PostgreSQL9.6以上 ([バージョンポリシー](https://www.postgresql.org/support/versioning/))
+- SQLite3.8.8以上
+- SQL Server2017以上 ([バージョンポリシー](https://docs.microsoft.com/en-us/lifecycle/products/?products=sql-server))
 
 </div>
 
@@ -325,4 +325,3 @@ php artisan db
 ```shell
 php artisan db mysql
 ```
-
