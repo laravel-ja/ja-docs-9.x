@@ -55,9 +55,9 @@
         }
     }
 
-The `Illuminate\Foundation\Testing\RefreshDatabase` trait does not migrate your database if your schema is up to date. Instead, it will only execute the test within a database transaction. Therefore, any records added to the database by test cases that do not use this trait may still exist in the database.
+`Illuminate\Foundation\Testing\RefreshDatabase`トレイトは、スキーマが最新であれば、データベースをマイグレートしません。その代わりに、データベーストランザクション内でテストを実行するだけです。したがって、このトレイトを使用しないテストケースによってデータベースに追加されたレコードは、まだデータベースに残っている可能性があります。
 
-If you would like to totally reset the database using migrations, you may use the `Illuminate\Foundation\Testing\DatabaseMigrations` trait instead. However, the `DatabaseMigrations` trait is significantly slower than the `RefreshDatabase` trait.
+マイグレーションを使用してデータベースを完全にリセットしたい場合は、代わりに`Illuminate\Foundation\Testing\DatabaseMigrations`トレイトを使用します。しかし、`DatabaseMigrations`は`RefreshDatabase`よりかなり低速です。
 
 <a name="defining-model-factories"></a>
 ## モデルファクトリの定義
