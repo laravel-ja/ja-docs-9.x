@@ -28,9 +28,9 @@
 <a name="defining-an-accessor"></a>
 ### アクセサの定義
 
-An accessor transforms an Eloquent attribute value when it is accessed. To define an accessor, create a protected method on your model to represent the accessible attribute. This method name should correspond to the "camel case" representation of the true underlying model attribute / database column when applicable.
+アクセサは、Eloquentの属性値にアクセスが合った時に、その値を変換するものです。アクセサを定義するには、アクセス可能な属性を表すprotectedなメソッドをモデル上に作成します。このメソッド名は、裏に存在するモデル属性やデータベースカラムの「キャメルケース」表現に対応させる必要があります。
 
-In this example, we'll define an accessor for the `first_name` attribute. The accessor will automatically be called by Eloquent when attempting to retrieve the value of the `first_name` attribute. All attribute accessor / mutator methods must declare a return type-hint of `Illuminate\Database\Eloquent\Casts\Attribute`:
+この例では、`first_name`属性に対するアクセサを定義します。このアクセサは、`first_name`属性の値を取得しようとしたときに、Eloquentから自動的に呼び出されます。すべての属性アクセサ/ミューテタメソッドは、戻り値のタイプヒントを`Illuminate\Database\Eloquent\Casts\Attribute`で宣言する必要があります。
 
     <?php
 
@@ -54,7 +54,7 @@ In this example, we'll define an accessor for the `first_name` attribute. The ac
         }
     }
 
-All accessor methods return an `Attribute` instance which defines how the attribute will be accessed and, optionally, mutated. In this example, we are only defining how the attribute will be accessed. To do so, we supply the `get` argument to the `Attribute` class constructor.
+すべてのアクセサメソッドは`Attribute`インスタンスを返します。このインスタンスは、属性にアクセスする方法と、オプションとして変異させる方法を定義します。この例では、属性にアクセスする方法のみを定義しています。そのために、`ttribute`クラスのコンストラクタに`get`引数を与えます。
 
 ご覧のとおり、カラムの元の値がアクセサに渡され、値を操作でき、結果値を返します。アクセサの値へアクセスするには、モデルインスタンスの`first_name`属性にアクセスするだけです。
 
@@ -67,16 +67,16 @@ All accessor methods return an `Attribute` instance which defines how the attrib
 > {tip} こうした計算値をモデルの配列／JSON表現に追加したい場合は、[手動で追加する必要があります](/docs/{{version}}/eloquent-serialization#appending-values-to-json)。
 
 <a name="building-value-objects-from-multiple-attributes"></a>
-#### Building Value Objects From Multiple Attributes
+#### 複数の属性からの値オブジェクト構築
 
-Sometimes your accessor may need to transform multiple model attributes into a single "value object". To do so, your `get` closure may accept a second argument of `$attributes`, which will be automatically supplied to the closure and will contain an array of all of the model's current attributes:
+複数のモデル属性を一つの「値オブジェクト」へアクセサで、変換する必要がある場合も起きるでしょう。そのため、`get`クロージャの第２引数は`$attributes`であり、自動的にこのクロージャに用意され、モデルの現在の属性をすべて配列で持っています。
 
 ```php
 use App\Support\Address;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
- * Interact with the user's address.
+ * ユーザーの住所を操作
  *
  * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
@@ -91,7 +91,7 @@ public function address(): Attribute
 }
 ```
 
-When returning value objects from accessors, any changes made to the value object will automatically be synced back to the model before the model is saved. This is possible because Eloquent retains instances returned by accessors so it can be return the same instance each time the accessor is invoked:
+アクセサから値オブジェクトを返すとき、値オブジェクトに加えられたすべての変更は、モデルが保存される前に自動的にモデルに同期して戻されます。これはEloquentがアクセサから返したインスタンスを保持し、アクセサが呼び出されるたびに同じインスタンスを返すことができるためです。
 
     use App\Models\User;
 
@@ -102,11 +102,11 @@ When returning value objects from accessors, any changes made to the value objec
 
     $user->save();
 
-If you would like to disable the object caching behavior of attributes, you may invoke the `withoutObjectCaching` method when defining the attribute:
+属性のオブジェクトキャッシュ動作を無効にしたい場合は、属性の定義時に`withoutObjectCaching`メソッドを呼び出してください。
 
 ```php
 /**
- * Interact with the user's address.
+ * ユーザーの住所を操作
  *
  * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
@@ -124,7 +124,7 @@ public function address(): Attribute
 <a name="defining-a-mutator"></a>
 ### ミューテタの定義
 
-A mutator transforms an Eloquent attribute value when it is set. To define a mutator, you may provide the `set` argument when defining your attribute. Let's define a mutator for the `first_name` attribute. This mutator will be automatically called when we attempt to set the value of the `first_name` attribute on the model:
+ミューテタはEloquentの属性値を設定するときに、その値を変換するものです。ミューテタを定義するには、属性を定義するときに `set` という引数を指定します。ここでは、`first_name`属性に対してミューテタを定義してみましょう。このミューテタは、モデルの`first_name`属性の値を設定しようとすると、自動的に呼び出されます。
 
     <?php
 
@@ -136,7 +136,7 @@ A mutator transforms an Eloquent attribute value when it is set. To define a mut
     class User extends Model
     {
         /**
-         * Interact with the user's first name.
+         * ユーザーの名を操作
          *
          * @param  string  $value
          * @return \Illuminate\Database\Eloquent\Casts\Attribute
@@ -150,7 +150,7 @@ A mutator transforms an Eloquent attribute value when it is set. To define a mut
         }
     }
 
-The mutator closure will receive the value that is being set on the attribute, allowing you to manipulate the value and return the manipulated value. To use our mutator, we only need to set the `first_name` attribute on an Eloquent model:
+ミューテタクロージャは、属性に設定しようとする値を受け取り、その値を操作して、操作した値を返します。このミューテタを使うには、Eloquentモデルに`first_name`属性をセットするだけでよいのです。
 
     use App\Models\User;
 
@@ -158,19 +158,19 @@ The mutator closure will receive the value that is being set on the attribute, a
 
     $user->first_name = 'Sally';
 
-In this example, the `set` callback will be called with the value `Sally`. The mutator will then apply the `strtolower` function to the name and set its resulting value in model's the internal `$attributes` array.
+この例では、`set`コールバックが`Sally`という値で呼び出されます。ミューテタは`strtolower`関数を名前に適用し、その結果をモデルの内部配列`$attributes`へセットします。
 
 <a name="mutating-multiple-attributes"></a>
-#### Mutating Multiple Attributes
+#### 複数属性のミュート
 
-Sometimes your mutator may need to set multiple attributes on the underlying model. To do so, you may return an array from the `set` closure. Each key in the array should correspond with an underlying attribute / database column associated with the model:
+時には、ミューテーターは裏のモデルへ複数の属性をセットする必要があるかもしれません。その場合は、`set`クロージャから配列を返します。配列の各キーは、モデルと関連付けられた属性やデータベースカラムに対応している必要があります。
 
 ```php
 use App\Support\Address;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
- * Interact with the user's address.
+ * ユーザーの住所操作
  *
  * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
@@ -410,9 +410,9 @@ JSON属性の単一のフィールドをより簡潔な構文で更新するに�
 <a name="enum-casting"></a>
 ### Enumキャスト
 
-> {note} Enum casting is only available for PHP 8.1+.
+> {note} Enumキャストは、PHP8.1以上で使用できます。
 
-Eloquent also allows you to cast your attribute values to PHP ["backed" enums](https://www.php.net/manual/en/language.enumerations.backed.php). To accomplish this, you may specify the attribute and enum you wish to cast in your model's `$casts` property array:
+Eloquentは、属性値をPHPの[「値に依存した（backed）」 Enum](https://www.php.net/manual/ja/language.enumerations.backed.php) にキャストすることも可能です。これを実現するには、モデルの`$casts`プロパティ配列にキャストしたい属性と列挙型を指定します。
 
     use App\Enums\ServerStatus;
 
