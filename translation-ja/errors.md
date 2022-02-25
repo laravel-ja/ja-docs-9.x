@@ -263,6 +263,6 @@ php artisan vendor:publish --tag=laravel-errors
 ```
 
 <a name="fallback-http-error-pages"></a>
-#### Fallback HTTP Error Pages
+#### HTTPエラーページのフォールバック
 
-You may also define a "fallback" error page for a given series of HTTP status codes. This page will be rendered if there is not a corresponding page for the specific HTTP status code that occurred. To accomplish this, define a `4xx.blade.php` template and a `5xx.blade.php` template in your application's `resources/views/errors` directory.
+一連のHTTPステータスコードに対応する「フォールバック」エラーページを定義することもできます。このページは、発生した特定のHTTPステータスコードに対応するページが存在しない場合にレンダされます。これには、アプリケーションの`resources/views/errors`ディレクトリに、`4xx.blade.php`テンプレートと`5xx.blade.php`テンプレートを定義します。
