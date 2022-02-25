@@ -559,7 +559,7 @@ Laravel ペジネータインスタンスをリソースの`collection`メソッ
 <a name="conditional-relationships"></a>
 ### 条件付きリレーション
 
-In addition to conditionally loading attributes, you may conditionally include relationships on your resource responses based on if the relationship has already been loaded on the model. This allows your controller to decide which relationships should be loaded on the model and your resource can easily include them only when they have actually been loaded. Ultimately, this makes it easier to avoid "N+1" query problems within your resources.
+条件付きで属性をロードすることに加え、リレーションがすでにモデルにロードされているかどうかの条件付きで、リソースレスポンスへリレーションを含めることもできます。これにより、コントローラはモデルにロードする必要のあるリレーションを決定でき、リソースは実際にロードされた場合にのみ簡単に含めることができます。最終的に、これにより、リソース内の「Ｎ＋１」クエリの問題を簡単に回避できます。
 
 `whenLoaded`メソッドを使用して、リレーションを条件付きでロードできます。リレーションを不必要にロードすることを避けるために、このメソッドはリレーション自体ではなくリレーション名を引数に取ります。
 
