@@ -72,7 +72,7 @@ php artisan storage:link
 <a name="s3-driver-configuration"></a>
 #### S3ドライバー設定
 
-Before using the S3 driver, you will need to install the Flysystem S3 package via the Composer package manager:
+S3ドライバーを使用する前に、Composerパッケージマネージャーを使用し、Flysystem S3パッケージをインストールする必要があります。
 
 ```shell
 composer require -W league/flysystem-aws-s3-v3 "^3.0"
@@ -83,7 +83,7 @@ S3ドライバーの設定情報は、`config/filesystems.php`設定ファイル
 <a name="ftp-driver-configuration"></a>
 #### FTPドライバーの設定
 
-Before using the FTP driver, you will need to install the Flysystem FTP package via the Composer package manager:
+FTPドライバーを使用する前に、Composerパッケージマネージャーを使用し、Flysystem FTPパッケージをインストールする必要があります。
 
 ```shell
 composer require league/flysystem-ftp "^3.0"
@@ -108,7 +108,7 @@ LaravelのFlysystem統合はFTPでもうまく機能します。ただし、サ�
 <a name="sftp-driver-configuration"></a>
 #### SFTPドライバーの設定
 
-Before using the SFTP driver, you will need to install the Flysystem SFTP package via the Composer package manager:
+SFTPドライバーを使用する前に、Composerパッケージマネージャーを使用して Flysystem SFTPパッケージをインストールする必要があります。
 
 ```shell
 composer require league/flysystem-sftp-v3 "^3.0"
@@ -590,6 +590,6 @@ composer require spatie/flysystem-dropbox
         }
     }
 
-The first argument of the `extend` method is the name of the driver and the second is a closure that receives the `$app` and `$config` variables. The closure must return an instance of `Illuminate\Filesystem\FilesystemAdapter`. The `$config` variable contains the values defined in `config/filesystems.php` for the specified disk.
+`extend`メソッドの第１引数はドライバ名前で、第２引数は変数`$app`と`$config`を受け取るクロージャです。このクロージャは`Illuminate\Filesystem\FilesystemAdapter`のインスタンスを返さなければなりません。変数`$config`には、指定したディスクの`config/filesystems.php`で定義している値が格納されます。
 
 拡張機能のサービスプロバイダを作成・登録したら、`config/filesystems.php`設定ファイルで`dropbox`ドライバーを使用できます。
