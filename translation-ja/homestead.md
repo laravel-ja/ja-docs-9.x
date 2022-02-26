@@ -162,10 +162,10 @@ git checkout release
 次に、Homesteadディレクトリで`bash init.sh`コマンドを実行し、`Homestead.yaml`設定ファイルを作成します。`Homestead.yaml`ファイルは、Homesteadインストールのすべてを設定する場所です。このファイルは、Homesteadディレクトリに配置されます。
 
 ```shell
-# macOS / Linux...
+# macOS／Linux
 bash init.sh
 
-# Windows...
+# Windows
 init.bat
 ```
 
@@ -295,10 +295,10 @@ composer require laravel/homestead --dev
 Homesteadをインストールしたら、Homesteadの`make`コマンドを呼び出して、プロジェクトの`Vagrantfile`ファイルと`Homestead.yaml`ファイルを生成します。これらのファイルは、プロジェクトのルートに配置されます。`make`コマンドは、`Homestead.yaml`ファイルの`sites`および`folders`ディレクティブを自動的に構成します。
 
 ```shell
-# macOS / Linux...
+# macOS／Linux
 php vendor/bin/homestead make
 
-# Windows...
+# Windows
 vendor\\bin\\homestead make
 ```
 
@@ -415,10 +415,10 @@ vagrant box update
 Vagrantボックスを更新した後、Homesteadの追加の設定ファイルを更新するために、Homesteadディレクトリから`bashinit.sh`コマンドを実行する必要があります。既存の`Homestead.yaml`、`after.sh`、`aliases`ファイルを上書きするかどうか尋ねられます。
 
 ```shell
-# macOS / Linux...
+# macOS／Linux
 bash init.sh
 
-# Windows...
+# Windows
 init.bat
 ```
 
