@@ -54,7 +54,7 @@ Sanctumは、受信リクエストが自身のSPAフロントエンドから発�
 
 > {tip} Laravelの最新バージョンは、あらかじめLaravel Sanctumを含んでいます。ただし、アプリケーションの`composer.json`ファイルが`laravel/sanctum`を含んでいない場合は、以下のインストール手順に従ってください。
 
-Laravel Sanctumは、Composerパッケージマネージャーを介してインストールできます。
+Laravel Sanctumは、Composerパッケージマネージャを介してインストールできます。
 
 ```shell
 composer require laravel/sanctum

@@ -52,7 +52,7 @@
 <a name="supported-drivers"></a>
 #### サポートしているドライバ
 
-Laravelはデフォルトで、[Pusherチャンネル](https://pusher.com/channels)と[Ably](https://ably.io)、２つのサーバ側ブロードキャストドライバーを用意しています。ただし、[laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction)や[soketi](https://docs.soketi.app/)など、コミュニティ主導のパッケージでは、商用ブロードキャストプロバイダを必要としないドライバを提供しています。
+Laravelはデフォルトで、[Pusherチャンネル](https://pusher.com/channels)と[Ably](https://ably.io)、２つのサーバ側ブロードキャストドライバを用意しています。ただし、[laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction)や[soketi](https://docs.soketi.app/)など、コミュニティ主導のパッケージでは、商用ブロードキャストプロバイダを必要としないドライバを提供しています。
 
 > {tip} イベントブロードキャストに取り掛かる前に、[イベントとリスナ](/docs/{{version}}/events)に関するLaravelのドキュメントをしっかりと読んでください。
 
@@ -61,12 +61,12 @@ Laravelはデフォルトで、[Pusherチャンネル](https://pusher.com/channe
 
 Laravelのイベントブロードキャストの使用を開始するには、Laravelアプリケーション内でいくつかの設定を行い、いくつかのパッケージをインストールする必要があります。
 
-イベントブロードキャストは、Laravel Echo(JavaScriptライブラリ)がブラウザクライアント内でイベントを受信できるように、Laravelイベントをブロードキャストするサーバ側ブロードキャストドライバーによって実行されます。心配いりません。以降から、インストール手順の各部分を段階的に説明します。
+イベントブロードキャストは、Laravel Echo(JavaScriptライブラリ)がブラウザクライアント内でイベントを受信できるように、Laravelイベントをブロードキャストするサーバ側ブロードキャストドライバによって実行されます。心配いりません。以降から、インストール手順の各部分を段階的に説明します。
 
 <a name="configuration"></a>
 ### 設定
 
-アプリケーションのイベントブロードキャスト設定はすべて、`config/broadcasting.php`設定ファイルに保存します。Laravelは、すぐに使用できるブロードキャストドライバーをいくつかサポートしています。[Pusherチャンネル](https://pusher.com/channels)、[Redis](/docs/{{version}}/redis)、およびローカルでの開発とデバッグ用の`log`ドライバです。さらに、テスト中にブロードキャストを完全に無効にできる`null`ドライバーも用意しています。これら各ドライバーの設定例は、`config/broadcasting.php`設定ファイルにあります。
+アプリケーションのイベントブロードキャスト設定はすべて、`config/broadcasting.php`設定ファイルに保存します。Laravelは、すぐに使用できるブロードキャストドライバをいくつかサポートしています。[Pusherチャンネル](https://pusher.com/channels)、[Redis](/docs/{{version}}/redis)、およびローカルでの開発とデバッグ用の`log`ドライバです。さらに、テスト中にブロードキャストを完全に無効にできる`null`ドライバも用意しています。これら各ドライバの設定例は、`config/broadcasting.php`設定ファイルにあります。
 
 <a name="broadcast-service-provider"></a>
 #### ブロードキャストサービスプロバイダ
@@ -81,7 +81,7 @@ Laravelのイベントブロードキャストの使用を開始するには、L
 <a name="pusher-channels"></a>
 ### Pusherチャンネル
 
-[Pusherチャンネル](https://pusher.com/channels)を使用してイベントをブロードキャストする場合は、Composerパッケージマネージャーを使用してPusher Channels PHP SDKをインストールする必要があります。
+[Pusherチャンネル](https://pusher.com/channels)を使用してイベントをブロードキャストする場合は、Composerパッケージマネージャを使用してPusher Channels PHP SDKをインストールする必要があります。
 
 ```shell
 composer require pusher/pusher-php-server
@@ -114,7 +114,7 @@ BROADCAST_DRIVER=pusher
 <a name="ably"></a>
 ### Ably
 
-[Ably](https://ably.io)を使用してイベントをブロードキャストする場合は、Composerパッケージマネージャーを使用してAbly PHP SDKをインストールする必要があります。
+[Ably](https://ably.io)を使用してイベントをブロードキャストする場合は、Composerパッケージマネージャを使用してAbly PHP SDKをインストールする必要があります。
 
 ```shell
 composer require ably/ably-php
@@ -153,7 +153,7 @@ BROADCAST_DRIVER=ably
 <a name="client-pusher-channels"></a>
 ### Pusher Channels
 
-[Laravel Echo](https://github.com/laravel/echo)はJavaScriptライブラリであり、チャンネルをサブスクライブし、サーバ側のブロードキャストドライバがブロードキャストしたイベントを簡単にリッスンできます。NPMパッケージマネージャーを介してEchoをインストールします。以下の例では、Pusher Channelsブロードキャスタを使用するため、`pusher-js`パッケージもインストールしています。
+[Laravel Echo](https://github.com/laravel/echo)はJavaScriptライブラリであり、チャンネルをサブスクライブし、サーバ側のブロードキャストドライバがブロードキャストしたイベントを簡単にリッスンできます。NPMパッケージマネージャを介してEchoをインストールします。以下の例では、Pusher Channelsブロードキャスタを使用するため、`pusher-js`パッケージもインストールしています。
 
 ```shell
 npm install --save-dev laravel-echo pusher-js
@@ -202,7 +202,7 @@ window.Echo = new Echo({
 <a name="client-ably"></a>
 ### Ably
 
-[Laravel Echo](https://github.com/laravel/echo)はJavaScriptライブラリであり、チャンネルをサブスクライブして、サーバ側のブロードキャストドライバがブロードキャストしたイベントを簡単にリッスンできます。NPMパッケージマネージャーを介してEchoをインストールします。この例では、`pusher-js`パッケージもインストールしています。
+[Laravel Echo](https://github.com/laravel/echo)はJavaScriptライブラリであり、チャンネルをサブスクライブして、サーバ側のブロードキャストドライバがブロードキャストしたイベントを簡単にリッスンできます。NPMパッケージマネージャを介してEchoをインストールします。この例では、`pusher-js`パッケージもインストールしています。
 
 イベントのブロードキャストにAblyを使用しているのに、なぜ`pusher-js`JavaScriptライブラリをインストールするのか不思議に思うかもしれません。ありがたいことに、AblyにはPusher互換モードが含まれており、クライアント側アプリケーションでイベントをリッスンするときにPusherプロトコルを使用できます。
 

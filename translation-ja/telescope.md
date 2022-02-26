@@ -42,7 +42,7 @@
 <a name="installation"></a>
 ## インストレーション
 
-Composerパッケージマネージャーで、TelescopeをLaravelプロジェクトへインストールできます。
+Composerパッケージマネージャで、TelescopeをLaravelプロジェクトへインストールできます。
 
 ```shell
 composer require laravel/telescope

@@ -295,7 +295,7 @@ Redisの設定の詳細については、[Laravelドキュメントページ](/d
 <a name="atomic-locks"></a>
 ## アトミックロック
 
-> {note} この機能を利用するには、アプリケーションのデフォルトのキャッシュドライバーとして、`memcached`、`redis`、`dynamodb`、`database`、`file`、`array`キャッシュドライバーを使用する必要があります。さらに、すべてのサーバが同じ中央キャッシュサーバと通信している必要があります。
+> {note} この機能を利用するには、アプリケーションのデフォルトのキャッシュドライバとして、`memcached`、`redis`、`dynamodb`、`database`、`file`、`array`キャッシュドライバを使用する必要があります。さらに、すべてのサーバが同じ中央キャッシュサーバと通信している必要があります。
 
 <a name="lock-driver-prerequisites"></a>
 ### ドライバ要件
@@ -303,7 +303,7 @@ Redisの設定の詳細については、[Laravelドキュメントページ](/d
 <a name="atomic-locks-prerequisites-database"></a>
 #### データベース
 
-`database`キャッシュドライバーを使用する場合は、アプリケーションのキャッシュロックを含むテーブルを設定する必要があります。以下にテーブルの`Schema`宣言の例を示します。
+`database`キャッシュドライバを使用する場合は、アプリケーションのキャッシュロックを含むテーブルを設定する必要があります。以下にテーブルの`Schema`宣言の例を示します。
 
     Schema::create('cache_locks', function ($table) {
         $table->string('key')->primary();
@@ -383,7 +383,7 @@ Redisの設定の詳細については、[Laravelドキュメントページ](/d
 <a name="writing-the-driver"></a>
 ### ドライバの作成
 
-カスタムキャッシュドライバーを作成するには、最初に`Illuminate\Contracts\Cache\Store`[契約](/docs/{{version}}/Contracts)を実装する必要があります。したがって、MongoDBキャッシュの実装は次のようになります。
+カスタムキャッシュドライバを作成するには、最初に`Illuminate\Contracts\Cache\Store`[契約](/docs/{{version}}/Contracts)を実装する必要があります。したがって、MongoDBキャッシュの実装は次のようになります。
 
     <?php
 
@@ -405,7 +405,7 @@ Redisの設定の詳細については、[Laravelドキュメントページ](/d
         public function getPrefix() {}
     }
 
-MongoDB接続を使用してこれらの各メソッドを実装する必要があります。これらの各メソッドを実装する方法の例については、[Laravelフレームワークのソースコード](https://github.com/laravel/framework)の`Illuminate\Cache\MemcachedStore`をご覧ください。実装が完了したら、`Cache`ファサードの`extend`メソッドを呼び出してカスタムドライバーの登録を完了してください。
+MongoDB接続を使用してこれらの各メソッドを実装する必要があります。これらの各メソッドを実装する方法の例については、[Laravelフレームワークのソースコード](https://github.com/laravel/framework)の`Illuminate\Cache\MemcachedStore`をご覧ください。実装が完了したら、`Cache`ファサードの`extend`メソッドを呼び出してカスタムドライバの登録を完了してください。
 
     Cache::extend('mongo', function ($app) {
         return Cache::repository(new MongoStore);
@@ -416,7 +416,7 @@ MongoDB接続を使用してこれらの各メソッドを実装する必要が�
 <a name="registering-the-driver"></a>
 ### ドライバの登録
 
-カスタムキャッシュドライバーをLaravelに登録するには、`Cache`ファサードで`extend`メソッドを使用します。他のサービスプロバイダは`boot`メソッド内でキャッシュされた値を読み取ろうとする可能性があるため、`booting`コールバック内にカスタムドライバーを登録します。`booting`コールバックを使用することで、アプリケーションのサービスプロバイダで`boot`メソッドが呼び出される直前で、すべてのサービスプロバイダで`register`メソッドが呼び出された後にカスタムドライバーが登録されるようにすることができます。アプリケーションの`App\Providers\AppServiceProvider`クラスの`register`メソッド内に`booting`コールバックを登録します。
+カスタムキャッシュドライバをLaravelに登録するには、`Cache`ファサードで`extend`メソッドを使用します。他のサービスプロバイダは`boot`メソッド内でキャッシュされた値を読み取ろうとする可能性があるため、`booting`コールバック内にカスタムドライバを登録します。`booting`コールバックを使用することで、アプリケーションのサービスプロバイダで`boot`メソッドが呼び出される直前で、すべてのサービスプロバイダで`register`メソッドが呼び出された後にカスタムドライバが登録されるようにすることができます。アプリケーションの`App\Providers\AppServiceProvider`クラスの`register`メソッド内に`booting`コールバックを登録します。
 
     <?php
 
@@ -453,7 +453,7 @@ MongoDB接続を使用してこれらの各メソッドを実装する必要が�
         }
     }
 
-`extend`メソッドに渡す最初の引数はドライバーの名前です。これは、`config/cache.php`設定ファイルの`driver`オプションに対応させます。２番目の引数は、`Illuminate\Cache\Repository`インスタンスを返す必要があるクロージャです。クロージャには、[サービスコンテナ](/docs/{{version}}/container)のインスタンスである`$app`インスタンスが渡されます。
+`extend`メソッドに渡す最初の引数はドライバの名前です。これは、`config/cache.php`設定ファイルの`driver`オプションに対応させます。２番目の引数は、`Illuminate\Cache\Repository`インスタンスを返す必要があるクロージャです。クロージャには、[サービスコンテナ](/docs/{{version}}/container)のインスタンスである`$app`インスタンスが渡されます。
 
 拡張機能を登録したら、`config/cache.php`設定ファイルの`driver`オプションを拡張機能の名前に更新します。
 

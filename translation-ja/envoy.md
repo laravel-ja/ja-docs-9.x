@@ -25,7 +25,7 @@
 <a name="installation"></a>
 ## インストール
 
-まず、Composerパッケージマネージャーを使用してEnvoyをプロジェクトにインストールします。
+まず、Composerパッケージマネージャを使用してEnvoyをプロジェクトにインストールします。
 
 ```shell
 composer require laravel/envoy --dev

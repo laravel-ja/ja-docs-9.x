@@ -406,7 +406,7 @@ Laravelスケジューラはスケジュールしたタスクが生成する出�
              ->pingOnSuccess($successUrl)
              ->pingOnFailure($failureUrl);
 
-すべてのpingメソッドにGuzzle HTTPライブラリが必要です。Guzzleは通常、デフォルトですべての新しいLaravelプロジェクトにインストールされますが、誤って削除した場合は、Composerパッケージマネージャーを使用してプロジェクトへ自分でGuzzleをインストールできます。
+すべてのpingメソッドにGuzzle HTTPライブラリが必要です。Guzzleは通常、デフォルトですべての新しいLaravelプロジェクトにインストールされますが、誤って削除した場合は、Composerパッケージマネージャを使用してプロジェクトへ自分でGuzzleをインストールできます。
 
 ```shell
 composer require guzzlehttp/guzzle

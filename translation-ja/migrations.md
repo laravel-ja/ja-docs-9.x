@@ -939,7 +939,7 @@ php artisan migrate:fresh --seed
         }
     };
 
-> {note} デフォルト式のサポートは、データベースドライバー、データベースバージョン、およびフィールドタイプによって異なります。データベースのドキュメントを参照してください。
+> {note} デフォルト式のサポートは、データベースドライバ、データベースバージョン、およびフィールドタイプによって異なります。データベースのドキュメントを参照してください。
 
 <a name="column-order"></a>
 #### カラム順序
@@ -958,7 +958,7 @@ MySQLデータベースを使用するときは、スキーマ内の既存の列
 <a name="prerequisites"></a>
 #### 前提条件
 
-カラムを変更する前に、Composerパッケージマネージャーを使用して`doctrine/dbal`パッケージをインストールする必要があります。DoctrineDBALライブラリは、カラムの現在の状態を判別し、カラムに要求された変更を加えるために必要なSQLクエリを作成するのに使用します。
+カラムを変更する前に、Composerパッケージマネージャを使用して`doctrine/dbal`パッケージをインストールする必要があります。DoctrineDBALライブラリは、カラムの現在の状態を判別し、カラムに要求された変更を加えるために必要なSQLクエリを作成するのに使用します。
 
     composer require doctrine/dbal
 
@@ -996,7 +996,7 @@ use Illuminate\Database\DBAL\TimestampType;
 <a name="renaming-columns"></a>
 #### カラムのリネーム
 
-カラムをリネームするには、スキーマビルダBlueprintが提供する`renameColumn`メソッドを使用します。カラムの名前を変更する前に、Composerパッケージマネージャーを介して`doctrine/dbal`ライブラリをインストールしていることを確認してください。
+カラムをリネームするには、スキーマビルダBlueprintが提供する`renameColumn`メソッドを使用します。カラムの名前を変更する前に、Composerパッケージマネージャを介して`doctrine/dbal`ライブラリをインストールしていることを確認してください。
 
     Schema::table('users', function (Blueprint $table) {
         $table->renameColumn('from', 'to');
@@ -1007,7 +1007,7 @@ use Illuminate\Database\DBAL\TimestampType;
 <a name="dropping-columns"></a>
 ### カラムの削除
 
-カラムを削除するには、スキーマビルダのBlueprintで`dropColumn`メソッドを使用します。アプリケーションがSQLiteデータベースを利用している場合、`dropColumn`メソッドを使用する前に、Composerパッケージマネージャーを介して`doctrine/dbal`パッケージをインストールする必要があります。
+カラムを削除するには、スキーマビルダのBlueprintで`dropColumn`メソッドを使用します。アプリケーションがSQLiteデータベースを利用している場合、`dropColumn`メソッドを使用する前に、Composerパッケージマネージャを介して`doctrine/dbal`パッケージをインストールする必要があります。
 
     Schema::table('users', function (Blueprint $table) {
         $table->dropColumn('votes');

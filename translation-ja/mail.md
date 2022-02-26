@@ -95,7 +95,7 @@ Next, set the `default` option in your application's `config/mail.php` configura
 <a name="ses-driver"></a>
 #### SESドライバ
 
-Amazon SESドライバを使用するには、最初にAmazon AWS SDK for PHPをインストールする必要があります。このライブラリは、Composerパッケージマネージャーを介してインストールできます。
+Amazon SESドライバを使用するには、最初にAmazon AWS SDK for PHPをインストールする必要があります。このライブラリは、Composerパッケージマネージャを介してインストールできます。
 
 ```shell
 composer require aws/aws-sdk-php

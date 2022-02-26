@@ -30,7 +30,7 @@ Horizo​​nを使用する場合、すべてのキューワーカ設定は単�
 
 > {note} Laravel Horizo​​nは、[Redis](https://redis.io)を使用してキューを使用する必要があります。したがって、アプリケーションの`config/queue.php`設定ファイルでキュー接続が`redis`に設定されていることを確認する必要があります。
 
-Composerパッケージマネージャーを使用して、Horizo​​nをプロジェクトにインストールします。
+Composerパッケージマネージャを使用して、Horizo​​nをプロジェクトにインストールします。
 
 ```shell
 composer require laravel/horizon
@@ -214,7 +214,7 @@ php artisan horizon:terminate
 <a name="installing-supervisor"></a>
 #### Supervisorのインストール
 
-SupervisorはLinuxオペレーティングシステムのプロセスモニタであり、実行が停止すると`horizon`プロセスを自動的に再起動してくれます。UbuntuにSupervisorをインストールするには、次のコマンドを使用できます。Ubuntuを使用していない場合は、オペレーティングシステムのパッケージマネージャーを使用してSupervisorをインストールしてください。
+SupervisorはLinuxオペレーティングシステムのプロセスモニタであり、実行が停止すると`horizon`プロセスを自動的に再起動してくれます。UbuntuにSupervisorをインストールするには、次のコマンドを使用できます。Ubuntuを使用していない場合は、オペレーティングシステムのパッケージマネージャを使用してSupervisorをインストールしてください。
 
 ```shell
 sudo apt-get install supervisor

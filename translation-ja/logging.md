@@ -59,7 +59,7 @@ Laravelはメッセージをログに記録するときに、デフォルトで`
 `stack` | 「マルチチャンネル」チャンネルの作成を容易にするラッパー
 `syslog` | `SyslogHandler`ベースのMonologドライバ
 
-> {tip} [高度なチャンネルのカスタマイズ](#monolog-channel-customization)のドキュメントをチェックして、`monolog`および`custom`ドライバーの詳細を確認してください。
+> {tip} [高度なチャンネルのカスタマイズ](#monolog-channel-customization)のドキュメントをチェックして、`monolog`および`custom`ドライバの詳細を確認してください。
 
 <a name="channel-prerequisites"></a>
 ### チャンネルの事前設定
@@ -110,7 +110,7 @@ PHPやLaravelなどのライブラリは、その機能の一部が非推奨と�
 <a name="building-log-stacks"></a>
 ## ログスタックの構築
 
-前述のように、`stack`ドライバーを使用すると、便利に複数のチャンネルを１つのログチャンネルに組み合わせることができます。ログスタックの使用方法を説明するために、本番アプリケーションで使われる可能性のある構成例を見てみましょう。
+前述のように、`stack`ドライバを使用すると、便利に複数のチャンネルを１つのログチャンネルに組み合わせることができます。ログスタックの使用方法を説明するために、本番アプリケーションで使われる可能性のある構成例を見てみましょう。
 
     'channels' => [
         'stack' => [
@@ -315,9 +315,9 @@ PHPやLaravelなどのライブラリは、その機能の一部が非推奨と�
 <a name="creating-monolog-handler-channels"></a>
 ### Monolog処理チャンネルの作成
 
-Monologにはさまざまな[利用可能なハンドラ](https://github.com/Seldaek/monolog/tree/main/src/Monolog/Handler)があり、Laravelはそれぞれに対する組み込みチャンネルを用意していません。場合によっては、対応するLaravelログドライバーを持たない特定のMonologハンドラの単なるインスタンスであるカスタムチャンネルを作成したい場合があります。これらのチャンネルは、`monolog`ドライバーを使用して簡単に作成できます。
+Monologにはさまざまな[利用可能なハンドラ](https://github.com/Seldaek/monolog/tree/main/src/Monolog/Handler)があり、Laravelはそれぞれに対する組み込みチャンネルを用意していません。場合によっては、対応するLaravelログドライバを持たない特定のMonologハンドラの単なるインスタンスであるカスタムチャンネルを作成したい場合があります。これらのチャンネルは、`monolog`ドライバを使用して簡単に作成できます。
 
-`monolog`ドライバーを使用する場合、`handler`設定オプションを使用してインスタンス化するハンドラを指定します。オプションで、ハンドラが必要とするコンストラクターパラメーターは、`with`設定オプションを使用して指定できます。
+`monolog`ドライバを使用する場合、`handler`設定オプションを使用してインスタンス化するハンドラを指定します。オプションで、ハンドラが必要とするコンストラクターパラメーターは、`with`設定オプションを使用して指定できます。
 
     'logentries' => [
         'driver'  => 'monolog',
@@ -331,7 +331,7 @@ Monologにはさまざまな[利用可能なハンドラ](https://github.com/Sel
 <a name="monolog-formatters"></a>
 #### Monologフォーマッター
 
-`monolog`ドライバーを使用する場合、Monolog`LineFormatter`がデフォルトのフォーマッターとして使用されます。ただし、`formatter`および`formatter_with`設定オプションを使用して、ハンドラへ渡すフォーマッタータイプをカスタマイズできます。
+`monolog`ドライバを使用する場合、Monolog`LineFormatter`がデフォルトのフォーマッターとして使用されます。ただし、`formatter`および`formatter_with`設定オプションを使用して、ハンドラへ渡すフォーマッタータイプをカスタマイズできます。
 
     'browser' => [
         'driver' => 'monolog',
@@ -353,7 +353,7 @@ Monologにはさまざまな[利用可能なハンドラ](https://github.com/Sel
 <a name="creating-custom-channels-via-factories"></a>
 ### ファクトリによるカスタムチャンネルの生成
 
-Monologのインスタンス化と設定を完全に制御する、完全なカスタムチャンネルを定義する場合は、`config/logging.php`設定ファイルで`custom`ドライバータイプを指定します。設定には、Monologインスタンスを作成するために呼び出すファクトリクラスの名前を含む`via`オプションを含める必要があります。
+Monologのインスタンス化と設定を完全に制御する、完全なカスタムチャンネルを定義する場合は、`config/logging.php`設定ファイルで`custom`ドライバタイプを指定します。設定には、Monologインスタンスを作成するために呼び出すファクトリクラスの名前を含む`via`オプションを含める必要があります。
 
     'channels' => [
         'example-custom-channel' => [
@@ -362,7 +362,7 @@ Monologのインスタンス化と設定を完全に制御する、完全なカ�
         ],
     ],
 
-`custom`ドライバーチャンネルを設定したら、Monologインスタンスを作成するクラスを定義する準備が整います。このクラスには、Monologロガーインスタンスを返す単一の`__invoke`メソッドのみが必要です。このメソッドは、チャンネル設定配列を唯一の引数として受け取ります。
+`custom`ドライバチャンネルを設定したら、Monologインスタンスを作成するクラスを定義する準備が整います。このクラスには、Monologロガーインスタンスを返す単一の`__invoke`メソッドのみが必要です。このメソッドは、チャンネル設定配列を唯一の引数として受け取ります。
 
     <?php
 

@@ -21,7 +21,7 @@ Laravelは、一般的なフォームベースの認証に加えて、[Laravel S
 <a name="installation"></a>
 ## インストール
 
-Socialiteを使い始めるには、Composerパッケージマネージャーを使用して、プロジェクトの依存関係へパッケージを追加します。
+Socialiteを使い始めるには、Composerパッケージマネージャを使用して、プロジェクトの依存関係へパッケージを追加します。
 
 ```shell
 composer require laravel/socialite

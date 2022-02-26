@@ -68,7 +68,7 @@ APIを提供するアプリケーション、またはシングルページア�
 <a name="installation"></a>
 ## インストール
 
-使用開始するには、Composerパッケージマネージャーを使用してFortifyをインストールします。
+使用開始するには、Composerパッケージマネージャを使用してFortifyをインストールします。
 
 ```shell
 composer require laravel/fortify

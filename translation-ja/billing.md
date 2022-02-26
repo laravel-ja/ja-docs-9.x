@@ -80,7 +80,7 @@
 <a name="installation"></a>
 ## インストール
 
-まず、Composerパッケージマネージャーを使用して、StripeのCashierパッケージをインストールします。
+まず、Composerパッケージマネージャを使用して、StripeのCashierパッケージをインストールします。
 
 ```shell
 composer require laravel/cashier

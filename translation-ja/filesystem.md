@@ -27,16 +27,16 @@ Laravelは、Frankde Jongeによる素晴らしい[Flysystem](https://github.com
 <a name="configuration"></a>
 ## 設定
 
-Laravelのファイルシステム設定ファイルは`config/filesystems.php`にあります。このファイル内で、すべてのファイルシステム「ディスク」を設定できます。各ディスクは、特定のストレージドライバーとストレージの場所を表します。サポートしている各ドライバーの設定例を設定ファイルに用意しているので、ストレージ設定と資格情報を反映するように設定を変更してください。
+Laravelのファイルシステム設定ファイルは`config/filesystems.php`にあります。このファイル内で、すべてのファイルシステム「ディスク」を設定できます。各ディスクは、特定のストレージドライバとストレージの場所を表します。サポートしている各ドライバの設定例を設定ファイルに用意しているので、ストレージ設定と資格情報を反映するように設定を変更してください。
 
-`local`ドライバーは、Laravelアプリケーションを実行しているサーバでローカルに保存されているファイルを操作し、`s3`ドライバーはAmazonのS3クラウドストレージサービスへの書き込みに使用します。
+`local`ドライバは、Laravelアプリケーションを実行しているサーバでローカルに保存されているファイルを操作し、`s3`ドライバはAmazonのS3クラウドストレージサービスへの書き込みに使用します。
 
-> {tip} 必要な数のディスクを構成でき、同じドライバーを使用する複数のディスクを使用することもできます。
+> {tip} 必要な数のディスクを構成でき、同じドライバを使用する複数のディスクを使用することもできます。
 
 <a name="the-local-driver"></a>
 ### ローカルドライバ
 
-`local`ドライバーを使用する場合、すべてのファイル操作は、`filesystems`設定ファイルで定義した`root`ディレクトリからの相対位置です。デフォルトでは、この値は`storage/app`ディレクトリに設定されています。したがって、次のメソッドは`storage/app/example.txt`に書き込みます。
+`local`ドライバを使用する場合、すべてのファイル操作は、`filesystems`設定ファイルで定義した`root`ディレクトリからの相対位置です。デフォルトでは、この値は`storage/app`ディレクトリに設定されています。したがって、次のメソッドは`storage/app/example.txt`に書き込みます。
 
     use Illuminate\Support\Facades\Storage;
 
@@ -45,7 +45,7 @@ Laravelのファイルシステム設定ファイルは`config/filesystems.php`�
 <a name="the-public-disk"></a>
 ### 公開ディスク
 
-アプリケーションの`filesystems`設定ファイルに含まれている`public`ディスクは、パブリックに公開してアクセスできるようにするファイルを対象としています。デフォルトでは、`public`ディスクは`local`ドライバーを使用し、そのファイルを`storage/app/public`に保存します。
+アプリケーションの`filesystems`設定ファイルに含まれている`public`ディスクは、パブリックに公開してアクセスできるようにするファイルを対象としています。デフォルトでは、`public`ディスクは`local`ドライバを使用し、そのファイルを`storage/app/public`に保存します。
 
 これらのファイルにWebからアクセスできるようにするには、`public/storage`から`storage/app/public`へのシンボリックリンクを作成する必要があります。このフォルダ規約を利用すると、[Envoyer](https://envoyer.io)のようなダウンタイムゼロのデプロイメントシステムを使用する場合に、パブリックにアクセス可能なファイルを1つのディレクトリに保持し、デプロイメント間で簡単に共有できます。
 
@@ -70,20 +70,20 @@ php artisan storage:link
 ### ドライバの動作要件
 
 <a name="s3-driver-configuration"></a>
-#### S3ドライバー設定
+#### S3ドライバ設定
 
-S3ドライバーを使用する前に、Composerパッケージマネージャーを使用し、Flysystem S3パッケージをインストールする必要があります。
+S3ドライバを使用する前に、Composerパッケージマネージャを使用し、Flysystem S3パッケージをインストールする必要があります。
 
 ```shell
 composer require -W league/flysystem-aws-s3-v3 "^3.0"
 ```
 
-S3ドライバーの設定情報は、`config/filesystems.php`設定ファイルにあります。このファイルには、S3ドライバーの設定配列の例が含まれています。この配列は、皆さんのS3設定と認証情報を使用するため自由に変更できます。利便性のため、これらの環境変数はAWS CLIが使用する命名規則と一致させています。
+S3ドライバの設定情報は、`config/filesystems.php`設定ファイルにあります。このファイルには、S3ドライバの設定配列の例が含まれています。この配列は、皆さんのS3設定と認証情報を使用するため自由に変更できます。利便性のため、これらの環境変数はAWS CLIが使用する命名規則と一致させています。
 
 <a name="ftp-driver-configuration"></a>
-#### FTPドライバーの設定
+#### FTPドライバの設定
 
-FTPドライバーを使用する前に、Composerパッケージマネージャーを使用し、Flysystem FTPパッケージをインストールする必要があります。
+FTPドライバを使用する前に、Composerパッケージマネージャを使用し、Flysystem FTPパッケージをインストールする必要があります。
 
 ```shell
 composer require league/flysystem-ftp "^3.0"
@@ -106,9 +106,9 @@ LaravelのFlysystem統合はFTPでもうまく機能します。ただし、サ�
     ],
 
 <a name="sftp-driver-configuration"></a>
-#### SFTPドライバーの設定
+#### SFTPドライバの設定
 
-SFTPドライバーを使用する前に、Composerパッケージマネージャーを使用して Flysystem SFTPパッケージをインストールする必要があります。
+SFTPドライバを使用する前に、Composerパッケージマネージャを使用して Flysystem SFTPパッケージをインストールする必要があります。
 
 ```shell
 composer require league/flysystem-sftp-v3 "^3.0"
@@ -203,20 +203,20 @@ $disk->put('image.jpg', $content);
 <a name="file-urls"></a>
 ### ファイルのURL
 
-`url`メソッドを使用し、特定のファイルのURLを取得できます。`local`ドライバーを使用している場合、これは通常、指定されたパスの前に`/storage`を追加し、ファイルへの相対URLを返します。`s3`ドライバーを使用している場合は、完全修飾リモートURLが返されます。
+`url`メソッドを使用し、特定のファイルのURLを取得できます。`local`ドライバを使用している場合、これは通常、指定されたパスの前に`/storage`を追加し、ファイルへの相対URLを返します。`s3`ドライバを使用している場合は、完全修飾リモートURLが返されます。
 
     use Illuminate\Support\Facades\Storage;
 
     $url = Storage::url('file.jpg');
 
-`local`ドライバーを使用する場合、パブリックにアクセス可能である必要があるすべてのファイルは、`storage/app/public`ディレクトリに配置する必要があります。さらに、`storage/app/public`ディレクトリを指す`public/storage`に[シンボリックリンクを作成](#the-public-disk)する必要があります。
+`local`ドライバを使用する場合、パブリックにアクセス可能である必要があるすべてのファイルは、`storage/app/public`ディレクトリに配置する必要があります。さらに、`storage/app/public`ディレクトリを指す`public/storage`に[シンボリックリンクを作成](#the-public-disk)する必要があります。
 
-> {note} `local`ドライバーを使用する場合、`url`の戻り値はURLエンコードされません。このため、常に有効なURLを作成する名前を使用してファイルを保存することをお勧めします。
+> {note} `local`ドライバを使用する場合、`url`の戻り値はURLエンコードされません。このため、常に有効なURLを作成する名前を使用してファイルを保存することをお勧めします。
 
 <a name="temporary-urls"></a>
 #### 一時的なURL
 
-`temporaryUrl`メソッドを使用すると、`s3`ドライバーを使用して保存されたファイルへの一時URLを作成できます。このメソッドは、パスと、URLの有効期限を指定する`DateTime`インスタンスを受け入れます。
+`temporaryUrl`メソッドを使用すると、`s3`ドライバを使用して保存されたファイルへの一時URLを作成できます。このメソッドは、パスと、URLの有効期限を指定する`DateTime`インスタンスを受け入れます。
 
     use Illuminate\Support\Facades\Storage;
 
@@ -292,7 +292,7 @@ Laravelは、ファイルの読み取りと書き込みに加えて、ファイ�
 <a name="file-paths"></a>
 #### ファイルパス
 
-`path`メソッドを使用して、特定のファイルのパスを取得できます。`local`ドライバーを使用している場合、これはファイルへの絶対パスを返します。`s3`ドライバーを使用している場合、このメソッドはS3バケット内のファイルへの相対パスを返します。
+`path`メソッドを使用して、特定のファイルのパスを取得できます。`local`ドライバを使用している場合、これはファイルへの絶対パスを返します。`s3`ドライバを使用している場合、このメソッドはS3バケット内のファイルへの相対パスを返します。
 
     use Illuminate\Support\Facades\Storage;
 
@@ -435,7 +435,7 @@ Webアプリケーションでは、ファイルを保存するための最も�
 <a name="file-visibility"></a>
 ### ファイルの可視性
 
-LaravelのFlysystem統合では、「可視性」は複数のプラットフォームにわたるファイル権限の抽象化です。ファイルは`public`または`private`として宣言できます。ファイルが`public`と宣言されている場合、そのファイルは一般的に他のユーザーがアクセスできる必要があることを示しています。たとえば、S3ドライバーを使用する場合、`public`ファイルのURLを取得できます。
+LaravelのFlysystem統合では、「可視性」は複数のプラットフォームにわたるファイル権限の抽象化です。ファイルは`public`または`private`として宣言できます。ファイルが`public`と宣言されている場合、そのファイルは一般的に他のユーザーがアクセスできる必要があることを示しています。たとえば、S3ドライバを使用する場合、`public`ファイルのURLを取得できます。
 
 `put`メソッドを介してファイルを書き込むとき、可視性を設定できます。
 
@@ -462,7 +462,7 @@ LaravelのFlysystem統合では、「可視性」は複数のプラットフォ�
 <a name="local-files-and-visibility"></a>
 #### ローカルファイルと可視性
 
-`local`ドライバーを使用する場合、`public`の[可視性](#file-visibility)は、ディレクトリの`0755`パーミッションとファイルの`0644`パーミッションに変換されます。アプリケーションの`filesystems`設定ファイルでパーミッションマッピングを変更できます。
+`local`ドライバを使用する場合、`public`の[可視性](#file-visibility)は、ディレクトリの`0755`パーミッションとファイルの`0644`パーミッションに変換されます。アプリケーションの`filesystems`設定ファイルでパーミッションマッピングを変更できます。
 
     'local' => [
         'driver' => 'local',
@@ -536,7 +536,7 @@ LaravelのFlysystem統合では、「可視性」は複数のプラットフォ�
 <a name="custom-filesystems"></a>
 ## カスタムファイルシステム
 
-LaravelのFlysystem統合は、最初からすぐに使える「ドライバ」をいくつかサポートしています。ただし、Flysystemはこれらに限定されず、他の多くのストレージシステム用のアダプターを備えています。Laravelアプリケーションでこれらの追加アダプターの１つを使用する場合は、カスタムドライバーを作成できます。
+LaravelのFlysystem統合は、最初からすぐに使える「ドライバ」をいくつかサポートしています。ただし、Flysystemはこれらに限定されず、他の多くのストレージシステム用のアダプターを備えています。Laravelアプリケーションでこれらの追加アダプターの１つを使用する場合は、カスタムドライバを作成できます。
 
 カスタムファイルシステムを定義するには、Flysystemアダプターが必要です。コミュニティが管理するDropboxアダプターをプロジェクトに追加してみましょう。
 
@@ -544,7 +544,7 @@ LaravelのFlysystem統合は、最初からすぐに使える「ドライバ」�
 composer require spatie/flysystem-dropbox
 ```
 
-次に、アプリケーションの[サービスプロバイダ](/docs/{{version}}/provider)の1つの`boot`メソッド内にドライバーを登録します。これには、`Storage`ファサードの`extend`メソッドを使用します。
+次に、アプリケーションの[サービスプロバイダ](/docs/{{version}}/provider)の1つの`boot`メソッド内にドライバを登録します。これには、`Storage`ファサードの`extend`メソッドを使用します。
 
     <?php
 
@@ -592,4 +592,4 @@ composer require spatie/flysystem-dropbox
 
 `extend`メソッドの第１引数はドライバ名前で、第２引数は変数`$app`と`$config`を受け取るクロージャです。このクロージャは`Illuminate\Filesystem\FilesystemAdapter`のインスタンスを返さなければなりません。変数`$config`には、指定したディスクの`config/filesystems.php`で定義している値が格納されます。
 
-拡張機能のサービスプロバイダを作成・登録したら、`config/filesystems.php`設定ファイルで`dropbox`ドライバーを使用できます。
+拡張機能のサービスプロバイダを作成・登録したら、`config/filesystems.php`設定ファイルで`dropbox`ドライバを使用できます。

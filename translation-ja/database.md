@@ -49,7 +49,7 @@ DB_FOREIGN_KEYS=true
 <a name="mssql-configuration"></a>
 #### Microsoft SQLサーバ設定
 
-Microsoft　SQL Serverデータベースを使用するには、`sqlsrv`、`pdo_sqlsrv`PHP拡張機能と、Microsoft SQL ODBCドライバーなど必要な依存関係パッケージを確実にインストールしてください。
+Microsoft　SQL Serverデータベースを使用するには、`sqlsrv`、`pdo_sqlsrv`PHP拡張機能と、Microsoft SQL ODBCドライバなど必要な依存関係パッケージを確実にインストールしてください。
 
 <a name="configuration-using-urls"></a>
 #### URLを使用した設定

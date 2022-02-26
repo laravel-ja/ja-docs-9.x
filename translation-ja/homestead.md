@@ -286,7 +286,7 @@ services:
 
 Homesteadをグローバルにインストールし、全プロジェクトで同じHomestead仮想環境を共有する代わりに、Homesteadインスタンスを管理下のプロジェクトごとに設定することもできます。プロジェクトごとにHomesteadをインストールする利点は、`Vagrantfile`をプロジェクトに用意すれば、プロジェクトに参加している他の人達も、プロジェクトのリポジトリをクローンしたあとに`vagrant up`ですぐに仕事にとりかかれることです。
 
-Composerパッケージマネージャーを使用して、Homesteadをプロジェクトにインストールできます。
+Composerパッケージマネージャを使用して、Homesteadをプロジェクトにインストールできます。
 
 ```shell
 composer require laravel/homestead --dev

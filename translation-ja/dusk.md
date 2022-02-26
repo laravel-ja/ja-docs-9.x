@@ -51,7 +51,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-[Laravel Dusk](https://github.com/laravel/dusk)は、表現力豊かで使いやすいブラウザ自動化およびテストAPIを提供します。デフォルトではDuskを使用するために、ローカルコンピュータへJDKやSeleniumをインストールする必要はありません。代わりに、Duskはスタンドアロンの[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)を使用します。ただし、他のSelenium互換ドライバーも自由に利用できます。
+[Laravel Dusk](https://github.com/laravel/dusk)は、表現力豊かで使いやすいブラウザ自動化およびテストAPIを提供します。デフォルトではDuskを使用するために、ローカルコンピュータへJDKやSeleniumをインストールする必要はありません。代わりに、Duskはスタンドアロンの[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)を使用します。ただし、他のSelenium互換ドライバも自由に利用できます。
 
 <a name="installation"></a>
 ## インストール
