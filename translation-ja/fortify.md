@@ -28,7 +28,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-[Laravel Fortify](https://github.com/laravel/fortify)は、Laravelのフロントエンドにとらわれない認証バックエンドの実装です。Fortifyは、ログイン、ユーザー登録、パスワードのリセット、メールの検証など、Laravelの認証機能をすべて実装するために必要なルートとコントローラを登録します。Fortifyをインストールした後に、`route:list` Artisanコマンドを実行して、Fortifyが登録したルートを確認できます。
+[Laravel Fortify](https://github.com/laravel/fortify)（フォーティファイ、要塞）は、Laravelのフロントエンドにとらわれない認証バックエンドの実装です。Fortifyは、ログイン、ユーザー登録、パスワードのリセット、メールの検証など、Laravelの認証機能をすべて実装するために必要なルートとコントローラを登録します。Fortifyをインストールした後に、`route:list` Artisanコマンドを実行して、Fortifyが登録したルートを確認できます。
 
 Fortifyは独自のユーザーインターフェイスを提供しません。つまり、登録したルートにリクエストを送信する皆さん自身の​​のユーザーインターフェイスと組み合わせることを目的としています。このドキュメントの残りの部分で、こうしたルートにリクエストを送信する方法について正確に説明します。
 
@@ -41,14 +41,14 @@ Fortifyは独自のユーザーインターフェイスを提供しません。�
 
 **Laravelの認証機能を使用するために、Fortifyを使う必要はありません。** [認証](/docs/{{version}}/authentication)、[パスワードリセット](/docs/{{version}}/passwords)、および[メール検証](/docs/{{version}}/verification)のドキュメントにしたがい、Laravelの認証サービスをいつでも自前で操作できます。
 
-Laravelを初めて使用する場合は、Laravel Fortifyを使用する前に、[Laravel Breeze](/docs/{{version}}/starter-kits)アプリケーションスターターキットを調べることをお勧めします。Laravel Breezeは、[Tailwind CSS](https://tailwindcss.com)で構築されたユーザーインターフェイスを含む、アプリケーションの認証スカフォールドを提供します。Fortifyとは異なり、Breezeはルートとコントローラをアプリケーションに直接リソース公開します。これにより、Laravel Fortifyによりこれらの機能を実装させる前に、Laravelの認証機能を学習して慣れることができます。
+Laravelを初めて使用する場合は、Laravel Fortifyを使用する前に、[Laravel Breeze](/docs/{{version}}/starter-kits)アプリケーションスターターキットを調べることをお勧めします。Laravel Breezeは、[Tailwind CSS](https://tailwindcss.com)で構築されたユーザーインターフェイスを含む、アプリケーションの認証スカフォールドを提供します。Fortifyとは異なり、Breezeはルートとコントローラをアプリケーションに直接リソース公開します。これにより、Laravel Fortifyによりこれらの機能を実装する前に、Laravelの認証機能を学習し、慣れることができます。
 
 基本的にLaravel Fortifyは、Laravel Breezeのルートとコントローラを持っており、ユーザーインターフェイスを含まないパッケージとして提供しています。これにより特定のフロントエンドに関する意見に縛られることなく、アプリケーションの認証レイヤーのバックエンド実装をすばやくスキャフォールディングできます。
 
 <a name="when-should-i-use-fortify"></a>
 ### いつFortifyを使用すべきか？
 
-LaravelFortifyをいつ使用するのが適切か疑問に思われるかもしれません。まず、Laravelの[アプリケーションスターターキット](/docs/{{version}}/starter-kits)で説明されているいずれかを使用している場合、Laravelのすべてのアプリケーションスターターキットはあらかじめ完全な認証実装を提供しているため、LaravelFortifyをインストールする必要はありません。 。
+Laravel Fortifyをいつ使用するのが適切か疑問に思われるかもしれません。まず、Laravelの[アプリケーションスターターキット](/docs/{{version}}/starter-kits)で説明している、いくつかの手段を使用している場合、Laravelのすべてのアプリケーションスターターキットはあらかじめ完全な認証実装を提供しているため、Laravel Fortifyをインストールする必要はありません。 。
 
 アプリケーションスターターキットを使用しておらず、アプリケーションに認証機能が必要な場合は、アプリケーションの認証機能を自分で実装するか、Laravel Fortifyを使用してこうした機能のバックエンド実装を提供するか、２つのオプションがあります。
 
@@ -59,11 +59,11 @@ Fortifyを使用する代わりにLaravelの認証サービスを自前で操作
 <a name="laravel-fortify-and-laravel-sanctum"></a>
 #### Laravel FortifyとLaravel Sanctum
 
-一部の開発者は、[Laravel Sanctum](/docs/{{version}}/sanctum)とLaravel Fortifyの違いについて混乱します。 ２つのパッケージは２つの関連はあるが別々の問題を解決するため、Laravel FortifyとLaravel Sanctumは相互に排他的、もしくは競合するパッケージではありません。
+一部の開発者は、[Laravel Sanctum](/docs/{{version}}/sanctum)とLaravel Fortifyの違いについて混乱します。２つのパッケージは、関連がある別々の問題を解決しているため、Laravel FortifyとLaravel Sanctumは相互に排他的、もしくは競合するパッケージではありません。
 
-Laravel Sanctumは、APIトークンの管理と、セッションCookieまたはトークンを使用した既存のユーザーの認証のみに関係しています。 Sanctumは、ユーザー登録、パスワードのリセットなどを処理するルートを提供していません。
+Laravel Sanctumは、APIトークンの管理と、セッションCookieまたはトークンを使用した既存のユーザーの認証のみに関係しています。Sanctumは、ユーザー登録、パスワードのリセットなどを処理するルートを提供しません。
 
-APIを提供するアプリケーション、またはシングルページアプリケーションのバックエンドとして機能するアプリケーションの認証レイヤーを自前で構築しようとしている場合は、Laravel Fortify（ユーザー登録、パスワードのリセットなど）およびLaravel Sanctum（APIトークン管理、セッション認証）の両方を利用すのは完全に可能です。
+APIを提供するアプリケーション、またはシングルページアプリケーションのバックエンドとして機能するアプリケーションの認証レイヤーを自前で構築しようとしている場合に、Laravel Fortify（ユーザー登録、パスワードのリセットなど）およびLaravel Sanctum（APIトークン管理、セッション認証）の両方を利用できます。
 
 <a name="installation"></a>
 ## インストール
@@ -276,7 +276,7 @@ class User extends Authenticatable
 ```html
 @if (session('status') == 'two-factor-authentication-enabled')
     <div class="mb-4 font-medium text-sm text-green-600">
-        Two factor authentication has been enabled.
+        ２要素認証が有効になりました。
     </div>
 @endif
 ```
@@ -517,7 +517,7 @@ Fortifyは、ユーザーがLaravel組み込み済みの`verified`ミドルウ�
 ```blade
 @if (session('status') == 'verification-link-sent')
     <div class="mb-4 font-medium text-sm text-green-600">
-        A new email verification link has been emailed to you!
+        新しいメール確認リンクをお送りしました。
     </div>
 @endif
 ```
