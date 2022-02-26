@@ -168,7 +168,7 @@ composer require guzzlehttp/guzzle
 
 指定したタイムアウトを超えると、`Illuminate\Http\Client\ConnectionException`インスタンスを投げます。
 
-You may specify the maximum number of seconds to wait while trying to connect to a server using the `connectTimeout` method:
+サーバへの接続を試みる最長待ち秒数を`connectTimeout`メソッドで指定できます。
 
     $response = Http::connectTimeout(3)->get(...);
 
@@ -185,7 +185,7 @@ You may specify the maximum number of seconds to wait while trying to connect to
         return $exception instanceof ConnectionException;
     })->post(...);
 
-If all of the requests fail, an instance of `Illuminate\Http\Client\RequestException` will be thrown. If you would like to disable this behavior, you may provide a `throw` argument with a value of `false`. When disabled, the last response received by the client will be returned after all retries have been attempted:
+すべてのリクエストが失敗した場合、 `Illuminate\Http\Client\RequestException`インスタンスを投げます。この動作を無効にする場合は、`throw`引数へ`false`を指定してください。無効にすると、すべての再試行のあと、クライアントが最後に受信したレスポンスを返します。
 
     $response = Http::retry(3, 100, throw: false)->post(...);
 
