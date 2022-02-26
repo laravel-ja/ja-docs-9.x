@@ -141,7 +141,7 @@ php artisan make:listener SendPodcastNotification --event=PodcastProcessed
 
 `EventServiceProvider`の`$listen`配列にイベントとリスナを手動で登録する代わりに、自動イベント検出を有効にすることもできます。イベント検出が有効になっている場合、Laravelはアプリケーションの`Listeners`ディレクトリをスキャンすることでイベントとリスナを自動的に見つけて登録します。さらに、`EventServiceProvider`にリストされている明示的に定義されたイベントは引き続き登録します。
 
-Laravel finds event listeners by scanning the listener classes using PHP's reflection services. When Laravel finds any listener class method that begins with `handle` or `__invoke`, Laravel will register those methods as event listeners for the event that is type-hinted in the method's signature:
+Laravelは、PHPのリフレクションサービスを使用してリスナクラスをスキャンし、イベントリスナを見つけます。Laravelがリスナクラスのメソッドで、`handle`または`__invoke`で始まるものを見つけると、メソッドのシグネチャでタイプヒントされているイベントのリスナとして、Laravelはメソッドを登録します。
 
     use App\Events\PodcastProcessed;
 
@@ -188,7 +188,7 @@ Laravel finds event listeners by scanning the listener classes using PHP's refle
 <a name="event-discovery-in-production"></a>
 #### 実働環境でのイベント検出
 
-本番環境では、フレームワークがすべてのリクエストですべてのリスナをスキャンするのは効率的ではありません。したがって、デプロイメントプロセス中に、`event:cache` Artisanコマンドを実行して、アプリケーションのすべてのイベントとリスナのマニフェストをキャッシュする必要があります。このマニフェストは、イベント登録プロセスを高速化するためにフレームワークか使用します。`event:clear`コマンドを使用してキャッシュを破棄できます。
+本番環境では、フレームワークがすべてのリクエストですべてのリスナをスキャンするのは効率的ではありません。したがって、デプロイメントプロセス中に、`event:cache` Artisanコマンドを実行して、アプリケーションのすべてのイベントとリスナのマニフェストをキャッシュする必要があります。このマニフェストは、イベント登録プロセスを高速化するためにフレームワークが使用します。`event:clear`コマンドを使用してキャッシュを破棄できます。
 
 <a name="defining-events"></a>
 ## イベント定義
