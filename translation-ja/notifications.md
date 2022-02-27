@@ -109,11 +109,11 @@ php artisan make:notification InvoicePaid
 <a name="specifying-delivery-channels"></a>
 ### 配信チャンネルの指定
 
-Every notification class has a `via` method that determines on which channels the notification will be delivered. Notifications may be sent on the `mail`, `database`, `broadcast`, `vonage`, and `slack` channels.
+すべての通知クラスは、通知を配信するチャンネルを決定する、`via`メソッドを持っています。通知は`mail`、`database`、`broadcast`、`vonage`、`slack`チャンネルへ配信されるでしょう。
 
-> {tip} TelegramやPusherのような、他の配信チャンネルを利用したい場合は、コミュニティが管理している、[Laravel Notification Channels website](http://laravel-notification-channels.com)をご覧ください。
+> {tip} TelegramやPusherのような、他の配信チャンネルを利用したい場合は、コミュニティが管理している、[Laravel通知チャンネルのWebサイト](http://laravel-notification-channels.com)をご覧ください。
 
-`via`メソッドは、通知を送っているクラスのインスタンスである、`$notifiable`インスタンスを引数に受け取ります。`$notifiable`を使い、通知をどこに配信するチャンネルなのかを判定できます。
+`via`メソッドは、通知を送っているクラスのインスタンスである、`$notifiable`インスタンスを引数に受け取ります。`$notifiable`を使い、通知をどこのチャンネルへ配信するかを判定できます。
 
     /**
      * 通知の配信チャンネルを取得
@@ -622,12 +622,12 @@ Markdownメール通知ではBladeコンポーネントとMarkdown記法が利�
 
 ```blade
 @component('mail::message')
-# Invoice Paid
+# 領収書
 
-Your invoice has been paid!
+領収いたしました。
 
 @component('mail::button', ['url' => $url])
-View Invoice
+明細を確認
 @endcomponent
 
 Thanks,<br>
@@ -664,7 +664,7 @@ This is the panel content.
 
 ```blade
 @component('mail::table')
-| Laravel       | Table         | Example  |
+| Laravel       | テーブル         | 例  |
 | ------------- |:-------------:| --------:|
 | Col 2 is      | Centered      | $10      |
 | Col 3 is      | Right-Aligned | $20      |
@@ -849,7 +849,7 @@ php artisan migrate
 <a name="listening-for-notifications"></a>
 ### 通知のリッスン
 
-Notifications will broadcast on a private channel formatted using a `{notifiable}.{id}` convention. So, if you are sending a notification to an `App\Models\User` instance with an ID of `1`, the notification will be broadcast on the `App.Models.User.1` private channel. When using [Laravel Echo](/docs/{{version}}/broadcasting#client-side-installation), you may easily listen for notifications on a channel using the `notification` method:
+通知は、`{notifiable}.{id}`規約を使い、プライベートチャネル形態でブロードキャストされます。つまり、IDが`1`の`App\Models\User`インスタンスの通知を送信する場合、その通知は`App.Models.User.1`のプライベートチャンネルにブロードキャストされます。[Laravel Echo](/docs/{{version}}/broadcasting#client-side-installation)を使用すると、`notification`メソッドを使用して簡単に、チャンネル上の通知をリッスンできます。
 
     Echo.private('App.Models.User.' + userId)
         .notification((notification) => {
@@ -890,20 +890,20 @@ Notifications will broadcast on a private channel formatted using a `{notifiable
 <a name="sms-prerequisites"></a>
 ### 事前要件
 
-Sending SMS notifications in Laravel is powered by [Vonage](https://www.vonage.com/) (formerly known as Nexmo). Before you can send notifications via Vonage, you need to install the `laravel/vonage-notification-channel` and `guzzlehttp/guzzle` packages:
+LaravelでSMS通知を送るには、[Vonage](https://www.vonage.com/)（旧Nexmo）を使用します。Vonageで通知を送信する前に、`laravel/vonage-notification-channel`と`guzzlehttp/guzzle`パッケージをインストールする必要があります。
 
     composer require laravel/vonage-notification-channel guzzlehttp/guzzle
 
-The package includes a [configuration file](https://github.com/laravel/vonage-notification-channel/blob/3.x/config/vonage.php). However, you are not required to export this configuration file to your own application. You can simply use the `VONAGE_KEY` and `VONAGE_SECRET` environment variables to define your Vonage public and secret keys.
+パッケージは、[設定ファイル](https://github.com/laravel/vonage-notification-channel/blob/3.x/config/vonage.php)を持っています。しかし、この設定ファイルを自分のアプリケーションにエクスポートする必要はありません。環境変数`VONAGE_KEY`と`VONAGE_SECRET`を使い、Vonageの公開鍵と秘密鍵を定義するだけです。
 
-After defining your keys, you may set a `VONAGE_SMS_FROM` environment variable that defines the phone number that your SMS messages should be sent from by default. You may generate this phone number within the Vonage control panel:
+キーを定義したら、`VONAGE_SMS_FROM`環境変数を設定して、デフォルトでSMSメッセージを送信する電話番号を定義してください。この電話番号はVonageコントロールパネルで生成できます。
 
     VONAGE_SMS_FROM=15556666666
 
 <a name="formatting-sms-notifications"></a>
 ### SMS通知のフォーマット
 
-If a notification supports being sent as an SMS, you should define a `toVonage` method on the notification class. This method will receive a `$notifiable` entity and should return an `Illuminate\Notifications\Messages\VonageMessage` instance:
+通知のSMS送信をサポートする場合、通知クラスで`toVonage`メソッドを定義する必要があります。このメソッドは`$notifiable`エンティティを受け取り、`Illuminate\Notifications\Messages\VonageMessage`インスタンスを返す必要があります。
 
     /**
      * 通知のVonage／SMS表現を取得
@@ -920,7 +920,7 @@ If a notification supports being sent as an SMS, you should define a `toVonage` 
 <a name="unicode-content"></a>
 #### Unicodeコンテンツ
 
-If your SMS message will contain unicode characters, you should call the `unicode` method when constructing the `VonageMessage` instance:
+SMSメッセージにunicodeが含まれる場合は、`VonageMessage`インスタンス作成する時に、`unicode`メソッドを呼び出す必要があります。
 
     /**
      * 通知のVonage／SMS表現を取得
@@ -938,7 +938,7 @@ If your SMS message will contain unicode characters, you should call the `unicod
 <a name="customizing-the-from-number"></a>
 ### 発信元電話番号のカスタマイズ
 
-If you would like to send some notifications from a phone number that is different from the phone number specified by your `VONAGE_SMS_FROM` environment variable, you may call the `from` method on a `VonageMessage` instance:
+`VONAGE_SMS_FROM`環境変数で指定した電話番号とは異なる番号から通知を送りたい場合は、`VonageMessage`インスタンスの`from`メソッドを呼び出します。
 
     /**
      * 通知のVonage／SMS表現を取得
@@ -974,7 +974,7 @@ If you would like to send some notifications from a phone number that is differe
 <a name="routing-sms-notifications"></a>
 ### SMS通知のルート指定
 
-To route Vonage notifications to the proper phone number, define a `routeNotificationForVonage` method on your notifiable entity:
+Vonageの通知を適切な電話番号に回すには、Notifiableなエンティティに`routeNotificationForVonage`メソッドを定義してください。
 
     <?php
 
@@ -988,7 +988,7 @@ To route Vonage notifications to the proper phone number, define a `routeNotific
      * @return \Illuminate\Notifications\Message\SlackMessage
 
         /**
-         * Route notifications for the Vonage channel.
+         * 通知をVonageチャンネルへ回す
          *
          * @param  \Illuminate\Notifications\Notification  $notification
          * @return string
@@ -1027,7 +1027,7 @@ composer require laravel/slack-notification-channel
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
-                    ->content('One of your invoices has been paid!');
+                    ->content('請求の一つが支払われました。');
     }
 
 <a name="slack-attachments"></a>
