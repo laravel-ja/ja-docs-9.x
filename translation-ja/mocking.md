@@ -612,7 +612,7 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
 
     public function testTimeCanBeManipulated()
     {
-        // Travel into the future...
+        // 未来へ移行する
         $this->travel(5)->milliseconds();
         $this->travel(5)->seconds();
         $this->travel(5)->minutes();
