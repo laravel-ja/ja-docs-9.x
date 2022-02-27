@@ -184,7 +184,7 @@ Laravelアプリケーションの`config/app.php`設定ファイルには、Lar
 <a name="publishing-translations"></a>
 #### 翻訳のリソース公開
 
-If you would like to publish your package's translations to the application's `lang/vendor` directory, you may use the service provider's `publishes` method. The `publishes` method accepts an array of package paths and their desired publish locations. For example, to publish the translation files for the `courier` package, you may do the following:
+もし、パッケージの翻訳をアプリケーションの`lang/vendor`ディレクトリにリソース公開したい場合は、サービスプロバイダの`publishes`メソッドを使用することができます。`publishes` メソッドには、パッケージのパスと公開したい場所を配列で指定します。例えば、`courier`パッケージの翻訳ファイルを公開するには、以下のようにします。
 
     /**
      * 全パッケージサービスの初期起動処理
