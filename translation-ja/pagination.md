@@ -275,7 +275,7 @@ Laravelペジネータクラスは`Illuminate\Contracts\Support\Jsonable`イン�
 ```blade
 {{ $paginator->links('view.name') }}
 
-<!-- Passing additional data to the view... -->
+<!-- 追加データをビューへ渡す -->
 {{ $paginator->links('view.name', ['foo' => 'bar']) }}
 ```
 
@@ -314,7 +314,7 @@ php artisan vendor:publish --tag=laravel-pagination
 <a name="using-bootstrap"></a>
 ### Bootstrapの使用
 
-Laravel includes pagination views built using [Bootstrap CSS](https://getbootstrap.com/). To use these views instead of the default Tailwind views, you may call the paginator's `useBootstrapFour` or `useBootstrapFive` methods within the `boot` method of your `App\Providers\AppServiceProvider` class:
+Laravelは、[Bootstrap CSS](https://getbootstrap.com/)を使用し構築した、ペジネーションビューを用意しています。デフォルトのTailwindビューの代わりにこのビューを使うには、`App\Providers\AppServiceProvider`クラスの`boot`メソッドないから、ペジネータの`useBootstrapFour`または`useBootstrapFive`メソッドを呼び出してください。
 
     use Illuminate\Pagination\Paginator;
 
