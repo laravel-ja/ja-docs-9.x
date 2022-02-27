@@ -22,7 +22,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-[Laravel Mix](https://github.com/laravel-mix/laravel-mix), a package developed by [Laracasts](https://laracasts.com) creator Jeffrey Way, provides a fluent API for defining [webpack](https://webpack.js.org) build steps for your Laravel application using several common CSS and JavaScript pre-processors.
+[Laravel Mix](https://github.com/laravel-mix/laravel-mix) は、[Laracasts](https://laracasts.com) を作った、Jeffrey Wayが開発したパッケージで、Laravelアプリケーションのため、一般的なCSSとJavaScriptプリプロセッサを使い、[webpack](https://webpack.js.org)ビルド手順を定義する流暢なAPIを提供するものです。
 
 言い換えると、Mixを使用すると、アプリケーションのCSSファイルとJavaScriptファイルを簡単にコンパイルして圧縮できます。シンプルなメソッドチェーンにより、アセットパイプラインを流暢に定義できます。例をご覧ください。
 
@@ -70,10 +70,10 @@ npm install
 Mixは[webpack](https://webpack.js.org)の上の設定レイヤーであるため、Mixタスクを実行するには、デフォルトのLaravel　`package.json`ファイルに含まれているNPMスクリプトの１つを実行するだけです。`dev`または`production`スクリプトを実行すると、アプリケーションのすべてのCSSおよびJavaScriptアセットがコンパイルされ、アプリケーションの`public`ディレクトリへ配置されます。
 
 ```shell
-// Run all Mix tasks...
+// 全MIxタスクの実行
 npm run dev
 
-// Run all Mix tasks and minify output...
+// 全MIxタスクの実行し、出力を圧縮する
 npm run prod
 ```
 
@@ -138,7 +138,7 @@ mix.js('resources/js/app.js', 'public/js')
     ]);
 ```
 
-最後に、アプリケーションのプライマリレイアウトテンプレートでスタイルシートを参照する必要があります。多くのアプリケーションは、このテンプレートを`resources/views/layouts/app.blade.php`に保存することを選択します。さらに、レスポンシブビューポートの`meta`タグがまだ存在しない場合は、必ず追加してください。
+最後に、アプリケーションのプライマリレイアウトテンプレートでスタイルシートを参照する必要があります。多くのアプリケーションでは、このテンプレートを`resources/views/layouts/app.blade.php`に保存することが選択されています。さらに、レスポンシブビューポートの`meta`タグがまだ存在しない場合は、必ず追加してください。
 
 ```blade
 <head>
@@ -151,7 +151,7 @@ mix.js('resources/js/app.js', 'public/js')
 <a name="postcss"></a>
 ### PostCSS
 
-[PostCSS](https://postcss.org/)は、CSSを変換するための強力なツールであり、Laravel Mixにはじめから含まれています。デフォルトで、Mixは人気のある[Autoprefixer](https://github.com/postcss/autoprefixer)プラグインを利用して、必要なすべてのCSS3ベンダープレフィックスを自動的に適用します。ただし、アプリケーションに適したプラグインを自由に追加できます。
+[PostCSS](https://postcss.org/)は、CSSを変換するための強力なツールであり、Laravel Mixにはじめから含まれています。デフォルトで、Mixは人気のある[Autoprefixer](https://github.com/postcss/autoprefixer)プラグインを利用して、必要なすべてのCSS3ベンダープレフィックスを自動的に適用します。しかも、アプリケーションに適したプラグインを自由に追加できます。
 
 まず、NPMを介して希望するプラグインをインストールし、Mixの`postCss`メソッドを呼び出すときにプラグインの配列に含めます。`postCss`メソッドは、CSSファイルへのパスを最初の引数に取り、コンパイルしたファイルを配置するディレクトリを２番目の引数に取ります。
 
