@@ -46,7 +46,7 @@ php artisan octane:install
 <a name="server-prerequisites"></a>
 ## サーバ要件
 
-> {note} Laravel Octane requires [PHP 8.0+](https://php.net/releases/).
+> {note} Laravel Octaneは、[PHP8.0以上](https://php.net/releases/)が必要です。
 
 <a name="roadrunner"></a>
 ### RoadRunner
@@ -128,7 +128,7 @@ command=/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start
 <a name="swoole-configuration"></a>
 #### Swoole Configuration
 
-Swoole supports a few additional configuration options that you may add to your `octane` configuration file if necessary. Because they rarely need to be modified, these options are not included in the default configuration file:
+Swooleは追加設定オプションをサポートしており、必要に応じて`octane`設定ファイルへ追加できます。これらのオプションはほとんど変更する必要がないため、デフォルトのコンフィギュレーションファイルには含まれていません。
 
 ```php
 'swoole' => [
@@ -162,9 +162,9 @@ Octaneはデフォルトで、ポート8000​​のサーバを起動するの�
 <a name="serving-your-application-via-nginx"></a>
 ### Nginxを使用するアプリケーションの提供
 
-> {tip} あなた自身のサーバ設定を管理すること、または堅牢なLaravel Octaneアプリケーションを実行するのに必要なさまざまなサービスをすべて設定するのになれていない場合は、[Laravel Forge](https://forge.laravel.com)をチェックしてください。
+> {tip} あなた自身のサーバ設定を管理すること、または堅牢なLaravel Octaneアプリケーションを実行するのに必要なさまざまなサービスをすべて設定するのに慣れていない場合は、[Laravel Forge](https://forge.laravel.com)の使用を考慮してください。
 
-本番環境では，NginxやApacheのような伝統的なWebサーバの後ろでOctaneアプリケー ションを提供するべきです。そうすることでWebサーバは，画像やスタイルシートなどの静的資産を提供でき，またSSL証明書のターミネーションを管理できます。
+本番環境では，NginxやApacheのような伝統的なWebサーバの背後で、Octaneアプリケーションを提供するべきです。そうすることでWebサーバは，画像やスタイルシートなどの静的資産を提供でき，またSSL証明書のターミネーションを管理できます。
 
 下記のNginx設定例では、Nginxはサイトの静的アセットを提供し、ポート8000​​で実行されるOctanサーバへのプロキシリクエストを提供します。
 
@@ -231,7 +231,7 @@ Octane Serverが起動するとアプリケーションがメモリにロード�
 php artisan octane:start --watch
 ```
 
-この機能を使用する前に、[Node](https://nodejs.org)がローカル開発環境内にインストールされていることを確認する必要があります。さらに、プロジェクト内の[Chokidar](https://github.com/paulmillr/chokidar)ファイル監視ライブラリをインストールする必要もあります。
+この機能を使用する前に、[Node](https://nodejs.org)がローカル開発環境内にインストールされていることを確認する必要があります。さらに、プロジェクト内に[Chokidar](https://github.com/paulmillr/chokidar)ファイル監視ライブラリをインストールする必要もあります。
 
 ```shell
 npm install --save-dev chokidar
@@ -257,7 +257,7 @@ php artisan octane:start --workers=4 --task-workers=6
 <a name="specifying-the-max-request-count"></a>
 ### 最大リクエスト数の指定
 
-はぐれたメモリのリークを防ぐために、指定リクエスト数を処理した後に、オクタンはワーカを穏やかに再起動させることができます。これをOctaneへ指示するには、`--max-requests`オプションを使用します。
+偶然によるメモリリークを防ぐために、指定リクエスト数を処理した後に、オクタンはワーカを穏やかに再起動させることができます。これをOctaneへ指示するには、`--max-requests`オプションを使用します。
 
 ```shell
 php artisan octane:start --max-requests=250
