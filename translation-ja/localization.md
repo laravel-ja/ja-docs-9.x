@@ -15,7 +15,7 @@
 
 Laravelの多言語機能は、さまざまな言語の文字列を取得する便利な方法を提供し、アプリケーション内で複数の言語を簡単にサポートできるようにしています。
 
-Laravel provides two ways to manage translation strings. First, language strings may be stored in files within the `lang` directory. Within this directory, there may be subdirectories for each language supported by the application. This is the approach Laravel uses to manage translation strings for built-in Laravel features such as validation error messages:
+Laravelでは、翻訳文字列を管理する方法が２つあります。まず、言語文字列を`lang`ディレクトリ内のファイルへ格納する方法です。このディレクトリの中には、アプリケーションでサポートする各言語のサブディレクトリを用意します。これは、バリデーションエラーメッセージのような、Laravelの組み込み機能の翻訳文字列を管理するためにも使用されている方法です。
 
     /lang
         /en
@@ -23,7 +23,7 @@ Laravel provides two ways to manage translation strings. First, language strings
         /es
             messages.php
 
-Or, translation strings may be defined within JSON files that are placed within the `lang` directory. When taking this approach, each language supported by your application would have a corresponding JSON file within this directory. This approach is recommended for application's that have a large number of translatable strings:
+もしくは、翻訳文字列を`lang`ディレクトリ下のJSON ファイルで定義することもできます。この方法を取る場合、アプリケーションがサポートする各言語ごとに、このディレクトリの中に対応するJSONファイルを用意します。この方法は、翻訳可能な文字列が大量にあるアプリケーションに推奨します。
 
     /lang
         en.json
@@ -73,7 +73,7 @@ Or, translation strings may be defined within JSON files that are placed within 
 <a name="using-short-keys"></a>
 ### 短縮キーの使用
 
-Typically, translation strings are stored in files within the `lang` directory. Within this directory, there should be a subdirectory for each language supported by your application. This is the approach Laravel uses to manage translation strings for built-in Laravel features such as validation error messages:
+通常、翻訳文字列は`lang`ディレクトリにあるファイルに格納します。このディレクトリの中に、アプリケーションがサポートする各言語のサブディレクトリがあるはずです。これは、バリデーションエラーメッセージのような、Laravelの組み込み機能の翻訳文字列を管理するために、Laravelが採用している方法です。
 
     /lang
         /en
@@ -98,7 +98,7 @@ Typically, translation strings are stored in files within the `lang` directory. 
 
 翻訳可能な文字列が多数あるアプリケーションの場合、「短縮キー」ですべての文字列を定義すると、ビューでキーを参照するときに混乱する可能性があり、アプリケーションがサポートするすべての翻訳文字列のキーを継続的に作成するのは面倒です。
 
-For this reason, Laravel also provides support for defining translation strings using the "default" translation of the string as the key. Translation files that use translation strings as keys are stored as JSON files in the `lang` directory. For example, if your application has a Spanish translation, you should create a `lang/es.json` file:
+このため、Laravelは、文字列の「デフォルト」翻訳をキーとして、翻訳文字列を定義するサポートも提供しています。翻訳文字列をキーとして使用する翻訳ファイルは、JSONファイルとして `lang` ディレクトリに格納します。例えば、アプリケーションにスペイン語の翻訳がある場合、`lang/es.json`ファイルを作成する必要があります。
 
 ```json
 {
@@ -108,12 +108,12 @@ For this reason, Laravel also provides support for defining translation strings 
 
 #### キー／ファイルの競合
 
-他の翻訳ファイル名と競合する翻訳文字列キーを定義しないでください。たとえば、`nl/action.php`ファイルは存在するが`nl.json`ファイルは存在しないときに"NL"ロケールの`__('Action')`を翻訳すると、トランスレータは`nl/action.php`の内容を返します。
+他の翻訳ファイル名と競合する翻訳文字列キーを定義しないでください。たとえば、`nl/action.php`ファイルは存在するが`nl.json`ファイルは存在しないときに、"NL"ロケールの`__('Action')`を翻訳すると、トランスレータは`nl/action.php`の内容を返します。
 
 <a name="retrieving-translation-strings"></a>
 ## 翻訳文字列の取得
 
-You may retrieve translation strings from your language files using the `__` helper function. If you are using "short keys" to define your translation strings, you should pass the file that contains the key and the key itself to the `__` function using "dot" syntax. For example, let's retrieve the `welcome` translation string from the `lang/en/messages.php` language file:
+`__`ヘルパ関数を使い、言語ファイルから翻訳文字列を取得できます。「短いキー」を使い、翻訳文字列を定義している場合は、キーを含むファイルとキー自身を「ドット」構文で、`__`関数に渡す必要があります。例として、`lang/en/messages.php`という言語ファイルから`welcome`という翻訳文字列を取得してみましょう。
 
     echo __('messages.welcome');
 
@@ -181,6 +181,6 @@ You may retrieve translation strings from your language files using the `__` hel
 <a name="overriding-package-language-files"></a>
 ## パッケージ言語ファイルのオーバーライド
 
-Some packages may ship with their own language files. Instead of changing the package's core files to tweak these lines, you may override them by placing files in the `lang/vendor/{package}/{locale}` directory.
+パッケージは、独自の言語ファイルを用意している場合があります。調整するため、パッケージのコアファイルを変更する代わりに、`lang/vendor/{package}/{locale}`ディレクトリへファイルを配置し、上書きできます。
 
-So, for example, if you need to override the English translation strings in `messages.php` for a package named `skyrim/hearthfire`, you should place a language file at: `lang/vendor/hearthfire/en/messages.php`. Within this file, you should only define the translation strings you wish to override. Any translation strings you don't override will still be loaded from the package's original language files.
+例えば、`skyrim/hearthfire`パッケージの`messages.php`にある、英語の翻訳文字列を上書きする必要がある場合、言語ファイルを`lang/vendor/hearthfire/en/messages.php`へ置く必要があります。このファイルは、オーバーライドしたい翻訳文字列のみを定義します。オーバーライドしない翻訳文字列は、パッケージの元の言語ファイルから読み込まれます。
