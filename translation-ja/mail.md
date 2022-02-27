@@ -11,7 +11,7 @@
     - [ビューデータ](#view-data)
     - [添付](#attachments)
     - [インライン添付](#inline-attachments)
-    - [Customizing The Symfony Message](#customizing-the-symfony-message)
+    - [Symfonyメッセージのカスタマイズ](#customizing-the-symfony-message)
 - [Markdown Mailable](#markdown-mailables)
     - [Markdown Mailableの生成](#generating-markdown-mailables)
     - [Markdownメッセージの記述](#writing-markdown-messages)
@@ -24,13 +24,13 @@
 - [Mailableのテスト](#testing-mailables)
 - [メールとローカル開発](#mail-and-local-development)
 - [イベント](#events)
-- [Custom Transports](#custom-transports)
-    - [Additional Symfony Transports](#additional-symfony-transports)
+- [カスタムトランスポート](#custom-transports)
+    - [Symfonyトランスポートの追加](#additional-symfony-transports)
 
 <a name="introduction"></a>
 ## イントロダクション
 
-Sending email doesn't have to be complicated. Laravel provides a clean, simple email API powered by the popular [Symfony Mailer](https://symfony.com/doc/6.0/mailer.html) component. Laravel and Symfony Mailer provide drivers for sending email via SMTP, Mailgun, Postmark, Amazon SES, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
+メール送信を複雑にする必要はありません。Laravelは、ポピュラーな[Symfony Mailer](https://symfony.com/doc/6.0/mailer.html)コンポーネントによる、クリーンでシンプルなメールAPIを提供しています。LaravelとSymfony Mailerは、SMTP、Mailgun、Postmark、Amazon SES、`sendmail`経由でメールを送信するドライバを提供しており、ローカルまたはクラウドベースのサービスを通じて、すぐにメール送信を開始できます。
 
 <a name="configuration"></a>
 ### 設定
@@ -42,18 +42,18 @@ Laravelのメールサービスは、アプリケーションの`config/mail.php
 <a name="driver-prerequisites"></a>
 ### ドライバ／トランスポートの前提条件
 
-The API based drivers such as Mailgun and Postmark are often simpler and faster than sending mail via SMTP servers. Whenever possible, we recommend that you use one of these drivers.
+MailgunやPostmarkなどのAPIベースドライバは、SMTPサーバを経由してメールを送信するよりもシンプルで高速です。可能であれば、こうしたドライバのいずれかを使用することをお勧めします。
 
 <a name="mailgun-driver"></a>
 #### Mailgunドライバ
 
-To use the Mailgun driver, install Symfony's Mailgun Mailer transport via Composer:
+Mailgunドライバを使用する場合は、Composerで、SymfonyのMailgun Mailerトランスポートをインストールします。
 
 ```shell
 composer require symfony/mailgun-mailer symfony/http-client
 ```
 
-Next, set the `default` option in your application's `config/mail.php` configuration file to `mailgun`. After configuring your application's default mailer, verify that your `config/services.php` configuration file contains the following options:
+次に、アプリケーションの`config/mail.php`設定ファイルにある、`default`オプションを`mailgun`に設定します。アプリケーションのデフォルトメーラーを設定したら、`config/services.php`設定ファイルへ以下のオプションがあることを確認してください。
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
@@ -71,13 +71,13 @@ Next, set the `default` option in your application's `config/mail.php` configura
 <a name="postmark-driver"></a>
 #### Postmarkドライバ
 
-To use the Postmark driver, install Symfony's Postmark Mailer transport via Composer:
+Postmarkドライバを使用する場合は、Composerを使い、SymfonyのPostmark Mailerトランスポートをインストールします。
 
 ```shell
 composer require symfony/postmark-mailer symfony/http-client
 ```
 
-Next, set the `default` option in your application's `config/mail.php` configuration file to `postmark`. After configuring your application's default mailer, verify that your `config/services.php` configuration file contains the following options:
+次に、アプリケーションの`config/mail.php`設定ファイルの`default`オプションを`postmark`へ設定します。アプリケーションのデフォルトメーラーを設定したら、`config/services.php`設定ファイルへ以下のオプションがあることを確認してください。
 
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
@@ -95,13 +95,13 @@ Next, set the `default` option in your application's `config/mail.php` configura
 <a name="ses-driver"></a>
 #### SESドライバ
 
-Amazon SESドライバを使用するには、最初にAmazon AWS SDK for PHPをインストールする必要があります。このライブラリは、Composerパッケージマネージャを介してインストールできます。
+Amazon SESドライバを使用するには、最初にAmazon AWS SDK for PHPをインストールする必要があります。このライブラリは、Composerパッケージマネージャを使用し、インストールできます。
 
 ```shell
 composer require aws/aws-sdk-php
 ```
 
-次に、`config/mail.php`設定ファイルの`default`オプションを`ses`に設定し、`config/services.php`設定ファイルに以下のオプションを確実に含めてください。
+次に、`config/mail.php`設定ファイルの`default`オプションを`ses`に設定し、`config/services.php`設定ファイルに以下のオプションがあることを確認してください。
 
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
@@ -118,7 +118,7 @@ AWSの[一時的な認証情報](https://docs.aws.amazon.com/IAM/latest/UserGuid
         'token' => env('AWS_SESSION_TOKEN'),
     ],
 
-If you would like to define [additional options](https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-sesv2-2019-09-27.html#sendemail) that Laravel should pass to the AWS SDK's `SendEmail` method when sending an email, you may define an `options` array within your `ses` configuration:
+Laravelがメール送信時に、AWS SDKの`SendEmail`メソッドへ渡す、[追加オプション](https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-sesv2-2019-09-27.html#sendemail)を定義したい場合は、`ses`設定に`options`配列を定義します。
 
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
@@ -471,9 +471,9 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
 ```
 
 <a name="customizing-the-symfony-message"></a>
-### Customizing The Symfony Message
+### Symfonyメッセージのカスタマイズ
 
-The `withSymfonyMessage` method of the `Mailable` base class allows you to register a closure which will be invoked with the Symfony Message instance before sending the message. This gives you an opportunity to deeply customize the message before it is delivered:
+`Mailable`ベースクラスの`withSymfonyMessage`メソッドは、メッセージ送信前にSymfonyのメッセージインスタンスで呼び出されるクロージャを登録可能です。これにより、メッセージが配信される前に、メッセージを詳細にカスタマイズする機会が得られます。
 
     use Symfony\Component\Mime\Email;
 
@@ -531,12 +531,12 @@ Markdown Mailableは、BladeコンポーネントとMarkdown構文の組み合�
 
 ```blade
 @component('mail::message')
-# Order Shipped
+# 発送
 
-Your order has been shipped!
+注文を発送しました。
 
 @component('mail::button', ['url' => $url])
-View Order
+注文の確認
 @endcomponent
 
 Thanks,<br>
@@ -553,7 +553,7 @@ Thanks,<br>
 
 ```blade
 @component('mail::button', ['url' => $url, 'color' => 'success'])
-View Order
+注文の確認
 @endcomponent
 ```
 
@@ -564,7 +564,7 @@ View Order
 
 ```blade
 @component('mail::panel')
-This is the panel content.
+ここはパネルの本文。
 @endcomponent
 ```
 
@@ -575,7 +575,7 @@ This is the panel content.
 
 ```blade
 @component('mail::table')
-| Laravel       | Table         | Example  |
+| Laravel       | テーブル         | 例  |
 | ------------- |:-------------:| --------:|
 | Col 2 is      | Centered      | $10      |
 | Col 3 is      | Right-Aligned | $20      |
@@ -629,7 +629,7 @@ LaravelのMarkdownコンポーネント用にまったく新しいテーマを�
         {
             $order = Order::findOrFail($request->order_id);
 
-            // 注文を発送…
+            // 注文の発送処理…
 
             Mail::to($request->user())->send(new OrderShipped($order));
         }
@@ -813,9 +813,9 @@ Laravelを使用すると、リクエストの現在のロケール以外のロ�
 <a name="testing-mailables"></a>
 ## Mailableのテスト
 
-Laravel provides several convenient methods for testing that your mailables contain the content that you expect. These methods are: `assertSeeInHtml`, `assertDontSeeInHtml`, `assertSeeInOrderInHtml`, `assertSeeInText`, `assertDontSeeInText`, and `assertSeeInOrderInText`.
+Laravelでは、Mailableに期待した内容が含まれているかをテストするため、便利なメソッドを提供しています。こうしたメソッドに次のものがあります。`assertSeeInHtml`、`assertDontSeeInHtml`、`assertSeeInOrderInHtml`、`assertSeeInText`、`assertDontSeeInText`、`assertSeeInOrderInText`。
 
-ご想像のとおり、"HTML"アサートは、メーラブルのHTMLバージョンに特定の文字列が含まれていることを宣言し、"text"アサートは、Mailableの平文テキストバージョンに特定の文字列が含まれていることを宣言します。
+ご想像のとおり、"HTML"アサートは、MailableのHTMLバージョンに特定の文字列が含まれていることを宣言し、"text"アサートは、Mailableの平文テキストバージョンに特定の文字列が含まれていることを宣言します。
 
     use App\Mail\InvoicePaid;
     use App\Models\User;
@@ -895,9 +895,9 @@ Laravelは、メールメッセージの送信プロセス中に２つのイベ�
     ];
 
 <a name="custom-transports"></a>
-## Custom Transports
+## カスタムトランスポート
 
-Laravel includes a variety of mail transports; however, you may wish to write your own transports to deliver email via other services that Laravel does not support out of the box. To get started, define a class that extends the `Symfony\Component\Mailer\Transport\AbstractTransport` class. Then, implement the `doSend` and `__toString()` methods on your transport:
+Laravelは様々なメールトランスポートを用意していますが、Laravelが予めサポートしていない他のサービスを使いメールを配信するため、独自のトランスポートを書きたい場合があり得ます。取り掛かるには、`Symfony\Component\Mailer\Transport\AbstractTransport`クラスを継承するクラスを定義します。次に、トランスポートで`doSend`と`__toString()`メソッドを実装します。
 
     use MailchimpTransactional\ApiClient;
     use Symfony\Component\Mailer\SentMessage;
@@ -907,14 +907,14 @@ Laravel includes a variety of mail transports; however, you may wish to write yo
     class MailchimpTransport extends AbstractTransport
     {
         /**
-         * The Mailchimp API client.
+         * Mailchimp APIクライアント
          *
          * @var \MailchimpTransactional\ApiClient
          */
         protected $client;
 
         /**
-         * Create a new Mailchimp transport instance.
+         * 新しいMailchimpトランスポートインスタンスの生成
          *
          * @param  \MailchimpTransactional\ApiClient  $client
          * @return void
@@ -942,7 +942,7 @@ Laravel includes a variety of mail transports; however, you may wish to write yo
         }
 
         /**
-         * Get the string representation of the transport.
+         * トランスポートの文字列表現の取得
          *
          * @return string
          */
@@ -952,7 +952,7 @@ Laravel includes a variety of mail transports; however, you may wish to write yo
         }
     }
 
-Once you've defined your custom transport, you may register it via the `extend` method provided by the `Mail` facade. Typically, this should be done within the `boot` method of your application's `AppServiceProvider` service provider. A `$config` argument will be passed to the closure provided to the `extend` method. This argument will contain the configuration array defined for the mailer in the application's `config/mail.php` configuration file:
+カスタムトランスポートを定義したら、`Mail`ファサードが提供する`extend`メソッドで登録します。一般的には、アプリケーションの`AppServiceProvider`サービスプロバイダの`boot`メソッド内で行います。`extend`メソッドへ渡されるクロージャへ、`$config`引数が渡されます。この引数には、アプリケーションの`config/mail.php`設定ファイルで定義してあるメーラーの設定配列が含まれています。
 
     use App\Mail\MailchimpTransport;
     use Illuminate\Support\Facades\Mail;
@@ -969,7 +969,7 @@ Once you've defined your custom transport, you may register it via the `extend` 
         })
     }
 
-Once your custom transport has been defined and registered, you may create a mailer definition within your application's `config/mail.php` configuration file that utilizes the new transport:
+カスタムトランスポートを定義し、登録すると、アプリケーションの`config/mail.php`設定ファイル内に、新しいトランスポートを利用するメーラー定義を作成できます。
 
     'mailchimp' => [
         'transport' => 'mailchimp',
@@ -977,21 +977,21 @@ Once your custom transport has been defined and registered, you may create a mai
     ],
 
 <a name="additional-symfony-transports"></a>
-### Additional Symfony Transports
+### Symfonyトランスポートの追加
 
-Laravel includes support for some existing Symfony maintained mail transports like Mailgun and Postmark. However, you may wish to extend Laravel with support for additional Symfony maintained transports. You can do so by requiring the necessary Symfony mailer via Composer and registering the transport with Laravel. For example, you may install and register the "Sendinblue" Symfony mailer:
+Laravelは、MailgunやPostmarkのように、Symfonyがメンテナンスしている既存のメールトランスポートをサポートしています。しかし、Laravelを拡張して、Symfonyが保守する追加のトランスポートを追加サポートしたい場合があるでしょう。Composerを使い、必要なSymfonyメーラーをインストールし、Laravelでそのトランスポートを登録することで、これが実現できます。例として、"Sendinblue" Symfonyメーラーをインストールし、登録してみましょう。
 
 ```none
 composer require symfony/sendinblue-mailer
 ```
 
-Once the Sendinblue mailer package has been installed, you may add an entry for your Sendinblue API credentials to your application's `services` configuration file:
+Sendinblueメーラーパッケージをインストールしたら、アプリケーションの`services`設定ファイルへ、Sendinblue API認証情報のエントリを追加します。
 
     'sendinblue' => [
         'key' => 'your-api-key',
     ],
 
-Finally, you may use the `Mail` facade's `extend` method to register the transport with Laravel. Typically, this should be done within the `boot` method of a service provider:
+最後に、`Mail`ファサードの`extend`メソッドを使用して、Laravelへこのトランスポートを登録します。一般的に、これはサービスプロバイダの`boot`メソッド内で行う必要があります。
 
     use Illuminate\Support\Facades\Mail;
     use Symfony\Component\Mailer\Bridge\Sendinblue\Transport\SendinblueTransportFactory;
