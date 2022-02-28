@@ -83,7 +83,7 @@ php artisan migrate
 
 先に進む前に、このルートをさらに詳しく調べてみましょう。最初に、リクエストの`email`属性が検証されます。次に、Laravelの組み込みの「パスワードブローカ」(`Password`ファサードが返す)を使用して、パスワードリセットリンクをユーザーに送信します。パスワードブローカは、指定するフィールド(この場合はメールアドレス)でユーザーを取得し、Laravelの組み込み[通知システム](/docs/{{version}}/notifications)を介してユーザーにパスワードリセットリンクを送信します。
 
-The `sendResetLink` method returns a "status" slug. This status may be translated using Laravel's [localization](/docs/{{version}}/localization) helpers in order to display a user-friendly message to the user regarding the status of their request. The translation of the password reset status is determined by your application's `lang/{lang}/passwords.php` language file. An entry for each possible value of the status slug is located within the `passwords` language file.
+`sendResetLink`メソッドは、"status"スラッグを返します。このステータスは、Laravelの[多言語化](/docs/{{version}}/localization)ヘルパを使って翻訳でき、リクエストのステータスに関するユーザーフレンドリーなメッセージをユーザーへ表示可能にします。パスワードリセットステータスの翻訳は、アプリケーションの`lang/{lang}/passwords.php`言語ファイルで決まります。ステータスのスラッグに指定できる各項目は、`passwords`言語ファイル内にあります。
 
 `Password`ファサードの`sendResetLink`メソッドを呼び出すときに、Laravelがアプリケーションのデータベースからユーザーレコードを取得する方法をどのように知っているのか疑問に思われるかもしれません。Laravelパスワードブローカは、認証システムの「ユーザープロバイダ」を利用してデータベースレコードを取得します。パスワードブローカが使用するユーザープロバイダは、`config/auth.php`設定ファイルの`passwords`設定配列内で設定します。カスタムユーザープロバイダの作成の詳細については、[認証ドキュメント](/docs/{{version}}/authentication#adding-custom-user-providers)を参照してください。
 
@@ -143,7 +143,7 @@ The `sendResetLink` method returns a "status" slug. This status may be translate
 
 パスワードブローカに与えられたトークン、電子メールアドレス、およびパスワードが有効である場合、`reset`メソッドに渡されたクロージャが呼び出されます。ユーザーインスタンスとパスワードリセットフォームに提供された平文テキストのパスワードを受け取るこのクロージャ内で、データベース内のユーザーのパスワードを更新します。
 
-The `reset` method returns a "status" slug. This status may be translated using Laravel's [localization](/docs/{{version}}/localization) helpers in order to display a user-friendly message to the user regarding the status of their request. The translation of the password reset status is determined by your application's `lang/{lang}/passwords.php` language file. An entry for each possible value of the status slug is located within the `passwords` language file.
+`reset`メソッドは、"status"スラッグを返します。このステータスは、Laravelの[多言語化](/docs/{{version}}/localization)ヘルパを使い翻訳でき、リクエストのステータスに関する分かりやすいメッセージをユーザーへ表示可能にします。パスワードリセットステータスの翻訳内容は、アプリケーションの`lang/{lang}/passwords.php`言語ファイルにより、決まります。ステータスのスラッグに指定できる各項目は、`passwords`言語ファイル内にあります。
 
 先に進む前に、`Password`ファサードの`reset`メソッドを呼び出すときに、Laravelがアプリケーションのデータベースからユーザーレコードを取得する方法をどのように知っているのか疑問に思われるかもしれません。Laravelパスワードブローカーは、認証システムの「ユーザープロバイダ」を利用してデータベースレコードを取得します。パスワードブローカが使用するユーザープロバイダは、`config/auth.php`設定ファイルの`passwords`設定配列内で設定しています。カスタムユーザープロバイダの作成の詳細については、[認証ドキュメント](/docs/{{version}}/authentication#adding-custom-user-providers)を参照してください。
 
