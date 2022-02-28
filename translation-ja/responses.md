@@ -181,7 +181,7 @@ Laravelにより生成されるクッキーは、クライアントにより変�
 <a name="populating-parameters-via-eloquent-models"></a>
 #### Eloquentモデルによる、パラメータの埋め込み
 
-Eloquentモデルの"ID"をルートパラメーターとしてリダイレクトする場合は、モデルをそのまま渡してください。IDは自動的にとり出されます。
+Eloquentモデルの"ID"をルートパラメーターとしてリダイレクトする場合は、モデルをそのまま渡してください。IDは自動的に取り出されます。
 
     // /profile/{id}のURIを持つルートの場合
 
