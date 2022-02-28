@@ -1,4 +1,4 @@
-# HTTP Requests
+# HTTPリクエスト
 
 - [イントロダクション](#introduction)
 - [リクエストの操作](#interacting-with-the-request)
@@ -18,8 +18,8 @@
 - [ファイル](#files)
     - [アップロード済みファイルの取得](#retrieving-uploaded-files)
     - [アップロード済みファイルの保存](#storing-uploaded-files)
-- [信頼できるプロキシの設定](#configuring-trusted-proxies)
-- [信頼できるホストの設定](#configuring-trusted-hosts)
+- [信頼するプロキシの設定](#configuring-trusted-proxies)
+- [信頼するホストの設定](#configuring-trusted-hosts)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -285,7 +285,7 @@ JSONリクエストをアプリケーションに送信する場合、リクエ�
 <a name="retrieving-boolean-input-values"></a>
 #### 論理入力値の取得
 
-チェックボックスなどのHTML要素を処理する場合、アプリケーションは実際には文字列である「真の」値を受け取る可能性があります。たとえば、「true」または「on」です。使いやすいように、`boolean`メソッドを使用してこれらの値をブール値として取得できます。`boolean`メソッドは、1、"1、true、"true"、"on"、"yes"に対して`true`を返します。他のすべての値は`false`を返します:
+チェックボックスなどのHTML要素を処理する場合、アプリケーションは実際には文字列である「真の」値を受け取る可能性があります。たとえば、「true」または「on」です。使いやすいように、`boolean`メソッドを使用してこれらの値をブール値として取得できます。`boolean`メソッドは、1、"1"、true、"true"、"on"、"yes"に対して`true`を返します。他のすべての値は`false`を返します。
 
     $archived = $request->boolean('archived');
 
@@ -300,7 +300,7 @@ JSONリクエストをアプリケーションに送信する場合、リクエ�
 
     $elapsed = $request->date('elapsed', '!H:i', 'Europe/Madrid');
 
-入力値が存在するがフォーマットが無効な場合は、 `InvalidArgumentException`を投げます。したがって、`date`メソッドを呼び出す前に入力値をバリデーションすることを推奨します。
+入力値が存在するがフォーマットが無効な場合は、`InvalidArgumentException`を投げます。したがって、`date`メソッドを呼び出す前に入力値をバリデーションすることを推奨します。
 
 <a name="retrieving-input-via-dynamic-properties"></a>
 #### 動的プロパティを介した入力の取得
@@ -496,7 +496,7 @@ Laravelフレームワークが作成する、すべてのクッキーは暗号�
 <a name="other-file-methods"></a>
 #### その他のファイルメソッド
 
-There are a variety of other methods available on `UploadedFile` instances. Check out the [API documentation for the class](https://github.com/symfony/symfony/blob/6.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php) for more information regarding these methods.
+他にも`UploadedFile`インスタンスで利用できる様々なメソッドがあります。これらのメソッドに関する詳細な情報は、[クラスの API ドキュメント](https://github.com/symfony/symfony/blob/6.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php)を参照してください。
 
 <a name="storing-uploaded-files"></a>
 ### アップロード済みファイルの保存
@@ -520,11 +520,11 @@ There are a variety of other methods available on `UploadedFile` instances. Chec
 > {tip} Laravelのファイルストレージの詳細は、完全な[ファイルストレージドキュメント](/docs/{{version}}/filesystem)を確認してください。
 
 <a name="configuring-trusted-proxies"></a>
-## 信頼できるプロキシの設定
+## 信頼するプロキシの設定
 
 TLS/SSL証明書を末端とするロードバランサーの背後でアプリケーションを実行している場合、`url`ヘルパを使用するとアプリケーションがHTTPSリンクを生成しないことがあります。通常、これは、アプリケーションがポート80でロードバランサーからトラフィックを転送していて、安全なリンクを生成する必要があることを認識していないためです。
 
-これを解決するには、Laravelアプリケーションに含まれている`App\Http\Middleware\TrustProxies`ミドルウェアを使用します。これにより、アプリケーションが信頼するロードバランサーまたはプロキシを手早くカスタマイズできます。信頼できるプロキシは、このミドルウェアの`$proxies`プロパティに配列としてリストする必要があります。信頼できるプロキシの設定に加え、信頼すべきプロキシ「$headers」も設定できます。
+これを解決するには、Laravelアプリケーションに含まれている`App\Http\Middleware\TrustProxies`ミドルウェアを使用します。これにより、アプリケーションが信頼するロードバランサーまたはプロキシを手早くカスタマイズできます。信頼するプロキシは、このミドルウェアの`$proxies`プロパティに配列としてリストする必要があります。信頼するプロキシの設定に加え、信頼するプロキシ「$headers」も設定できます。
 
     <?php
 
@@ -536,7 +536,7 @@ TLS/SSL証明書を末端とするロードバランサーの背後でアプリ�
     class TrustProxies extends Middleware
     {
         /**
-         * このアプリケーションで信頼できるプロキシ
+         * このアプリケーションで信頼するプロキシ
          *
          * @var string|array
          */
@@ -561,14 +561,14 @@ TLS/SSL証明書を末端とするロードバランサーの背後でアプリ�
 Amazon AWSまたは別の「クラウド」ロードバランサープロバイダを使用している場合、実際のバランサーのIPアドレスがわからない場合があります。この場合、`*`を使用してすべてのプロキシを信頼できます。
 
     /**
-     * このアプリケーションで信頼できるプロキシ
+     * このアプリケーションで信頼するプロキシ
      *
      * @var string|array
      */
     protected $proxies = '*';
 
 <a name="configuring-trusted-hosts"></a>
-## 信頼できるホストの設定
+## 信頼するホストの設定
 
 デフォルトでLaravelは、HTTPリクエストの`Host`ヘッダの内容に関わらず、受け取った全てのリクエストに応答します。また、Webリクエスト中にアプリケーションへの絶対的なURLを生成する際には、`Host`ヘッダの値が使用されます。
 
