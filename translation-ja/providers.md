@@ -135,7 +135,7 @@ php artisan make:provider RiakServiceProvider
     use Illuminate\Contracts\Routing\ResponseFactory;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      *
      * @param  \Illuminate\Contracts\Routing\ResponseFactory  $response
      * @return void
