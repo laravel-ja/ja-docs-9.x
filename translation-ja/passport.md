@@ -354,7 +354,7 @@ axios.post('/oauth/clients', data)
         console.log(response.data);
     })
     .catch (response => {
-        // List errors on response...
+        // レスポンスのエラーをリストする処理…
     });
 ```
 
@@ -374,7 +374,7 @@ axios.put('/oauth/clients/' + clientId, data)
         console.log(response.data);
     })
     .catch (response => {
-        // List errors on response...
+        // レスポンスのエラーをリストする処理…
     });
 ```
 
@@ -439,7 +439,7 @@ php artisan vendor:publish --tag=passport-views
     class Client extends BaseClient
     {
         /**
-         * クライアントが認可プロンプトを飛ばすべきか決める
+         * クライアントが認可プロンプトを飛ばすべきか判定
          *
          * @return bool
          */
@@ -548,13 +548,13 @@ axios.delete('/oauth/tokens/' + tokenId);
 トークンが取り消されたり期限切れになったりした場合は、データベースからトークンを削除することを推奨します。Passportに含まれている`passport:purge` Artisanコマンドでこれを実行できます。
 
 ```shell
-# Purge revoked and expired tokens and auth codes...
+# 取り消されたか期限が切れた、トークンと認証コードの削除
 php artisan passport:purge
 
-# Only purge revoked tokens and auth codes...
+# 取り消されたトークンと認証コードのみを削除
 php artisan passport:purge --revoked
 
-# Only purge expired tokens and auth codes...
+# 期限切れのトークンと認証コードの削除
 php artisan passport:purge --expired
 ```
 
