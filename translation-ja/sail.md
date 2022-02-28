@@ -30,7 +30,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-[Laravel Sail](https://github.com/laravel/sail)は、LaravelのデフォルトのDocker開発環境を操作するための軽量コマンドラインインターフェイスです。 Sailは、Dockerの経験がなくても、PHP、MySQL、Redisを使用してLaravelアプリケーションを構築するための優れた出発点を提供します。
+[Laravel Sail](https://github.com/laravel/sail)（セイル、帆、帆船）は、LaravelのデフォルトのDocker開発環境を操作するための軽量コマンドラインインターフェイスです。 Sailは、Dockerの経験がなくても、PHP、MySQL、Redisを使用してLaravelアプリケーションを構築するための優れた出発点を提供します。
 
 Sailの本質は、`docker-compose.yml`ファイルとプロジェクトのルートに保存されている`sail`スクリプトです。`sail`スクリプトは、`docker-compose.yml`ファイルで定義されたDockerコンテナを操作するための便利なメソッドをCLIで提供します。
 
@@ -111,7 +111,7 @@ sail up -d
 
 アプリケーションのコンテナが開始されると、Webブラウザ（http:// localhost）でプロジェクトにアクセスできます。
 
-To stop all of the containers, you may simply press Control + C to stop the container's execution. Or, if the containers are running in the background, you may use the `stop` command:
+すべてのコンテナを停止するには、Control＋Cキーを押してコンテナの実行を停止してください。もしくは、コンテナがバックグラウンドで実行されている場合は、`stop`コマンドを使用します。
 
 ```shell
 sail stop
