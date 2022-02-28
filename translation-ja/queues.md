@@ -722,7 +722,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
 <a name="jobs-and-database-transactions"></a>
 ### ジョブとデータベーストランザクション
 
-While it is perfectly fine to dispatch jobs within database transactions, you should take special care to ensure that your job will actually be able to execute successfully. When dispatching a job within a transaction, it is possible that the job will be processed by a worker before the parent transaction has committed. When this happens, any updates you have made to models or database records during the database transaction(s) may not yet be reflected in the database. In addition, any models or database records created within the transaction(s) may not exist in the database.
+データベーストランザクション内でジョブをディスパッチすることはまったく問題ありませんが、実際にジョブが正常に実行できるよう特別な注意を払う必要があります。トランザクション内でジョブをディスパッチする場合、親トランザクションがコミットされる前にジョブがワーカによって処理される可能性があります。これが発生した場合、データベーストランザクション中にモデルまたはデータベースレコードに加えた更新は、データベースにまだ反映されていない可能性があります。さらに、トランザクション内で作成されたモデルまたはデータベースレコードは、データベースに存在しない可能性があります。
 
 幸いに、Laravelはこの問題を回避する方法をいくつか提供しています。まず、キュー接続の設定配列で`after_commit`接続オプションを設定できます。
 
@@ -732,9 +732,9 @@ While it is perfectly fine to dispatch jobs within database transactions, you sh
         'after_commit' => true,
     ],
 
-When the `after_commit` option is `true`, you may dispatch jobs within database transactions; however, Laravel will wait until the open parent database transactions have been committed before actually dispatching the job. Of course, if no database transactions are currently open, the job will be dispatched immediately.
+`after_commit`オプションが`true`の場合、データベーストランザクション内でジョブをディスパッチすることができます。ただし、Laravel は実際にジョブをディスパッチする前に、開いている親データベーストランザクションがコミットされるまで待機します。もちろん、現在開いているデータベーストランザクションがない場合は、ジョブはすぐにディスパッチされます。
 
-If a transaction is rolled back due to an exception that occurs during the transaction, the jobs that were dispatched during that transaction will be discarded.
+トランザクション中に発生した例外によりロールバックされた場合、そのトランザクション中にディスパッチされたジョブは破棄されます。
 
 > {tip} `after_commit`設定オプションを`true`に設定すると、開いているすべてのデータベーストランザクションがコミットされた後、キュー投入したイベントリスナ、メーラブル、通知、およびブロードキャストイベントもディスパッチされます。
 
@@ -1628,9 +1628,9 @@ Supervisorの詳細は、[Supervisorのドキュメント](http://supervisord.or
 <a name="dealing-with-failed-jobs"></a>
 ## 失敗したジョブの処理
 
-Sometimes your queued jobs will fail. Don't worry, things don't always go as planned! Laravel includes a convenient way to [specify the maximum number of times a job should be attempted](#max-job-attempts-and-timeout). After an asynchronous job has exceeded this number of attempts, it will be inserted into the `failed_jobs` database table. [Synchronously dispatched jobs](/docs/{{version}}/queues#synchronous-dispatching) that fail are not stored in this table and their exceptions are immediately handled by the application.
+キュー投入したジョブは、失敗することがあります。心配いりません。物事は常に計画通りに進むわけではありません。Laravelには、[ジョブを試行する最大回数を指定する](#max-job-attempts-and-timeout)便利な方法があります。非同期ジョブがこの試行回数を超えると、そのジョブは`failed_jobs`データベーステーブルに挿入されます。[同期的にディスパッチするジョブ](/docs/{{version}}/queues#synchronous-dispatching)は失敗してもこのテーブルへ格納せず、その例外は直ちにアプリケーションにより処理されます。
 
-A migration to create the `failed_jobs` table is typically already present in new Laravel applications. However, if your application does not contain a migration for this table, you may use the `queue:failed-table` command to create the migration:
+`failed_jobs`テーブルを作成するマイグレーションは、通常、新しいLaravelアプリケーションにあらかじめ用意されています。しかし、アプリケーションにこのテーブルのマイグレーションがない場合は、`queue:failed-table`コマンドを使用して生成できます。
 
 ```shell
 php artisan queue:failed-table
