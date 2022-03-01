@@ -9,9 +9,9 @@
     - [検索可能データの設定](#configuring-searchable-data)
     - [モデルIDの設定](#configuring-the-model-id)
     - [ユーザーの識別](#identifying-users)
-- [Database / Collection Engines](#database-and-collection-engines)
-    - [Database Engine](#database-engine)
-    - [Collection Engine](#collection-engine)
+- [データベース／コレクションエンジン](#database-and-collection-engines)
+    - [データベースエンジン](#database-engine)
+    - [コレクションエンジン](#collection-engine)
 - [インデックス](#indexing)
     - [バッチ取り込み](#batch-import)
     - [レコード追加](#adding-records)
@@ -32,7 +32,7 @@
 
 [Laravel Scout](https://github.com/laravel/scout)（Scout、斥候）は、[Eloquentモデル](/docs/{{version}}/eloquent)へ、シンプルなドライバベースのフルテキストサーチを提供します。モデルオブサーバを使い、Scoutは検索インデックスを自動的にEloquentレコードと同期します。
 
-Currently, Scout ships with [Algolia](https://www.algolia.com/), [MeiliSearch](https://www.meilisearch.com), and MySQL / PostgreSQL (`database`) drivers. In addition, Scout includes a "collection" driver that is designed for local development usage and does not require any external dependencies or third-party services. Furthermore, writing custom drivers is simple and you are free to extend Scout with your own search implementations.
+現在、Scoutは[Algolia](https://www.algolia.com/), [MeiliSearch](https://www.meilisearch.com), MySQL／PostgreSQL (`database`) ドライバを用意しています。さらに、Scoutはローカル開発用途に設計された、外部依存やサードパーティサービスを必要としない「コレクション」ドライバも用意しています。加えて、カスタムドライバの作成も簡単で、独自の検索実装でScoutを自由に拡張可能です。
 
 <a name="installation"></a>
 ## インストール
@@ -219,35 +219,35 @@ SCOUT_IDENTIFY=true
 この機能を有効にすると、リクエストのIPアドレスと認証済みユーザーのプライマリ識別子もAlgoliaに渡されるため、これらのデータはそのユーザーが行った検索リクエストへ関連付けられます。
 
 <a name="database-and-collection-engines"></a>
-## Database / Collection Engines
+## データベース／コレクションエンジン
 
 <a name="database-engine"></a>
-### Database Engine
+### データベースエンジン
 
 > {note} The database engine currently supports MySQL and PostgreSQL.
 
-If your application interacts with small to medium sized databases or has a light workload, you may find it more convenient to get started with Scout's "database" engine. The database engine will use "where like" clauses and full text indexes when filtering results from your existing database to determine the applicable search results for your query.
+中規模のデータベースとやり取りするしたり、作業負荷が軽いアプリケーションでは、Scoutの「データベース」エンジンで始めるのが便利でしょう。データベースエンジンは、既存のデータベースから結果をフィルタリングする際に、「where like」句と全文インデックスを使用して、クエリの検索結果を決定します。
 
-To use the database engine, you may simply set the value of the `SCOUT_DRIVER` environment variable to `database`, or specify the `database` driver directly in your application's `scout` configuration file:
+データベースエンジンを使うには、`SCOUT_DRIVER`環境変数の値を`database`に設定するか、アプリケーションの`scout`設定ファイルに直接`database`ドライバを指定してください。
 
 ```ini
 SCOUT_DRIVER=database
 ```
 
-Once you have specified the database engine as your preferred driver, you must [configure your searchable data](#configuring-searchable-data). Then, you may start [executing search queries](#searching) against your models. Search engine indexing, such as the indexing needed to seed Algolia or MeiliSearch indexes, is unnecessary when using the database engine.
+データベースエンジンを好みのドライバに指定したら、[検索可能なデータの設定](#configuring-searchable-data)を行う必要があります。次に、モデルに対して[検索クエリの実行](#searching)を開始します。データベースエンジンを使用する場合、AlgoliaやMeiliSearchのように、検索エンジンのインデックス作成は必要ありません。
 
-#### Customizing Database Searching Strategies
+#### データベース検索戦略のカスタマイズ
 
-By default, the database engine will execute a "where like" query against every model attribute that you have [configured as searchable](#configuring-searchable-data). However, in some situations, this may result in poor performance. Therefore, the database engine's search strategy can be configured so that some specified columns utilize full text search queries or only use "where like" constraints to search the prefixes of strings (`example%`) instead of searching within the entire string (`%example%`).
+デフォルトでは、データベースエンジンは、[検索可能](#configuring-searchable-data)として設定したすべてのモデル属性に対して、"WHERE LIKE"クエリを実行します。しかし、この方法では状況により、パフォーマンス低下を招くことがあります。そこで、データベースエンジンの検索戦略を設定することで、指定した一部のカラムでは全文検索クエリを利用し、あるいは文字列全体を検索（`%example%`）するのではなく、前方一致で検索する（`example%`）"WHERE LIKE"制約のみを利用できます。
 
-To define this behavior, you may assign PHP attributes to your model's `toSearchableArray` method. Any columns that are not assigned additional search strategy behavior will continue to use the default "where like" strategy:
+こうした振る舞いを定義するには、モデルの`toSearchableArray`メソッドでPHP属性を割り付けてください。追加の検索戦略動作を割り当てていないカラムには、デフォルトの"WHERE LIKE"戦略を使い続けます。
 
 ```php
 use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Attributes\SearchUsingPrefix;
 
 /**
- * Get the indexable data array for the model.
+ * モデルに対するインデックス可能なデータの配列を取得
  *
  * @return array
  */
@@ -264,12 +264,12 @@ public function toSearchableArray()
 }
 ```
 
-> {note} Before specifying that a column should use full text query constraints, ensure that the column has been assigned a [full text index](/docs/{{version}}/migrations#available-index-types).
+> {note} あるカラムへ、フルテキストクエリ制約の使用を指定する前に、そのカラムに[フルテキストインデックス](/docs/{{version}}/migrations#available-index-types)を割り当て済みであることを確認してください。
 
 <a name="collection-engine"></a>
-### Collection Engine
+### コレクションエンジン
 
-ローカル開発時には、AlgoliaやMeiliSearchの検索エンジンを自由に使用することができますが、「コレクション（collection）」エンジンでスタートした方が便利な場合もあります。コレクション・エンジンは、既存データベースからの結果に対して、「where」節とコレクション・フィルタリングを用いて、クエリに該当する検索結果を決定します。このエンジンを使用する場合、Searchableモデルをインデックス化する必要はなく、シンプルにローカル・データベースから検索します。
+ローカル開発時には、AlgoliaやMeiliSearchの検索エンジンを自由に使用することができますが、「コレクション（collection）」エンジンでスタートした方が便利な場合もあります。コレクション・エンジンは、既存データベースからの結果に対して、"where"節とコレクション・フィルタリングを用いて、クエリに該当する検索結果を決定します。このエンジンを使用する場合、Searchableモデルをインデックス化する必要はなく、シンプルにローカル・データベースから検索します。
 
 コレクションエンジンを使用するには，環境変数`SCOUT_DRIVER`の値を`collection`に設定するか，アプリケーションの`scout`設定ファイルで`collection`ドライバを直接指定します。
 
@@ -279,11 +279,11 @@ SCOUT_DRIVER=collection
 
 コレクションドライバを使用ドライバに指定したら、モデルに対して[検索クエリの実行](#searching)を開始できます。コレクションエンジンを使用する場合、AlgoliaやMeiliSearchのインデックスのシードに必要なインデックス作成などの検索エンジンのインデックス作成は不要です。
 
-#### Differences From Database Engine
+#### データベースエンジンとの違い
 
-On first glance, the "database" and "collections" engines are fairly similar. They both interact directly with your database to retrieve search results. However, the collection engine does not utilize full text indexes or `LIKE` clauses to find matching records. Instead, it pulls all possible records and uses Laravel's `Str::is` helper to determine if the search string exists within the model attribute values.
+一見すると、「データベース」エンジンと「コレクション」エンジンはかなり似ています。どちらも、あなたのデータベースと直接やりとりして、検索結果を取得します。しかし、コレクションエンジンはフルテキストインデックスや`LIKE`句を利用して一致レコードを探し出しません。その代わりに、可能性があるすべてのレコードを取得し、Laravelの`Str::is`ヘルパを使い、モデルの属性値内に検索文字列が存在しているか判断します。
 
-The collection engine is the most portable search engine as it works across all relational databases supported by Laravel (including SQLite and SQL Server); however, it is less efficient than Scout's database engine.
+コレクションエンジンは、Laravelがサポートする（SQLiteやSQL Serverを含む）すべてのリレーショナルデータベースで動作するため、最も使いやすい検索エンジンですが、Scoutのデータベースエンジンに比べると効率は落ちます。
 
 <a name="indexing"></a>
 ## インデックス
@@ -427,7 +427,7 @@ Eloquentクエリインスタンスで`searchable`メソッドを呼び出して
 
 `shouldBeSearchable`メソッドは、`save`および`create`メソッド、クエリ、またはリレーションを通してモデルを操作する場合にのみ適用されます。`searchable`メソッドを使用してモデルまたはコレクションを直接検索可能にすると、`shouldBeSearchable`メソッドの結果が上書きされます。
 
-> {note} The `shouldBeSearchable` method is not applicable when using Scout's "database" engine, as all searchable data is always stored in the database. To achieve similar behavior when using the database engine, you should use [where clauses](#where-clauses) instead.
+> {note} 検索可能なデータは常にデータベースへ保存されるため、`shouldBeSearchable`メソッドはScoutの「データベース」エンジンを使用する際には適用されません。データベースエンジン使用時に同様の動作をさせるには、代わりに[WHERE句](#where-clauses)を使用する必要があります。
 
 <a name="searching"></a>
 ## 検索
