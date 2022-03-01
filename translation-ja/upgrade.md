@@ -1,14 +1,14 @@
 # アップグレードガイド
 
-- [Upgrading To 9.0 From 8.x](#upgrade-9.0)
+- [８．ｘから９．０へのアップグレード](#upgrade-9.0)
 
 <a name="high-impact-changes"></a>
 ## 重要度の高い変更
 
 <div class="content-list" markdown="1">
 
-- [Updating Dependencies](#updating-dependencies)
-- [Flysystem 3.x](#flysystem-3)
+- [依存パッケージの更新](#updating-dependencies)
+- [Flysystem3.x](#flysystem-3)
 - [Symfony Mailer](#symfony-mailer)
 
 </div>
@@ -32,40 +32,40 @@
 </div>
 
 <a name="upgrade-9.0"></a>
-## Upgrading To 9.0 From 8.x
+## ８．ｘから９．０へのアップグレード
 
 <a name="estimated-upgrade-time-10-minutes"></a>
-#### Estimated Upgrade Time: 30 Minutes
+#### アップグレード時間の見積もり：３０分
 
-> {tip} We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application. Want to save time? You can use [Laravel Shift](https://laravelshift.com/) to help automate your application upgrades.
+> {tip} 私たちは、互換性のない変更を可能な限りすべて文書化するよう努力しています。これらの互換性のない変更の一部はフレームワークの不明瞭な部分であり、こうした変更の一部が実際にあなたのアプリケーションに影響を与える可能性があります。時間を節約したいですか？[Laravel Shift](https://laravelshift.com/) を使用すると、アプリケーションのアップグレードを自動化できます。
 
 <a name="updating-dependencies"></a>
 ### 依存パッケージのアップデート
 
 **影響の可能性： 高い**
 
-#### PHP 8.0.2 Required
+#### PHP8.0.2が必要
 
-Laravel now requires PHP 8.0.2 or greater.
+今回より、Laravelを動作させるには、PHP8.0.2以上が必要になりました。
 
-#### Composer Dependencies
+#### Composerの依存パッケージ
 
-You should update the following dependencies in your application's `composer.json` file:
+アプリケーションの`composer.json`ファイルにある、以下の依存パッケージを更新してください。
 
 <div class="content-list" markdown="1">
 
-- `laravel/framework` to `^9.0`
-- `nunomaduro/collision` to `^6.1`
+- `laravel/framework`を`^9.0`に変更
+- `nunomaduro/collision`を`^6.1`に変更
 
 </div>
 
-In addition, please replace `facade/ignition` with `"spatie/laravel-ignition": "^1.0"` in your application's `composer.json` file.
+さらに、アプリケーションの`composer.json`ファイルの中の`facade/ignition`は、`"spatie/laravel-ignition": "^1.0"`へ置き換えてください。
 
-Furthermore, the following first-party packages have received new major releases to support Laravel 9.x. If applicable, you should read their individual upgrade guides before upgrading:
+さらに、以下のファーストパーティパッケージは、Laravel9.x をサポートするために新しくメジャーリリースしました。当てはまる場合、Laravelをアップグレードする前に、それぞれのアップグレードガイドを読んでください。
 
 <div class="content-list" markdown="1">
 
-- [Vonage Notification Channel (v3.0)](https://github.com/laravel/vonage-notification-channel/blob/3.x/UPGRADE.md) (Replaces Nexmo)
+- [Vonage通知チャンネル（v3.0）](https://github.com/laravel/vonage-notification-channel/blob/3.x/UPGRADE.md) (Nexmoの代替)
 
 </div>
 
@@ -113,8 +113,8 @@ In addition, return types were added to methods implementing PHP's `SessionHandl
 The `storagePath` method of the `Illuminate\Contracts\Foundation\Application` interface has been updated to accept a `$path` argument. If you are implementing this interface you should update your implementation accordingly:
 
     public function storagePath($path = '');
-    
-Similarly, the `langPath` method of the `Illuminate\Foundation\Application` class has been updated to accept a `$path` argument: 
+
+Similarly, the `langPath` method of the `Illuminate\Foundation\Application` class has been updated to accept a `$path` argument:
 
     public function langPath($path = '');
 
