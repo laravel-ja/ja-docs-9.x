@@ -82,7 +82,7 @@ php artisan breeze:install api
 php artisan migrate
 ```
 
-During installation, Breeze will add a `FRONTEND_URL` environment variable to your application's `.env` file. This URL should be the URL of your JavaScript application. This will typically be `http://localhost:3000` during local development. In addition, you should ensure that your `APP_URL` is set to `http://localhost:8000`, which is the default URL used by the `serve` Artisan command.
+インストール中、Breezeはアプリケーションの`.env`ファイルへ、`FRONTEND_URL`環境変数を追加します。このURLは、JavaScriptアプリケーションのURLである必要があります。ローカル開発では、これは通常`http://localhost:3000`になります。さらに、`APP_URL`を`http://localhost:8000`に設定する必要があります。これは、`serve` Artisanコマンドで使用されるデフォルトのURLです。
 
 <a name="next-reference-implementation"></a>
 #### Next.jsリファレンス実装
