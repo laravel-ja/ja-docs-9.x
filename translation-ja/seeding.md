@@ -4,7 +4,7 @@
 - [シーダクラス定義](#writing-seeders)
     - [モデルファクトリの使用](#using-model-factories)
     - [追加のシーダ呼び出し](#calling-additional-seeders)
-    - [Muting Model Events](#muting-model-events)
+    - [モデルイベントのミュート](#muting-model-events)
 - [シーダの実行](#running-seeders)
 
 <a name="introduction"></a>
@@ -97,9 +97,9 @@ php artisan make:seeder UserSeeder
     }
 
 <a name="muting-model-events"></a>
-### Muting Model Events
+### モデルイベントのミュート
 
-While running seeds, you may want to prevent models from dispatching events. You may achieve this using the `WithoutModelEvents` trait. When used, the `WithoutModelEvents` trait ensures no model events are dispatched, even if additional seed classes are executed via the `call` method:
+シードの実行中に、モデルがイベントをディスパッチしないようにしたい場合があります。これは`WithoutModelEvents`トレイトを使って実現できます。`WithoutModelEvents`トレイトを使うと、たとえ`call`メソッドで追加のシードクラスが実行されても、モデルのイベントがディスパッチされないようにできます。
 
     <?php
 
