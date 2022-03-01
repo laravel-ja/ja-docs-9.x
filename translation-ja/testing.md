@@ -5,7 +5,7 @@
 - [テストの作成](#creating-tests)
 - [テストの実行](#running-tests)
     - [テストを並列で実行](#running-tests-in-parallel)
-    - [Reporting Test Coverage](#reporting-test-coverage)
+    - [テストカバレージのレポート](#reporting-test-coverage)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -186,20 +186,20 @@ php artisan test --parallel --recreate-databases
     $token = ParallelTesting::token();
 
 <a name="reporting-test-coverage"></a>
-### Reporting Test Coverage
+### テストカバレージのレポート
 
-> {note} This feature requires [Xdebug](https://xdebug.org) or [PCOV](https://pecl.php.net/package/pcov).
+> {note} この機能を使用するには、[Xdebug](https://xdebug.org)、または[PCOV](https://pecl.php.net/package/pcov)が必要です。
 
-When running your application tests, you may want to determine whether your test cases are actually covering the application code and how much application code is used when running your tests. To accomplish this, you may provide the `--coverage` option when invoking the `test` command:
+アプリケーションのテストを実行する際に、テストケースが実際にアプリケーションコードをどの程度カバーしているかどうか、また、テストを実行する際にどれだけのアプリケーションコードが使用されているかを確認したいと思うことでしょう。これを行うには、`test`コマンドを実行するときに、`--coverage`オプションを指定します。
 
 ```shell
 php artisan test --coverage
 ```
 
 <a name="enforcing-a-minimum-coverage-threshold"></a>
-#### Enforcing A Minimum Coverage Threshold
+#### 最低限度のカバーレージ基準の強制
 
-You may use the `--min` option to define a minimum test coverage threshold for your application. The test suite will fail if this threshold is not met:
+`min`オプションを使用すると、アプリケーションのテストカバレッジの最小値を定義できます。この閾値を満たさない場合、テストスイートは失敗します。
 
 ```shell
 php artisan test --coverage --min=80.3
