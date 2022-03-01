@@ -80,7 +80,7 @@ Laravelは、アプリケーションのURLを生成するのに役立つヘル�
     // http://example.com/post/1?search=rocket
 
 <a name="eloquent-models"></a>
-#### Eloquent Models
+#### Eloquentモデル
 
 [Eloquentモデル](/docs/{{version}}/eloquent)のルートキー（通常は主キー）を使ってURLを生成することが多いでしょう。そのため、パラメータ値としてEloquentモデルを渡せます。`route`ヘルパは、モデルのルートキーを自動的に抽出します。
 
@@ -108,7 +108,7 @@ Laravelでは名前付きルートに対し、簡単に「署名付きURL」を�
 <a name="validating-signed-route-requests"></a>
 #### 署名付きルートリクエストの検査
 
-To verify that an incoming request has a valid signature, you should call the `hasValidSignature` method on the incoming `Illuminate\Http\Request` instance:
+受信したリクエストに有効な署名があるかどうかを確認するには、受信した`Illuminate\Http\Request`インスタンスで`hasValidSignature`メソッドを呼び出します。
 
     use Illuminate\Http\Request;
 
@@ -120,13 +120,13 @@ To verify that an incoming request has a valid signature, you should call the `h
         // ...
     })->name('unsubscribe');
 
-Sometimes, you may need to allow your application's frontend to append data to a signed URL, such as when performing client-side pagination. Therefore, you can specify request query parameters that should be ignored when validating a signed URL using the `hasValidSignatureWhileIgnoring` method. Remember, ignoring parameters allows anyone to modify those parameters on the request:
+クライアントサイドのペジネーションなど、アプリケーションのフロントエンドが署名付きURLにデータを追加することを許可する必要が起きる場合があります。そのようなときは、`hasValidSignatureWhileIgnoring`メソッドを用いて、署名付きURLを検証する際に無視すべきリクエストクエリパラメータを指定します。パラメータの無視を許すと、誰でもリクエストのそのパラメータを変更できる点に注意してください。
 
     if (! $request->hasValidSignatureWhileIgnoring(['page', 'order'])) {
         abort(401);
     }
 
-Instead of validating signed URLs using the incoming request instance, you may assign the `Illuminate\Routing\Middleware\ValidateSignature` [middleware](/docs/{{version}}/middleware) to the route. If it is not already present, you should assign this middleware a key in your HTTP kernel's `routeMiddleware` array:
+受信リクエストのインスタンスを使用して署名付きURLをバリデーションする代わりに、`Illuminate\Routing\Middleware\ValidateSignature`[ミドルウェア](/docs/{{version}}/middleware)をルートへ指定できます。存在しない場合は、HTTPカーネルの`routeMiddleware`配列のキーとして、このミドルウェアを割り当てる必要があります。
 
     /**
      * アプリケーションルートのミドルウェア
