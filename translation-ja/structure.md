@@ -6,7 +6,7 @@
     - [bootstrapディレクトリ](#the-bootstrap-directory)
     - [configディレクトリ](#the-config-directory)
     - [databaseディレクトリ](#the-database-directory)
-    - [The `lang` Directory](#the-lang-directory)
+    - [langディレクトリ](#the-lang-directory)
     - [publicディレクトリ](#the-public-directory)
     - [resourcesディレクトリ](#the-resources-directory)
     - [routesディレクトリ](#the-routes-directory)
@@ -22,7 +22,7 @@
     - [Jobsディレクトリ](#the-jobs-directory)
     - [Listenersディレクトリ](#the-listeners-directory)
     - [Mailディレクトリ](#the-mail-directory)
-    - [The `Models` Directory](#the-models-directory)
+    - [Modelsディレクトリ](#the-models-directory)
     - [Notificationsディレクトリ](#the-notifications-directory)
     - [Policiesディレクトリ](#the-policies-directory)
     - [Providersディレクトリ](#the-providers-directory)
@@ -57,9 +57,9 @@ Laravelのデフォルトアプリケーション構造はアプリケーショ�
 `database`フォルダはデータベースのマイグレーションとモデルファクトリ、初期値設定（シーディング）を配置しています。ご希望であれば、このディレクトリをSQLiteデータベースの設置場所としても利用できます。
 
 <a name="the-lang-directory"></a>
-#### The Lang Directory
+#### langディレクトリ
 
-The `lang` directory houses all of your application's language files.
+`lang`ディレクトリには、アプリケーションのすべての言語ファイルを格納します。
 
 <a name="the-public-directory"></a>
 #### publicディレクトリ
@@ -69,7 +69,7 @@ The `lang` directory houses all of your application's language files.
 <a name="the-resources-directory"></a>
 #### resourcesディレクトリ
 
-The `resources` directory contains your [views](/docs/{{version}}/views) as well as your raw, un-compiled assets such as CSS or JavaScript.
+`resources`ディレクトリには、[ビュー](/docs/{{version}}/views)や、CSS、JavaScriptなどのコンパイルしていない、素のアセットを格納します。
 
 <a name="the-routes-directory"></a>
 #### routesディレクトリ
