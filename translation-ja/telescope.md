@@ -35,7 +35,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-[Laravel Telescope](https://github.com/laravel/telescope)（テレスコープ：望遠鏡）は、ローカルLaravel開発環境の素晴らしい道連れになります。Telescopeは、アプリケーションが受信するリクエスト、例外、ログエントリ、データベースクエリ、キュー投入したジョブ、メール、通知、キャッシュ操作、スケジュール済みタスク、変数ダンプなどに関する眼力を与えてくれます。
+[Laravel Telescope](https://github.com/laravel/telescope)（テレスコープ、望遠鏡）は、ローカルLaravel開発環境の素晴らしい相棒になります。Telescopeは、アプリケーションが受信するリクエスト、例外、ログエントリ、データベースクエリ、キュー投入したジョブ、メール、通知、キャッシュ操作、スケジュール済みタスク、変数ダンプなどに関する眼力を与えてくれます。
 
 <img src="/img/telescope.png" width="100%">
 
