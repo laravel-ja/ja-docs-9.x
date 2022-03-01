@@ -8,7 +8,7 @@
 - [ビューにデータを渡す](#passing-data-to-views)
     - [全ビュー間のデータ共有](#sharing-data-with-all-views)
 - [ビューコンポーザ](#view-composers)
-    - [View Creators](#view-creators)
+    - [ビュークリエータ](#view-creators)
 - [ビューの最適化](#optimizing-views)
 
 <a name="introduction"></a>
