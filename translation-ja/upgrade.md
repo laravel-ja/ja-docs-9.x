@@ -69,12 +69,12 @@
 
 </div>
 
-Finally, examine any other third-party packages consumed by your application and verify you are using the proper version for Laravel 9 support.
+最後に、アプリケーションで使用している他のサードパーティパッケージを調べ、Laravel9をサポートする適切なバージョンを使用していることを確認してください。
 
 <a name="php-return-types"></a>
-#### PHP Return Types
+#### PHPの戻り値タイプ
 
-PHP is beginning to transition to requiring return type definitions on PHP methods such as `offsetGet`, `offsetSet`, etc. In light of this, Laravel 9 has implemented these return types in its code base. Typically, this should not affect user written code; however, if you are overriding one of these methods by extending Laravel's core classes, you will need to add these return types to your own application or package code:
+PHPでは、`offsetGet`や`offsetSet`などのPHPメソッドへ、戻り値のタイプの定義を義務付ける方向に移行し始めています。これを踏まえ、Laravel9ではコードベースにこれらの戻り値の型を実装しています。通常、ユーザーが書いたコードには影響しませんが、Laravelのコアクラスを拡張してこれらのメソッドをオーバーライドしている場合は、これらの戻り値の型を自分のアプリケーションやパッケージのコードに追加することが必要になります。
 
 <div class="content-list" markdown="1">
 
@@ -89,7 +89,7 @@ PHP is beginning to transition to requiring return type definitions on PHP metho
 
 </div>
 
-In addition, return types were added to methods implementing PHP's `SessionHandlerInterface`. Again, it is unlikely that this change affects your own application or package code:
+さらに、PHPの`SessionHandlerInterface`を実装したメソッドに戻り値のタイプが追加されました。繰り返しますが、この変更があなた自身のアプリケーションやパッケージのコードに、影響を与えることはまずないでしょう。
 
 <div class="content-list" markdown="1">
 
@@ -103,26 +103,26 @@ In addition, return types were added to methods implementing PHP's `SessionHandl
 </div>
 
 <a name="application"></a>
-### Application
+### アプリケーション
 
 <a name="the-application-contract"></a>
-#### The `Application` Contract
+#### `Application`契約
 
 **影響の可能性： 低い**
 
-The `storagePath` method of the `Illuminate\Contracts\Foundation\Application` interface has been updated to accept a `$path` argument. If you are implementing this interface you should update your implementation accordingly:
+`Illuminate\Contracts\Foundation\Application`インターフェイスの`storagePath`メソッドを更新し、`$path`引数を取るようにしました。このインターフェイスを実装している場合、それに応じて実装を更新する必要があります。
 
     public function storagePath($path = '');
 
-Similarly, the `langPath` method of the `Illuminate\Foundation\Application` class has been updated to accept a `$path` argument:
+同様に、`Illuminate\Foundation\Application`クラスの`langPath`メソッドを更新し、`$path`引数を取るようになりました。
 
     public function langPath($path = '');
 
-#### Exception Handler `ignore` Method
+#### 例外ハンドラの`ignore`メソッド
 
 **影響の可能性： 低い**
 
-The exception handler's `ignore` method is now `public` instead of `protected`. This method is not included in the default application skeleton; however, if you have manually defined this method you should update its visibility to `public`:
+例外ハンドラの`ignore`メソッドが、`protected`から`public`へ変更しました。このメソッドはデフォルトのアプリケーションスケルトンには含まれていません。しかし、もしこのメソッドを独自に定義している場合は、可視性を`public`へ更新する必要があります。
 
 ```php
 public function ignore(string $class);
@@ -130,65 +130,65 @@ public function ignore(string $class);
 
 ### Blade
 
-#### Lazy Collections & The `$loop` Variable
+#### レイジーコレクションと`$loop`変数
 
 **影響の可能性： 低い**
 
-When iterating over a `LazyCollection` instance within a Blade template, the `$loop` variable is no longer available, as accessing this variable causes the entire `LazyCollection` to be loaded into memory, thus rendering the usage of lazy collections pointless in this scenario.
+Bladeテンプレート内の`LazyCollection`インスタンスを反復処理すると`$loop`変数は使用できなくなります。この変数にアクセスすると、`LazyCollection`全体がメモリに読み込まれるため、このシナリオではレイジーコレクションの使用が無意味になるためです。
 
 ### コレクション
 
-#### The `Enumerable` Contract
+#### `Enumerable`契約
 
 **影響の可能性： 低い**
 
-The `Illuminate\Support\Enumerable` contract now defines a `sole` method. If you are manually implementing this interface, you should update your implementation to reflect this new method:
+`Illuminate\Support\Enumerable`契約に、`sole`メソッドを定義しました。このインターフェイスを実装している場合は、この新しいメソッドを反映するよう実装を更新してください。
 
 ```php
 public function sole($key = null, $operator = null, $value = null);
 ```
 
-#### The `reduceWithKeys` Method
+#### `reduceWithKeys`メソッド
 
-The `reduceWithKeys` method has been removed as the `reduce` method provides the same functionality. You may simply update your code to call `reduce` instead of `reduceWithKeys`.
+`reduce`メソッドが同じ機能を提供しているため、`reduceWithKeys`メソッドを削除しました。`reduceWithKeys`の代わりに、`reduce`を呼び出すようにコードを更新するだけです。
 
-#### The `reduceMany` Method
+#### `reduceMany`メソッド
 
-The `reduceMany` method has been renamed to `reduceSpread` for naming consistency with other similar methods.
+`reduceMany`メソッドは、他の同様のメソッドと名前の一貫性を保つため、`reduceSpread`へ名前を変更しました。
 
-### Container
+### コンテナ
 
-#### The `Container` Contract
+#### `Container`契約
 
-**Likelihood Of Impact: Very Low**
+**影響の可能性： とても低い**
 
-The `Illuminate\Contracts\Container\Container` contract has received two method definitions: `scoped` and `scopedIf`. If you are manually implementing this contract, you should update your implementation to reflect these new methods.
+`Illuminate\Contracts\Container\Container`契約は、`scoped`と`scopedIf`の２メソッド定義を受けるようにしました。この契約を実装している場合は、これらの新しいメソッドを反映するように実装を更新してください。
 
-#### The `ContextualBindingBuilder` Contract
+#### `ContextualBindingBuilder`契約
 
-**Likelihood Of Impact: Very Low**
+**影響の可能性： とても低い**
 
-The `Illuminate\Contracts\Container\ContextualBindingBuilder` contract now defines a `giveConfig` method. If you are manually implementing this interface, you should update your implementation to reflect this new method:
+`Illuminate\Contracts\Container\ContextualBindingBuilder`契約で、`giveConfig`メソッドを定義しました。このインターフェイスを実装している場合は、この新しいメソッドを反映するように更新してください。
 
 ```php
 public function giveConfig($key, $default = null);
 ```
 
-### Database
+### データベース
 
 <a name="postgres-schema-configuration"></a>
-#### Postgres "Schema" Configuration
+#### Postgres "Schema"設定
 
 **影響の可能性： 中程度**
 
-The `schema` configuration option used to configure Postgres connection search paths in your application's `config/database.php` configuration file should be renamed to `search_path`.
+アプリケーションの`config/database.php`設定ファイルで、Postgres接続検索パスを設定するために使用する`schema`設定オプションの名前を`search_path`へ変更してください。
 
 <a name="schema-builder-doctrine-method"></a>
 #### Schema Builder `registerCustomDoctrineType` Method
 
 **影響の可能性： 低い**
 
-The `registerCustomDoctrineType` method has been removed from the `Illuminate\Database\Schema\Builder` class. You may use the `registerDoctrineType` method on the `DB` facade instead, or register custom Doctrine types in the `config/database.php` configuration file.
+`registerCustomDoctrineType`メソッドは、`Illuminate\Database\Schema\Builder`クラスから削除しました。代わりに、`DB`ファサードで、`registerDoctrineType`メソッドを使用するか、`config/database.php`設定ァイルで、カスタムDoctrineタイプを登録できます。
 
 ### Eloquent
 
@@ -382,14 +382,14 @@ Storage::extend('dropbox', function ($app, $config) {
 <a name="data-get-function"></a>
 #### The `data_get` Helper & Iterable Objects
 
-**Likelihood Of Impact: Very Low**
+**影響の可能性： とても低い**
 
 Previously, the `data_get` helper could be used to retrieve nested data on arrays and `Collection` instances; however, this helper can now retrieve nested data on all iterable objects.
 
 <a name="str-function"></a>
 #### The `str` Helper
 
-**Likelihood Of Impact: Very Low**
+**影響の可能性： とても低い**
 
 Laravel 9.x now includes a global `str` [helper function](/docs/{{version}}/helpers#method-str). If you are defining a global `str` helper in your application, you should rename or remove it so that it does not conflict with Laravel's own `str` helper.
 
