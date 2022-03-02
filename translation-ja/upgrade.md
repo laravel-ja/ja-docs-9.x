@@ -193,15 +193,15 @@ public function giveConfig($key, $default = null);
 ### Eloquent
 
 <a name="custom-casts-and-null"></a>
-#### Custom Casts & `null`
+#### カスタムキャストと`null`
 
 **影響の可能性： 中程度**
 
-In previous releases of Laravel, the `set` method of custom cast classes was not invoked if the cast attribute was being set to `null`. However, this behavior was inconsistent with the Laravel documentation. In Laravel 9.x, the `set` method of the cast class will be invoked with `null` as the provided `$value` argument. Therefore, you should ensure your custom casts are able to sufficiently handle this scenario:
+Laravel の以前のリリースでは、カスタムキャストクラスの`set`メソッドは、キャスト属性が`null`に設定されている場合には呼び出しませんでした。しかし、この動作はLaravelのドキュメントと矛盾していました。Laravel9.xでは、キャストクラスの`set`メソッドは`$value`引数に`null`を指定しても起動されます。したがって、カスタムキャストがこのシナリオを確実に処理できるようにしてください。
 
 ```php
 /**
- * Prepare the given value for storage.
+ * 指定値を保存のために準備
  *
  * @param  \Illuminate\Database\Eloquent\Model  $model
  * @param  string  $key
@@ -223,13 +223,13 @@ public function set($model, $key, $value, $attributes)
 ```
 
 <a name="belongs-to-many-first-or-new"></a>
-#### Belongs To Many `firstOrNew`, `firstOrCreate`, and `updateOrCreate` Methods
+#### Belongs To Manyの`firstOrNew`、`firstOrCreate`、`updateOrCreate`メソッド
 
 **影響の可能性： 中程度**
 
-The `belongsToMany` relationship's `firstOrNew`, `firstOrCreate`, and `updateOrCreate` methods all accept an array of attributes as their first argument. In previous releases of Laravel, this array of attributes was compared against the "pivot" / intermediate table for existing records.
+`belongsToMany`リレーションシップの`firstOrNew`、`firstOrCreate`、`updateOrCreate`メソッドの最初の引数に、属性の配列が渡されます。Laravelの以前のリリースでは、この属性の配列は、既存のレコードの「ピボット」／中間テーブルと比較されていました。
 
-However, this behavior was unexpected and typically unwanted. Instead, these methods now compare the array of attributes against the table of the related model:
+しかし、この動作は期待されておらず、一般的に望まれないものでした。代わりに、これらのメソッドは関連モデルのテーブルに対して属性の配列を比較するようになりました。
 
 ```php
 $user->roles()->updateOrCreate([
@@ -237,7 +237,7 @@ $user->roles()->updateOrCreate([
 ]);
 ```
 
-In addition, the `firstOrCreate` method now accepts a `$values` array as its second argument. This array will be merged with the first argument to the method (`$attributes`) when creating the related model if one does not already exist. This change makes this method consistent with the `firstOrCreate` methods offered by other relationship types:
+さらに、`firstOrCreate`メソッドの第２引数に、`$values`配列を取るようになりました。この配列は、関連モデルが存在していない場合に、メソッドの第１引数（`$attributes`）へマージします。この変更により、このメソッドは他のリレーションタイプで提供している`firstOrCreate`メソッドと動作が一致するようになりました。
 
 ```php
 $user->roles()->firstOrCreate([
@@ -247,39 +247,39 @@ $user->roles()->firstOrCreate([
 ]);
 ```
 
-#### The `touch` Method
+#### `touch`メソッド
 
 **影響の可能性： 低い**
 
-The `touch` method now accepts an attribute to touch. If you were previously overwriting this method, you should update your method signature to reflect this new argument:
+`touch`メソッドへ、属性を指定できるようになりました。以前このメソッドを上書きしていた場合は、この新しい引数を反映させるためにメソッドの引数指定を変更してください。
 
 ```php
 public function touch($attribute = null);
 ```
 
-### Encryption
+### 暗号化
 
-#### The Encrypter Contract
+#### Encrypter契約
 
 **影響の可能性： 低い**
 
-The `Illuminate\Contracts\Encryption\Encrypter` contract now defines a `getKey` method. If you are manually implementing this interface, you should update your implementation accordingly:
+`Illuminate\Contracts\Encryption\Encrypter`契約で、`getKey`メソッドを定義しました。このインターフェイスを実装している場合は、それに応じて更新してください。
 
 ```php
 public function getKey();
 ```
 
-### Facades
+### ファサード
 
-#### The `getFacadeAccessor` Method
+#### `getFacadeAccessor`メソッド
 
 **影響の可能性： 低い**
 
-The `getFacadeAccessor` method must always return a container binding key. In previous releases of Laravel, this method could return an object instance; however, this behavior is no longer supported. If you have written your own facades, you should ensure that this method returns a container binding string:
+`getFacadeAccessor`メソッドは常にコンテナ結合キーを返す必要があります。Laravelの以前のリリースでは、このメソッドはオブジェクトのインスタンスを返すことができましたが、この動作はもうサポートしません。独自のファサードを記述している場合は、このメソッドがコンテナ結合文字列を返すようにしなければなりません。
 
 ```php
 /**
- * Get the registered name of the component.
+ * コンポーネントの登録名取得
  *
  * @return string
  */
@@ -289,56 +289,57 @@ protected static function getFacadeAccessor()
 }
 ```
 
-### Filesystem
+### ファイルシステム
 
-#### The `FILESYSTEM_DRIVER` Environment Variable
-
-**影響の可能性： 低い**
-
-The `FILESYSTEM_DRIVER` environment variable has been renamed to `FILESYSTEM_DISK` to more accurately reflect its usage. This change only affects the application skeleton; however, you are welcome to update your own application's environment variables to reflect this change if you wish.
-
-#### The "Cloud" Disk
+#### `FILESYSTEM_DRIVER`環境変数
 
 **影響の可能性： 低い**
 
-The `cloud` disk configuration option was removed from the default application skeleton in November of 2020. This change only affects the application skeleton. If you are using the `cloud` disk within your application, you should leave this configuration value in your own application's skeleton.
+`FILESYSTEM_DRIVER`環境変数は、より正確にその使用目的を反映するため、`FILESYSTEM_DISK`へ名前を変更しました。この変更はアプリケーションのスケルトンにしか影響しませんが、もし望むなら、あなた自身のアプリケーションの環境変数を更新し、この変更を反映させてもかまいません。
+
+#### "Cloud"ディスク
+
+**影響の可能性： 低い**
+
+ディスク設定オプションの`cloud`は、２０２０年１１月にデフォルトのアプリケーションスケルトンから削除しました。この変更は、アプリケーションのスケルトンにのみ影響します。アプリケーション内で`cloud`ディスクを使用している場合は、この設定値を自分のアプリケーションのスケルトンに残しておく必要があります。
 
 <a name="flysystem-3"></a>
 ### Flysystem 3.x
 
 **影響の可能性： 高い**
 
-Laravel 9.x has migrated from [Flysystem](https://flysystem.thephpleague.com/v2/docs/) 1.x to 3.x. Under the hood, Flysystem powers all of the file manipulation methods provided by the `Storage` facade. In light of this, some changes may be required within your application; however, we have tried to make this transition as seamless as possible.
+Laravel9.xは、[Flysystem](https://flysystem.thephpleague.com/v2/docs/)1.xから3.xへ移行しました。Flysystem は、`Storage`ファサードが提供するすべてのファイル操作メソッドを裏で提供しています。これにより、あなたのアプリケーションでいくらかの変更が必要になるかもしれません。しかし、私たちはこの移行を可能な限りシームレスに行えるように努めました。
 
-#### Driver Prerequisites
+#### ドライバ要件
 
-Before using the S3, FTP, or SFTP drivers, you will need to install the appropriate package via the Composer package manager:
+S3、FTP、SFTPドライバーを使用する前に、Composerパッケージ・マネージャーで適切なパッケージをインストールする必要があります。
 
 - Amazon S3: `composer require -W league/flysystem-aws-s3-v3 "^3.0"`
 - FTP: `composer require league/flysystem-ftp "^3.0"`
 - SFTP: `composer require league/flysystem-sftp-v3 "^3.0"`
 
-#### Overwriting Existing Files
+#### 既存ファイルの上書き
 
-Write operations such as `put`, `write`, `writeStream` now overwrite existing files by default. If you do not want to overwrite existing files, you should manually check for the file's existence before performing the write operation.
+`put`、`write`、`writeStream`などの書き込み操作は、デフォルトで既存のファイルを上書きするようになりました。既存のファイルを上書きしたくない場合は、書き込み操作を行う前に、ファイルの存在を確認してください。
 
-#### Reading Missing Files
+#### 存在しないファイルからの読み込み
 
-Attempting to read from a file that does not exist now returns `null`. In previous releases of Laravel, an `Illuminate\Contracts\Filesystem\FileNotFoundException` would have been thrown.
+存在しないファイルから読み込もうとすると、`null`を返すようにしました。以前のLaravelのリリースでは、`Illuminate\Contracts\Filesystem\FileNotFoundException`を投げていました。
 
-#### Deleting Missing Files
+#### 存在しないファイルの削除
 
 Attempting to `delete` a file that does not exist now returns `true`.
+存在しないファイルを`delete`しようとすると、`true`を返すようにしました。
 
-#### Cached Adapters
+#### キャッシュ済みアダプタ
 
-Flysystem no longer supports "cached adapters". Thus, they have been removed from Laravel and any relevant configuration (such as the `cache` key within disk configurations) can be removed.
+Flysystemは、「キャッシュ済みアダプタ」をサポートしなくなりました。そのため、Laravel から削除し、関連する設定（ディスク設定内の`cache`キーなど）もすべて削除しました。
 
-#### Custom Filesystems
+#### カスタムファイルシステム
 
-Slight changes have been made to the steps required to register custom filesystem drivers. Therefore, if you were defining your own custom filesystem drivers, or using packages that define custom drivers, you should update your code and dependencies.
+カスタムファイルシステムドライバの登録に必要な手順が若干変更されました。したがって、もしあなたが独自のカスタムファイルシステムドライバを定義していたり、カスタムドライバを定義しているパッケージを使用していた場合は、あなたのコードと依存を更新する必要があります。
 
-For example, in Laravel 8.x, a custom filesystem driver might be registered like so:
+たとえば、Laravel8.xのカスタムファイルシステムの登録は、以下のようでした。
 
 ```php
 use Illuminate\Support\Facades\Storage;
@@ -355,7 +356,7 @@ Storage::extend('dropbox', function ($app, $config) {
 });
 ```
 
-However, in Laravel 9.x, the callback given to the `Storage::extend` method should return an instance of `Illuminate\Filesystem\FilesystemAdapter` directly:
+しかし、Laravel9.xから、`Storage::extend`メソッドへ与えられるコールバックは、直接 `Illuminate\Filesystem\FilesystemAdapter`インスタンスを返さなければなりません。
 
 ```php
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -377,28 +378,28 @@ Storage::extend('dropbox', function ($app, $config) {
 });
 ```
 
-### Helpers
+### ヘルパ
 
 <a name="data-get-function"></a>
-#### The `data_get` Helper & Iterable Objects
+#### `data_get`ヘルパとIterableオブジェクト
 
 **影響の可能性： とても低い**
 
-Previously, the `data_get` helper could be used to retrieve nested data on arrays and `Collection` instances; however, this helper can now retrieve nested data on all iterable objects.
+以前は、`data_get`ヘルパーを使用して、配列および`Collection`インスタンスのネストされたデータを取得できました。しかし今、このヘルパーは、すべての反復可能なオブジェクトのネストされたデータを取得するようになりました。
 
 <a name="str-function"></a>
-#### The `str` Helper
+#### `str`ヘルパ
 
 **影響の可能性： とても低い**
 
-Laravel 9.x now includes a global `str` [helper function](/docs/{{version}}/helpers#method-str). If you are defining a global `str` helper in your application, you should rename or remove it so that it does not conflict with Laravel's own `str` helper.
+Laravel9.xでは、グローバルな`str`[ヘルパ関数](/docs/{{version}}/helpers#method-str)を取り入れました。アプリケーションでグローバルな`str`ヘルパーを定義している場合は、Laravel自身の`str`ヘルパーと競合しないように、名前を変更するか削除する必要があります。
 
 <a name="when-and-unless-methods"></a>
-#### The `when` / `unless` Methods
+#### `when`／`unless`メソッド
 
 **影響の可能性： 中程度**
 
-As you may know, `when` and `unless` methods are offered by various classes throughout the framework. These methods can be used to conditionally perform an action if the boolean value of the first argument to the method evaluates to `true` or `false`:
+お気づきでしょうが、`when`メソッドと`unless`メソッドは、フレームワーク全体のさまざまなクラスで提供しています。これらのメソッドは、メソッドの最初の引数のブール値が`true`、または`false`と評価された場合、条件付きでアクションを実行するために使用します。
 
 ```php
 $collection->when(true, function ($collection) {
