@@ -328,7 +328,6 @@ S3、FTP、SFTPドライバーを使用する前に、Composerパッケージ・
 
 #### 存在しないファイルの削除
 
-Attempting to `delete` a file that does not exist now returns `true`.
 存在しないファイルを`delete`しようとすると、`true`を返すようにしました。
 
 #### キャッシュ済みアダプタ
@@ -356,7 +355,7 @@ Storage::extend('dropbox', function ($app, $config) {
 });
 ```
 
-しかし、Laravel9.xから、`Storage::extend`メソッドへ与えられるコールバックは、直接 `Illuminate\Filesystem\FilesystemAdapter`インスタンスを返さなければなりません。
+しかし、Laravel9.xから、`Storage::extend`メソッドへ与えられるコールバックは、直接`Illuminate\Filesystem\FilesystemAdapter`インスタンスを返さなければなりません。
 
 ```php
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -444,7 +443,7 @@ $collection->when(function ($collection) {
 
 **影響の可能性： 低い**
 
-Laravelの以前のリリースでは、`Http::fake()`メソッドを起動しても、クラスコンストラクタへ注入された`Illuminate\Http\Client\Factory`インスタンスに影響を与えませんでした。しかし、Laravel9.xでは、`Http::fake()`は、依存注入により他のサービスへ注入されたHTTPクライアントがFakeレスポンスを返すことを保証します。この動作は、他のファサードやFakeの動作とより一貫しています。
+Laravelの以前のリリースでは、`Http::fake()`メソッドを起動しても、クラスコンストラクタへ注入された`Illuminate\Http\Client\Factory`インスタンスに影響を与えませんでした。しかし、Laravel9.xでは、`Http::fake()`は、依存注入により他のサービスへ注入されたHTTPクライアントがFakeレスポンスを返すことを保証します。この動作は、他のファサードやFakeの動作とより一貫性があります。
 
 <a name="symfony-mailer"></a>
 ### Symfony Mailer
@@ -455,34 +454,34 @@ Laravl9.xの最大の変更点は、２０２１年１２月をもってメン�
 
 #### ドライバ要求
 
-To continue using the Mailgun transport, your application should require the `symfony/mailgun-mailer` and `symfony/http-client` Composer packages:
+Mailgunランスポートを引き続き使用するには、`symfony/mailgun-mailer`と`symfony/http-client` Composerパッケージがアプリケーションに必要です。
 
 ```shell
 composer require symfony/mailgun-mailer symfony/http-client
 ```
 
-The `wildbit/swiftmailer-postmark` Composer package should be removed from your application. Instead, your application should require the `symfony/postmark-mailer` and `symfony/http-client` Composer packages:
+`wildbit/swiftmailer-postmark` Composerパッケージをアプリケーションから削除する必要があります。代わりに、`symfony/postmark-mailer`、`symfony/http-client` Composerパッケージが必要です。
 
 ```shell
 composer require symfony/postmark-mailer symfony/http-client
 ```
 
-#### Updated Return Types
+#### 戻り値の変更
 
-The `send`, `html`, `text`, and `plain` methods no longer return the number of recipients that received the message. Instead, an instance of `Illuminate\Mail\SentMessage` is returned. This object contains an instance of `Symfony\Component\Mailer\SentMessage` that is accessible via the `getSymfonySentMessage` method or by dynamically invoking methods on the object.
+`send`、` html`、 `text`、および` plain`メソッドは、メッセージを受信した受信者の数を返さなくしました。代わりに、`Illuminate\Mail\SentMessage`インスタンスを返します。このオブジェクトには、`getSymfonySentMessage`メソッドでアクセス、もしくはオブジェクトのメソッドを動的に呼び出すことでアクセスできる`Symfony\Component\Mailer\SentMessage`インスタンスが含まれています。
 
-#### Renamed "Swift" Methods
+#### "Swift"メソッドの変更
 
-Various SwiftMailer related methods, some of which were undocumented, have been renamed to their Symfony Mailer counterparts. For example, the `withSwiftMessage` method has been renamed to `withSymfonyMessage`:
+一部は文書化されていない、さまざまなSwiftMailer関連のメソッドは、Symfony Mailerの対応するメソッドへ名前を変更しました。たとえば、`withSwiftMessage`メソッドの名前は、`withSymfonyMessage`に変更しました。
 
-    // Laravel 8.x...
+    // Laravel8.x
     $this->withSwiftMessage(function ($message) {
         $message->getHeaders()->addTextHeader(
             'Custom-Header', 'Header Value'
         );
     });
 
-    // Laravel 9.x...
+    // Laravel9.x
     use Symfony\Component\Mime\Email;
 
     $this->withSymfonyMessage(function (Email $message) {
@@ -492,7 +491,7 @@ Various SwiftMailer related methods, some of which were undocumented, have been 
     });
 
 > {note} Please thoroughly review the [Symfony Mailer documentation](https://symfony.com/doc/6.0/mailer.html#creating-sending-messages) for all possible interactions with the `Symfony\Component\Mime\Email` object.
-
+> {note} `Symfony \ Component \ Mime \ Emailとのすべての可能な相互作用について、[Symfony Mailerドキュメント]（https://symfony.com/doc/6.0/mailer.html#creating-sending-messages）を徹底的に確認してください。 `オブジェクト。
 The list below contains a more thorough overview of renamed methods. Many of these methods are low-level methods used to interact with SwiftMailer / Symfony Mailer directly, so may not be commonly used within most Laravel applications:
 
     Message::getSwiftMessage();
