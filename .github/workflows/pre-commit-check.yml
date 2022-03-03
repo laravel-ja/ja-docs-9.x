@@ -1,12 +1,13 @@
 name: 事前チェック
 
 on: [push]
+  branches: main
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v1
     - name: ファイル構成が等しいことを確認
@@ -18,4 +19,3 @@ jobs:
       run: for i in $(ls translation-ja); do if test $(awk -f scripts/structure-to-string.awk "original-en/${i}") != $(awk -f scripts/structure-to-string.awk "translation-ja/${i}"); then echo 日英ファイルの構造が一致しません "${i}"; echo $(awk -f scripts/structure-to-string.awk "original-en/${i}"); echo $(awk -f scripts/structure-to-string.awk "translation-ja/${i}"); exit 1; fi; done
     - name: 用語の不統一がないことを確認
       run: bash scripts/check-synonyms.sh
-      
