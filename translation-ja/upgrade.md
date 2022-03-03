@@ -312,7 +312,7 @@ Laravel9.xは、[Flysystem](https://flysystem.thephpleague.com/v2/docs/)1.xか�
 
 #### ドライバ要件
 
-S3、FTP、SFTPドライバーを使用する前に、Composerパッケージ・マネージャーで適切なパッケージをインストールする必要があります。
+S3、FTP、SFTPドライバを使用する前に、Composerパッケージマネージャで適切なパッケージをインストールする必要があります。
 
 - Amazon S3: `composer require -W league/flysystem-aws-s3-v3 "^3.0"`
 - FTP: `composer require league/flysystem-ftp "^3.0"`
@@ -384,14 +384,14 @@ Storage::extend('dropbox', function ($app, $config) {
 
 **影響の可能性： とても低い**
 
-以前は、`data_get`ヘルパーを使用して、配列および`Collection`インスタンスのネストされたデータを取得できました。しかし今、このヘルパーは、すべての反復可能なオブジェクトのネストされたデータを取得するようになりました。
+以前は、`data_get`ヘルパを使用して、配列および`Collection`インスタンスのネストされたデータを取得できました。しかし今、このヘルパは、すべての反復可能なオブジェクトのネストされたデータを取得するようになりました。
 
 <a name="str-function"></a>
 #### `str`ヘルパ
 
 **影響の可能性： とても低い**
 
-Laravel9.xでは、グローバルな`str`[ヘルパ関数](/docs/{{version}}/helpers#method-str)を取り入れました。アプリケーションでグローバルな`str`ヘルパーを定義している場合は、Laravel自身の`str`ヘルパーと競合しないように、名前を変更するか削除する必要があります。
+Laravel9.xでは、グローバルな`str`[ヘルパ関数](/docs/{{version}}/helpers#method-str)を取り入れました。アプリケーションでグローバルな`str`ヘルパを定義している場合は、Laravel自身の`str`ヘルパと競合しないように、名前を変更するか削除する必要があります。
 
 <a name="when-and-unless-methods"></a>
 #### `when`／`unless`メソッド
@@ -427,7 +427,7 @@ $collection->when(function ($collection) {
 
 **影響の可能性： 中程度**
 
-[HTTPクライアント](/docs/{{version}}/http-client)のデフォルトのタイムアウトを３０秒にしました。つまり、３０秒以内にサーバーから応答がない場合、例外が発生していました。以前は、HTTPクライアントにデフォルトのタイムアウトの長さが設定されていなかったため、リクエストが永久に「ハングアップ」することがありました。
+[HTTPクライアント](/docs/{{version}}/http-client)のデフォルトのタイムアウトを３０秒にしました。つまり、３０秒以内にサーバから応答がない場合、例外が発生していました。以前は、HTTPクライアントにデフォルトのタイムアウトの長さが設定されていなかったため、リクエストが永久に「ハングアップ」することがありました。
 
 もし、指定するリクエストへより長いタイムアウトを指定したい場合は、`timeout`メソッドを使用して指定できます。
 
@@ -472,7 +472,7 @@ composer require symfony/postmark-mailer symfony/http-client
 
 #### "Swift"メソッドの変更
 
-一部は文書化されていない、さまざまなSwiftMailer関連のメソッドは、Symfony Mailerの対応するメソッドへ名前を変更しました。たとえば、`withSwiftMessage`メソッドの名前は、`withSymfonyMessage`に変更しました。
+一部は文書化されていない、さまざまなSwiftMailer関連のメソッドは、Symfony Mailerの対応するメソッドへ名前を変更しました。たとえば、`withSwiftMessage`メソッドの名前を`withSymfonyMessage`に変更しました。
 
     // Laravel8.x
     $this->withSwiftMessage(function ($message) {
@@ -490,9 +490,9 @@ composer require symfony/postmark-mailer symfony/http-client
         );
     });
 
-> {note} Please thoroughly review the [Symfony Mailer documentation](https://symfony.com/doc/6.0/mailer.html#creating-sending-messages) for all possible interactions with the `Symfony\Component\Mime\Email` object.
-> {note} `Symfony \ Component \ Mime \ Emailとのすべての可能な相互作用について、[Symfony Mailerドキュメント]（https://symfony.com/doc/6.0/mailer.html#creating-sending-messages）を徹底的に確認してください。 `オブジェクト。
-The list below contains a more thorough overview of renamed methods. Many of these methods are low-level methods used to interact with SwiftMailer / Symfony Mailer directly, so may not be commonly used within most Laravel applications:
+> {note} `Symfony\Component\Mime\Email`オブジェクトと関わるすべてに関して、[Symfony Mailerドキュメント](https://symfony.com/doc/6.0/mailer.html#creating-sending-messages)を徹底的に確認してください。
+
+以下のリストには、改名されたメソッドの概要がより詳細に記載されています。これらのメソッドの多くは SwiftMailer／Symfony Mailer と直接やりとりするための低レベルのメソッドなので、ほとんどの Laravel アプリケーションの中で一般的に使われることはないと思われます。
 
     Message::getSwiftMessage();
     Message::getSymfonyMessage();
@@ -512,13 +512,13 @@ The list below contains a more thorough overview of renamed methods. Many of the
     MailManager::createTransport($config);
     MailManager::createSymfonyTransport($config);
 
-#### Proxied `Illuminate\Mail\Message` Methods
+#### `Illuminate\Mail\Message`メソッドのプロキシ処理
 
-The `Illuminate\Mail\Message` typically proxied missing methods to the underlying `Swift_Message` instance. However, missing methods are now proxied to an instance of `Symfony\Component\Mime\Email` instead. So, any code that was previously relying on missing methods to be proxied to SwiftMailer should be updated to their corresponding Symfony Mailer counterparts.
+`Illuminate\Mail\Message`は通常、見つからないメソッドを裏で動作している`Swift_Message`インスタンスへプロキシしていました。しかし、見つからないメソッドは、代わりに`Symfony\Component\Mime\Email`インスタンスへプロキシするようにしました。したがって、これまで見つからないメソッドがSwiftMailerへプロキシされる動作に依存していたコードは、対応するsymfony Mailerのメソッドへ更新する必要があります。
 
-Again, many applications may not be interacting with these methods, as they are not documented within the Laravel documentation:
+繰り返しますが、Laravelのドキュメントに記載されていないため、多くのアプリケーションはこれらのメソッドと関わっていないでしょう。
 
-    // Laravel 8.x...
+    // Laravel8.x
     $message
         ->setFrom('taylor@laravel.com')
         ->setTo('example@example.org')
@@ -526,7 +526,7 @@ Again, many applications may not be interacting with these methods, as they are 
         ->setBody('<h1>HTML</h1>', 'text/html')
         ->addPart('Plain Text', 'text/plain');
 
-    // Laravel 9.x...
+    // Laravel9.x
     $message
         ->from('taylor@laravel.com')
         ->to('example@example.org')
@@ -534,66 +534,66 @@ Again, many applications may not be interacting with these methods, as they are 
         ->html('<h1>HTML</h1>')
         ->text('Plain Text');
 
-#### Generated Messages IDs
+#### 生成するメッセージID
 
-SwiftMailer offered the ability to define a custom domain to include in generated Message IDs via the `mime.idgenerator.idright` configuration option. This is not supported by Symfony Mailer. Instead, Symfony Mailer will automatically generate a Message ID based on the sender.
+SwiftMailerは、`mime.idgenerator.idright`設定オプションで、生成するメッセージIDに含めるカスタムドメインを定義することが可能でした。これはSymfony Mailerではサポートされていません。代わりに、Symfony Mailerは送信者に基づいてメッセージIDを自動的に生成します。
 
-#### Forced Reconnections
+#### 再接続の強制
 
-It is no longer possible to force a transport reconnection (for example when the mailer is running via a daemon process). Instead, Symfony Mailer will attempt to reconnect to the transport automatically and throw an exception if the reconnection fails.
+トランスポートの再接続を強制することはできなくなりました。（例：メーラーがデーモンプロセスで動作している場合）代わりに、Symfony Mailerは自動的にトランスポートへの再接続を試み、再接続が失敗した場合は例外を投げます。
 
-#### SMTP Stream Options
+#### SMTPストリームオプション
 
-Defining stream options for the SMTP transport is no longer supported. Instead, you must define the relevant options directly within the configuration if they are supported. For example, to disable TLS peer verification:
+SMTPトランスポートのストリームオプションの定義をサポートしなくなりました。代わりに、関連オプションがサポートされている場合、設定内で直接定義する必要があります。例として、TLSピア認証を無効にする場合をご覧ください。
 
     'smtp' => [
-        // Laravel 8.x...
+        // Laravel8.x
         'stream' => [
             'ssl' => [
                 'verify_peer' => false,
             ],
         ],
 
-        // Laravel 9.x...
+        // Laravel9.x
         'verify_peer' => false,
     ],
 
-To learn more about the available configuration options, please review the [Symfony Mailer documentation](https://symfony.com/doc/6.0/mailer.html#transport-setup).
+利用可能な設定オプションの詳細は、[Symfony Mailer documentation](https://symfony.com/doc/6.0/mailer.html#transport-setup)を確認してください。
 
-> {note} In spite of the example above, you are not generally advised to disable SSL verification since it introduces the possibility of "man-in-the-middle" attacks.
+> {note} 上記に例として挙げましたが、SSL認証を無効にすることは、「中間者」攻撃の可能性をもたらすので、一般的にはおすすめできません。
 
 #### SMTP `auth_mode`
 
-Defining the SMTP `auth_mode` in the `mail` configuration file is no longer required. The authentication mode will be automatically negotiated between Symfony Mailer and the SMTP server.
+SMTPの`auth_mode`を`mail`設定ファイルで定義する必要はなくなりました。認証モードは、Symfony MailerとSMTPサーバの間で自動的にネゴシエーションされます。
 
 #### Failed Recipients
 
-It is no longer possible to retrieve a list of failed recipients after sending a message. Instead, a `Symfony\Component\Mailer\Exception\TransportExceptionInterface` exception will be thrown if a message fails to send. Instead of relying on retrieving invalid email addresses after sending a message, we recommend that you validate email addresses before sending the message instead.
+メッセージ送信後に、失敗した受信者のリストを取得できなくなりました。代わりに、メッセージの送信に失敗すると、`Symfony\Component\Mailer\Exception\TransportExceptionInterface`例外が投げられるようになりました。メッセージ送信後に無効なメールアドレスの取得する代わりに、メッセージ送信前にメールアドレスの検証を行うことを推奨します。
 
-### Packages
+### パッケージ
 
 <a name="the-lang-directory"></a>
-#### The `lang` Directory
+#### `lang`ディレクトリ
 
 **影響の可能性： 中程度**
 
-In new Laravel applications, the `resources/lang` directory is now located in the root project directory (`lang`). If your package is publishing language files to this directory, you should ensure that your package is publishing to `app()->langPath()` instead of a hard-coded path.
+新しいLaravelアプリケーションでは、`resources/lang`ディレクトリがプロジェクトのルートディレクトリの`lang`へ配置しました。もし、あなたのパッケージがこのディレクトリへ直接言語ファイルをリソース公開していれば、パスをハードコードせずに、`app()->langPath()`へ確実にリソース公開してください。
 
 <a name="queue"></a>
 ### キュー
 
 <a name="the-opis-closure-library"></a>
-#### The `opis/closure` Library
+#### `opis/closure`ライブラリ
 
 **影響の可能性： 低い**
 
-Laravel's dependency on `opis/closure` has been replaced by `laravel/serializable-closure`. This should not cause any breaking change in your application unless you are interacting with the `opis/closure` library directly. In addition, the previously deprecated `Illuminate\Queue\SerializableClosureFactory` and `Illuminate\Queue\SerializableClosure` classes have been removed. If you are interacting with `opis/closure` library directly or using any of the removed classes, you may use [Laravel Serializable Closure](https://github.com/laravel/serializable-closure) instead.
+Laravelの依存パッケージの`opis/closure`を`laravel/serializable-closure`へ置き換えました。`opis/closure`ライブラリを直接操作していない限り、これによりアプリケーションへ互換性がない変更は起きません。付け加えて、以前、非推奨にした`Illuminate\Queue\SerializableClosureFactory`と`Illuminate\Queue\SerializableClosure`クラスを削除しました。もし、`opis/closure`ライブラリを直接操作したり、削除されたクラスを使用している場合は、代わりに [Laravelシリアライズ可能クロージャ](https://github.com/laravel/serializable-closure) を使用してください。
 
-#### The Failed Job Provider `flush` Method
+#### 失敗したジョブプロバイダの`flush`メソッド
 
 **影響の可能性： 低い**
 
-The `flush` method defined by the `Illuminate\Queue\Failed\FailedJobProviderInterface` interface now accepts an `$hours` argument which determines how old a failed job must be (in hours) before it is flushed by the `queue:flush` command. If you are manually implementing the `FailedJobProviderInterface` you should ensure that your implementation is updated to reflect this new argument:
+`Illuminate\Queue\Failed\FailedJobProviderInterface`インターフェイスで定義した`flush`メソッドは、`$hours`引数を受けるようにしました。これは失敗したジョブを`queue:flush`コマンドでフラッシュするまで何時間待つかを決定します。`FailedJobProviderInterface`を手動で実装している場合、この新しい引数を反映するように実装を更新する必要があります。
 
 ```php
 public function flush($hours = null);
@@ -601,38 +601,38 @@ public function flush($hours = null);
 
 ### セッション
 
-#### The `getSession` Method
+#### `getSession`メソッド
 
 **影響の可能性： 低い**
 
-The `Symfony\Component\HttpFoundaton\Request` class that is extended by Laravel's own `Illuminate\Http\Request` class offers a `getSession` method to get the current session storage handler. This method is not documented by Laravel as most Laravel applications interact with the session through Laravel's own `session` method.
+Laravel自身の`Illuminate\Http\Request`クラスへ拡張されていた`Symfony\Component\HttpFoundaton\Request`クラスは、現在のセッションストレージハンドラを取得する`getSession`メソッドを提供しています。ほとんどのLaravelアプリケーションは、Laravel自身の`session`メソッドを通してセッションと対話するので、Laravelはこのメソッドを文書化していません。
 
-The `getSession` method previously returned an instance of `Illuminate\Session\Store` or `null`; however, due to the Symfony 6.x release enforcing a return type of `Symfony\Component\HttpFoundation\Session\SessionInterface`, the `getSession` now correctly returns a `SessionInterface` implementation or throws an `\Symfony\Component\HttpFoundation\Exception\SessionNotFoundException` exception when no session is available.
+以前の`getSession`メソッドは、`Illuminate\Session\Store`インスタンスか`null`を返していましたが、Symfony6.Xは`Symfony\Component\HttpFoundation\Session\SessionInterface`タイプを返すように強制しています。そのため、`getSession`は、`SessionInterface`の実装を返すか、セッションが存在しないときは`\Symfony\Component\HttpFoundation\Exception\SessionNotFoundException`を投げるようになりました。
 
 ### テスト
 
 <a name="the-assert-deleted-method"></a>
-#### The `assertDeleted` Method
+#### `assertDeleted`メソッド
 
 **影響の可能性： 中程度**
 
-All calls to the `assertDeleted` method should be updated to `assertModelMissing`.
+`assertDeleted`メソッドのすべての呼び出しを`assertModelMissing`へ更新してください。
 
-### Trusted Proxies
+### 信用できるプロキシ
 
 **影響の可能性： 低い**
 
-If you are upgrading your Laravel 8 project to Laravel 9 by importing your existing application code into a totally new Laravel 9 application skeleton, you may need to update your application's "trusted proxy" middleware.
+Laravel8プロジェクトをLaravel9にアップグレードする際、既存のアプリケーションコードを全く新しいLaravel9アプリケーションスケルトンへインポートする場合、アプリケーションの「信用できるプロキシ」ミドルウェアを更新する必要がある場合があります。
 
-Within your `app/Http/Middleware/TrustProxies.php` file, update `use Fideloper\Proxy\TrustProxies as Middleware` to `use Illuminate\Http\Middleware\TrustProxies as Middleware`.
+`app/Http/Middleware/TrustProxies.php`ファイル中の、`use Fideloper\Proxy\TrustProxies as Middleware`を`use Illuminate\Http\Middleware\TrustProxies as Middleware`へ変更してください。
 
-Next, within `app/Http/Middleware/TrustProxies.php`, you should update the `$headers` property definition:
+次に、`app/Http/Middleware/TrustProxies.php`中の`$headers`プロパティ定義を更新します。
 
 ```php
-// Before...
+// 変更前
 protected $headers = Request::HEADER_X_FORWARDED_ALL;
 
-// After...
+// 変更後
 protected $headers =
     Request::HEADER_X_FORWARDED_FOR |
     Request::HEADER_X_FORWARDED_HOST |
@@ -641,7 +641,7 @@ protected $headers =
     Request::HEADER_X_FORWARDED_AWS_ELB;
 ```
 
-Finally, you can remove the `fideloper/proxy` Composer dependency from your application:
+最後に、アプリケーションから`fideloper/proxy`Composerの依存パッケージを削除します。
 
 ```shell
 composer remove fideloper/proxy
@@ -649,39 +649,39 @@ composer remove fideloper/proxy
 
 ### バリデーション
 
-#### Form Request `validated` Method
+#### フォームリクエストの`validated`メソッド
 
 **影響の可能性： 低い**
 
-The `validated` method offered by form requests now accepts `$key` and `$default` arguments. If you are manually overwriting the definition of this method, you should update your method's signature to reflect these new arguments:
+フォームリクエストが提供している`validated`メソッドは、`$key`と`$default`引数を取るようにしました。このメソッドの定義を独自に上書きしている場合は、これらの新しい引数を反映させるように更新してください。
 
 ```php
 public function validated($key = null, $default = null)
 ```
 
 <a name="the-password-rule"></a>
-#### The `password` Rule
+#### `password`ルール
 
 **影響の可能性： 中程度**
 
-The `password` rule, which validates that the given input value matches the authenticated user's current password, has been renamed to `current_password`.
+与えられた入力値が認証済みユーザーの現在のパスワードと一致するかをバリデートする`password`ルールの名前を`current_password`へ変更しました。
 
 <a name="unvalidated-array-keys"></a>
 #### Unvalidated Array Keys
 
 **影響の可能性： 中程度**
 
-In previous releases of Laravel, you were required to manually instruct Laravel's validator to exclude unvalidated array keys from the "validated" data it returns, especially in combination with an `array` rule that does not specify a list of allowed keys.
+Laravelの以前のリリースでは、Laravelのバリデータが返す「バリデーション済み」データから、バリデーションしていない配列キーを除外するには、手動で指示する必要がありました。特に、許容するキーのリストを指定しない`array`ルールと組み合わせた場合です。
 
-However, in Laravel 9.x, unvalidated array keys are always excluded from the "validated" data even when no allowed keys have been specified via the `array` rule. Typically, this behavior is the most expected behavior and the previous `excludeUnvalidatedArrayKeys` method was only added to Laravel 8.x as a temporary measure in order to preserve backwards compatibility.
+しかし、Laravel9.xでは、`array`ルールで許可するキーを指定していない場合でも、バリデーションしていない配列キーは常に「バリデーション済み」データから除外されます。通常、この動作は最も期待されている動作であり、以前の`excludeUnvalidatedArrayKeys`メソッドは、Laravel8.xで下位互換性を保つための一時的な措置として追加したものでした。
 
-Although it is not recommended, you may opt-in to the previous Laravel 8.x behavior by invoking a new `includeUnvalidatedArrayKeys` method within the `boot` method of one of your application's service providers:
+推奨はしませんが、アプリケーションのサービスプロバイダの`boot`メソッド内で、新しい`includeUnvalidatedArrayKeys`メソッドを呼び出し、以前のLaravel8.x の動作を選択することもできます。
 
 ```php
 use Illuminate\Support\Facades\Validator;
 
 /**
- * Register any application services.
+ * アプリケーションの全サービスの登録
  *
  * @return void
  */
@@ -694,4 +694,4 @@ public function boot()
 <a name="miscellaneous"></a>
 ### その他
 
-We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/8.x...9.x) and choose which updates are important to you.
+また、`laravel/laravel` [GitHubリポジトリ](https://github.com/laravel/laravel)で、変更点を確認することをおすすめします。これらの変更の多くは必須ではありませんが、これらのファイルをあなたのアプリケーションへ同期させておくとよいでしょう。こうした変更の一部は、このアップグレードガイドでカバーしますが、設定ファイルやコメントの変更のような他のものは、カバーしません。[GitHub比較ツール](https://github.com/laravel/laravel/compare/8.x...9.x)で簡単に変更点を確認し、どの更新が皆さんにとって重要か選択できます。
