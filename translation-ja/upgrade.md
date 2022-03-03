@@ -407,53 +407,53 @@ $collection->when(true, function ($collection) {
 });
 ```
 
-Therefore, in previous releases of Laravel, passing a closure to the `when` or `unless` methods meant that the conditional operation would always execute, since a loose comparison against a closure object (or any other object) always evaluates to `true`. This often led to unexpected outcomes because developers expect the **result** of the closure to be used as the boolean value that determines if the conditional action executes.
+そのため、以前のLaravelのリリースでは、`when`または`unless`メソッドにクロージャを渡すとは、クロージャオブジェクト（または他のオブジェクト）に対し緩い比較が行われるため、常に結果は`true`に評価され、条件付き操作が常に実行されることを意味しました。これはしばしば、予想外の結果を生みました。なぜなら、開発者はクロージャの **結果** が、条件付きアクションが実行されるかどうかを決定するブール値として使用されることを期待していたからです。
 
-So, in Laravel 9.x, any closures passed to the `when` or `unless` methods will be executed and the value returned by the closure will be considered the boolean value used by the `when` and `unless` methods:
+そのため、Laravel9.xでは`when`や`unless`メソッドに渡されたクロージャは実行され、クロージャが返す値が`when`や`unless`メソッドが使う理論値とみなすようにしました。
 
 ```php
 $collection->when(function ($collection) {
-    // This closure is executed...
+    // このクロージャは実行される
     return false;
 }, function ($collection) {
-    // Not executed since first closure returned "false"...
+    // クロージャが"false"を返しているため、実行されない
     $collection->merge([1, 2, 3]);
 });
 ```
 
-### HTTP Client
+### HTTPクライアント
 
 <a name="http-client-default-timeout"></a>
-#### Default Timeout
+#### デフォルトタイムアウト
 
 **影響の可能性： 中程度**
 
-The [HTTP client](/docs/{{version}}/http-client) now has a default timeout of 30 seconds. In other words, if the server does not respond within 30 seconds, an exception will be thrown. Previously, no default timeout length was configured on the HTTP client, causing requests to sometimes "hang" indefinitely.
+[HTTPクライアント](/docs/{{version}}/http-client)のデフォルトのタイムアウトを３０秒にしました。つまり、３０秒以内にサーバーから応答がない場合、例外が発生していました。以前は、HTTPクライアントにデフォルトのタイムアウトの長さが設定されていなかったため、リクエストが永久に「ハングアップ」することがありました。
 
-If you wish to specify a longer timeout for a given request, you may do so using the `timeout` method:
+もし、指定するリクエストへより長いタイムアウトを指定したい場合は、`timeout`メソッドを使用して指定できます。
 
     $response = Http::timeout(120)->get(...);
 
-#### HTTP Fake & Middleware
+#### HTTP Fakeとミドルウェア
 
 **影響の可能性： 低い**
 
-Previously, Laravel would not execute any provided Guzzle HTTP middleware when the [HTTP client](/docs/{{version}}/http-client) was "faked". However, in Laravel 9.x, Guzzle HTTP middleware will be executed even when the HTTP client is faked.
+以前は、[HTTPクライアント](/docs/{{version}}/http-client)が "fake"されていても、Laravelは指定されたGuzzle HTTPミドルウェアを実行しませんでした。しかし、Laravel 9.xでは、HTTPクライアントがFakeであっても、Guzzle HTTPミドルウェアは実行されます。
 
-#### HTTP Fake & Dependency Injection
+#### HTTP Fakeと依存注入
 
 **影響の可能性： 低い**
 
-In previous releases of Laravel, invoking the `Http::fake()` method would not affect instances of the `Illuminate\Http\Client\Factory` that were injected into class constructors. However, in Laravel 9.x, `Http::fake()` will ensure fake responses are returned by HTTP clients injected into other services via dependency injection. This behavior is more consistent with the behavior of other facades and fakes.
+Laravelの以前のリリースでは、`Http::fake()`メソッドを起動しても、クラスコンストラクタへ注入された`Illuminate\Http\Client\Factory`インスタンスに影響を与えませんでした。しかし、Laravel9.xでは、`Http::fake()`は、依存注入により他のサービスへ注入されたHTTPクライアントがFakeレスポンスを返すことを保証します。この動作は、他のファサードやFakeの動作とより一貫しています。
 
 <a name="symfony-mailer"></a>
 ### Symfony Mailer
 
 **影響の可能性： 高い**
 
-One of the largest changes in Laravel 9.x is the transition from SwiftMailer, which is no longer maintained as of December 2021, to Symfony Mailer. However, we have tried to make this transition as seamless as possible for your applications. That being said, please thoroughly review the list of changes below to ensure your application is fully compatible.
+Laravl9.xの最大の変更点は、２０２１年１２月をもってメンテナンスが終了したSwiftMailerから、Symfony Mailerへの移行したことです。しかし、私たちはあなたのアプリケーションで、この移行ができるだけシームレスになるように努めました。とはいえ、あなたのアプリケーションで完全に互換を保てるように、以下の変更点のリストを十分に確認してください。
 
-#### Driver Prerequisites
+#### ドライバ要求
 
 To continue using the Mailgun transport, your application should require the `symfony/mailgun-mailer` and `symfony/http-client` Composer packages:
 
