@@ -9,12 +9,12 @@
 
 Laravelとファーストパーティパッケージは、[セマンティックバージョニング](https://semver.org)にしたがっています。メジャーなフレームのリリースは、毎年２月にリリースします。マイナーとパッチリリースはより細かく毎週リリースします。マイナーとパッチリリースは、**決して**ブレーキングチェンジを含みません
 
-When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `^9.0`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
+あなたのアプリケーションやパッケージから、Laravelフレームワーク、もしくはコンポーネントを参照する場合は、Laravelのメジャーリリースには重大な変更が含まれているため、常に`^ 9.0`などのようにバージョンを指定する必要があります。ただし、私たちは１日中以内に新しいメジャーリリースへ更新できるように、常に努力しています。
 
 <a name="named-arguments"></a>
 #### 名前付き引数
 
-[Named arguments](https://www.php.net/manual/en/functions.arguments.php#functions.named-arguments) are not covered by Laravel's backwards compatibility guidelines. We may choose to rename function arguments when necessary in order to improve the Laravel codebase. Therefore, using named arguments when calling Laravel methods should be done cautiously and with the understanding that the parameter names may change in the future.
+[名前付き引数]（https://www.php.net/manual/en/functions.arguments.php#functions.named-arguments）は、Laravelの下位互換性ガイドラインの対象外です。Laravelコードベースを改善するために、必要に応じて関数の引数の名前を変更することもできます。したがって、Laravelメソッドを呼び出すときに名前付き引数を使用する場合は、パラメーター名が将来変更される可能性があることを理解した上で、慎重に行う必要があります。
 
 <a name="support-policy"></a>
 ## サポートポリシー
@@ -43,18 +43,18 @@ Laravelのすべてのリリースは、バグフィックスは１８ヶ月、�
 (*) 対応PHPバージョン
 
 <a name="laravel-9"></a>
-## Laravel 9
+## Laravel9
 
-As you may know, Laravel transitioned to yearly releases with the release of Laravel 8. Previously, major versions were released every 6 months. This transition is intended to ease the maintenance burden on the community and challenge our development team to ship amazing, powerful new features without introducing breaking changes. Therefore, we have shipped a variety of robust features to Laravel 8 without breaking backwards compatibility, such as parallel testing support, improved Breeze starter kits, HTTP client improvements, and even new Eloquent relationship types such as "has one of many".
+ご存知かもしれませんが、Laravel8のリリース時から、Laravelは年次リリースに移行しました。以前は、メジャーバージョンを６か月ごとにリリースしていました。この変更はコミュニティのメンテナンスの負担を軽減することと、開発チームが互換性を失う変更を加えることなく、驚くべき強力な新機能を出荷する試みができることを目的としています。そのため、下位互換性を損なうことなく、さまざまな堅牢な機能をLaravel8へ取り入れました。並列テストのサポート、Breezeスターターキットの改善、HTTPクライアントの改善、さらに"has one of many"を含む、新しいEloquentリレーションシップタイプなどです。
 
-Therefore, this commitment to ship great new features during the current release will likely lead to future "major" releases being primarily used for "maintenance" tasks such as upgrading upstream dependencies, which can be seen in these release notes.
+したがって、現在のリリースへ優れた新機能を導入するこの取り組みにより、将来の「メジャー」リリースが主にアップストリームの依存関係のアップグレードなど、「メンテナンス」タスクに使用されるようになります。これは、これらのリリースノートに記載されています。
 
-Laravel 9 continues the improvements made in Laravel 8.x by introducing support for Symfony 6.0 components, Symfony Mailer, Flysystem 3.0, improved `route:list` output, a Laravel Scout database driver, new Eloquent accessor / mutator syntax, implicit route bindings via Enums, and a variety of other bug fixes and usability improvements.
+Laravel9は、Symfony6.0コンポーネントの動作には、PHP8.0以上が必要です。Flysystem3.0のサポート、改良した`route:list`表示、Laravel Scoutデータベースドライバ、新しいEloquentアクセサ／ミューテタ構文、Enumによる暗黙のルート結合、その他様々なバグ修正とユーザビリティ向上によりLaravel 8.x で改善されてきたことを継続します。
 
 <a name="php-8"></a>
-### PHP 8.0
+### PHP8.0
 
-Laravel 9.x requires a minimum PHP version of 8.0.
+Laravel9.xの動作には、PHP8.0以上が必要です。
 
 <a name="symfony-mailer"></a>
 ### Symfony Mailer
