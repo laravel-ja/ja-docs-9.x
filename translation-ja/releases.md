@@ -59,27 +59,27 @@ Laravel9.xの動作には、PHP8.0以上が必要です。
 <a name="symfony-mailer"></a>
 ### Symfony Mailer
 
-_Symfony Mailer support was contributed by [Dries Vints](https://github.com/driesvints)_, [James Brooks](https://github.com/jbrooksuk), and [Julius Kiekbusch](https://github.com/Jubeki).
+_Symfony Mailerのサポートは、[Dries Vints](https://github.com/driesvints)_、[James Brooks](https://github.com/jbrooksuk)、[Julius Kiekbusch](https://github.com/Jubeki)が貢献しました。
 
-Previous releases of Laravel utilized the [Swift Mailer](https://swiftmailer.symfony.com/docs/introduction.html) library to send outgoing email. However, that library is no longer maintained and has been succeeded by Symfony Mailer.
+以前のLaravelリリースは、送信メールの送信に[Swift Mailer](https://swiftmailer.symfony.com/docs/introduction.html)ライブラリが利用していました。しかし、このライブラリはすでにメンテナンスされておらず、Symfony Mailerに継承されています。
 
-Please review the [upgrade guide](/docs/{{version}}/upgrade#symfony-mailer) to learn more about ensuring your application is compatible with Symfony Mailer.
+皆さんのアプリケーションとSymfony Mailerとの互換性の詳細を確認するには、[アップグレードガイド](/docs/{{version}}/upgrade#symfony-mailer)を参照してください。
 
-<a name="flysystem-3"></a>
-### Flysystem 3.x
+<a name="flysyste-3"></a>
+### Flysystem3.x
 
-_Flysystem 3.x support was contributed by [Dries Vints](https://github.com/driesvints)_.
+*Flysystem3.xのサポートは、[Dries Vints](https://github.com/driesvints)が貢献しました。*
 
-Laravel 9.x upgrades our upstream Flysystem dependency to Flysystem 3.x. Flysystem powers all of filesystem interactions offered by the `Storage` facade.
+Laravel9.xは、上流のFlysystem依存パッケージをFlysystem3.xへアップグレードしています。Flysystemは、`Storage`ファサードが提供するファイルシステム操作のすべてを提供しています。
 
-Please review the [upgrade guide](/docs/{{version}}/upgrade#flysystem-3) to learn more about ensuring your application is compatible with Flysystem 3.x.
+皆さんのアプリケーションが、Flysystem3.xと互換性を持つための詳細は、[アップグレードガイド](/docs/{{version}}/upgrade#flysystem-3)を参照してください。
 
 <a name="eloquent-accessors-and-mutators"></a>
-### Improved Eloquent Accessors / Mutators
+### Eloquentアクセサ／ミューテタの向上
 
-_Improved Eloquent accessors / mutators was contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
+*Eloquentアクセサ／ミューテタの改良は、[Taylor Otwell](https://github.com/taylorotwell)が貢献しました。*
 
-Laravel 9.x offers a new way to define Eloquent [accessors and mutators](/docs/{{version}}/eloquent-mutators#accessors-and-mutators). In previous releases of Laravel, the only way to define accessors and mutators was by defining prefixed methods on your model like so:
+Laravel9.xは、Eloquentの[アクセサとミューテタ](/docs/{{version}}/eloquent-mutators#accessors-and-mutators)を定義する新しい方法を提供しました。以前のLaravelのリリースでは、アクセサやミューテタを定義する方法は、以下のようにモデルにプレフィックス付きのメソッドを定義することのみでした。
 
 ```php
 public function getNameAttribute($value)
@@ -93,7 +93,7 @@ public function setNameAttribute($value)
 }
 ```
 
-However, in Laravel 9.x you may define an accessor and mutator using a single, non-prefixed method by type-hinting a return type of `Illuminate\Database\Eloquent\Casts\Attribute`:
+しかし、Laravel9.xでは、`Illuminate\Database\Eloquent\Casts\Attribute`タイプの戻り値をタイプヒントすることで、プレフィックスを使わない単独のメソッドを使用して、アクセサとミューテタを定義することができます。
 
 ```php
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -107,7 +107,7 @@ public function name(): Attribute
 }
 ```
 
-In addition, this new approach to defining accessors will cache object values that are returned by the attribute, just like [custom cast classes](/docs/{{version}}/eloquent-mutators#custom-casts):
+さらに、アクセサを定義するこの新しいアプローチにより、[カスタムキャストクラス](/docs/{{version}}/eloquent-mutators#custom-casts)のように、属性が返したオブジェクト値をキャッシュするようになります。
 
 ```php
 use App\Support\Address;
@@ -129,18 +129,18 @@ public function address(): Attribute
 ```
 
 <a name="enum-casting"></a>
-### Enum Eloquent Attribute Casting
+### Enum Eloquent属性キャスト
 
-> {note} Enum casting is only available for PHP 8.1+.
+> {note} EnumキャストはPHP8.1以上で利用できます。
 
-_Enum casting was contributed by [Mohamed Said](https://github.com/themsaid)_.
+_Enumキャストは、[Mohamed Said](https://github.com/themsaid)が貢献しました。_
 
-Eloquent now allows you to cast your attribute values to PHP ["backed" enums](https://www.php.net/manual/en/language.enumerations.backed.php). To accomplish this, you may specify the attribute and enum you wish to cast in your model's `$casts` property array:
+Eloquentは、属性値をPHPの[「値に依存した（backed）」enums](https://www.php.net/manual/ja/language.enumerations.backed.php)へキャストできるようになりました。これを使用するには、モデルの`$casts`プロパティ配列で、キャストしたい属性と列挙型を指定します。
 
     use App\Enums\ServerStatus;
 
     /**
-     * The attributes that should be cast.
+     * キャストする属性
      *
      * @var array
      */
@@ -148,7 +148,7 @@ Eloquent now allows you to cast your attribute values to PHP ["backed" enums](ht
         'status' => ServerStatus::class,
     ];
 
-Once you have defined the cast on your model, the specified attribute will be automatically cast to and from an enum when you interact with the attribute:
+一度、モデルでキャストを定義したら、属性を操作するとき、指定した属性は自動的にenumへキャストされたり、enumからキャストされたりします。
 
     if ($server->status == ServerStatus::provisioned) {
         $server->status = ServerStatus::ready;
@@ -157,11 +157,11 @@ Once you have defined the cast on your model, the specified attribute will be au
     }
 
 <a name="implicit-route-bindings-with-enums"></a>
-### Implicit Route Bindings With Enums
+### Enumによる暗黙のルート結合
 
-_Implicit Enum bindings was contributed by [Nuno Maduro](https://github.com/nunomaduro)_.
+*Enumによる暗黙のルート結合は、[Nuno Maduro](https://github.com/nunomaduro)が貢献しました。*
 
-PHP 8.1 introduces support for [Enums](https://www.php.net/manual/en/language.enumerations.backed.php). Laravel 9.x introduces the ability to type-hint an Enum on your route definition and Laravel will only invoke the route if that route segment is a valid Enum value in the URI. Otherwise, an HTTP 404 response will be returned automatically. For example, given the following Enum:
+PHP 8.1では、[Enums](https://www.php.net/manual/ja/language.enumerations.backed.php)がサポートされました。Laravel9.xでは、ルート定義にEnumをタイプヒントする機能が導入され、LaravelはそのルートセグメントがURIの有効なEnum値である場合にのみルートを呼び出します。そうでない場合は、HTTP 404レスポンスを自動的に返します。例えば、次のようなEnumがあるとします。
 
 ```php
 enum Category: string
@@ -171,7 +171,7 @@ enum Category: string
 }
 ```
 
-You may define a route that will only be invoked if the `{category}` route segment is `fruits` or `people`. Otherwise, an HTTP 404 response will be returned:
+`{category}`ルートセグメントが、`fruits`または`people`である場合にのみ呼び出されるルートを定義しています。そうでない場合は、HTTP 404レスポンスを返します。
 
 ```php
 Route::get('/categories/{category}', function (Category $category) {
@@ -180,11 +180,11 @@ Route::get('/categories/{category}', function (Category $category) {
 ```
 
 <a name="forced-scoping-of-route-bindings"></a>
-### Forced Scoping Of Route Bindings
+### ルート結合における制限の強制
 
-_Forced scoped bindings was contributed by [Claudio Dekker](https://github.com/claudiodekker)_.
+*制限の強制付き結合は、[Claudio Dekker](https://github.com/claudiodekker)が貢献しました。*
 
-In previous releases of Laravel, you may wish to scope the second Eloquent model in a route definition such that it must be a child of the previous Eloquent model. For example, consider this route definition that retrieves a blog post by slug for a specific user:
+以前のLaravelリリースで、ルート定義の２番目のEloquentモデルを前のEloquentモデルの子になるように制限したい場合があったとしましょう。例として、特定ユーザーのブログ記事をスラッグで取得するルート定義について考えてみましょう。
 
     use App\Models\Post;
     use App\Models\User;
@@ -193,9 +193,9 @@ In previous releases of Laravel, you may wish to scope the second Eloquent model
         return $post;
     });
 
-When using a custom keyed implicit binding as a nested route parameter, Laravel will automatically scope the query to retrieve the nested model by its parent using conventions to guess the relationship name on the parent. However, this behavior was only previously supported by Laravel when a custom key was used for the child route binding.
+ネストしたルートパラメータとして、カスタムキー付きの暗黙の結合を使用する場合、Laravelは親のリレーション名を推測する命名規約を使用することにより、ネストしたモデルを取得するためのクエリを自動的に制限します。しかし、この動作は以前、カスタムキーが子ルートの結合に使用されたときのみ、Laravelはサポートしていました。
 
-However, in Laravel 9.x, you may now instruct Laravel to scope "child" bindings even when a custom key is not provided. To do so, you may invoke the `scopeBindings` method when defining your route:
+しかし、Laravel9.xでは、カスタムキーが提供されない場合でも、Laravelに「子」結合を限定するよう指示できるようになりました。これを行うには、ルートの定義で`scopeBindings`メソッドを呼び出します。
 
     use App\Models\Post;
     use App\Models\User;
@@ -204,7 +204,7 @@ However, in Laravel 9.x, you may now instruct Laravel to scope "child" bindings 
         return $post;
     })->scopeBindings();
 
-Or, you may instruct an entire group of route definitions to use scoped bindings:
+また、ルート定義のグループ全体へ、スコープ付き結合を使用するように指示することもできます。
 
     Route::scopeBindings()->group(function () {
         Route::get('/users/{user}/posts/{post}', function (User $user, Post $post) {
@@ -213,11 +213,11 @@ Or, you may instruct an entire group of route definitions to use scoped bindings
     });
 
 <a name="controller-route-groups"></a>
-### Controller Route Groups
+### コントローラルートグループ
 
-_Route group improvements were contributed by [Luke Downing](https://github.com/lukeraymonddowning)_.
+*ルートグループの改良は、[Luke Downing](https://github.com/lukeraymonddowning)が貢献しました。*
 
-You may now use the `controller` method to define the common controller for all of the routes within the group. Then, when defining the routes, you only need to provide the controller method that they invoke:
+`controller` メソッドにより、グループ内のすべてのルートに共通のコントローラーを定義できるようになりました。それにより、ルート定義時に呼び出すコントローラメソッドを指定するだけでよくなりました。
 
     use App\Http\Controllers\OrderController;
 
@@ -236,26 +236,27 @@ When using MySQL or PostgreSQL, the `fullText` method may now be added to column
     $table->text('bio')->fullText();
 
 In addition, the `whereFullText` and `orWhereFullText` methods may be used to add full text "where" clauses to a query for columns that have [full text indexes](/docs/{{version}}/migrations#available-index-types). These methods will be transformed into the appropriate SQL for the underlying database system by Laravel. For example, a `MATCH AGAINST` clause will be generated for applications utilizing MySQL:
+さらに、`whereFullText`と`orWhereFullText`メソッドを使用すると、[フルテキストインデックス](/docs/{{version}}/migrations#available-index-types) を持つカラムのクエリに、フルテキストの"WHERE"節を追加できます。これらのメソッドは、裏で動作するデータベースシステムに適したSQLへ、Laraelが変換します。例えば、MySQLを利用するアプリケーションでは、`MATCH AGAINST`句を生成します。
 
     $users = DB::table('users')
                ->whereFullText('bio', 'web developer')
                ->get();
 
 <a name="laravel-scout-database-engine"></a>
-### Laravel Scout Database Engine
+### Laravel Scoutデータベースエンジン
 
-_The Laravel Scout database engine was contributed by [Taylor Otwell](https://github.com/taylorotwell) and [Dries Vints](https://github.com/driesvints)_.
+*Laravel Scoutデータベースエンジンは、[Taylor Otwell](https://github.com/taylorotwell)と[Dries Vints](https://github.com/driesvints)が、貢献しました。*
 
-If your application interacts with small to medium sized databases or has a light workload, you may now use Scout's "database" engine instead of a dedicated search service such as Algolia or MeiliSearch. The database engine will use "where like" clauses and full text indexes when filtering results from your existing database to determine the applicable search results for your query.
+中小規模のデータベースを操作するアプリケーションや、作業負荷が軽いアプリケーションでは、AlgoliaやMeiliSearchのような専用の検索サービスではなく、Scoutで「データベース」エンジンを利用できるようにしました。データベースエンジンは、既存のデータベースから検索結果をフィルタリングするとき、"WHERE LIKE"句と全文インデックスを使用して、クエリの検索結果を決定します。
 
-To learn more about the Scout database engine, consult the [Scout documentation](/docs/{{version}}/scout).
+Scoutデータベースエンジンの詳細は、[Scoutのドキュメント](/docs/{{version}}/scout)を参照してください。
 
 <a name="rendering-inline-blade-templates"></a>
-### Rendering Inline Blade Templates
+### インラインBladeテンプレートのレンダ
 
-_Rendering inline Blade templates was contributed by [Jason Beggs](https://github.com/jasonlbeggs). Rendering inline Blade components was contributed by [Toby Zerner](https://github.com/tobyzerner)_.
+*インラインBladeテンプレートのレンダは、[Jason Beggs](https://github.com/jasonlbeggs)が貢献しました。インラインBladeコンポーネントのレンダは、[Toby Zerner](https://github.com/tobyzerner)が貢献しました。*
 
-Sometimes you may need to transform a raw Blade template string into valid HTML. You may accomplish this using the `render` method provided by the `Blade` facade. The `render` method accepts the Blade template string and an optional array of data to provide to the template:
+素のBladeテンプレート文字列を有効なHTMLへ変換する必要が起きることもあるでしょう。このような場合は、`Blade`ファサードが提供する`render`メソッドを使用します。`render`メソッドはBladeテンプレート文字列と、テンプレートに提供するデータの配列をオプションで受け取ります。
 
 ```php
 use Illuminate\Support\Facades\Blade;
@@ -263,7 +264,7 @@ use Illuminate\Support\Facades\Blade;
 return Blade::render('Hello, {{ $name }}', ['name' => 'Julian Bashir']);
 ```
 
-Similarly, the `renderComponent` method may be used to render a given class component by passing the component instance to the method:
+同様に、`renderComponent`メソッドは、クラスコンポーネントのインスタンスをメソッドへ渡し、レンダするために使用します。
 
 ```php
 use App\View\Components\HelloComponent;
@@ -272,11 +273,11 @@ return Blade::renderComponent(new HelloComponent('Julian Bashir'));
 ```
 
 <a name="slot-name-shortcut"></a>
-### Slot Name Shortcut
+### スロット名の短期法
 
-_Slot name shortcuts were contributed by [Caleb Porzio](https://github.com/calebporzio)._
+*スロット名の短期法は、[Caleb Porzio](https://github.com/calebporzio)の貢献です。*
 
-In previous releases of Laravel, slot names were provided using a `name` attribute on the `x-slot` tag:
+以前のLaravelリースでは、スロット名を`x-slot`タグの`name`属性で指定していました。
 
 ```blade
 <x-alert>
@@ -288,7 +289,7 @@ In previous releases of Laravel, slot names were provided using a `name` attribu
 </x-alert>
 ```
 
-However, beginning in Laravel 9.x, you may specify the slot's name using a convenient, shorter syntax:
+しかし、Laravel9.xからは、スロットの名前を便利な短期法で指定できます。
 
 ```xml
 <x-slot:title>
@@ -299,9 +300,9 @@ However, beginning in Laravel 9.x, you may specify the slot's name using a conve
 <a name="checked-selected-blade-directives"></a>
 ### Checked / Selected Blade Directives
 
-_Checked and selected Blade directives were contributed by [Ash Allen](https://github.com/ash-jc-allen) and [Taylor Otwell](https://github.com/taylorotwell)_.
+*checkedとselected Bladeディレクティブは、[Ash Allen](https://github.com/ash-jc-allen)と[Taylor Otwell](https://github.com/taylorotwell)の貢献です。
 
-For convenience, you may now use the `@checked` directive to easily indicate if a given HTML checkbox input is "checked". This directive will echo `checked` if the provided condition evaluates to `true`:
+利便が良いよう、指定したHTMLのチェックボックス入力が"checked"であることを簡単に表すため、`@checked`ディレクティブを使用できます。このディレクティブは、指定条件が`true`と評価された場合、`checked`をechoします。
 
 ```blade
 <input type="checkbox"
@@ -310,7 +311,8 @@ For convenience, you may now use the `@checked` directive to easily indicate if 
         @checked(old('active', $user->active)) />
 ```
 
-Likewise, the `@selected` directive may be used to indicate if a given select option should be "selected":
+同様に、`@selected`ディレクティブは、特定のセレクトオプションが"selected"であることを表すために使用します。
+
 
 ```blade
 <select name="version">
