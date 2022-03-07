@@ -325,16 +325,16 @@ return Blade::renderComponent(new HelloComponent('Julian Bashir'));
 ```
 
 <a name="bootstrap-5-pagination-views"></a>
-### Bootstrap 5 Pagination Views
+### Bootstrap5ペジネーションビュー
 
-_Bootstrap 5 pagination views were contributed by [Jared Lewis](https://github.com/jrd-lewis)_.
+*Bootstrap5ペジネーションビューは、[Jared Lewis](https://github.com/jrd-lewis)の貢献です*
 
-Laravel now includes pagination views built using [Bootstrap 5](https://getbootstrap.com/). To use these views instead of the default Tailwind views, you may call the paginator's `useBootstrapFive` method within the `boot` method of your `App\Providers\AppServiceProvider` class:
+Laravelは、[Bootstrap5](https://getbootstrap.com/)を使用したペジネーションビューを用意しました。デフォルトのTailwindビューの代わりにこのビューを使うには、`App\Providers\AppServiceProvider`クラスの`boot`メソッド内で、ペジネタの`useBootstrapFive`メソッドを呼び出してください。
 
     use Illuminate\Pagination\Paginator;
 
     /**
-     * Bootstrap any application services.
+     * 全アプリケーションサービスの初期起動処理
      *
      * @return void
      */
@@ -344,11 +344,11 @@ Laravel now includes pagination views built using [Bootstrap 5](https://getboots
     }
 
 <a name="improved-validation-of-nested-array-data"></a>
-### Improved Validation Of Nested Array Data
+### ネストした配列データのバリデーション向上
 
-_Improved validation of nested array inputs was contributed by [Steve Bauman](https://github.com/stevebauman)_.
+*ネストした配列入力のバリデーションの向上は、[Steve Bauman](https://github.com/stevebauman)が貢献しました。*
 
-Sometimes you may need to access the value for a given nested array element when assigning validation rules to the attribute. You may now accomplish this using the `Rule::forEach` method. The `forEach` method accepts a closure that will be invoked for each iteration of the array attribute under validation and will receive the attribute's value and explicit, fully-expanded attribute name. The closure should return an array of rules to assign to the array element:
+バリデーションルールを属性へ割り当てるとき、ネストした配列要素の値へアクセスする必要があることがあります。このような場合には、`Rule::forEach`メソッドを使います。`forEach`メソッドは、バリデーション対象の配列属性の繰り返しごとに呼び出されるクロージャを受け取り、属性の値と完全に展開された明確な属性名を受け取ります。クロージャは、配列の要素へ割り当てるルールの配列を返す必要があります。
 
     use App\Rules\HasPermission;
     use Illuminate\Support\Facades\Validator;
@@ -364,52 +364,52 @@ Sometimes you may need to access the value for a given nested array element when
     ]);
 
 <a name="laravel-breeze-api"></a>
-### Laravel Breeze API & Next.js
+### Laravel Breeze APIとNext.js
 
-_The Laravel Breeze API scaffolding and Next.js starter kit was contributed by [Taylor Otwell](https://github.com/taylorotwell) and [Miguel Piedrafita](https://twitter.com/m1guelpf)_.
+*Laravel Breeze APIスカフォールドとNext.jsスターターキットは、[Taylor Otwell](https://github.com/taylorotwell)と[Miguel Piedrafita](https://twitter.com/m1guelpf)の貢献です。*
 
-The [Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-next) starter kit has received an "API" scaffolding mode and complimentary [Next.js](https://nextjs.org) [frontend implementation](https://github.com/laravel/breeze-next). This starter kit scaffolding may be used to jump start your Laravel applications that are serving as a backend, Laravel Sanctum authenticated API for a JavaScript frontend.
+[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-next)スターターキットに「API」スカフォールドモードと賞賛すべき[Next.js](https://nextjs.org)の[フロントエンド実装](https://github.com/laravel/breeze-next)を追加しました。このスターターキットのスカフォールドはバックグラウンドとして動作するLaravelアプリケーションや、Laravel Sanctum認証APIのJavaScriptフロントエンドのジャンプスタートに利用できるでしょう。
 
 <a name="exception-page"></a>
-### Improved Ignition Exception Page
+### Ignition例外ページの向上
 
-_Ignition is developed by [Spatie](https://spatie.be/)._
+*Ignitionは、[Spatie](https://spatie.be/)が開発しています。*
 
-Ignition, the open source exception debug page created by Spatie, has been redesigned from the ground up. The new, improved Ignition ships with Laravel 9.x and includes light / dark themes, customizable "open in editor" functionality, and more.
+Spatieが開発しているオープンソースの例外デバッグページ、Ignitionが一から設計し直されました。新しくなったIgnitionはLaravel9.xに同梱され、ライト/ダークテーマ、カスタマイズ可能な「エディタで開く」機能などが用意されました。
 
 <p align="center">
 <img width="100%" src="https://user-images.githubusercontent.com/483853/149235404-f7caba56-ebdf-499e-9883-cac5d5610369.png"/>
 </p>
 
 <a name="improved-route-list"></a>
-### Improved `route:list` CLI Output
+### `route:list` CLI表示の向上
 
-_Improved `route:list` CLI output was contributed by [Nuno Maduro](https://github.com/nunomaduro)_.
+`route:list`のCLI出力の改良は、[Nuno Maduro](https://github.com/nunomaduro)の貢献です。
 
-The `route:list` CLI output has been significantly improved for the Laravel 9.x release, offering a beautiful new experience when exploring your route definitions.
+Laravel9.xリリースでは、`route:list` CLI表示を大幅に改善し、ルート定義の表示の際、素晴らしく新しいエクスペリエンスを提供します。
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/5457236/148321982-38c8b869-f188-4f42-a3cc-a03451d5216c.png"/>
 </p>
 
 <a name="test-coverage-support-on-artisan-test-Command"></a>
-### Test Coverage Using Artisan `test` Command
+### Artisan `test`コマンドを使ったテストカバレージ
 
-_Test coverage when using the Artisan `test` command was contributed by [Nuno Maduro](https://github.com/nunomaduro)_.
+*Artisan `test`コマンド使用のテストカバレッジは、[Nuno Maduro](https://github.com/nunomaduro)の貢献です。*
 
-The Artisan `test` command has received a new `--coverage` option that you may use to explore the amount of code coverage your tests are providing to your application:
+Artisan の `test` コマンドに、新たに`--coverage`オプションを追加し、アプリケーションに用意したテストのコードカバレッジの量を調べられるようになりました。
 
 ```shell
 php artisan test --coverage
 ```
 
-The test coverage results will be displayed directly within the CLI output.
+テストカバレッジの結果は、CLI出力内に直接表示しています。
 
 <p align="center">
 <img width="100%" src="https://user-images.githubusercontent.com/5457236/150133237-440290c2-3538-4d8e-8eac-4fdd5ec7bd9e.png"/>
 </p>
 
-In addition, if you would like to specify a minimum threshold that your test coverage percentage must meet, you may use the `--min` option. The test suite will fail if the given minimum threshold is not met:
+さらに、満たすべき最小のテストカバレッジパーセンテージの閾値を指定する場合は、`--min` オプションを使用します。指定した最小閾値を満たさない場合、テストスイートは失敗します。
 
 ```shell
 php artisan test --coverage --min=80.3
@@ -420,40 +420,40 @@ php artisan test --coverage --min=80.3
 </p>
 
 <a name="soketi-echo-server"></a>
-### Soketi Echo Server
+### Soketi サーバ
 
-_The Soketi Echo server was developed by [Alex Renoki](https://github.com/rennokki)_.
+*Soketi Echoサーバーは、[Alex Renoki](https://github.com/rennokki)が開発しました。*
 
-Although not exclusive to Laravel 9.x, Laravel has recently assisted with the documentation of Soketi, a [Laravel Echo](/docs/{{version}}/broadcasting) compatible Web Socket server written for Node.js. Soketi provides a great, open source alternative to Pusher and Ably for those applications that prefer to manage their own Web Socket server.
+Laravel9.x専用ではありませんが、最近LaravelはNode.js用に書かれた[Laravel Echo](/docs/{{version}}/broadcasting)対応のWeb Socketサーバー、Soketiのドキュメント作成を支援しました。Soketiは、PusherやAblyに代わる、素晴らしいオープンソースのWeb Socketサーバーを提供します。
 
-For more information on using Soketi, please consult the [broadcasting documentation](/docs/{{version}}/broadcasting) and [Soketi documentation](https://docs.soketi.app/).
+Soketiの使い方は、[ブロードキャストのドキュメント](/docs/{{version}}/broadcasting)および[Soketiのドキュメント](https://docs.soketi.app/ を参照してください。
 
 <a name="improved-collections-ide-support"></a>
-### Improved Collections IDE Support
+### コレクションとIDEサポートの向上
 
-_Improved collections IDE support was contributed by [Nuno Maduro](https://github.com/nunomaduro)_.
+*コレクションとIDEサポートの向上は、[Nuno Maduro](https://github.com/nunomaduro)の貢献です。*
 
-Laravel 9.x adds improved, "generic" style type definitions to the collections component, improving IDE and static analysis support. IDEs such as [PHPStorm](https://blog.jetbrains.com/phpstorm/2021/12/phpstorm-2021-3-release/#support_for_future_laravel_collections) or static analysis tools such as [PHPStan](https://phpstan.org) will now better understand Laravel collections natively.
+Laravel9.xは、改良した「ジェネリック」スタイルの型定義をコレクションコンポーネントへ追加し、IDEと静的解析へのサポートを向上しました。[PHPStorm](https://blog.jetbrains.com/phpstorm/2021/12/phpstorm-2021-3-release/#support_for_future_laravel_collections)などのIDEや、[PHPStan](https://phpstan.org)などの静的解析ツールは、Laravelコレクションをより自然に理解できるようになりました。
 
 <p align="center">
 <img width="100%" src="https://user-images.githubusercontent.com/5457236/151783350-ed301660-1e09-44c1-b549-85c6db3f078d.gif"/>
 </p>
 
 <a name="new-helpers"></a>
-### New Helpers
+### 新ヘルパ
 
-Laravel 9.x introduces two new, convenient helper functions that you may use in your own application.
+Laravel 9.xでは、皆さん自身のアプリケーションでも使ってもらえる、便利なヘルパ関数を２つ導入しました。
 
 <a name="new-helpers-str"></a>
 #### `str`
 
-The `str` function returns a new `Illuminate\Support\Stringable` instance for the given string. This function is equivalent to the `Str::of` method:
+`str`関数は、指定した文字列に対する新しい`Illuminate\Support\Stringable`インスタンスを返します。この関数は、`Str::of`メソッドと等価です。
 
     $string = str('Taylor')->append(' Otwell');
 
     // 'Taylor Otwell'
 
-If no argument is provided to the `str` function, the function returns an instance of `Illuminate\Support\Str`:
+`str`関数へ、引数を指定しなかった場合、この関数は`Illuminate\Support\Str`インスタンスを返します。
 
     $snake = str()->snake('LaravelFramework');
 
@@ -462,10 +462,10 @@ If no argument is provided to the `str` function, the function returns an instan
 <a name="new-helpers-to-route"></a>
 #### `to_route`
 
-The `to_route` function generates a redirect HTTP response for a given named route, providing an expressive way to redirect to named routes from your routes and controllers:
+`to_route`関数は、指定名前付きルートへのリダイレクトHTTPレスポンスを生成し、ルートやコントローラーから名前付きルートへリダイレクトするための表現力豊かな手法を提供しています。
 
     return to_route('users.show', ['user' => 1]);
 
-If necessary, you may pass the HTTP status code that should be assigned to the redirect and any additional response headers as the third and fourth arguments to the to_route method:
+必要に応じ、リダイレクトへ割り当てるHTTPステータスコードと追加のレスポンスヘッダを、to_routeメソッドの第３、第４引数へ渡せます。
 
     return to_route('users.show', ['user' => 1], 302, ['X-Framework' => 'Laravel']);
