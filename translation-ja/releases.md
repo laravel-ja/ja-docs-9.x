@@ -14,7 +14,7 @@ Laravelとファーストパーティパッケージは、[セマンティック
 <a name="named-arguments"></a>
 #### 名前付き引数
 
-[名前付き引数]（https://www.php.net/manual/en/functions.arguments.php#functions.named-arguments）は、Laravelの下位互換性ガイドラインの対象外です。Laravelコードベースを改善するために、必要に応じて関数の引数の名前を変更することもできます。したがって、Laravelメソッドを呼び出すときに名前付き引数を使用する場合は、パラメーター名が将来変更される可能性があることを理解した上で、慎重に行う必要があります。
+[名前付き引数](https://www.php.net/manual/en/functions.arguments.php#functions.named-arguments)は、Laravelの下位互換性ガイドラインの対象外です。Laravelコードベースを改善するために、必要に応じて関数の引数の名前を変更することもできます。したがって、Laravelメソッドを呼び出すときに名前付き引数を使用する場合は、パラメーター名が将来変更される可能性があることを理解した上で、慎重に行う必要があります。
 
 <a name="support-policy"></a>
 ## サポートポリシー
@@ -227,15 +227,14 @@ Route::get('/categories/{category}', function (Category $category) {
     });
 
 <a name="full-text"></a>
-### Full Text Indexes / Where Clauses
+### フルテキストインデックス／WHERE句
 
-_Full text indexes and "where" clauses were contributed by [Taylor Otwell](https://github.com/taylorotwell) and [Dries Vints](https://github.com/driesvints)_.
+*全文インデックスと"WHERE"句は、[Taylor Otwell](https://github.com/taylorotwell)と[Dries Vints](https://github.com/driesvints)の貢献です。*
 
-When using MySQL or PostgreSQL, the `fullText` method may now be added to column definitions to generate full text indexes:
+MySQLかPostgreSQLを使用している場合、カラム定義で`fullText`メソッドを追加し、フルテキストインデックスを生成できるようにしました。
 
     $table->text('bio')->fullText();
 
-In addition, the `whereFullText` and `orWhereFullText` methods may be used to add full text "where" clauses to a query for columns that have [full text indexes](/docs/{{version}}/migrations#available-index-types). These methods will be transformed into the appropriate SQL for the underlying database system by Laravel. For example, a `MATCH AGAINST` clause will be generated for applications utilizing MySQL:
 さらに、`whereFullText`と`orWhereFullText`メソッドを使用すると、[フルテキストインデックス](/docs/{{version}}/migrations#available-index-types) を持つカラムのクエリに、フルテキストの"WHERE"節を追加できます。これらのメソッドは、裏で動作するデータベースシステムに適したSQLへ、Laraelが変換します。例えば、MySQLを利用するアプリケーションでは、`MATCH AGAINST`句を生成します。
 
     $users = DB::table('users')
