@@ -49,7 +49,7 @@ Laravelのすべてのリリースは、バグフィックスは１８ヶ月、�
 
 したがって、現在のリリースへ優れた新機能を導入するこの取り組みにより、将来の「メジャー」リリースが主にアップストリームの依存関係のアップグレードなど、「メンテナンス」タスクに使用されるようになります。これは、これらのリリースノートに記載されています。
 
-Laravel9は、Symfony6.0コンポーネントの動作には、PHP8.0以上が必要です。Flysystem3.0のサポート、改良した`route:list`表示、Laravel Scoutデータベースドライバ、新しいEloquentアクセサ／ミューテタ構文、Enumによる暗黙のルート結合、その他様々なバグ修正とユーザビリティ向上によりLaravel 8.x で改善されてきたことを継続します。
+Laravel9、Symfony6.0コンポーネントの動作には、PHP8.0以上が必要です。Flysystem3.0のサポート、改良した`route:list`表示、Laravel Scoutデータベースドライバ、新しいEloquentアクセサ／ミューテタ構文、Enumによる暗黙のルート結合、その他様々なバグ修正とユーザービリティ向上によりLaravel8.xで改善されたことを継続しています。
 
 <a name="php-8"></a>
 ### PHP8.0
@@ -217,7 +217,7 @@ Route::get('/categories/{category}', function (Category $category) {
 
 *ルートグループの改良は、[Luke Downing](https://github.com/lukeraymonddowning)が貢献しました。*
 
-`controller` メソッドにより、グループ内のすべてのルートに共通のコントローラーを定義できるようになりました。それにより、ルート定義時に呼び出すコントローラメソッドを指定するだけでよくなりました。
+`controller` メソッドにより、グループ内のすべてのルートに共通のコントローラを定義できるようになりました。それにより、ルート定義時に呼び出すコントローラメソッドを指定するだけでよくなりました。
 
     use App\Http\Controllers\OrderController;
 
@@ -312,7 +312,6 @@ return Blade::renderComponent(new HelloComponent('Julian Bashir'));
 
 同様に、`@selected`ディレクティブは、特定のセレクトオプションが"selected"であることを表すために使用します。
 
-
 ```blade
 <select name="version">
     @foreach ($product->versions as $version)
@@ -385,7 +384,7 @@ Spatieが開発しているオープンソースの例外デバッグページ�
 
 `route:list`のCLI出力の改良は、[Nuno Maduro](https://github.com/nunomaduro)の貢献です。
 
-Laravel9.xリリースでは、`route:list` CLI表示を大幅に改善し、ルート定義の表示の際、素晴らしく新しいエクスペリエンスを提供します。
+Laravel9.xリリースでは、`route:list` CLI表示を大幅に改善し、ルート定義の表示の際に素晴らしいエクスペリエンスを提供します。
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/5457236/148321982-38c8b869-f188-4f42-a3cc-a03451d5216c.png"/>
@@ -421,9 +420,9 @@ php artisan test --coverage --min=80.3
 <a name="soketi-echo-server"></a>
 ### Soketi サーバ
 
-*Soketi Echoサーバーは、[Alex Renoki](https://github.com/rennokki)が開発しました。*
+*Soketi Echoサーバは、[Alex Renoki](https://github.com/rennokki)が開発しました。*
 
-Laravel9.x専用ではありませんが、最近LaravelはNode.js用に書かれた[Laravel Echo](/docs/{{version}}/broadcasting)対応のWeb Socketサーバー、Soketiのドキュメント作成を支援しました。Soketiは、PusherやAblyに代わる、素晴らしいオープンソースのWeb Socketサーバーを提供します。
+Laravel9.x専用ではありませんが、最近LaravelはNode.js用に書かれた[Laravel Echo](/docs/{{version}}/broadcasting)対応のWeb Socketサーバ、Soketiのドキュメント作成を支援しました。Soketiは、PusherやAblyに代わる、素晴らしいオープンソースのWeb Socketサーバを提供します。
 
 Soketiの使い方は、[ブロードキャストのドキュメント](/docs/{{version}}/broadcasting)および[Soketiのドキュメント](https://docs.soketi.app/ を参照してください。
 
