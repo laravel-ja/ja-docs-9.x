@@ -43,6 +43,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Arr::hasAny](#method-array-hasany)
 [Arr::isAssoc](#method-array-isassoc)
 [Arr::isList](#method-array-islist)
+[Arr::keyBy](#method-array-keyby)
 [Arr::last](#method-array-last)
 [Arr::only](#method-array-only)
 [Arr::pluck](#method-array-pluck)
@@ -75,6 +76,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [base_path](#method-base-path)
 [config_path](#method-config-path)
 [database_path](#method-database-path)
+[lang_path](#method-lang-path)
 [mix](#method-mix)
 [public_path](#method-public-path)
 [resource_path](#method-resource-path)
@@ -97,6 +99,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::before](#method-str-before)
 [Str::beforeLast](#method-str-before-last)
 [Str::between](#method-str-between)
+[Str::betweenFirst](#method-str-between-first)
 [Str::camel](#method-camel-case)
 [Str::contains](#method-str-contains)
 [Str::containsAll](#method-str-contains-all)
@@ -108,6 +111,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::isAscii](#method-str-is-ascii)
 [Str::isUuid](#method-str-is-uuid)
 [Str::kebab](#method-kebab-case)
+[Str::lcfirst](#method-str-lcfirst)
 [Str::length](#method-str-length)
 [Str::limit](#method-str-limit)
 [Str::lower](#method-str-lower)
@@ -162,6 +166,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [before](#method-fluent-str-before)
 [beforeLast](#method-fluent-str-before-last)
 [between](#method-fluent-str-between)
+[betweenFirst](#method-fluent-str-between-first)
 [camel](#method-fluent-str-camel)
 [contains](#method-fluent-str-contains)
 [containsAll](#method-fluent-str-contains-all)
@@ -177,6 +182,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [isNotEmpty](#method-fluent-str-is-not-empty)
 [isUuid](#method-fluent-str-is-uuid)
 [kebab](#method-fluent-str-kebab)
+[lcfirst](#method-fluent-str-lcfirst)
 [length](#method-fluent-str-length)
 [limit](#method-fluent-str-limit)
 [lower](#method-fluent-str-lower)
@@ -595,6 +601,27 @@ The `Arr::isList` method returns `true` if the given array's keys are sequential
     $isAssoc = Arr::isList(['product' => ['name' => 'Desk', 'price' => 100]]);
 
     // false
+
+<a name="method-array-keyby"></a>
+#### `Arr::keyBy()` {.collection-method}
+
+The `Arr::keyBy` method keys the array by the given key. If multiple items have the same key, only the last one will appear in the new array:
+
+    use Illuminate\Support\Arr;
+
+    $array = [
+        ['product_id' => 'prod-100', 'name' => 'Desk'],
+        ['product_id' => 'prod-200', 'name' => 'Chair'],
+    ];
+
+    $keyed = Arr::keyBy($array, 'product_id');
+
+    /*
+        [
+            'prod-100' => ['product_id' => 'prod-100', 'name' => 'Desk'],
+            'prod-200' => ['product_id' => 'prod-200', 'name' => 'Chair'],
+        ]
+    */
 
 <a name="method-array-last"></a>
 #### `Arr::last()` {.collection-method}
@@ -1068,6 +1095,15 @@ The `database_path` function returns the fully qualified path to your applicatio
 
     $path = database_path('factories/UserFactory.php');
 
+<a name="method-lang-path"></a>
+#### `lang_path()` {.collection-method}
+
+The `lang_path` function returns the fully qualified path to your application's `lang` directory. You may also use the `lang_path` function to generate a fully qualified path to a given file within the directory:
+
+    $path = lang_path();
+
+    $path = lang_path('en/messages.php');
+
 <a name="method-mix"></a>
 #### `mix()` {.collection-method}
 
@@ -1210,6 +1246,17 @@ The `Str::between` method returns the portion of a string between two values:
     $slice = Str::between('This is my name', 'This', 'name');
 
     // ' is my '
+    
+<a name="method-str-between-first"></a>
+#### `Str::betweenFirst()` {.collection-method}
+
+The `Str::betweenFirst` method returns the smallest possible portion of a string between two values:
+
+    use Illuminate\Support\Str;
+
+    $slice = Str::betweenFirst('[a] bc [d]', '[', ']');
+
+    // 'a'
 
 <a name="method-camel-case"></a>
 #### `Str::camel()` {.collection-method}
@@ -1387,6 +1434,17 @@ The `Str::kebab` method converts the given string to `kebab-case`:
     $converted = Str::kebab('fooBar');
 
     // foo-bar
+    
+<a name="method-str-lcfirst"></a>
+#### `Str::lcfirst()` {.collection-method}
+
+The `Str::lcfirst` method returns the given string with the first character lowercased:
+
+    use Illuminate\Support\Str;
+
+    $string = Str::lcfirst('Foo Bar');
+
+    // foo Bar
 
 <a name="method-str-length"></a>
 #### `Str::length()` {.collection-method}
@@ -1994,6 +2052,17 @@ The `between` method returns the portion of a string between two values:
     $converted = Str::of('This is my name')->between('This', 'name');
 
     // ' is my '
+    
+<a name="method-fluent-str-between-first"></a>
+#### `betweenFirst` {.collection-method}
+
+The `betweenFirst` method returns the smallest possible portion of a string between two values:
+
+    use Illuminate\Support\Str;
+
+    $converted = Str::of('[a] bc [d]')->betweenFirst('[', ']');
+
+    // 'a'
 
 <a name="method-fluent-str-camel"></a>
 #### `camel` {.collection-method}
@@ -2227,6 +2296,18 @@ The `kebab` method converts the given string to `kebab-case`:
     $converted = Str::of('fooBar')->kebab();
 
     // foo-bar
+    
+<a name="method-str-fluent-lcfirst"></a>
+#### `lcfirst()` {.collection-method}
+
+The `lcfirst` method returns the given string with the first character lowercased:
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('Foo Bar')->lcfirst();
+
+    // foo Bar
+
 
 <a name="method-fluent-str-length"></a>
 #### `length` {.collection-method}

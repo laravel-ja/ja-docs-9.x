@@ -226,7 +226,7 @@ Laravelは、アクションを認可する2つの主要な方法を提供しま
 時には、現在認証されているユーザーが、あるアクションを実行する認可を持っているかを、そのアクションに対応する専用のゲートを書かずに判断したいこともあるでしょう。Laravelでは、`Gate::allowIf`や`Gate::denyIf`メソッドを使い、「インライン」での認可チェックを行うことができます。
 
 ```php
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 Gate::allowIf(fn ($user) => $user->isAdministrator());
 

@@ -27,6 +27,7 @@
 - [Conditionally Adding Rules](#conditionally-adding-rules)
 - [Validating Arrays](#validating-arrays)
     - [Validating Nested Array Input](#validating-nested-array-input)
+    - [Error Message Indexes & Positions](#error-message-indexes-and-positions)
 - [Validating Passwords](#validating-passwords)
 - [Custom Validation Rules](#custom-validation-rules)
     - [Using Rule Objects](#using-rule-objects)
@@ -1387,9 +1388,7 @@ If you would like to construct a more complex condition for the `required_if` ru
     ]);
 
     Validator::make($request->all(), [
-        'role_id' => Rule::requiredIf(function () use ($request) {
-            return $request->user()->is_admin;
-        }),
+        'role_id' => Rule::requiredIf(fn () => $request->user()->is_admin),
     ]);
 
 <a name="rule-required-unless"></a>
@@ -1514,9 +1513,7 @@ By default, the `unique` rule will check the uniqueness of the column matching t
 
 You may specify additional query conditions by customizing the query using the `where` method. For example, let's add a query condition that scopes the query to only search records that have an `account_id` column value of `1`:
 
-    'email' => Rule::unique('users')->where(function ($query) {
-        return $query->where('account_id', 1);
-    })
+    'email' => Rule::unique('users')->where(fn ($query) => $query->where('account_id', 1))
 
 <a name="rule-url"></a>
 #### url
@@ -1669,7 +1666,7 @@ Likewise, you may use the `*` character when specifying [custom validation messa
 <a name="accessing-nested-array-data"></a>
 #### Accessing Nested Array Data
 
-Sometimes you may need to access the value for a given nested array element when assigning validation rules to the attribute. You may accomplish this using the `Rule::foreEach` method. The `forEach` method accepts a closure that will be invoked for each iteration of the array attribute under validation and will receive the attribute's value and explicit, fully-expanded attribute name. The closure should return an array of rules to assign to the array element:
+Sometimes you may need to access the value for a given nested array element when assigning validation rules to the attribute. You may accomplish this using the `Rule::forEach` method. The `forEach` method accepts a closure that will be invoked for each iteration of the array attribute under validation and will receive the attribute's value and explicit, fully-expanded attribute name. The closure should return an array of rules to assign to the array element:
 
     use App\Rules\HasPermission;
     use Illuminate\Support\Facades\Validator;
@@ -1683,6 +1680,34 @@ Sometimes you may need to access the value for a given nested array element when
             ];
         }),
     ]);
+
+<a name="error-message-indexes-and-positions"></a>
+### Error Message Indexes & Positions
+
+When validating arrays, you may want to reference the index or position of a particular item that failed validation within the error message displayed by your application. To accomplish this, you may include the `:index` and `:position` place-holders within your [custom validation message](#manual-customizing-the-error-messages):
+
+    use Illuminate\Support\Facades\Validator;
+
+    $input = [
+        'photos' => [
+            [
+                'name' => 'BeachVacation.jpg',
+                'description' => 'A photo of my beach vacation!',
+            ],
+            [
+                'name' => 'GrandCanyon.jpg',
+                'description' => '',
+            ],
+        ],
+    ];
+
+    Validator::validate($input, [
+        'photos.*.description' => 'required',
+    ], [
+        'photos.*.description.required' => 'Please describe photo #:position.',
+    ]);
+
+Given the example above, validation will fail and the user will be presented with the following error of _"Please describe photo #2."_
 
 <a name="validating-passwords"></a>
 ## Validating Passwords

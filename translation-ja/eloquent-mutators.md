@@ -48,7 +48,7 @@
          */
         protected function firstName(): Attribute
         {
-            return new Attribute(
+            return Attribute::make(
                 get: fn ($value) => ucfirst($value),
             );
         }
@@ -82,7 +82,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  */
 public function address(): Attribute
 {
-    return new Attribute(
+    return Attribute::make(
         get: fn ($value, $attributes) => new Address(
             $attributes['address_line_one'],
             $attributes['address_line_two'],
@@ -112,12 +112,12 @@ public function address(): Attribute
  */
 public function address(): Attribute
 {
-    return (new Attribute(
+    return Attribute::make(
         get: fn ($value, $attributes) => new Address(
             $attributes['address_line_one'],
             $attributes['address_line_two'],
         ),
-    ))->withoutObjectCaching();
+    )->withoutObjectCaching();
 }
 ```
 
@@ -143,7 +143,7 @@ public function address(): Attribute
          */
         protected function firstName(): Attribute
         {
-            return new Attribute(
+            return Attribute::make(
                 get: fn ($value) => ucfirst($value),
                 set: fn ($value) => strtolower($value),
             );
@@ -176,7 +176,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  */
 public function address(): Attribute
 {
-    return new Attribute(
+    return Attribute::make(
         get: fn ($value, $attributes) => new Address(
             $attributes['address_line_one'],
             $attributes['address_line_two'],
@@ -439,6 +439,11 @@ Eloquentは、属性値をPHPの[「値に依存した（backed）」 Enum](http
 `encrypted`キャストは、Laravelに組み込まれた[暗号化](/docs/{{version}}/encryption)機能を使って、モデルの属性値を暗号化します。さらに、`encrypted:array`、`encrypted:collection`、`encrypted:object`、`AsEncryptedArrayObject`、`AsEncryptedCollection`のキャストは、暗号化されていないものと同様の動作をしますが、ご期待通りにデータベースに保存される際に、基本的な値を暗号化します。
 
 暗号化したテキストの最終的な長さは予測できず、プレーンテキストのものよりも長くなるので、関連するデータベースのカラムが `TEXT` 型以上であることを確認してください。さらに、値はデータベース内で暗号化されているので、暗号化された属性値を問い合わせたり検索したりすることはできません。
+
+<a name="key-rotation"></a>
+#### キーの変更
+
+ご存知のように、Laravelはアプリケーションの`app`設定ファイルで指定した`key`設定値を使い、文字列を暗号化します。通常、この値は環境変数`APP_KEY`の値です。もし、アプリケーションの暗号化キーを変更する必要がある場合は、新しいキーを使い、暗号化した属性を手動で再暗号化する必要があります。
 
 <a name="query-time-casting"></a>
 ### クエリ時のキャスト

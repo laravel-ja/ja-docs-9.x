@@ -65,7 +65,7 @@ Macで開発していて、[Docker Desktop](https://www.docker.com/products/dock
 curl -s "https://laravel.build/example-app" | bash
 ```
 
-もちろん、このURLの"example-app"は好きなように変更できます。Laravelアプリケーションのディレクトリは、コマンドを実行したディレクトリ内に作成されます。
+もちろん、このURLの"example-app"は好きなように変更できます。ただし、アプリケーション名は英数字とハイフン、アンダーバーだけで構成してください。Laravelアプリケーションのディレクトリは、コマンドを実行したディレクトリ内に作成されます。
 
 プロジェクトを作成したら、アプリケーションディレクトリに移動してLaravel Sailを起動してください。Laravel Sailは、LaravelのデフォルトのDocker構成を操作するためのシンプルなコマンドラインインターフェイスを提供しています。
 
@@ -94,7 +94,7 @@ Windowsマシンに新しいLaravelアプリケーションを作成する前に
 curl -s https://laravel.build/example-app | bash
 ```
 
-もちろん、このURLの"example-app"は好きなように変更できます。Laravelアプリケーションのディレクトリは、コマンドを実行したディレクトリ内に作成されます。
+もちろん、このURLの"example-app"は好きなように変更できます。ただし、アプリケーション名は英数字とハイフン、アンダーバーだけで構成してください。Laravelアプリケーションのディレクトリは、コマンドを実行したディレクトリ内に作成されます。
 
 プロジェクトを作成したら、アプリケーションディレクトリに移動してLaravel Sailを起動してください。Laravel Sailは、LaravelのデフォルトのDocker構成を操作するためのシンプルなコマンドラインインターフェイスを提供しています。
 
@@ -125,7 +125,7 @@ Linuxで開発しており、[Docker Compose](https://docs.docker.com/compose/in
 curl -s https://laravel.build/example-app | bash
 ```
 
-もちろん、このURLの"example-app"は好きなように変更できます。Laravelアプリケーションのディレクトリは、コマンドを実行したディレクトリ内に作成されます。
+もちろん、このURLの"example-app"は好きなように変更できます。ただし、アプリケーション名は英数字とハイフン、アンダーバーだけで構成してください。Laravelアプリケーションのディレクトリは、コマンドを実行したディレクトリ内に作成されます。
 
 プロジェクトを作成したら、アプリケーションディレクトリに移動してLaravel Sailを起動してください。Laravel Sailは、LaravelのデフォルトのDocker構成を操作するためのシンプルなコマンドラインインターフェイスを提供しています。
 

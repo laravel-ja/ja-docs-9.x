@@ -56,6 +56,7 @@ Homesteadは、Windows、macOS、Linuxシステムで実行でき、Nginx、PHP�
 </style>
 
 <div id="software-list" markdown="1">
+
 - Ubuntu 20.04
 - Git
 - PHP 8.1
@@ -82,6 +83,7 @@ Homesteadは、Windows、macOS、Linuxシステムで実行でき、Nginx、PHP�
 - Xdebug
 - XHProf / Tideways / XHGui
 - wp-cli
+
 </div>
 
 <a name="optional-software"></a>
@@ -96,6 +98,7 @@ Homesteadは、Windows、macOS、Linuxシステムで実行でき、Nginx、PHP�
 </style>
 
 <div id="software-list" markdown="1">
+
 - Apache
 - Blackfire
 - Cassandra
@@ -125,6 +128,7 @@ Homesteadは、Windows、macOS、Linuxシステムで実行でき、Nginx、PHP�
 - TimescaleDB
 - Trader<small>（PHP拡張）</small>
 - WebdriverとLaravel Duskユーティリティ
+
 </div>
 
 <a name="installation-and-setup"></a>

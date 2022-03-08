@@ -129,9 +129,13 @@ LaravelのFlysystem統合はSFTPでも最適に機能します。ただし、サ
         'password' => env('SFTP_PASSWORD'),
 
         // オプションのSFTP設定
+        // 'hostFingerprint' => env('SFTP_HOST_FINGERPRINT'),
+        // 'maxTries' => 4,
+        // 'passphrase' => env('SFTP_PASSPHRASE'),
         // 'port' => env('SFTP_PORT', 22),
         // 'root' => env('SFTP_ROOT', ''),
         // 'timeout' => 30,
+        // 'useAgent' => true,
     ],
 
 <a name="amazon-s3-compatible-filesystems"></a>
@@ -396,7 +400,7 @@ Webアプリケーションでは、ファイルを保存するための最も�
         'avatars', $request->file('avatar'), $request->user()->id
     );
 
-> {note} 印刷できない無効なUnicode文字はファイルパスから自動的に削除されます。したがって、Laravelのファイルストレージメソッドに渡す前に、ファイルパスをサニタイズすることをお勧めします。ファイルパスは、`League\Flysystem\Util::normalizePath`メソッドを使用して正規化されます。
+> {note} 印刷できない無効なUnicode文字はファイルパスから自動的に削除されます。したがって、Laravelのファイルストレージメソッドに渡す前に、ファイルパスをサニタイズすることをお勧めします。ファイルパスは、`League\Flysystem\WhitespacePathNormalizer::normalizePath`メソッドを使用して正規化されます。
 
 <a name="specifying-a-disk"></a>
 #### ディスクの指定

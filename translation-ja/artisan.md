@@ -143,16 +143,6 @@ php artisan make:command SendEmails
         protected $description = 'Send a marketing email to a user';
 
         /**
-         * 新しいCommandインスタンスの生成
-         *
-         * @return void
-         */
-        public function __construct()
-        {
-            parent::__construct();
-        }
-
-        /**
          * consoleコマンドの実行
          *
          * @param  \App\Support\DripEmailer  $drip

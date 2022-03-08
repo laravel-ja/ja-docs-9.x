@@ -27,6 +27,7 @@
 - [条件付きの追加ルール](#conditionally-adding-rules)
 - [配列のバリデーション](#validating-arrays)
     - [ネストした配列入力のバリデーション](#validating-nested-array-input)
+    - [エラーメッセージインデックスとポジション](#error-message-indexes-and-positions)
 - [パスワードのバリデーション](#validating-passwords)
 - [カスタムバリデーションルール](#custom-validation-rules)
     - [ルールオブジェクトの使用](#using-rule-objects)
@@ -1387,9 +1388,7 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
     ]);
 
     Validator::make($request->all(), [
-        'role_id' => Rule::requiredIf(function () use ($request) {
-            return $request->user()->is_admin;
-        }),
+        'role_id' => Rule::requiredIf(fn () => $request->user()->is_admin),
     ]);
 
 <a name="rule-required-unless"></a>
@@ -1514,9 +1513,7 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 `where`メソッドを使用してクエリをカスタマイズすることにより、追加のクエリ条件を指定できます。たとえば、`account_id`列の値が`1`の検索レコードのみ検索するクエリ条件で絞り込むクエリを追加してみます。
 
-    'email' => Rule::unique('users')->where(function ($query) {
-        return $query->where('account_id', 1);
-    })
+    'email' => Rule::unique('users')->where(fn ($query) => $query->where('account_id', 1))
 
 <a name="rule-url"></a>
 #### url
@@ -1669,7 +1666,7 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 <a name="accessing-nested-array-data"></a>
 #### ネストした配列データへのアクセス
 
-バリデーションルールを属性へ指定するとき、ネストした配列要素の値にアクセスする必要おきる場合があります。この場合は、`Rule::foreEach`メソッドを使用してください。`forEach`メソッドが受け取るクロージャは、バリデーション対象の配列の属性が繰り返し実行されるたびに呼び出され、属性の値と明示的な属性名 (完全に展開されたもの) を受け取ります。このクロージャは、配列の要素に割り当てるルールの配列を返す必要があります。
+Sometimes you may need to access the value for a given nested array element when assigning validation rules to the attribute. You may accomplish this using the `Rule::forEach` method. The `forEach` method accepts a closure that will be invoked for each iteration of the array attribute under validation and will receive the attribute's value and explicit, fully-expanded attribute name. The closure should return an array of rules to assign to the array element:
 
     use App\Rules\HasPermission;
     use Illuminate\Support\Facades\Validator;
@@ -1683,6 +1680,34 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
             ];
         }),
     ]);
+
+<a name="error-message-indexes-and-positions"></a>
+### エラーメッセージインデックスとポジション
+
+配列のバリデーションを行うとき、失敗した特定項目のインデックスや位置をアプリケーションのエラーメッセージから参照したいことがあります。これを行うには、[カスタムバリデーションメッセージ] (#manual-customizing-the-error-messages)へ、`:index`と`:position`のプレースホルダを使ってください。
+
+    use Illuminate\Support\Facades\Validator;
+
+    $input = [
+        'photos' => [
+            [
+                'name' => 'BeachVacation.jpg',
+                'description' => 'A photo of my beach vacation!',
+            ],
+            [
+                'name' => 'GrandCanyon.jpg',
+                'description' => '',
+            ],
+        ],
+    ];
+
+    Validator::validate($input, [
+        'photos.*.description' => 'required',
+    ], [
+        'photos.*.description.required' => 'Please describe photo #:position.',
+    ]);
+
+上記の例で、バリデーションは失敗し、*"Please describe photo #2"*がユーザーに表示されます。
 
 <a name="validating-passwords"></a>
 ## パスワードのバリデーション

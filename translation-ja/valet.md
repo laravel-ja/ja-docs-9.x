@@ -38,7 +38,6 @@ Valetは以下をサポートしていますが、これらに限定されませ
 <div id="valet-support" markdown="1">
 
 - [Laravel](https://laravel.com)
-- [Lumen](https://lumen.laravel.com)
 - [Bedrock](https://roots.io/bedrock/)
 - [CakePHP 3](https://cakephp.org)
 - [Concrete5](https://www.concrete5.org/)

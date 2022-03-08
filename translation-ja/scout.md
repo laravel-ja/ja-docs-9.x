@@ -109,6 +109,8 @@ MeiliSearchの詳細については、[MeiliSearchのドキュメント](https:/
 
     'queue' => true,
 
+`queue`オプションを`false`に設定している場合でも、AlgoliaやMeilisearchなど、一部のScoutドライバは常に非同期でレコードをインデックスしていることを覚えておくことが重要です。つまり、Laravelアプリケーション内でインデックス操作が完了しても、検索エンジン自体には新しいレコードや更新されたレコードがすぐに反映されない可能性があります。
+
 <a name="configuration"></a>
 ## 設定
 
@@ -549,6 +551,21 @@ Scoutを使用すると、検索クエリに単純な「where」節を追加で�
             return $algolia->search($query, $options);
         }
     )->get();
+
+<a name="customizing-the-eloquent-results-query"></a>
+#### Customizing The Eloquent Results Query
+
+Scoutがアプリケーションの検索エンジンからマッチするEloquentモデルのリストを取得した後、Eloquentを使用して主キーでマッチするすべてのモデルを取得しようとします。このクエリは`query`メソッドを呼び出し、カスタマイズできます。`query`メソッドは、Eloquentクエリビルダのインスタンスを引数とするクロージャを受け取ります。
+
+```php
+use App\Models\Order;
+
+$orders = Order::search('Star Trek')
+    ->query(fn ($query) => $query->with('invoices'))
+    ->get();
+```
+
+このコールバックは、関連モデルがアプリケーションの検索エンジンからあらかじめ取得された後に呼び出されるので、`query`メソッドを結果の「フィルタリング」に使用しないでください。代わりに、[Scout WHERE句](#where-clauses)を使用してください。
 
 <a name="custom-engines"></a>
 ## カスタムエンジン

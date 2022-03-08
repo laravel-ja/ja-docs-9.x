@@ -991,7 +991,7 @@ use Illuminate\Database\DBAL\TimestampType;
         $table->string('name', 50)->nullable()->change();
     });
 
-> {note} 以降のカラムタイプを変更できます。`bigInteger`、`binary`、`boolean`、`date`、`dateTime`、`dateTimeTz`、`decimal`、`integer`、`json`、`longText`、`mediumText`、`smallInteger`、`string`、`text`、`time`、`unsignedBigInteger`、`unsignedInteger`、`unsignedSmallInteger`、`uuid`。`timestamp`のカラムタイプを変更するには、[Doctrineタイプを登録する必要があります](#prerequisites)。
+> {note} 以降のカラムタイプを変更できます。`bigInteger`、`binary`、`boolean`、`char`、`date`、`dateTime`、`dateTimeTz`、`decimal`、`integer`、`json`、`longText`、`mediumText`、`smallInteger`、`string`、`text`、`time`、`unsignedBigInteger`、`unsignedInteger`、`unsignedSmallInteger`、`uuid`。`timestamp`のカラムタイプを変更するには、[Doctrineタイプを登録する必要があります](#prerequisites)。
 
 <a name="renaming-columns"></a>
 #### カラムのリネーム
@@ -1203,3 +1203,5 @@ Laravelは、データベースレベルで参照整合性を強制するため�
 | `Illuminate\Database\Events\MigrationsEnded` | マイグレーションのバッチが実行終了した |
 | `Illuminate\Database\Events\MigrationStarted` | 単一マイグレーションが実行されようとしている |
 | `Illuminate\Database\Events\MigrationEnded` | 単一マイグレーションが実行終了した |
+| `Illuminate\Database\Events\SchemaDumped` | データベーススキマのダンプが終了した |
+| `Illuminate\Database\Events\SchemaLoaded` | 既存のデータベーススキマのダンプをロードした |

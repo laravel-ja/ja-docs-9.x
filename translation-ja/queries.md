@@ -12,6 +12,7 @@
 - [基本WHERE句](#basic-where-clauses)
     - [WHERE句](#where-clauses)
     - [OR WHERE句](#or-where-clauses)
+    - [WHERE NOT句](#where-not-clauses)
     - [JSON WHERE句](#json-where-clauses)
     - [その他のWHERE句](#additional-where-clauses)
     - [論理グループ化](#logical-grouping)
@@ -461,6 +462,18 @@ select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 ```
 
 > {note} グローバルスコープを適用する場合の予期しない動作を回避するために、常に`orWhere`呼び出しをグループ化する必要があります。
+
+<a name="where-not-clauses"></a>
+### WHERE NOT句
+
+`whereNot`と`orWhereNot`メソッドを使用すると、指定したクエリ制約のグループを否定できます。例えば、以下のクエリは、クリアランス品や、価格が１０以下の商品を除外します。
+
+    $products = DB::table('products')
+                    ->whereNot(function ($query) {
+                        $query->where('clearance', true)
+                              ->orWhere('price', '<', 10);
+                    })
+                    ->get();
 
 <a name="json-where-clauses"></a>
 ### JSON WHERE句

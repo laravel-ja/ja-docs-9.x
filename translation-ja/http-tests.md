@@ -954,7 +954,7 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 <a name="assert-redirect-to-signed-route"></a>
 #### assertRedirectToSignedRoute
 
-レスポンスが指定する著名付きルートへのリダイレクトであることを宣言します。
+Assert that the response is a redirect to the given [signed route](/docs/{{version}}/urls#signed-urls):
 
     $response->assertRedirectToSignedRoute($name = null, $parameters = []);
 

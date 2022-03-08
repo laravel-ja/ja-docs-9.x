@@ -322,6 +322,10 @@ S3、FTP、SFTPドライバを使用する前に、Composerパッケージマネ
 
 `put`、`write`、`writeStream`などの書き込み操作は、デフォルトで既存のファイルを上書きするようになりました。既存のファイルを上書きしたくない場合は、書き込み操作を行う前に、ファイルの存在を確認してください。
 
+#### Writeの例外
+
+`put`、`write`、`writeStream`などの書き込み操作で、書き込みに失敗しても例外を投げなくなりました。その代わりに、`false`を返します。
+
 #### 存在しないファイルからの読み込み
 
 存在しないファイルから読み込もうとすると、`null`を返すようにしました。以前のLaravelのリリースでは、`Illuminate\Contracts\Filesystem\FileNotFoundException`を投げていました。
@@ -365,9 +369,9 @@ use Spatie\Dropbox\Client as DropboxClient;
 use Spatie\FlysystemDropbox\DropboxAdapter;
 
 Storage::extend('dropbox', function ($app, $config) {
-    $adapter = new DropboxAdapter(new DropboxClient(
-        $config['authorization_token']
-    ););
+    $adapter = new DropboxAdapter(
+        new DropboxClient($config['authorization_token'])
+    );
 
     return new FilesystemAdapter(
         new Filesystem($adapter, $config),

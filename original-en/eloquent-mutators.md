@@ -48,7 +48,7 @@ In this example, we'll define an accessor for the `first_name` attribute. The ac
          */
         protected function firstName(): Attribute
         {
-            return new Attribute(
+            return Attribute::make(
                 get: fn ($value) => ucfirst($value),
             );
         }
@@ -82,7 +82,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  */
 public function address(): Attribute
 {
-    return new Attribute(
+    return Attribute::make(
         get: fn ($value, $attributes) => new Address(
             $attributes['address_line_one'],
             $attributes['address_line_two'],
@@ -112,12 +112,12 @@ If you would like to disable the object caching behavior of attributes, you may 
  */
 public function address(): Attribute
 {
-    return (new Attribute(
+    return Attribute::make(
         get: fn ($value, $attributes) => new Address(
             $attributes['address_line_one'],
             $attributes['address_line_two'],
         ),
-    ))->withoutObjectCaching();
+    )->withoutObjectCaching();
 }
 ```
 
@@ -143,7 +143,7 @@ A mutator transforms an Eloquent attribute value when it is set. To define a mut
          */
         protected function firstName(): Attribute
         {
-            return new Attribute(
+            return Attribute::make(
                 get: fn ($value) => ucfirst($value),
                 set: fn ($value) => strtolower($value),
             );
@@ -176,7 +176,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  */
 public function address(): Attribute
 {
-    return new Attribute(
+    return Attribute::make(
         get: fn ($value, $attributes) => new Address(
             $attributes['address_line_one'],
             $attributes['address_line_two'],
@@ -439,6 +439,11 @@ Once you have defined the cast on your model, the specified attribute will be au
 The `encrypted` cast will encrypt a model's attribute value using Laravel's built-in [encryption](/docs/{{version}}/encryption) features. In addition, the `encrypted:array`, `encrypted:collection`, `encrypted:object`, `AsEncryptedArrayObject`, and `AsEncryptedCollection` casts work like their unencrypted counterparts; however, as you might expect, the underlying value is encrypted when stored in your database.
 
 As the final length of the encrypted text is not predictable and is longer than its plain text counterpart, make sure the associated database column is of `TEXT` type or larger. In addition, since the values are encrypted in the database, you will not be able to query or search encrypted attribute values.
+
+<a name="key-rotation"></a>
+#### Key Rotation
+
+As you may know, Laravel encrypts strings using the `key` configuration value specified in your application's `app` configuration file. Typically, this value corresponds to the value of the `APP_KEY` environment variable. If you need to rotate your application's encryption key, you will need to manually re-encrypt your encrypted attributes using the new key.
 
 <a name="query-time-casting"></a>
 ### Query Time Casting

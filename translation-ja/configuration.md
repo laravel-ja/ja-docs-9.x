@@ -45,16 +45,16 @@ Laravelのデフォルトの`.env`ファイルには、アプリケーション�
 
 通常、`.env`ファイル内のすべての変数は文字列として解析されるため、`env()`関数からより広範囲の型を返せるように、いくつかの予約値が作成されています。
 
-`.env`値  | `env()`値
-------------- | -------------
-true | (bool) true
-(true) | (bool) true
-false | (bool) false
-(false) | (bool) false
-empty | (string) ''
-(empty) | (string) ''
-null | (null) null
-(null) | (null) null
+| `.env`値     | `env()`値      |
+|--------------|---------------|
+| true         | (bool) true   |
+| (true)       | (bool) true   |
+| false        | (bool) false  |
+| (false)      | (bool) false  |
+| empty        | (string) ''   |
+| (empty)      | (string) ''   |
+| null         | (null) null   |
+| (null)       | (null) null   |
 
 スペースを含む値で環境変数を定義する必要がある場合は、値をダブルクォーテーションで囲むことによって定義できます。
 

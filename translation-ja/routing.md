@@ -3,6 +3,7 @@
 - [基本的なルーティング](#basic-routing)
     - [ルートのリダイレクト](#redirect-routes)
     - [ビュールート](#view-routes)
+    - [ルートリスト](#the-route-list)
 - [ルートパラメータ](#route-parameters)
     - [必須パラメータ](#required-parameters)
     - [オプションパラメータ](#parameters-optional-parameters)
@@ -123,6 +124,27 @@
     Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
 
 > {note} ビュールートでルートパラメータを使用する場合、次のパラメータはLaravelによって予約されており、使用できません。：`view`、`data`、`status`、`headers`
+
+<a name="the-route-list"></a>
+### ルートリスト
+
+`route:list` Artisanコマンドは、アプリケーションで定義しているすべてのルートの概要を簡単に提供してくれます。
+
+```shell
+php artisan route:list
+```
+
+デフォルトでは、各ルートへ割り付けたルートミドルウェアは、`route:list`出力に表示されませんが、コマンドに`-v`オプションを追加すると表示するように指示できます。
+
+```shell
+php artisan route:list -v
+```
+
+さらに、`route:list`コマンドを実行するときに、`--except-vendor`オプションを指定すると、サードパーティーのパッケージが定義したルートを非表示にできます。
+
+```shell
+php artisan route:list --except-vendor
+```
 
 <a name="route-parameters"></a>
 ## ルートパラメータ

@@ -80,7 +80,7 @@ composer require laravel/fortify
 php artisan vendor:publish --provider="Laravel\Fortify\FortifyServiceProvider"
 ```
 
-このコマンドは、Fortifyのアクションを`app/Actions`ディレクトリにリソース公開します。ディレクトリが存在しない場合は作成します。さらに、Fortifyの構成ファイルとマイグレーションもリソース公開されます。
+このコマンドはFortifyのアクションを`app/Actions`ディレクトリへリソース公開します。存在しない場合は、作成します。さらに、`FortifyServiceProvider`、設定ファイル、および必要な全データベースマイグレーションもリソース公開します。
 
 次に、データベースをマイグレートする必要があります。
 

@@ -372,6 +372,7 @@ Laravelは、[Bootstrap CSS](https://getbootstrap.com/)を使用し構築した�
 `$paginator->nextCursor()`  |  次のアイテムセットのカーソルインスタンスを取得
 `$paginator->nextPageUrl()`  |  次のページのURLを取得
 `$paginator->onFirstPage()`  |  ペジネータが最初のページにあるかを判定
+`$paginator->onLastPage()`  |  ペジネータが最後のページにあるかを判定
 `$paginator->perPage()`  |  １ページ中に表示するアイテムの数
 `$paginator->previousCursor()`  |  前のアイテムセットのカーソルインスタンスを取得
 `$paginator->previousPageUrl()`  |  前のページのURLを取得

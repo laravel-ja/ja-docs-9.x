@@ -12,10 +12,11 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-最近のウェブアプリケーションは、ほとんどすべてデータベースを操作します。Laravelは、素のSQL、[Fluentクエリビルダ](/docs/{{version}}/queries)、[Eloquent ORM](/docs/{{version}}/eloquent)を使用し、サポートしている様々なデータベースの操作をとてもシンプルにしています。現在、Laravelは4つのデータベースのファーストパーティーサポートを提供しています。
+最近のウェブアプリケーションは、ほとんどすべてデータベースを操作します。Laravelは、素のSQL、[Fluentクエリビルダ](/docs/{{version}}/queries)、[Eloquent ORM](/docs/{{version}}/eloquent)を使用し、サポートしている様々なデータベースの操作をとてもシンプルにしています。現在、Laravelは５つのデータベースのファーストパーティーサポートを提供しています。
 
 <div class="content-list" markdown="1">
 
+- MariaDB10.2以上 ([バージョンポリシー](https://mariadb.org/about/#maintenance-policy))
 - MySQL5.7以上 ([バージョンポリシー](https://en.wikipedia.org/wiki/MySQL#Release_history))
 - PostgreSQL9.6以上 ([バージョンポリシー](https://www.postgresql.org/support/versioning/))
 - SQLite3.8.8以上

@@ -44,7 +44,7 @@
 
 Blade is the simple, yet powerful templating engine that is included with Laravel. Unlike some PHP templating engines, Blade does not restrict you from using plain PHP code in your templates. In fact, all Blade templates are compiled into plain PHP code and cached until they are modified, meaning Blade adds essentially zero overhead to your application. Blade template files use the `.blade.php` file extension and are typically stored in the `resources/views` directory.
 
-Blade views may be returned from routes or controller using the global `view` helper. Of course, as mentioned in the documentation on [views](/docs/{{version}}/views), data may be passed to the Blade view using the `view` helper's second argument:
+Blade views may be returned from routes or controllers using the global `view` helper. Of course, as mentioned in the documentation on [views](/docs/{{version}}/views), data may be passed to the Blade view using the `view` helper's second argument:
 
     Route::get('/', function () {
         return view('greeting', ['name' => 'Finn']);
@@ -399,18 +399,18 @@ If you are in a nested loop, you may access the parent loop's `$loop` variable v
 
 The `$loop` variable also contains a variety of other useful properties:
 
-Property  | Description
-------------- | -------------
-`$loop->index`  |  The index of the current loop iteration (starts at 0).
-`$loop->iteration`  |  The current loop iteration (starts at 1).
-`$loop->remaining`  |  The iterations remaining in the loop.
-`$loop->count`  |  The total number of items in the array being iterated.
-`$loop->first`  |  Whether this is the first iteration through the loop.
-`$loop->last`  |  Whether this is the last iteration through the loop.
-`$loop->even`  |  Whether this is an even iteration through the loop.
-`$loop->odd`  |  Whether this is an odd iteration through the loop.
-`$loop->depth`  |  The nesting level of the current loop.
-`$loop->parent`  |  When in a nested loop, the parent's loop variable.
+| Property           | Description                                            |
+|--------------------|--------------------------------------------------------|
+| `$loop->index`     | The index of the current loop iteration (starts at 0). |
+| `$loop->iteration` | The current loop iteration (starts at 1).              |
+| `$loop->remaining` | The iterations remaining in the loop.                  |
+| `$loop->count`     | The total number of items in the array being iterated. |
+| `$loop->first`     | Whether this is the first iteration through the loop.  |
+| `$loop->last`      | Whether this is the last iteration through the loop.   |
+| `$loop->even`      | Whether this is an even iteration through the loop.    |
+| `$loop->odd`       | Whether this is an odd iteration through the loop.     |
+| `$loop->depth`     | The nesting level of the current loop.                 |
+| `$loop->parent`    | When in a nested loop, the parent's loop variable.     |
 
 <a name="conditional-classes"></a>
 ### Conditional Classes

@@ -267,3 +267,4 @@ php artisan view:cache
 ```shell
 php artisan view:clear
 ```
+

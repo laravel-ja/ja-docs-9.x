@@ -43,6 +43,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Arr::hasAny](#method-array-hasany)
 [Arr::isAssoc](#method-array-isassoc)
 [Arr::isList](#method-array-islist)
+[Arr::keyBy](#method-array-keyby)
 [Arr::last](#method-array-last)
 [Arr::only](#method-array-only)
 [Arr::pluck](#method-array-pluck)
@@ -75,6 +76,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [base_path](#method-base-path)
 [config_path](#method-config-path)
 [database_path](#method-database-path)
+[lang_path](#method-lang-path)
 [mix](#method-mix)
 [public_path](#method-public-path)
 [resource_path](#method-resource-path)
@@ -97,6 +99,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Str::before](#method-str-before)
 [Str::beforeLast](#method-str-before-last)
 [Str::between](#method-str-between)
+[Str::betweenFirst](#method-str-between-first)
 [Str::camel](#method-camel-case)
 [Str::contains](#method-str-contains)
 [Str::containsAll](#method-str-contains-all)
@@ -108,6 +111,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Str::isAscii](#method-str-is-ascii)
 [Str::isUuid](#method-str-is-uuid)
 [Str::kebab](#method-kebab-case)
+[Str::lcfirst](#method-str-lcfirst)
 [Str::length](#method-str-length)
 [Str::limit](#method-str-limit)
 [Str::lower](#method-str-lower)
@@ -162,6 +166,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [before](#method-fluent-str-before)
 [beforeLast](#method-fluent-str-before-last)
 [between](#method-fluent-str-between)
+[betweenFirst](#method-fluent-str-between-first)
 [camel](#method-fluent-str-camel)
 [contains](#method-fluent-str-contains)
 [containsAll](#method-fluent-str-contains-all)
@@ -177,6 +182,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [isNotEmpty](#method-fluent-str-is-not-empty)
 [isUuid](#method-fluent-str-is-uuid)
 [kebab](#method-fluent-str-kebab)
+[lcfirst](#method-fluent-str-lcfirst)
 [length](#method-fluent-str-length)
 [limit](#method-fluent-str-limit)
 [lower](#method-fluent-str-lower)
@@ -595,6 +601,27 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
     $isAssoc = Arr::isList(['product' => ['name' => 'Desk', 'price' => 100]]);
 
     // false
+
+<a name="method-array-keyby"></a>
+#### `Arr::keyBy()` {.collection-method}
+
+`Arr::keyBy`メソッドは、指定したキーで配列へキーを設定します。複数のアイテムが同じキーを持つ場合、最後のものだけを新しい配列に残します。
+
+    use Illuminate\Support\Arr;
+
+    $array = [
+        ['product_id' => 'prod-100', 'name' => 'Desk'],
+        ['product_id' => 'prod-200', 'name' => 'Chair'],
+    ];
+
+    $keyed = Arr::keyBy($array, 'product_id');
+
+    /*
+        [
+            'prod-100' => ['product_id' => 'prod-100', 'name' => 'Desk'],
+            'prod-200' => ['product_id' => 'prod-200', 'name' => 'Chair'],
+        ]
+    */
 
 <a name="method-array-last"></a>
 #### `Arr::last()` {.collection-method}
@@ -1068,6 +1095,15 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 
     $path = database_path('factories/UserFactory.php');
 
+<a name="method-lang-path"></a>
+#### `lang_path()` {.collection-method}
+
+`lang_path`関数は、アプリケーションの`lang`ディレクトリの完全修飾パスを返します。また、`lang_path`関数を使用して、ディレクトリ内の指定したファイルの完全修飾パスを生成することもできます。
+
+    $path = lang_path();
+
+    $path = lang_path('en/messages.php');
+
 <a name="method-mix"></a>
 #### `mix()` {.collection-method}
 
@@ -1210,6 +1246,17 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
     $slice = Str::between('This is my name', 'This', 'name');
 
     // ' is my '
+
+<a name="method-str-between-first"></a>
+#### `Str::betweenFirst()` {.collection-method}
+
+`Str::betweenFirst`メソッドは、２つの値の間にある文字列のうち、可能な限り小さい部分を返します。
+
+    use Illuminate\Support\Str;
+
+    $slice = Str::betweenFirst('[a] bc [d]', '[', ']');
+
+    // 'a'
 
 <a name="method-camel-case"></a>
 #### `Str::camel()` {.collection-method}
@@ -1387,6 +1434,17 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
     $converted = Str::kebab('fooBar');
 
     // foo-bar
+
+<a name="method-str-lcfirst"></a>
+#### `Str::lcfirst()` {.collection-method}
+
+`Str::lcfirst`メソッドは、指定した文字列の最初の文字を小文字に変換して返します。
+
+    use Illuminate\Support\Str;
+
+    $string = Str::lcfirst('Foo Bar');
+
+    // foo Bar
 
 <a name="method-str-length"></a>
 #### `Str::length()` {.collection-method}
@@ -1995,6 +2053,17 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 
     // ' is my '
 
+<a name="method-fluent-str-between-first"></a>
+#### `betweenFirst` {.collection-method}
+
+`betweenFirst`メソッドは、2つの値の間にある文字列のうち、可能な限り小さい部分を返します。
+
+    use Illuminate\Support\Str;
+
+    $converted = Str::of('[a] bc [d]')->betweenFirst('[', ']');
+
+    // 'a'
+
 <a name="method-fluent-str-camel"></a>
 #### `camel` {.collection-method}
 
@@ -2227,6 +2296,18 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
     $converted = Str::of('fooBar')->kebab();
 
     // foo-bar
+
+<a name="method-str-fluent-lcfirst"></a>
+#### `lcfirst()` {.collection-method}
+
+`lcfirst`メソッドは、指定した文字列の最初の文字を小文字にしたものを返します。
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('Foo Bar')->lcfirst();
+
+    // foo Bar
+
 
 <a name="method-fluent-str-length"></a>
 #### `length` {.collection-method}
