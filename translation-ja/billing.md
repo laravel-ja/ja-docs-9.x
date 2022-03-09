@@ -15,8 +15,8 @@
     - [顧客の取得](#retrieving-customers)
     - [顧客の作成](#creating-customers)
     - [顧客の更新](#updating-customers)
-    - [Balances](#balances)
-    - [タックスID](#tax-ids)
+    - [残高](#balances)
+    - [税金ID](#tax-ids)
     - [顧客データをStripeと同期する](#syncing-customer-data-with-stripe)
     - [請求ポータル](#billing-portal)
 - [支払い方法](#payment-methods)
@@ -30,17 +30,17 @@
     - [サブスクリプションの作成](#creating-subscriptions)
     - [サブスクリプション状態のチェック](#checking-subscription-status)
     - [価格の変更](#changing-prices)
-    - [サブスクリプション数](#subscription-quantity)
+    - [サブスクリプション数量](#subscription-quantity)
     - [複数価格のサブスクリプション](#multiprice-subscriptions)
-    - [従量制課金](#metered-billing)
+    - [使用量ベースの料金](#metered-billing)
     - [サブスクリプションの税率](#subscription-taxes)
     - [サブスクリプション基準日](#subscription-anchor-date)
     - [サブスクリプションの取り消し](#cancelling-subscriptions)
     - [サブスクリプションの再開](#resuming-subscriptions)
-- [サブスクリプションの試用期間](#subscription-trials)
+- [サブスクリプションの無料トライアル期間](#subscription-trials)
     - [支払い方法の事前登録](#with-payment-method-up-front)
     - [支払い方法事前登録なし](#without-payment-method-up-front)
-    - [試用期間の延長](#extending-trials)
+    - [無料トライアル期間の延長](#extending-trials)
 - [StripeのWebフックの処理](#handling-stripe-webhooks)
     - [Webフックイベントハンドラの定義](#defining-webhook-event-handlers)
     - [Webフック署名の確認](#verifying-webhook-signatures)
@@ -75,7 +75,7 @@
 
 キャッシャーの新しいバージョンにアップグレードするときは、[アップグレードガイド](https://github.com/laravel/cashier-stripe/blob/master/UPGRADE.md)を注意深く確認することが重要です。
 
-> {note} 重大な変更を防ぐために、Cashierは固定のStripe APIバージョンを使用します。Cashier13はStripeAPIバージョン`2020-08-27`を利用しています。StripeAPIバージョンは、新しいStripe機能と改善点を利用するために、マイナーリリースで更新されます。
+> {note} 重大な変更を防ぐために、Cashierは固定のStripe APIバージョンを使用します。Cashier13はStripe APIバージョン`2020-08-27`を利用しています。Stripe APIバージョンは、新しいStripe機能と改善点を利用するために、マイナーリリースで更新されます。
 
 <a name="installation"></a>
 ## インストール
@@ -152,7 +152,7 @@ CashierはLaravelに同梱されている`App\Models\User`クラスをBillable�
 > {note} Laravelが提供する`App\Models\User`モデル以外のモデルを使用する場合は、代替モデルのテーブル名と一致するように、提供されている[Cashierマイグレーション](#installation)をリソース公開し、変更する必要があります。
 
 <a name="api-keys"></a>
-### ＡＰＩキー
+### APIキー
 
 次に、アプリケーションの`.env`ファイルでStripeAPIキーを設定する必要があります。StripeAPIキーはStripeコントロールパネルから取得できます。
 
@@ -224,7 +224,7 @@ StripeへのAPI呼び出しで発生した例外は、アプリケーション�
         // ...
     }
 
-モデルを定義した後、`Laravel\Cashier\Cashier`クラスを介してカスタムモデルを使用するようにCashierへ指示します。通常、アプリケーションの`App\Providers\AppServiceProvider`クラスの`boot`メソッドで、カスタムモデルをキャッシャーへ通知する必要があります。
+モデルを定義した後、`Laravel\Cashier\Cashier`クラスを介してカスタムモデルを使用するようにCashierへ指示します。通常、アプリケーションの`App\Providers\AppServiceProvider`クラスの`boot`メソッドで、カスタムモデルをCashierへ通知する必要があります。
 
     use App\Models\Cashier\Subscription;
     use App\Models\Cashier\SubscriptionItem;
@@ -279,7 +279,7 @@ BillableなモデルのStripe顧客オブジェクトを返す場合は、`asStr
     $stripeCustomer = $user->updateStripeCustomer($options);
 
 <a name="balances"></a>
-### Balances
+### 残高
 
 Stripeでは、顧客の「残高」に入金または引き落としができます。後日新しい請求書に基づき、この残高は入金もしくは引き落としされます。顧客の合計残高を確認するには、Billableモデルに用意してある`balance`メソッドを使用します。`balance`メソッドは、顧客の通貨建てで残高をフォーマットした文字列で返します。
 
@@ -287,13 +287,13 @@ Stripeでは、顧客の「残高」に入金または引き落としができ�
 
 顧客の残高から引き落とすには、`applyBalance`メソッドに負の値を指定します。また、必要に応じて、説明を指定することもできます。
 
-    $user->applyBalance(-500, 'Premium customer top-up.');
+    $user->applyBalance(-500, 'プレミアムメンバー・チャージ');
 
 `applyBalance`メソッドに正の値を渡すと、顧客の残高へ入金されます。
 
-    $user->applyBalance(300, 'Bad usage penalty.');
+    $user->applyBalance(300, '誤使用の補償');
 
-`applyBalance`メソッドは、その顧客にたいする新しい顧客残高トランザクションを作成します。これらのトランザクションレコードは`balanceTransactions`メソッドを使って取得でき、顧客に確認してもらうため入金と引き落としのログを提供するのに便利です。
+`applyBalance`メソッドは、その顧客に対する新しい顧客残高トランザクションを作成します。これらのトランザクションレコードは`balanceTransactions`メソッドを使って取得でき、顧客に確認してもらうため入金と引き落としのログを提供するのに便利です。
 
     // 全トランザクションの取得
     $transactions = $user->balanceTransactions();
@@ -307,23 +307,23 @@ Stripeでは、顧客の「残高」に入金または引き落としができ�
     }
 
 <a name="tax-ids"></a>
-### タックスID
+### 税金ID
 
-Cashierでは、顧客のタックスIDを簡単に管理できます。例えば、`taxIds`メソッドを使って、顧客に割り当てられている全ての[タックスID](https://stripe.com/docs/api/customer_tax_ids/object)をコレクションとして取得できます。
+Cashierでは、顧客の税金IDを簡単に管理できます。例えば、`taxIds`メソッドを使って、顧客に割り当てられている全ての[税金ID](https://stripe.com/docs/api/customer_tax_ids/object)をコレクションとして取得できます。
 
     $taxIds = $user->taxIds();
 
-識別子により、顧客の特定のタックスIDを取得することもできます。
+識別子により、顧客の特定の税金IDを取得することもできます。
 
     $taxId = $user->findTaxId('txi_belgium');
 
-有効な[タイプ](https://stripe.com/docs/api/customer_tax_ids/object#tax_id_object-type)と値を`createTaxId`メソッドへ渡し、新しいタックスIDを作成できます。
+有効な[タイプ](https://stripe.com/docs/api/customer_tax_ids/object#tax_id_object-type)と値を`createTaxId`メソッドへ渡し、新しい税金IDを作成できます。
 
     $taxId = $user->createTaxId('eu_vat', 'BE0123456789');
 
 `createTaxId`メソッドは、VAT IDを顧客のアカウントへ即座に追加します。[VAT IDの検証はStripeも行います](https://stripe.com/docs/invoicing/customer/tax-ids#validation)が、これは非同期のプロセスです。検証の更新を通知するには、`customer.tax_id.updated` Webフックイベントを購読し、[VAT IDの`verification`パラメータ](https://stripe.com/docs/api/customer_tax_ids/object#tax_id_object-verification)を検査します。Webフックの取り扱いについては、[Webフックの処理の定義に関するドキュメント](#handling-stripe-webhooks)を参照してください。
 
-`deleteTaxId`メソッドを使ってタックスIDを削除できます。
+`deleteTaxId`メソッドを使って税金IDを削除できます。
 
     $user->deleteTaxId('txi_belgium');
 
@@ -337,7 +337,7 @@ Cashierでは、顧客のタックスIDを簡単に管理できます。例え�
     use function Illuminate\Events\queueable;
 
     /**
-     * The "booted" method of the model.
+     * モデルの「起動(booted)」メソッド
      *
      * @return void
      */
@@ -369,7 +369,7 @@ Cashierが提供する様々なメソッドをオーバーライドすること�
 <a name="billing-portal"></a>
 ### 請求ポータル
 
-Stripeは、[請求ポータルを設定する簡単な方法](https://stripe.com/docs/billing/subscriptions/customer-portal)を提供しており、顧客はサブスクリプション、支払い方法を管理し、請求履歴を表示できます。コントローラまたはルートからBillableモデルで`redirectToBillingPortal`メソッドを呼び出すことにより、ユーザーを請求ポータルにリダイレクトできます。
+Stripeは、[請求ポータルを設定する簡単な方法](https://stripe.com/docs/billing/subscriptions/customer-portal)を提供しており、顧客はサブスクリプション、支払い方法を管理し、請求履歴を表示できます。コントローラまたはルートからBillableモデルで`redirectToBillingPortal`メソッドを呼び出すことにより、ユーザーをカスタマーポータルへリダイレクトできます。
 
     use Illuminate\Http\Request;
 
@@ -377,7 +377,7 @@ Stripeは、[請求ポータルを設定する簡単な方法](https://stripe.co
         return $request->user()->redirectToBillingPortal();
     });
 
-デフォルトでは、ユーザーがサブスクリプションの管理を終了すると、Stripe課金ポータル内のリンクを介してアプリケーションの`home`ルートに戻ることができます。`redirectToBillingPortal`メソッドに引数としてURLを渡すことにより、ユーザーが戻る必要のあるカスタムURLを指定できます。
+デフォルトでは、ユーザーがサブスクリプションの管理を終了すると、Stripe課金ポータル内のリンクを介してアプリケーションの`home`ルートに戻ります。`redirectToBillingPortal`メソッドに引数としてURLを渡すことにより、ユーザーを戻す必要のあるカスタムURLを指定できます。
 
     use Illuminate\Http\Request;
 
@@ -385,7 +385,7 @@ Stripeは、[請求ポータルを設定する簡単な方法](https://stripe.co
         return $request->user()->redirectToBillingPortal(route('billing'));
     });
 
-HTTPリダイレクトレスポンスを生成せずに課金ポータルへのURLを生成したい場合は、`billingPortalUrl`メソッドを呼び出してください。
+HTTPリダイレクトレスポンスを生成せずに、カスタマーポータルへのURLを生成したい場合は、`billingPortalUrl`メソッドを呼び出してください。
 
     $url = $request->user()->billingPortalUrl(route('billing'));
 
@@ -395,18 +395,18 @@ HTTPリダイレクトレスポンスを生成せずに課金ポータルへのU
 <a name="storing-payment-methods"></a>
 ### 支払い方法の保存
 
-Stripeでサブスクリプションを作成したり、「１回限りの」料金を実行したりするには、支払い方法を保存し、Stripeからその識別子を取得する必要があります。これを実現するアプローチは、サブスクリプションに支払い方法を使用するか、単一料金を使用するかにより異なるため、以降で両方とも説明します。
+Stripeでサブスクリプションを作成したり、「１回限りの」料金を実行したりするには、支払い方法を保存し、Stripeからその識別子を取得する必要があります。これを実現するアプローチは、支払方法をサブスクリプションにするか、単一料金にするかにより異なるため、以降で両方とも説明します。
 
 <a name="payment-methods-for-subscriptions"></a>
 #### サブスクリプションの支払い方法
 
-サブスクリプションで将来使用するときのため顧客のクレジットカード情報を保存する場合、Stripeの"Setup Intents" APIを使用して、顧客の支払い方法の詳細を安全に収集する必要があります。"Setup Intent "は、顧客の支払い方法により課金する意図をStripeに示します。Cashierの`Billable`トレイトには、新しいセットアップインテントを簡単に作成するための`createSetupIntent`メソッドを用意しています。顧客の支払い方法の詳細を収集するフォームをレンダするルートまたはコントローラからこのメソッドを呼び出す必要があります。
+サブスクリプションで将来使用するときのため顧客のクレジットカード情報を保存する場合、Stripeの"Setup Intents" APIを使用して、顧客の支払い方法の詳細を安全に収集する必要があります。"Setup Intent"は、顧客の支払い方法により課金する意図をStripeに示します。Cashierの`Billable`トレイトには、新しいSetup Intentsを簡単に作成するための`createSetupIntent`メソッドを用意しています。顧客の支払い方法の詳細を収集するフォームをレンダするルートまたはコントローラからこのメソッドを呼び出す必要があります。
 
     return view('update-payment-method', [
         'intent' => $user->createSetupIntent()
     ]);
 
-セットアップインテントを作成してビューに渡したら、支払い方法を収集する要素にそのシークレットを添付する必要があります。たとえば、次の「支払い方法の更新」フォームについて考えてみます。
+Setup Intentsを作成してビューに渡したら、支払い方法を収集する要素にそのシークレットを添付する必要があります。たとえば、次の「支払い方法の更新」フォームについて考えてみます。
 
 ```html
 <input id="card-holder-name" type="text">
@@ -459,14 +459,14 @@ cardButton.addEventListener('click', async (e) => {
 });
 ```
 
-カードがStripeによって検証されたあとに、結果の`setupIntent.payment_method`識別子をLaravelアプリケーションに渡して、顧客にアタッチします。支払い方法は、[新しい支払い方法として追加](#adding-payment-methods)または[デフォルトの支払い方法の更新に使用](#updating-the-default-payment-method)のいずれかです。すぐに支払い方法識別子を使用して[新しいサブスクリプションを作成](#creating-subscriptions)することもできます。
+Stripeがカードを検証したあとに、結果の`setupIntent.payment_method`識別子をLaravelアプリケーションに渡し、顧客にアタッチします。支払い方法は、[新しい支払い方法として追加](#adding-payment-methods)または[デフォルトの支払い方法の更新に使用](#updating-the-default-payment-method)のいずれかです。すぐに支払い方法識別子を使用して[新しいサブスクリプションを作成](#creating-subscriptions)することもできます。
 
-> {tip} セットアップインテントと顧客の支払いの詳細の収集について詳しく知りたい場合は、[Stripeが提供しているこの概要を確認してください](https://stripe.com/docs/payments/save-and-reuse#php)。
+> {tip} Setup Intentsと顧客の支払いの詳細の収集について詳しく知りたい場合は、[Stripeが提供しているこの概要を確認してください](https://stripe.com/docs/payments/save-and-reuse#php)。
 
 <a name="payment-methods-for-single-charges"></a>
 #### 一回限りの支払いの支払い方法
 
-もちろん、お客様の支払い方法に対して１回請求を行う場合、支払い方法IDを使用する必要があるのは１回だけです。Stripeの制約により、顧客が保存したデフォルトの支払い方法を単一の請求に使用することはできません。Stripe.jsライブラリを使用して、顧客が支払い方法の詳細を入力できるようにする必要があります。たとえば、次のフォームについて考えてみます。
+もちろん、顧客の支払い方法に対して１回請求を行う場合、支払い方法IDを使用する必要があるのは１回だけです。Stripeの制約により、顧客が保存したデフォルトの支払い方法を単一の請求に使用することはできません。Stripe.jsライブラリを使用して、顧客が支払い方法の詳細を入力できるようにする必要があります。たとえば、次のフォームについて考えてみます。
 
 ```html
 <input id="card-holder-name" type="text">
@@ -620,7 +620,7 @@ Billableなモデルのアカウントにデフォルトの支払い方法が関
         // ...
     });
 
-`newSubscription` メソッドに渡す最初の引数は、サブスクリプションの内部名称です。アプリケーションが単一サブスクリプションのみ提供している場合は、これを`default`や`primary`と名付けることが多いでしょう。このサブスクリプション名は、アプリケーション内部でのみ使用するものであり、ユーザーに表示するものではありません。また、スペースを含んではならず、サブスクリプションを作成した後は決して変更してはいけません。２番目の引数は、ユーザーが購読している価格の指定です。この値は、Stripeにおける価格の識別子に対応していなければなりません。
+`newSubscription`メソッドへ渡す最初の引数は、サブスクリプションの内部名称です。アプリケーションが単一サブスクリプションのみ提供している場合は、これを`default`や`primary`と名付けることが多いでしょう。このサブスクリプション名は、アプリケーション内部でのみ使用するものであり、ユーザーに表示するものではありません。また、スペースを含んではならず、サブスクリプションを作成した後は決して変更してはいけません。２番目の引数は、ユーザーが購読している価格の指定です。この値は、Stripeにおける価格の識別子に対応していなければなりません。
 
 [Stripe支払い方法識別子](#storing-payment-methods)またはStripe`PaymentMethod`オブジェクトを引数に取る`create`メソッドは、サブスクリプションを開始するのと同時に、BillableなモデルのStripe顧客IDおよびその他の関連する課金情報でデータベースを更新します。
 
@@ -636,7 +636,7 @@ Billableなモデルのアカウントにデフォルトの支払い方法が関
 サブスクリプションがキャンセルされたと判断するまでの顧客の支払い猶予期間は、[Stripeダッシュボード](https://dashboard.stripe.com/settings/billing/automatic)内のサブスクリプションとインボイスの設定により決まります。
 
 <a name="subscription-quantities"></a>
-#### サブスクリプション数
+#### サブスクリプション数量
 
 サブスクリプションの作成時にの価格に[数量](https://stripe.com/docs/billing/subscriptions/quantities)を指定する場合は、サブスクリプションを作成する前にビルダで`quantity`メソッドを呼び出してください。
 
@@ -693,7 +693,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 <a name="checking-subscription-status"></a>
 ### サブスクリプション状態のチェック
 
-顧客がアプリケーションでサブスクリプションを購入すると、さまざまな便利なメソッドを使用して、サブスクリプションの状態を簡単に確認できます。まず、`subscribed`メソッドは、そのサブスクリプションが現在試用期間内であっても、顧客がアクティブなサブスクリプションを持っている場合は、`true`を返します。`subscribed`メソッドは、最初の引数としてサブスクリプションの名前を受け入れます。
+顧客がアプリケーションでサブスクリプションを購入すると、さまざまな便利なメソッドを使用して、サブスクリプションの状態を簡単に確認できます。まず、`subscribed`メソッドは、そのサブスクリプションが現在無料トライアル期間内であっても、顧客がアクティブなサブスクリプションを持っている場合は、`true`を返します。`subscribed`メソッドは、最初の引数としてサブスクリプションの名前を受け入れます。
 
     if ($user->subscribed('default')) {
         //
@@ -727,7 +727,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
         }
     }
 
-ユーザーがまだ試用期間内であるかどうかを確認したい場合は、`onTrial`メソッドを使用します。このメソッドは、ユーザーがまだ試用期間中であるという警告をユーザーに表示する必要があるかどうかを判断するのに役立ちます。
+ユーザーがまだ無料トライアル期間内であるかどうかを確認したい場合は、`onTrial`メソッドを使用します。このメソッドは、ユーザーがまだ無料トライアル期間中であるという警告をユーザーに表示する必要があるかどうかを判断するのに役立ちます。
 
     if ($user->subscription('default')->onTrial()) {
         //
@@ -751,7 +751,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
         //
     }
 
-`recurring`メソッドを使用して、ユーザーが現在サブスクリプションを購入してお​​り、試用期間でないことを判定します。
+`recurring`メソッドを使用して、ユーザーが現在サブスクリプションを購入してお​​り、無料トライアル期間でないことを判定します。
 
     if ($user->subscription('default')->recurring()) {
         //
@@ -783,9 +783,9 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 <a name="incomplete-and-past-due-status"></a>
 #### 不完全および延滞ステータス
 
-サブスクリプションの作成後に二次支払いアクションが必要な場合、サブスクリプションは「未完了（`incomplete`）」としてマークされます。サブスクリプションステータスは、Cashierの`subscriptions`データベーステーブルの`stripe_status`列に保存されます。
+サブスクリプションの作成後に二次支払いアクションが必要な場合、そのサブスクリプションは「未完了（`incomplete`）」としてマークされます。サブスクリプションステータスは、Cashierの`subscriptions`データベーステーブルの`stripe_status`列に保存されます。
 
-同様に、価格を変更するときに二次支払いアクションが必要な場合、サブスクリプションは「延滞（`past_due`）」としてマークされます。サブスクリプションがこれらの状態のどちらかにある場合、顧客が支払いを確認するまでサブスクリプションはアクティブになりません。サブスクリプションの支払いが不完全であるかの判定は、Billableモデルまたはサブスクリプションインスタンスで`hasIncompletePayment`メソッドを使用します。
+同様に、価格を変更するときに二次支払いアクションが必要な場合、そのサブスクリプションは「延滞（`past_due`）」としてマークされます。サブスクリプションがこれらの状態のどちらかにある場合、顧客が支払いを確認するまでサブスクリプションはアクティブになりません。サブスクリプションの支払いが不完全であるかの判定は、Billableモデルまたはサブスクリプションインスタンスで`hasIncompletePayment`メソッドを使用します。
 
     if ($user->hasIncompletePayment('default')) {
         //
@@ -799,11 +799,11 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 
 ```html
 <a href="{{ route('cashier.payment', $subscription->latestPayment()->id) }}">
-    Please confirm your payment.
+    お支払いを確認してください。
 </a>
 ```
 
-サブスクリプションが`past_due`状態のときにアクティブであると見なしたい場合は、Cashierが提供する`keepPastDueSubscriptionsActive`メソッドを使用します。通常、このメソッドは、`App\Providers\AppServiceProvider`の`register`メソッドで呼び出す必要があります。
+サブスクリプションが`past_due`状態のときは、アクティブであると見なしたい場合は、Cashierが提供する`keepPastDueSubscriptionsActive`メソッドを使用します。通常、このメソッドは、`App\Providers\AppServiceProvider`の`register`メソッドで呼び出す必要があります。
 
     use Laravel\Cashier\Cashier;
 
@@ -822,7 +822,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 <a name="subscription-scopes"></a>
 #### サブスクリプションのスコープ
 
-ほとんどのサブスクリプション状態はクエリスコープとしても利用できるため、特定の状態にあるサブスクリプションはデータベースで簡単にクエリできます。
+ほとんどのサブスクリプション状態はクエリスコープとしても利用できるため、特定の状態にあるサブスクリプションはデータベースから簡単にクエリできます。
 
     // すべてのアクティブなサブスクリプションを取得
     $subscriptions = Subscription::query()->active()->get();
@@ -847,7 +847,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 <a name="changing-prices"></a>
 ### 価格の変更
 
-顧客がアプリケーションでサブスクリプションを購読した後に、新しいサブスクリプション価格に変更したいと思うことがあるでしょう。顧客のサブスクリプションを新しい価格に変更するには、Stripe価格の識別子を`swap`メソッドに渡します。価格を交換する場合に、それが以前にキャンセルされている場合、ユーザーはサブスクリプションの再アクティブ化を希望していると見なします。指定する価格識別子は、Stripeダッシュボードの利用可能な Stripe価格の識別子に対応する必要があります。
+顧客がアプリケーションでサブスクリプションを購読した後に、新しいサブスクリプション価格に変更したいと思うことがあるでしょう。顧客のサブスクリプションを新しい価格に変更するには、Stripe価格の識別子を`swap`メソッドに渡します。価格を交換する場合に、それが以前にキャンセルされている場合、ユーザーはサブスクリプションの再アクティブ化を希望していると見なします。指定する価格識別子は、Stripeダッシュボードの利用可能なStripe価格識別子である必要があります。
 
     use App\Models\User;
 
@@ -855,9 +855,9 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 
     $user->subscription('default')->swap('price_yearly');
 
-その顧客が試用中の場合、試用期間は維持されます。さらに、サブスクリプションに「数量」が存在する場合、その数量も維持されます。
+その顧客が無料トライアル中の場合、トライアル期間は維持されます。さらに、サブスクリプションに「数量」が存在する場合、その数量も維持されます。
 
-価格を交換して、顧客が現在行っている試用期間をキャンセルしたい場合は、`skipTrial`メソッドを呼び出してください。
+価格を交換して、顧客が現在行っている無料トライアル期間をキャンセルしたい場合は、`skipTrial`メソッドを呼び出してください。
 
     $user->subscription('default')
             ->skipTrial()
@@ -870,18 +870,18 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
     $user->subscription('default')->swapAndInvoice('price_yearly');
 
 <a name="prorations"></a>
-#### 按分
+#### 比例配分
 
-デフォルトで、Stripeは価格を変更するときに料金を按分します。`noProrate`メソッドを使用すると、料金を按分せずにサブスクリプションの価格を更新できます。
+デフォルトで、Stripeは価格を変更するときに料金を比例配分します。`noProrate`メソッドを使用すると、料金を比例配分せずにサブスクリプションの価格を更新できます。
 
     $user->subscription('default')->noProrate()->swap('price_yearly');
 
-サブスクリプションの按分について詳しくは、[Stripeドキュメント](https://stripe.com/docs/billing/subscriptions/prorations)を参照してください。
+サブスクリプションの比例配分について詳しくは、[Stripeドキュメント](https://stripe.com/docs/billing/subscriptions/prorations)を参照してください。
 
-> {note} `swapAndInvoice`メソッドの前に`noProrate`メソッドを実行しても、按分には影響しません。請求書は常に発行されます。
+> {note} `swapAndInvoice`メソッドの前に`noProrate`メソッドを実行しても、比例配分には影響しません。請求書は常に発行されます。
 
 <a name="subscription-quantity"></a>
-### サブスクリプション数
+### サブスクリプション数量
 
 サブスクリプションは「数量」の影響を受ける場合があります。たとえば、プロジェクト管理アプリケーションは、プロジェクトごとに月額$10を請求する場合があります。`incrementQuantity`メソッドと`decrementQuantity`メソッドを使用して、サブスクリプション数量を簡単に増減できます。
 
@@ -903,7 +903,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 
     $user->subscription('default')->updateQuantity(10);
 
-`noProrate`メソッドを使用すると、料金を按分せずにサブスクリプションの数量を更新できます。
+`noProrate`メソッドを使用すると、料金を比例配分せずにサブスクリプションの数量を更新できます。
 
     $user->subscription('default')->noProrate()->updateQuantity(10);
 
@@ -917,9 +917,9 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
     $user->subscription('default')->incrementQuantity(1, 'price_chat');
 
 <a name="multiprice-subscriptions"></a>
-### 複数価格のサブスクリプション
+### 複数の価格のサブスクリプション
 
-[複数価格のサブスクリプション](https://stripe.com/docs/billing/subscriptions/multiple-products)では、1つのサブスクリプションに複数の請求価格を割り当て可能です。例えば、カスタマーサービスの「ヘルプデスク」アプリケーションを構築しているとします。このアプリケーションの基本サブスクリプション価格は月額１０ドルですが、ライブチャットのアドオン価格は月額１５ドルに設定しましょう。複数価格のサブスクリプションの情報は、Cashierの`subscription_items`データベーステーブルに格納されます。
+[複数の価格のサブスクリプション](https://stripe.com/docs/billing/subscriptions/multiple-products)で、１つのサブスクリプションに複数の請求価格を割り当て可能です。例えば、カスタマーサービスの「ヘルプデスク」アプリケーションを構築しているとします。このアプリケーションの基本サブスクリプション価格は月額１０ドルですが、ライブチャットのアドオン価格は月額１５ドルに設定しましょう。複数価格のサブスクリプションの情報は、Cashierの`subscription_items`データベーステーブルに格納されます。
 
 `newSubscription`メソッドの第２引数に価格の配列を渡すことで、指定したサブスクリプションに複数の価格を指定できます。
 
@@ -995,9 +995,9 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
             ->swap('price_pro');
 
 <a name="proration"></a>
-#### 按分
+#### 比例配分
 
-デフォルトで、Stripeは複数価格サブスクリプションに価格を追加または削除するとき、料金を按分します。按分せずに調整したい場合は、`noProrate`メソッドを価格の操作へチェーンする必要があります。
+デフォルトで、Stripeは複数価格サブスクリプションに価格を追加または削除するとき、料金を比例配分します。比例配分せずに調整したい場合は、`noProrate`メソッドを価格の操作へチェーンする必要があります。
 
     $user->subscription('default')->noProrate()->removePrice('price_chat');
 
@@ -1038,11 +1038,11 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
     $subscriptionItem = $user->subscription('default')->findItemOrFail('price_chat');
 
 <a name="metered-billing"></a>
-### 従量制課金
+### 使用量ベースの料金
 
-[従量制課金](https://stripe.com/docs/billing/subscriptions/metered-billing)を使用すると、課金サイクル中の製品の使用状況に基づき顧客へ請求できます。たとえば、顧客が１か月に送信するテキストメッセージまたは電子メールの数に基づいて顧客に請求するケースが考えられます。
+[使用量ベースの料金](https://stripe.com/docs/billing/subscriptions/metered-billing)を使用すると、課金サイクル中の製品の利用状況に基づき顧客へ請求できます。たとえば、顧客が１か月に送信するテキストメッセージまたは電子メールの数に基づいて顧客に請求するケースが考えられます。
 
-従量制課金を使用開始するには、最初に、Stripeダッシュボードの従量制価格（metered price）で新しい製品を作成する必要があります。次に、`meteredPrice`を使用して、従量制の価格IDを顧客のサブスクリプションに追加します。
+使用量ベースの料金を使用開始するには、最初にStripeダッシュボードの従量制価格（metered price）で新しい製品を作成する必要があります。次に、`meteredPrice`を使用して、従量制の価格IDを顧客のサブスクリプションに追加します。
 
     use Illuminate\Http\Request;
 
@@ -1066,9 +1066,9 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
     ]);
 
 <a name="reporting-usage"></a>
-#### 資料状況の報告
+#### 利用状況のレポート
 
-顧客がアプリケーションを使用しているとき、正確な請求ができるように、使用状況をStripeへ報告します。従量制サブスクリプションの使用量を増やすには、`reportUsage`メソッドを使用します。
+顧客がアプリケーションを使用しているとき、正確な請求ができるように、利用状況をStripeへ報告します。従量制サブスクリプションの使用量を増やすには、`reportUsage`メソッドを使用します。
 
     $user = User::find(1);
 
@@ -1080,13 +1080,13 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 
     $user->subscription('default')->reportUsage(15);
 
-アプリケーションが単一のサブスクリプションで複数の価格を提供している場合は、`reportUsageFor`メソッドを使用して、使用状況を報告する従量制価格を指定する必要があります。
+アプリケーションが単一のサブスクリプションで複数の価格を提供している場合は、`reportUsageFor`メソッドを使用して、利用状況を報告する従量制価格を指定する必要があります。
 
     $user = User::find(1);
 
     $user->subscription('default')->reportUsageFor('price_metered', 15);
 
-以前に報告した使用状況を更新する必要も起こるでしょう。これにはタイムスタンプまたは`DateTimeInterface`インスタンスを２番目のパラメータとして`reportUsage`に渡します。その際、Stripeはその時点で報告された使用状況を更新します。指定する日時は現在の請求期間内であるため、以前の使用記録を引き続き更新できます。
+以前に報告した利用状況を更新する必要も起こるでしょう。これにはタイムスタンプまたは`DateTimeInterface`インスタンスを２番目のパラメータとして`reportUsage`に渡します。その際、Stripeはその時点で報告された利用状況を更新します。指定する日時は現在の請求期間内であるため、以前の使用記録を引き続き更新できます。
 
     $user = User::find(1);
 
@@ -1095,7 +1095,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 <a name="retrieving-usage-records"></a>
 #### 使用記録の取得
 
-顧客の過去の使用状況を取得するには、サブスクリプションインスタンスの`usageRecords`メソッドを使用します。
+顧客の過去の利用状況を取得するには、サブスクリプションインスタンスの`usageRecords`メソッドを使用します。
 
     $user = User::find(1);
 
@@ -1115,7 +1115,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
         - Total Usage: {{ $usageRecord['total_usage'] }}
     @endforeach
 
-返されるすべての使用状況データの完全なリファレンスと、Stripeのカーソルベースのペジネーションの使用方法については、[Stripe公式のAPIドキュメント](https://stripe.com/docs/api/usage_records/subscription_item_summary_list)を参照してください。
+返されるすべての利用状況データの完全なリファレンスと、Stripeのカーソルベースのペジネーションの使用方法の詳細は、[Stripe公式のAPIドキュメント](https://stripe.com/docs/api/usage_records/subscription_item_summary_list)を参照してください。
 
 <a name="subscription-taxes"></a>
 ### サブスクリプションの税率
@@ -1155,11 +1155,11 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 <a name="syncing-tax-rates"></a>
 #### 税率の同期
 
-`taxRates`メソッドから返すハードコードした税率IDを変更する場合、ユーザーの既存サブスクリプションの設定税率は同じままです。既存のサブスクリプションの税額を新しい`taxRates`値で更新する場合は、ユーザーのサブスクリプションインスタンスで`syncTaxRates`メソッドを呼び出す必要があります。
+`taxRates`メソッドによりハードコードした税率IDを変更しても、ユーザーの既存サブスクリプションの設定税率は同じまま残っています。既存のサブスクリプションの税額を新しい`taxRates`値で更新する場合は、ユーザーのサブスクリプションインスタンスで`syncTaxRates`メソッドを呼び出す必要があります。
 
     $user->subscription('default')->syncTaxRates();
 
-これにより、複数価格のサブスクリプションアイテムの税率も同期されます。複数価格のサブスクリプションを提供している場合は、Billableモデルが[前述](#subscription-taxes)の`priceTaxRates`メソッドを実装していることを確認する必要があります。
+これにより、複数の価格のサブスクリプションアイテムの税率も同期されます。複数価格のサブスクリプションを提供している場合は、Billableモデルが[前述](#subscription-taxes)の`priceTaxRates`メソッドを実装していることを確認する必要があります。
 
 <a name="tax-exemption"></a>
 #### 非課税
@@ -1174,12 +1174,12 @@ Cashierは、顧客が非課税であるかどうかを判断するために、`
     $user->isNotTaxExempt();
     $user->reverseChargeApplies();
 
-> {note} これらのメソッドは、すべての`Laravel\Cashier\Invoice`オブジェクトでも使用できます。ただし、`Invoice`オブジェクトで呼び出されると、メソッドは請求書が作成されたときの免除ステータスを用います。
+> {note} これらのメソッドは、すべての`Laravel\Cashier\Invoice`オブジェクトでも使用できます。ただし、`Invoice`オブジェクトで呼び出した場合、メソッドは請求書が作成された時点の免税状態を用います。
 
 <a name="subscription-anchor-date"></a>
 ### サブスクリプション基準日
 
-デフォルトの請求サイクル基準日は、サブスクリプションが作成された日付、または試用期間が使用されている場合は試用が終了した日付です。請求基準日を変更する場合は、`anchorBillingCycleOn`メソッドを使用します。
+デフォルトの請求サイクル基準日は、サブスクリプションが作成された日付、または無料トライアル期間が使用されている場合はトライアルが終了した日付です。請求基準日を変更する場合は、`anchorBillingCycleOn`メソッドを使用します。
 
     use Illuminate\Http\Request;
 
@@ -1236,12 +1236,12 @@ Cashierは、顧客が非課税であるかどうかを判断するために、`
 顧客がサブスクリプションをキャンセルし、サブスクリプションが完全に期限切れになる前にそのサブスクリプションを再開する場合、請求はすぐに顧客へ課せられれません。代わりに、サブスクリプションを再アクティブ化し、元の請求サイクルで請求します。
 
 <a name="subscription-trials"></a>
-## サブスクリプションの試用期間
+## サブスクリプションの無料トライアル期間
 
 <a name="with-payment-method-up-front"></a>
 ### 支払い方法の事前登録
 
-事前に支払い方法情報を収集し、顧客に試用期間を提供したい場合は、サブスクリプションの作成時に`trialDays`メソッドを使用します。
+事前に支払い方法情報を収集し、顧客に無料トライアル期間を提供したい場合は、サブスクリプションの作成時に`trialDays`メソッドを使用します。
 
     use Illuminate\Http\Request;
 
@@ -1253,11 +1253,11 @@ Cashierは、顧客が非課税であるかどうかを判断するために、`
         // ...
     });
 
-このメソッドは、データベース内のサブスクリプションレコードに試用期間の終了日を設定し、この日付が過ぎるまで顧客への請求を開始しないようにStripeに指示します。`trialDays`メソッドを使用すると、CashierはStripeの価格に設定しているデフォルトの試用期間を上書きします。
+このメソッドは、データベース内のサブスクリプションレコードに無料トライアル期間の終了日を設定し、この日付が過ぎるまで顧客への請求を開始しないようにStripeに指示します。`trialDays`メソッドを使用すると、CashierはStripeの価格に設定しているデフォルトの無料トライアル期間を上書きします。
 
-> {note} 試用期間の終了日より前に顧客のサブスクリプションがキャンセルされなかった場合、試用期間の終了時にすぐ課金されるため、試用期間の終了日をユーザーに必ず通知する必要があります。
+> {note} 無料トライアル期間の終了日より前に顧客のサブスクリプションがキャンセルされなかった場合、無料トライアル期間の終了時にすぐ課金されるため、無料トライアル期間の終了日をユーザーに必ず通知する必要があります。
 
-`trialUntil`メソッドを使用すると、試用期間をいつ終了するかを指定する`DateTime`インスタンスを渡せます。
+`trialUntil`メソッドを使用すると、無料トライアル期間をいつ終了するかを指定する`DateTime`インスタンスを渡せます。
 
     use Carbon\Carbon;
 
@@ -1265,7 +1265,7 @@ Cashierは、顧客が非課税であるかどうかを判断するために、`
                 ->trialUntil(Carbon::now()->addDays(10))
                 ->create($paymentMethod);
 
-ユーザーインスタンスの`onTrial`メソッドまたはサブスクリプションインスタンスの`onTrial`メソッドのいずれかを使用して、ユーザーが試用期間内にあるかどうか判定できます。以下の２例は同じ働きです。
+ユーザーインスタンスの`onTrial`メソッドまたはサブスクリプションインスタンスの`onTrial`メソッドのいずれかを使用して、ユーザーが無料トライアル期間内にあるかどうか判定できます。以下の２例は同じ働きです。
 
     if ($user->onTrial('default')) {
         //
@@ -1275,19 +1275,19 @@ Cashierは、顧客が非課税であるかどうかを判断するために、`
         //
     }
 
-`endTrial`メソッドを使用して、サブスクリプションの試用期間を即時終了できます。
+`endTrial`メソッドを使用して、サブスクリプションの無料トライアル期間を即時終了できます。
 
     $user->subscription('default')->endTrial();
 
 <a name="defining-trial-days-in-stripe-cashier"></a>
-#### ストライプ／Cashierでの試用期間日数の定義
+#### ストライプ／Cashierでの無料トライアル日数の定義
 
-価格が受け取るトライアル日数をStripeダッシュボードで定義するか、常にCashierを使用して明示的に渡すかを選択できます。Stripeで価格の試用日数を定義することを選択した場合、過去にそのサブスクリプションを購読していた顧客の新しいサブスクリプションを含む、新しいサブスクリプションは全部、明示的に`skipTrial()`メソッドを呼び出さない限り、常に試用期間が提供されることに注意してください。
+価格が受け取るトライアル日数をStripeダッシュボードで定義するか、常にCashierを使用して明示的に渡すかを選択できます。Stripeで価格の試用日数を定義することを選択した場合、過去にそのサブスクリプションを購読していた顧客の新しいサブスクリプションを含む、新しいサブスクリプションは全部、明示的に`skipTrial()`メソッドを呼び出さない限り、常に無料トライアル期間が提供されることに注意してください。
 
 <a name="without-payment-method-up-front"></a>
 ### 支払い方法事前登録なし
 
-ユーザーの支払い方法情報を事前に収集せずに試用期間を提供したい場合は、ユーザーレコードの`trial_ends_at`列を希望の試用終了日に設定してください。これは通常、ユーザー登録時に行います。
+ユーザーの支払い方法情報を事前に収集せずに無料トライアル期間を提供したい場合は、ユーザーレコードの`trial_ends_at`列を希望の試用終了日に設定してください。これは通常、ユーザー登録時に行います。
 
     use App\Models\User;
 
@@ -1298,10 +1298,10 @@ Cashierは、顧客が非課税であるかどうかを判断するために、`
 
 > {note} Billableなモデルのクラス定義内の`trial_ends_at`属性に[datecast](/docs/{{version}}/eloquent-mutators##date-casting)を必ず追加してください。
 
-Cashierはこのタイプの試用期間を「一般的な試用期間（generic trial）」と呼んでいます。これは、既存のサブスクリプションに関連付けられていないからです。Billableなモデルインスタンスの`onTrial`メソッドは、現在の日付が`trial_ends_at`の値を超えていない場合に`true`を返します。
+Cashierはこのタイプの無料トライアル期間を「一般的な無料トライアル期間（generic trial）」と呼んでいます。これは、既存のサブスクリプションに関連付けられていないからです。Billableなモデルインスタンスの`onTrial`メソッドは、現在の日付が`trial_ends_at`の値を超えていない場合に`true`を返します。
 
     if ($user->onTrial()) {
-        // ユーザーは試用期間内
+        // ユーザーは無料トライアル期間内
     }
 
 ユーザーの実際のサブスクリプションを作成する準備ができたら、通常どおり`newSubscription`メソッドを使用できます。
@@ -1310,33 +1310,33 @@ Cashierはこのタイプの試用期間を「一般的な試用期間（generic
 
     $user->newSubscription('default', 'price_monthly')->create($paymentMethod);
 
-ユーザーの試用終了日を取得するには、`trialEndsAt`メソッドを使用します。このメソッドは、ユーザーが試用中の場合はCarbon日付インスタンスを返し、そうでない場合は`null`を返します。デフォルト以外の特定のサブスクリプションの試用終了日を取得する場合は、オプションのサブスクリプション名パラメーターを渡すこともできます。
+ユーザーの無料トライアル終了日を取得するには、`trialEndsAt`メソッドを使用します。このメソッドは、ユーザーがトライアル中の場合はCarbon日付インスタンスを返し、そうでない場合は`null`を返します。デフォルト以外の特定のサブスクリプションの試用終了日を取得する場合は、オプションのサブスクリプション名パラメーターを渡すこともできます。
 
     if ($user->onTrial()) {
         $trialEndsAt = $user->trialEndsAt('main');
     }
 
-ユーザーが「一般的な」試用期間内であり、実際のサブスクリプションをまだ作成していないことを具体的に知りたい場合は、`onGenericTrial`メソッドを使用することもできます。
+ユーザーが「一般的な」無料トライアル期間内であり、実際のサブスクリプションをまだ作成していないことを具体的に知りたい場合は、`onGenericTrial`メソッドを使用することもできます。
 
     if ($user->onGenericTrial()) {
-        // ユーザーは「一般的な」試用期間内
+        // ユーザーは「一般的な」無料トライアル期間内
     }
 
 <a name="extending-trials"></a>
-### 試用期間の延長
+### 無料トライアル期間の延長
 
-`extendTrial`メソッドを使用すると、サブスクリプションの作成後にサブスクリプションの試用期間を延長できます。試用期間がすでに終了していて、顧客にサブスクリプションの料金が既に請求されている場合でも、延長試用期間を提供できます。試用期間内に費やされた時間は、その顧客の次の請求から差し引かれます。
+`extendTrial`メソッドを使用すると、サブスクリプションの作成後にサブスクリプションの無料トライアル期間を延長できます。無料トライアル期間がすでに終了していて、顧客にサブスクリプションの料金が既に請求されている場合でも、延長無料トライアル期間を提供できます。無料トライアル期間内に費やされた時間は、その顧客の次の請求から差し引かれます。
 
     use App\Models\User;
 
     $subscription = User::find(1)->subscription('default');
 
-    // 今から７日後に試用期間終了
+    // 今から７日後に無料トライアル期間終了
     $subscription->extendTrial(
         now()->addDays(7)
     );
 
-    // 試用期間をさらに５日追加
+    // 無料トライアル期間をさらに５日追加
     $subscription->extendTrial(
         $subscription->trial_ends_at->addDays(5)
     );
@@ -1348,7 +1348,7 @@ Cashierはこのタイプの試用期間を「一般的な試用期間（generic
 
 Stripeは、Webフックを介してさまざまなイベントをアプリケーションに通知できます。デフォルトでは、CashierのWebフックコントローラを指すルートは、Cashierサービスプロバイダにより自動的に登録されます。このコントローラは、すべての受信Webフックリクエストを処理します。
 
-デフォルトでは、Cashier Webフックコントローラは、（Stripe設定で定義する）課金失敗が多すぎるサブスクリプションのキャンセル、顧客の更新、顧客の削除、サブスクリプションの更新、および支払い方法の変更を自動的に処理します。ただし、すぐにわかりますが、このコントローラを拡張して、任意のStripe Webフックイベントを処理できます。
+デフォルトでは、Cashier Webフックコントローラは、（Stripe設定で定義する）課金失敗が多すぎるサブスクリプションのキャンセル、顧客の更新、顧客の削除、サブスクリプションの更新、および支払い方法の変更を自動的に処理します。ただし、この後ですぐに説明しますが、このコントローラを拡張して、任意のStripe Webフックイベントを処理できます。
 
 アプリケーションがStripe Webフックを処理できるようにするには、StripeコントロールパネルでWebフックURLを設定してください。デフォルトでは、CashierのWebフックコントローラは`/stripe/webhook`URLパスに応答します。Stripeコントロールパネルで有効にする必要があるすべてのWebフックの完全なリストは次のとおりです。
 
@@ -1383,7 +1383,7 @@ php artisan cashier:webhook --api-version="2019-12-03"
 php artisan cashier:webhook --disabled
 ```
 
-> {note} Cashierに含まれる[Webフック署名の確認](#verifying-webhook-signatures)ミドルウェアを使って、受信するStripe Webフックリクエストを保護してください。。
+> {note} Cashierに含まれる[Webフック署名の確認](#verifying-webhook-signatures)ミドルウェアを使って、受信するStripe Webフックリクエストを保護してください。
 
 <a name="webhooks-csrf-protection"></a>
 #### WebフックとCSRF保護
@@ -1518,7 +1518,7 @@ Webフックの検証を有効にするには、`STRIPE_WEBHOOK_SECRET`環境変
 > {note} `invoicePrice`と`invoiceFor`メソッドは、失敗した請求を再試行するStripeのインボイスを作成します。請求に失敗したインボイスを再試行したくない場合は、最初の請求に失敗した後で、Stripe APIを使いインボイスを閉じる必要があります。
 
 <a name="refunding-charges"></a>
-### 支払いの払い戻し
+### 支払の返金
 
 Stripeの料金を払い戻す必要がある場合は、`refund`メソッドを使用します。このメソッドは、最初の引数にStripe[支払いインテントID](#payment-methods-for-single-charges)を取ります。
 
@@ -1646,12 +1646,12 @@ Stripeの料金を払い戻す必要がある場合は、`refund`メソッドを
 
 Cashier Stripeは、[Stripe Checkout](https://stripe.com/payments/checkout)もサポートしています。Stripe Checkoutは、チェックアウトページを事前に構築しホストするという、支払いを受け入れるためカスタムページを実装する手間を省きます。
 
-以下のドキュメントで、Stripe Checkoutをどのように利用開始するのかに関する情報を説明します。Stripe Checkoutの詳細は、[StrepeのCheckoutに関するドキュメント](https://stripe.com/docs/payments/checkout)を確認する必要があるでしょう
+以下のドキュメントで、Stripe Checkoutをどのように利用開始するのかに関する情報を説明していきます。Stripe Checkoutの詳細は、[StrepeのCheckoutに関するドキュメント](https://stripe.com/docs/payments/checkout)を確認する必要があるでしょう
 
 <a name="product-checkouts"></a>
 ### 商品の支払い
 
-Billableなモデル上の`checkout`メソッドを使用して、Stripeダッシュボード内に作成した既存の製品のチェックアウトを実行できます。`checkout`メソッドは新しいStripeチェックアウトセッションを開始します。デフォルトで、Stripe価格IDを渡す必要があります。
+Billableなモデル上の`checkout`メソッドを使用して、Stripeダッシュボード内に作成した既存の製品への課金を実行できます。`checkout`メソッドは新しいStripeチェックアウトセッションを開始します。デフォルトで、Stripe価格IDを渡す必要があります。
 
     use Illuminate\Http\Request;
 
@@ -1678,7 +1678,7 @@ Billableなモデル上の`checkout`メソッドを使用して、Stripeダッ�
         ]);
     });
 
-`success_url`チェックアウトオプションを定義する際に、URLを呼び出す際にチェックアウトセッションIDをクエリ文字列のパラメータとして追加するようStripeに指示することができます。それには、リテラル文字列 `{CHECKOUT_SESSION_ID}` を `success_url` のクエリ文字列に追加します。Stripeはこのプレースホルダーを実際のチェックアウトセッションIDに置き換えます。
+`success_url`チェックアウトオプションを定義するときに、指定したURLを呼び出す際にチェックアウトセッションIDをクエリ文字列のパラメータとして追加するように、Stripeへ指示できます。それには、リテラル文字列 `{CHECKOUT_SESSION_ID}` を `success_url` のクエリ文字列に追加します。Stripeはこのプレースホルダーを実際のチェックアウトセッションIDに置き換えます。
 
     use Illuminate\Http\Request;
     use Stripe\Checkout\Session;
@@ -1700,7 +1700,7 @@ Billableなモデル上の`checkout`メソッドを使用して、Stripeダッ�
 <a name="checkout-promotion-codes"></a>
 #### プロモーションコード
 
-Stripe Checkoutはデフォルトで、[ユーザーが商品に使用できるプロモーションコード](https://stripe.com/docs/billing/subscriptions/discounts/code)を許可していません。幸いわいに、チェックアウトページでこれを有効にする簡単な方法があります。そのためには、`allowPromotionCodes`メソッドを呼び出します。
+Stripe Checkoutはデフォルトで、[ユーザーが商品に使用できるプロモーションコード](https://stripe.com/docs/billing/subscriptions/discounts/codes)を許可していません。幸いなことに、チェックアウトページでこれを有効にする簡単な方法があります。有効にするには、`allowPromotionCodes`メソッドを呼び出します。
 
     use Illuminate\Http\Request;
 
@@ -1713,7 +1713,7 @@ Stripe Checkoutはデフォルトで、[ユーザーが商品に使用できる�
 <a name="single-charge-checkouts"></a>
 ### 一回限りの支払い
 
-ストライプダッシュボードに作成していない、アドホックな商品をシンプルに課金することもできます。これには、Billableなモデルで`checkoutCharge`メソッドを使用し、課金可能な料金、製品名、およびオプションの数量を渡たします。顧客がこのルートを訪れると、Stripeのチェックアウトページへリダイレクトされます。
+ストライプダッシュボードで作成していない、アドホックな商品をシンプルに課金することもできます。これには、Billableなモデルで`checkoutCharge`メソッドを使用し、課金可能な料金、製品名、およびオプションの数量を渡たします。顧客がこのルートを訪れると、Stripeのチェックアウトページへリダイレクトされます。
 
     use Illuminate\Http\Request;
 
@@ -1721,14 +1721,14 @@ Stripe Checkoutはデフォルトで、[ユーザーが商品に使用できる�
         return $request->user()->checkoutCharge(1200, 'T-Shirt', 5);
     });
 
-> {note}`checkoutCharge`メソッドを使用する場合、Stripeは常にStripeダッシュボードに新しい製品と価格を作成します。したがって、代わりにStripeダッシュボードで事前に商品を作成し、`checkout`メソッドを使用することを推奨します。
+> {note}`checkoutCharge`メソッドを使用すると、Stripeは常にStripeダッシュボードに新しい製品と価格を作成します。そのため、代わりにStripeダッシュボードで事前に商品を作成し、`checkout`メソッドを使用することを推奨します。
 
 <a name="subscription-checkouts"></a>
 ### サブスクリプションの支払い
 
 > {note} Stripe Checkoutのサブスクリプションを使用するには、Stripeダッシュボードで`customer.subscription.created` Webフックを有効にする必要があります。このWebフックは、データベースにサブスクリプションレコードを作成し、すべてのサブスクリプション関連アイテムを保存します。
 
-サブスクリプションを開始するには、Stripe Checkoutを使用することもできます。Cashierのサブスクリプションビルダメソッドを使用してサブスクリプションを定義した後に、`checkout`メソッドを呼び出せます。顧客がこのルートを訪れると、Stripeのチェックアウトページへリダイレクトされます。
+サブスクリプションを開始するため、Stripe Checkoutを使用することもできます。Cashierのサブスクリプションビルダメソッドを使用してサブスクリプションを定義した後に、`checkout`メソッドを呼び出せます。顧客がこのルートを訪れると、Stripeのチェックアウトページへリダイレクトされます。
 
     use Illuminate\Http\Request;
 
@@ -1762,23 +1762,23 @@ Stripe Checkoutはデフォルトで、[ユーザーが商品に使用できる�
             ->checkout();
     });
 
-> {note} 残念ながらStripe Checkoutはサブスクリプションを開始するとき、すべてのサブスクリプション請求オプションをサポートしていません。サブスクリプションビルダの`anchorBillingCycleOn`メソッドを使用して、プロレーション動作の設定、または支払い動作の設定は、Stripeチェックアウトセッション中に全く効果はありません。どのパラメータが利用可能であるかを確認するには、[Stripe CheckoutセッションAPIのドキュメント](https://stripe.com/docs/api/checkout/sessions/create)を参照してください。
+> {note} 残念ながらStripe Checkoutはサブスクリプションを開始するとき、すべてのサブスクリプション請求オプションをサポートしていません。サブスクリプションビルダの`anchorBillingCycleOn`メソッドの使用や、比例配分の動作の設定、支払い動作の設定は、Stripeチェックアウトセッション中は全く効果がありません。どのパラメータが利用可能であるかを確認するには、[Stripe CheckoutセッションAPIのドキュメント](https://stripe.com/docs/api/checkout/sessions/create)を参照してください。
 
 <a name="stripe-checkout-trial-periods"></a>
-#### Stripeの支払と試用期間
+#### Stripeの支払と無料トライアル期間
 
-もちろん、Stripe Checkoutを使用して購読を作成する際、試用期間の完了時間を定義できます。
+もちろん、Stripe Checkoutを使用して購サブスクリプションを作成するときにも、無料トライアル期間の完了時間を定義できます。
 
     $checkout = Auth::user()->newSubscription('default', 'price_monthly')
         ->trialDays(3)
         ->checkout();
 
-ただし、試用期間は最低４８時間でなければならず、これはStripe Checkoutでサポートされている試行時間の最短時間です。
+ただし、無料トライアル期間は最低４８時間でなければならず、これはStripe Checkoutでサポートされている試行時間の最短時間です。
 
 <a name="stripe-checkout-subscriptions-and-webhooks"></a>
 #### サブスクリプションとWebフック
 
-StripeとCashierはWebフックを使いサブスクリプションの状態を更新することを覚えておいてください。そのため、顧客が支払い情報を入力した後でアプリケーションに戻った時点で、サブスクリプションが有効になっていない可能性があります。このシナリオを処理するには、ユーザーに支払いやサブスクリプションが保留中であることをユーザーに知らせるメッセージを表示することを推奨します。
+StripeとCashierはWebフックを使いサブスクリプションの状態を更新することを覚えておいてください。そのため、顧客が支払い情報を入力した後にアプリケーションへ戻った時点で、サブスクリプションが有効になっていない可能性があります。このシナリオに対応するため、ユーザーに支払いやサブスクリプションが保留中であることを知らせるメッセージの表示を推奨します。
 
 <a name="collecting-tax-ids"></a>
 ### 課税IDの収集
@@ -1814,7 +1814,7 @@ Checkoutは、顧客の課税IDの収集もサポートしています。チェ�
 
 <div class="content-list" markdown="1">
 
-- Credit Cards
+- クレジットカード
 - Alipay
 - Bancontact
 - BECS Direct Debit
@@ -1874,14 +1874,14 @@ StripeとCashierが提供する支払い確認画面は、特定の銀行また�
 <a name="incomplete-and-past-due-state"></a>
 #### 不完了と期限超過の状態
 
-支払いに追加の確認が必要な場合、サブスクリプションは`stripe_status`データベースカラムが示すように、`incomplete`か`past_due`状態のままになります。Cashierは支払いの確認が完了し、アプリケーションがWebフックを介してStripeから完了の通知を受けるととすぐに、顧客のサブスクリプションを自動的にアクティブ化します。
+支払いに追加の確認が必要な場合、サブスクリプションは`stripe_status`データベースカラムが、`incomplete`か`past_due`状態のままになることで示されます。Cashierは支払いの確認が完了し、アプリケーションがWebフックを介してStripeから完了の通知を受けるととすぐに、顧客のサブスクリプションを自動的にアクティブ化します。
 
 `incomplete`および`past_due`状態の詳細については、[これらの状態に関する追加のドキュメント](#incomplete-and-past-due-status)を参照してください。
 
 <a name="off-session-payment-notifications"></a>
 ### オフセッション支払い通知
 
-ＳＣＡの法令では、サブスクリプションがアクティブな場合でも、顧客は支払いの詳細を時々確認する必要があるため、Cashierはオフセッションでの支払い確認が必要なときに顧客に通知を送信できます。たとえばこれは、サブスクリプションの更新時に発生する可能性があります。Cashierの支払い通知は、`CASHIER_PAYMENT_NOTIFICATION`環境変数を通知クラスに設定することで有効にできます。デフォルトでは、この通知は無効になっています。もちろん、Cashierにはこの目的で使用できる通知クラスが含まれていますが、必要に応じて独自の通知クラスを自由に提供できます。
+ＳＣＡの法令では、サブスクリプションがアクティブな場合でも、顧客は支払いの詳細を時々確認することを求めているため、Cashierはオフセッションでの支払い確認が必要なときに顧客に通知を送れるようになっています。たとえば、これはサブスクリプションの更新時に発生する可能性があります。Cashierの支払い通知は、`CASHIER_PAYMENT_NOTIFICATION`環境変数を通知クラスに設定することで有効にできます。デフォルトでは、この通知は無効になっています。もちろん、Cashierにはこの目的で使用できる通知クラスが含まれていますが、必要に応じて独自の通知クラスを自由に提供できます。
 
 ```ini
 CASHIER_PAYMENT_NOTIFICATION=Laravel\Cashier\Notifications\ConfirmPayment
@@ -1889,7 +1889,7 @@ CASHIER_PAYMENT_NOTIFICATION=Laravel\Cashier\Notifications\ConfirmPayment
 
 オフセッションでの支払い確認通知が確実に配信されるようにするため、アプリケーションで[Stripe Webフックが設定されている](#handling-stripe-webhooks)ことと、Stripeダッシュボードで`invoice.payment_action_required`webhookが有効になっていることを確認してください。さらに、`Billable`モデルでLaravelの`Illuminate\Notifications\Notifiable`トレイトを使用していることも確認する必要があります。
 
-> {note} 顧客が追加の確認を必要とする支払いを手動で行う場合でも、通知は送信されます。残念ながら、支払いが手動なのか「オフセッション」で行われたかをStripeが知る方法はありません。ただし、顧客が支払いを確認した後に支払いページへアクセスすると、「支払いが成功しました（Payment Successful）」というメッセージが表示されます。謝って顧客へ同じ支払いを２回確認させ、２回目の請求を行粉なってしまうことはありません。
+> {note} 顧客が追加の確認を必要とする支払いを手動で行う場合でも、通知は送信されます。残念ながら、支払いが手動なのか「オフセッション」で行われたかをStripeが知る方法はありません。ただし、顧客が支払いを確認した後に支払いページへアクセスすると、「支払いが成功しました（Payment Successful）」というメッセージが表示されます。謝って顧客へ同じ支払いを２回確認させ、２回目の請求を行ってしまうことはありません。
 
 <a name="stripe-sdk"></a>
 ## Stripe SDK
