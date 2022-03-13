@@ -448,7 +448,7 @@ sail debug migrate
 
 Webブラウザでアプリケーションを操作しながらデバッグするには、WebブラウザからXdebugセッションを開始するための[Xdebugが提供する手順](https://xdebug.org/docs/step_debug#web-application)に従ってください。
 
-PhpStormを使用している場合は、[設定なしのデバッグ]](https://www.jetbrains.com/help/phpstorm/zero-configuration-debugging.html)に関するJetBrainのドキュメントを確認してください。
+PhpStormを使用している場合は、[設定なしのデバッグ](https://www.jetbrains.com/help/phpstorm/zero-configuration-debugging.html)に関するJetBrainのドキュメントを確認してください。
 
 > {note} Laravel Sailはアプリケーション提供を`artisan serve`に依存しています。`artisan serve`コマンドは、Laravelバージョン8.53.0以降では、`XDEBUG_CONFIG`と`XDEBUG_MODE`変数のみを受け付けます。古いバージョンのLaravel（8.52.0以下）では、これらの変数をサポートしていないため、デバッグ接続を受け付けません。
 
