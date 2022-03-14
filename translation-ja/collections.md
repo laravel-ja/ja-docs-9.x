@@ -166,7 +166,6 @@
 [random](#method-random)
 [range](#method-range)
 [reduce](#method-reduce)
-[reduceMany](#method-reduce-many)
 [reduceSpread](#method-reduce-spread)
 [reject](#method-reject)
 [replace](#method-replace)
@@ -1821,24 +1820,7 @@ staticの`make`メソッドは、新しいコレクションインスタンス�
     });
 
     // 4264
-
-<a name="method-reduce-many"></a>
-#### `reduceMany()` {.collection-method}
-
-`reduceMany`メソッドは、コレクションを値の配列に減らし、各反復処理の結果を後続の反復処理に渡します。このメソッドは`reduce`メソッドに似ていますが、複数の初期値を受け取ることができます。
-
-    [$creditsRemaining, $batch] = Image::where('status', 'unprocessed')
-        ->get()
-        ->reduceMany(function ($creditsRemaining, $batch, $image) {
-            if ($creditsRemaining >= $image->creditsRequired()) {
-                $batch->push($image);
-
-                $creditsRemaining -= $image->creditsRequired();
-            }
-
-            return [$creditsRemaining, $batch];
-        }, $creditsAvailable, collect());
-
+    
 <a name="method-reduce-spread"></a>
 #### `reduceSpread()` {.collection-method}
 

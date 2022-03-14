@@ -16,6 +16,7 @@
     - [Mailerのカスタマイズ](#customizing-the-mailer)
     - [テンプレートのカスタマイズ](#customizing-the-templates)
     - [添付](#mail-attachments)
+    - [タグとメタデータの追加](#adding-tags-metadata)
     - [Mailablesの使用](#using-mailables)
     - [メール通知のプレビュー](#previewing-mail-notifications)
 - [Markdownメール通知](#markdown-mail-notifications)
@@ -524,6 +525,25 @@ Mailableオブジェクトにファイルを添付するのとは異なり、`at
                     ->attachData($this->pdf, 'name.pdf', [
                         'mime' => 'application/pdf',
                     ]);
+    }
+
+<a name="adding-tags-metadata"></a>
+### タグとメタデータの追加
+
+タグやメタデータを`MailMessage`へ追加できます。メールサービスがフィルタリングや処理を行う際にこれらを使用します。
+
+    /**
+     * 通知のメール表現の取得
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->greeting('Comment Upvoted!')
+                    ->tag('upvote')
+                    ->metadata('comment_id', $this->comment->id);
     }
 
 <a name="using-mailables"></a>

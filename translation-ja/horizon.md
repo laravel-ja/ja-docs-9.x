@@ -239,7 +239,9 @@ stdout_logfile=/home/forge/example.com/horizon.log
 stopwaitsecs=3600
 ```
 
-> {note} `stopwaitsecs`の値が、最も長く実行されているジョブにより消費される秒数よりも大きいことを確認する必要があります。そうしないと、Supervisorは、処理が完了する前にジョブを強制終了する可能性があります。
+Supervisorの設定を定義する際には、`stopwaitsecs`の値が、最も長く実行されるジョブが費やす秒数より確実に大きくしてください。そうしないと、Supervisorが処理を終える前にジョブを強制終了してしまう可能性があります。
+
+> {note} 上記の設定例は、Ubuntuベースのサーバで有効ですが、Supervisor設定ファイルの場所とファイル拡張子は、他のサーバオペレーティングシステムで異なる場合があります。詳細は、お使いのサーバのマニュアルを参照してください。
 
 <a name="starting-supervisor"></a>
 #### Supervisorの開始

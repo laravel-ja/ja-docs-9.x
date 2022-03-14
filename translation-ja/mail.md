@@ -11,6 +11,7 @@
     - [ビューデータ](#view-data)
     - [添付](#attachments)
     - [インライン添付](#inline-attachments)
+    - [タグとメタデータ](#tags-and-metadata)
     - [Symfonyメッセージのカスタマイズ](#customizing-the-symfony-message)
 - [Markdown Mailable](#markdown-mailables)
     - [Markdown Mailableの生成](#generating-markdown-mailables)
@@ -469,6 +470,27 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
     <img src="{{ $message->embedData($data, 'example-image.jpg') }}">
 </body>
 ```
+
+<a name="tags-and-metadata"></a>
+### タグとメタデータ
+
+MailgunやPostmarkなどのサードパーティのメールプロバイダーは、メッセージの「タグ」や「メタデータ」をサポートしており、アプリケーションから送信されたメールをグループ化して追跡するために使用することができます。タグやメタデータは、`tag`メソッドや`metadata`メソッドにより、メールメッセージへ追加できます。
+
+    /**
+     * メッセージの構築
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->view('emails.orders.shipped')
+                    ->tag('shipment')
+                    ->metadata('order_id', $this->order->id);
+    }
+
+アプリケーションでMailgunドライバを使用している場合、[タグ](https://documentation.mailgun.com/en/latest/user_manual.html#tagging-1)と[メタデータ](https://documentation.mailgun.com/en/latest/user_manual.html#attaching-data-to-messages)の詳細は、Mailgunのドキュメントを参照してください。同様に、Postmarkのドキュメントも、[タグ](https://postmarkapp.com/blog/tags-support-for-smtp)と[メタデータ](https://postmarkapp.com/support/article/1125-custom-metadata-faq)のサポートについて、詳しい情報を得るために参照できます。
+
+アプリケーションがAmazon SESを使用してメールを送信している場合、`metadata`メソッドを使用して、メッセージへ[SES 「タグ」](https://docs.aws.amazon.com/ses/latest/APIReference/API_MessageTag.html)を添付する必要があります。
 
 <a name="customizing-the-symfony-message"></a>
 ### Symfonyメッセージのカスタマイズ

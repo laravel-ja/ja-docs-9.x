@@ -13,6 +13,9 @@
     - [ファイルのURL](#file-urls)
     - [ファイルメタデータ](#file-metadata)
 - [ファイルの保存](#storing-files)
+    - [ファイルの前後への追加](#prepending-appending-to-files)
+    - [ファイルのコピーと移動](#copying-moving-files)
+    - [自動ストリーミング](#automatic-streaming)
     - [ファイルのアップロード](#file-uploads)
     - [ファイルの可視性](#file-visibility)
 - [ファイルの削除](#deleting-files)
@@ -313,28 +316,25 @@ Laravelは、ファイルの読み取りと書き込みに加えて、ファイ�
 
     Storage::put('file.jpg', $resource);
 
-<a name="automatic-streaming"></a>
-#### 自動ストリーミング
+<a name="failed-writes"></a>
+#### 書き込みの失敗
 
-ファイルをストレージにストリーミングすると、メモリ使用量が大幅に削減されます。Laravelが特定のファイルの保存場所へのストリーミングを自動的に管理するようにしたい場合は、`putFile`または`putFileAs`メソッドを使用できます。このメソッドは、`Illuminate\Http\File`または`Illuminate\Http\UploadedFile`インスタンスのいずれかを受け入れ、ファイルを目的の場所に自動的にストリーミングします。
+`put`メソッド、もしくは他の「書き込み」操作でディスクへファイルを書き込めない場合は、`false`が返ります。
 
-    use Illuminate\Http\File;
-    use Illuminate\Support\Facades\Storage;
+    if (! Storage::put('file.jpg', $contents)) {
+        // ファイルがディスクへ書き込めなかった
+    }
 
-    // ファイル名の一意のIDを自動的に生成
-    $path = Storage::putFile('photos', new File('/path/to/photo'));
+必要であれば、ファイルシステムのディスクの設定配列で、`throw`オプションを定義できます。このオプションを`true`に定義すると、`put`のような「書き込み」メソッドの書き込み失敗時に、`League\Flysystem\UnableToWriteFile`インスタンスを投げます。
 
-    // ファイル名を手動で指定します
-    $path = Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
-
-`putFile`メソッドには注意すべき重要な点がいくつかあります。ファイル名ではなく、ディレクトリ名のみを指定することに注意してください。デフォルトでは、`putFile`メソッドはファイル名として機能する一意のIDを生成します。ファイルの拡張子は、ファイルのMIMEタイプを調べることによって決定されます。ファイルへのパスは`putFile`メソッドによって返されるため、生成されたファイル名を含むパスをデータベースに保存できます。
-
-`putFile`メソッドと`putFileAs`メソッドは、保存するファイルの「可視性」を指定する引数も取ります。これは、AmazonS3などのクラウドディスクにファイルを保存していて、生成されたURLを介してファイルにパブリックアクセスできるようにする場合に特に便利です。
-
-    Storage::putFile('photos', new File('/path/to/photo'), 'public');
+    'public' => [
+        'driver' => 'local',
+        // ...
+        'throw' => true,
+    ],
 
 <a name="prepending-appending-to-files"></a>
-#### ファイルの先頭追加と後方追加
+### ファイルの前後への追加
 
 `prepend`および`append`メソッドを使用すると、ファイルの最初または最後に書き込むことができます。
 
@@ -343,13 +343,33 @@ Laravelは、ファイルの読み取りと書き込みに加えて、ファイ�
     Storage::append('file.log', 'Appended Text');
 
 <a name="copying-moving-files"></a>
-#### ファイルのコピーと移動
+### ファイルのコピーと移動
 
 `copy`メソッドを使用して、既存のファイルをディスク上の新しい場所にコピーできます。また、`move`メソッドを使用して、既存のファイルの名前を変更したり、新しい場所に移動したりできます。
 
     Storage::copy('old/file.jpg', 'new/file.jpg');
 
     Storage::move('old/file.jpg', 'new/file.jpg');
+
+<a name="automatic-streaming"></a>
+### 自動ストリーミング
+
+ファイルをストレージにストリーミングすると、メモリ使用量が大幅に削減されます。Laravelに特定のファイルの保存場所へのストリーミングを自動的に管理させたい場合は、`putFile`または`putFileAs`メソッドを使用します。このメソッドは、`Illuminate\Http\File`または`Illuminate\Http\UploadedFile`インスタンスのいずれかを引数に取り、ファイルを目的の場所へ自動的にストリーミングします。
+
+    use Illuminate\Http\File;
+    use Illuminate\Support\Facades\Storage;
+
+    // ファイル名の一意のIDを自動的に生成
+    $path = Storage::putFile('photos', new File('/path/to/photo'));
+
+    // ァイル名を手動で指定
+    $path = Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
+
+`putFile`メソッドには注意すべき重要な点がいくつかあります。ファイル名ではなく、ディレクトリ名のみを指定することに注意してください。デフォルトでは、`putFile`メソッドはファイル名として働く一意のIDを生成します。ファイルの拡張子は、ファイルのMIMEタイプを調べることによって決定されます。ファイルへのパスは`putFile`メソッドが返すため、生成されたファイル名を含むパスをデータベースへ保存できます。
+
+`putFile`メソッドと`putFileAs`メソッドは、保存するファイルの「可視性」を指定する引数も取ります。これは、AmazonS3などのクラウドディスクにファイルを保存していて、生成されたURLを介してファイルへパブリックアクセスできるようにする場合、特に便利です。
+
+    Storage::putFile('photos', new File('/path/to/photo'), 'public');
 
 <a name="file-uploads"></a>
 ### ファイルのアップロード

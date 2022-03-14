@@ -1113,6 +1113,7 @@ LaravelのスキーマビルダBlueprintクラスは、Laravelでサポートし
 `$table->dropPrimary('users_id_primary');`  |  "users"テーブルから主キーを削除
 `$table->dropUnique('users_email_unique');`  |  "users"テーブルから一意のインデックスを削除
 `$table->dropIndex('geo_state_index');`  |  "geo"テーブルから基本インデックスを削除
+`$table->dropFullText('posts_body_fulltext');`  |  "posts"テーブルからフルテキストインデックスを削除
 `$table->dropSpatialIndex('geo_location_spatialindex');`  |  "geo"テーブルから空間インデックスを削除（SQLiteを除く）
 
 インデックスを削除するメソッドにカラムの配列を渡すと、テーブル名、カラム、およびインデックスタイプに基づいてインデックス名が生成されます。

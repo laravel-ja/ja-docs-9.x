@@ -16,7 +16,7 @@
 
 Laravelは、一般的なフォームベースの認証に加えて、[Laravel Socialite](https://github.com/laravel/socialite)(ソーシャライト：名士)を使用したOAuthプロバイダで認証するためのシンプルで便利な方法も提供します。Socialiteは現在、Facebook、Twitter、LinkedIn、Google、GitHub、GitLab、Bitbucketでの認証をサポートしています。
 
-> {tip} 他のプラットフォームのアダプタは、コミュニティにより管理されている[Socialiteプロバイダ](https://socialiteproviders.com/)Webサイトで一覧できます。
+> {tip} 他のプラットフォームのアダプタは、コミュニティにより管理されている[Socialiteプロバイダ](https://socialiteproviders.com/)Webサイトから利用できます。
 
 <a name="installation"></a>
 ## インストール
@@ -35,7 +35,9 @@ Socialiteの新しいメジャーバージョンにアップグレードする�
 <a name="configuration"></a>
 ## 設定
 
-Socialiteを使用する前に、アプリケーションが使用するOAuthプロバイダの資格情報を追加する必要があります。これらの認証情報は、アプリケーションの`config/services.php`設定ファイルへ配置しておく必要があり、アプリケーションに必要なプロバイダに応じキーとして`facebook`、`twitter`、`linkedin`、`google`、`github`、`gitlab`、`bitbucket`を使用する必要があります。
+Socialiteを使用する前に、アプリケーションが利用するOAuthプロバイダの認証情報を追加する必要があります。通常、これらの認証情報は、認証するサービスのダッシュボード内で「開発者用アプリケーション」を作成することで取得できます。
+
+こうした認証情報は、アプリケーションの`config/services.php`設定ファイルへ記述します。キーは`facebook`, `twitter`（OAuth1.0）、`twitter-oauth-2`（OAuth 2.0）、`linkedin`、`google`、`github`、`gitlab`、`bitbucket`で、アプリケーションで必要なプロバイダによります。
 
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
@@ -51,7 +53,7 @@ Socialiteを使用する前に、アプリケーションが使用するOAuthプ
 <a name="routing"></a>
 ### ルート
 
-OAuthプロバイダを使用してユーザーを認証するには、２つのルートが必要です。１つはユーザーをOAuthプロバイダにリダイレクトするためのもので、もう１つは認証後にプロバイダからのコールバックを受信するためのものです。以下のコントローラの例は、両方のルートの実装を示しています。
+OAuthプロバイダを使ってユーザーを認証するには、OAuthプロバイダへユーザーをリダイレクトするルートと、認証後にプロバイダからのコールバックを受け取るルートの２つが必要になります。以下のルート例では、両方のルートを実装しています。
 
     use Laravel\Socialite\Facades\Socialite;
 
@@ -65,7 +67,7 @@ OAuthプロバイダを使用してユーザーを認証するには、２つの
         // $user->token
     });
 
-`Socialite`ファサードが提供する`redirect`メソッドは、ユーザーをOAuthプロバイダへリダイレクトしますが、`user`メソッドは、受信したリクエストを読み取り、認証後にプロバイダからユーザーの情報を取得します。
+`Socialite`ファサードが提供する`redirect`メソッドは、ユーザーをOAuthプロバイダへリダイレクトします。一方、`user`メソッドは受信リクエストを調べ、そのリクエストの認証を承認した後に、プロバイダからユーザー情報を取得します。
 
 <a name="authentication-and-storage"></a>
 ### 認証と保存
@@ -79,22 +81,14 @@ OAuthプロバイダからユーザーを取得したら、そのユーザーが
     Route::get('/auth/callback', function () {
         $githubUser = Socialite::driver('github')->user();
 
-        $user = User::where('github_id', $githubUser->id)->first();
-
-        if ($user) {
-            $user->update([
-                'github_token' => $githubUser->token,
-                'github_refresh_token' => $githubUser->refreshToken,
-            ]);
-        } else {
-            $user = User::create([
-                'name' => $githubUser->name,
-                'email' => $githubUser->email,
-                'github_id' => $githubUser->id,
-                'github_token' => $githubUser->token,
-                'github_refresh_token' => $githubUser->refreshToken,
-            ]);
-        }
+        $user = User::updateOrCreate([
+            'github_id' => $githubUser->id,
+        ], [
+            'name' => $githubUser->name,
+            'email' => $githubUser->email,
+            'github_token' => $githubUser->token,
+            'github_refresh_token' => $githubUser->refreshToken,
+        ]);
 
         Auth::login($user);
 
@@ -106,7 +100,7 @@ OAuthプロバイダからユーザーを取得したら、そのユーザーが
 <a name="access-scopes"></a>
 ### アクセススコープ
 
-ユーザーをリダイレクトする前に、`scopes`メソッドを使用して認証リクエストに「スコープ」を追加することもできます。このメソッドは、既存のすべてのスコープを指定したスコープとマージします。
+ユーザーをリダイレクトする前に、`scopes`メソッドを使用して、認証リクエストへ含めるべき「スコープ」を指定できます。このメソッドは、それまでに指定されていたすべてのスコープを、指定したスコープにマージします。
 
     use Laravel\Socialite\Facades\Socialite;
 
@@ -123,7 +117,7 @@ OAuthプロバイダからユーザーを取得したら、そのユーザーが
 <a name="optional-parameters"></a>
 ### オプションのパラメータ
 
-多くのOAuthプロバイダがリダイレクトリクエスト中のオプションパラメータをサポートしています。リクエストにオプションパラメータを含めるには、`with`メソッドを呼び出し、連想配列を渡します。
+多くのOAuthプロバイダがリダイレクトリクエスト中で、その他にもオプションパラメータをサポートしています。リクエストにオプションパラメータを含めるには、`with`メソッドを呼び出し、連想配列を渡します。
 
     use Laravel\Socialite\Facades\Socialite;
 
@@ -136,7 +130,9 @@ OAuthプロバイダからユーザーを取得したら、そのユーザーが
 <a name="retrieving-user-details"></a>
 ## ユーザー詳細情報の取得
 
-ユーザーを認証コールバックルートへリダイレクトした後、Socialiteの`user`メソッドを使用してユーザーの詳細を取得できます。`user`メソッドが返すユーザーオブジェクトは、ユーザーに関する情報を独自のデータベースに保存するために使用できるさまざまなプロパティとメソッドを提供します。認証するOAuthプロバイダがOAuth1.0またはOAuth2.0のどちらをサポートしているかに応じて、さまざまなプロパティとメソッドが使用できます。
+ユーザーをアプリケーションの認証コールバックルートへリダイレクトした後、Socialiteの`user`メソッドを使用してユーザーの詳細を取得できます。`user`メソッドが返すユーザーオブジェクトは、ユーザーに関する情報をデータベースへ保存するために使用できる様々なプロパティやメソッドを提供します。
+
+認証につかうOAuthプロバイダが、OAuth1.0とOAuth2.0のどちらをサポートしているかにより、このオブジェクトで利用できるプロパティやメソッドが異なります。
 
     use Laravel\Socialite\Facades\Socialite;
 
@@ -181,10 +177,10 @@ OAuthプロバイダからユーザーを取得したら、そのユーザーが
 <a name="stateless-authentication"></a>
 #### ステートレス認証
 
-`stateless`メソッドを使用して、セッション状態の検証を無効にすることができます。これは、APIにソーシャル認証を追加するときに役立ちます。
+`stateless`メソッドを使用すると、セッション状態の確認を無効にできます。これは、クッキーベースのセッションを利用しないステートレスAPIに、ソーシャル認証を追加する場合に有用です。
 
     use Laravel\Socialite\Facades\Socialite;
 
     return Socialite::driver('google')->stateless()->user();
 
-> {note} ステートレス認証は、認証にOAuth1.0を使用するTwitterドライバでは使用できません。
+> {note} Twitter OAuth.0ドライバでは、ステートレス認証は利用できません。

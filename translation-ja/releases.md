@@ -27,7 +27,7 @@ Laravelのすべてのリリースは、バグフィックスは１８ヶ月、�
 | 7 | 7.2 - 8.0 | ２０２０年３月３日 | ２０２０年１０月６日 | ２０２１年３月３日 |
 | 8 | 7.3 - 8.1 | ２０２０年９月８日 | ２０２２年７月２６日 | ２０２３年１月２４日 |
 | 9 | 8.0 - 8.1 | ２０２２年２月８日 | ２０２３年８月８日 | ２０２４年２月８日 |
-| 10 | 8.0 - 8.1 | ２０２３年２月７日 | ２０２４年８月７日 | ２０２５年２月７日 |
+| 10 | 8.1 | ２０２３年２月７日 | ２０２４年８月７日 | ２０２５年２月７日 |
 
 <div class="version-colors">
     <div class="end-of-life">
@@ -135,7 +135,7 @@ public function address(): Attribute
 
 _Enumキャストは、[Mohamed Said](https://github.com/themsaid)が貢献しました。_
 
-Eloquentは、属性値をPHPの[「値に依存した（backed）」enums](https://www.php.net/manual/ja/language.enumerations.backed.php)へキャストできるようになりました。これを使用するには、モデルの`$casts`プロパティ配列で、キャストしたい属性と列挙型を指定します。
+Eloquentは、属性値をPHPの[「値に依存した（backed）」　Enums](https://www.php.net/manual/ja/language.enumerations.backed.php)へキャストできるようになりました。これを使用するには、モデルの`$casts`プロパティ配列で、キャストしたい属性と列挙型を指定します。
 
     use App\Enums\ServerStatus;
 
