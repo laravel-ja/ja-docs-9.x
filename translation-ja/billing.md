@@ -629,7 +629,7 @@ Billableなモデルのアカウントにデフォルトの支払い方法が関
 <a name="collecting-recurring-payments-via-invoice-emails"></a>
 #### インボイスメールによる定期支払いの収集
 
-顧客の定期支払いを自動で収集する代わりに、定期支払いの期日ごとに請求書を顧客にメールで送信するように、Stripeへ指示できます。顧客は請求書を受け取った後に、手動で支払います。請求書を使い、定期の支払いを集める場合に、顧客は前もって支払い方法を指定する必要はありません。
+顧客の定期支払いを自動で収集する代わりに、定期支払いの期日ごとに請求書を顧客にメールで送信するように、Stripeへ指示できます。顧客は請求書を受け取った後に、手作業で支払います。請求書を使い、定期の支払いを集める場合に、顧客は前もって支払い方法を指定する必要はありません。
 
     $user->newSubscription('default', 'price_monthly')->createAndSendInvoice();
 
@@ -1120,7 +1120,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 <a name="subscription-taxes"></a>
 ### サブスクリプションの税率
 
-> {note} 税率を手動で計算する代わりに、[Stripe Taxを使って自動的に税金を計算](#tax-configuration)できます。
+> {note} 税率を手作業で計算する代わりに、[Stripe Taxを使って自動的に税金を計算](#tax-configuration)できます。
 
 ユーザーがサブスクリプションで支払う税率を指定するには、Billableなモデルに`taxRates`メソッドを実装し、Stripe税率IDを含む配列を返す必要があります。これらの税率は、[Stripeダッシュボード](https://dashboard.stripe.com/test/tax-rates)で定義します。
 
@@ -1150,7 +1150,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
         ];
     }
 
-> {note} `taxRates`メソッドはサブスクリプション料金にのみ適用されます。Cashierを使用して「１回限り」の料金を請求する場合は、その時点で税率を手動で指定する必要があります。
+> {note} `taxRates`メソッドはサブスクリプション料金にのみ適用されます。Cashierを使用して「１回限り」の料金を請求する場合は、その時点で税率を手作業で指定する必要があります。
 
 <a name="syncing-tax-rates"></a>
 #### 税率の同期
@@ -1889,7 +1889,7 @@ CASHIER_PAYMENT_NOTIFICATION=Laravel\Cashier\Notifications\ConfirmPayment
 
 オフセッションでの支払い確認通知が確実に配信されるようにするため、アプリケーションで[Stripe Webフックが設定されている](#handling-stripe-webhooks)ことと、Stripeダッシュボードで`invoice.payment_action_required`webhookが有効になっていることを確認してください。さらに、`Billable`モデルでLaravelの`Illuminate\Notifications\Notifiable`トレイトを使用していることも確認する必要があります。
 
-> {note} 顧客が追加の確認を必要とする支払いを手動で行う場合でも、通知は送信されます。残念ながら、支払いが手動なのか「オフセッション」で行われたかをStripeが知る方法はありません。ただし、顧客が支払いを確認した後に支払いページへアクセスすると、「支払いが成功しました（Payment Successful）」というメッセージが表示されます。謝って顧客へ同じ支払いを２回確認させ、２回目の請求を行ってしまうことはありません。
+> {note} 顧客が追加の確認を必要とする支払いを手作業で行う場合でも、通知は送信されます。残念ながら、支払いが手作業なのか「オフセッション」で行われたかをStripeが知る方法はありません。ただし、顧客が支払いを確認した後に支払いページへアクセスすると、「支払いが成功しました（Payment Successful）」というメッセージが表示されます。謝って顧客へ同じ支払いを２回確認させ、２回目の請求を行ってしまうことはありません。
 
 <a name="stripe-sdk"></a>
 ## Stripe SDK

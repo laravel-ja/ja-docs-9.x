@@ -74,7 +74,7 @@ php artisan telescope:install
 php artisan migrate
 ```
 
-`telescope:install`を実行した後に、アプリケーションの`config/app.php`設定ファイルから`TelescopeServiceProvider`サービスプロバイダの登録を削除する必要があります。代わりに、Telescopeのサービスプロバイダを`App\Providers\AppServiceProvider`クラスの`register`メソッドへ手動で登録します。プロバイダを登録する前に、現在の環境が`local`であることを確認してください。
+`telescope:install`を実行した後に、アプリケーションの`config/app.php`設定ファイルから`TelescopeServiceProvider`サービスプロバイダの登録を削除する必要があります。代わりに、Telescopeのサービスプロバイダを`App\Providers\AppServiceProvider`クラスの`register`メソッドへ手作業で登録します。プロバイダを登録する前に、現在の環境が`local`であることを確認してください。
 
     /**
      * 全アプリケーションサービスの登録

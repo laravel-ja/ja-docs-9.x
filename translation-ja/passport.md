@@ -318,7 +318,7 @@ http://example.com/callback,http://examplefoo.com/callback
 <a name="clients-json-api"></a>
 #### JSON API
 
-アプリケーションのユーザーは`client`コマンドを利用できないため、Passportはクライアントの作成に使用できるJSON APIを提供します。これにより、クライアントを作成、更新、および削除するためにコントローラを手動でコーディングする手間が省けます。
+アプリケーションのユーザーは`client`コマンドを利用できないため、Passportはクライアントの作成に使用できるJSON APIを提供します。これにより、クライアントを作成、更新、および削除するためにコントローラを手作業でコーディングする手間が省けます。
 
 しかし、ユーザーにクライアントを管理してもらうダッシュボードを提供するために、PassportのJSON APIと皆さんのフロントエンドを結合する必要があります。以降から、クライアントを管理するためのAPIエンドポイントをすべて説明します。エンドポイントへのHTTPリクエスト作成をデモンストレートするため利便性を考慮し、[Axios](https://github.com/mzabriskie/axios)を使用していきましょう。
 
@@ -478,7 +478,7 @@ php artisan vendor:publish --tag=passport-views
 
 この`/oauth/token`ルートは、`access_token`、`refresh_token`、`expires_in`属性を含むJSONレスポンスを返します。`expires_in`属性は、アクセストークンが無効になるまでの秒数を含んでいます。
 
-> {tip} `/oauth/authorize`ルートと同様に、`/oauth/token`ルートは`Passport::routes`メソッドによって定義されます。このルートを手動で定義する必要はありません。
+> {tip} `/oauth/authorize`ルートと同様に、`/oauth/token`ルートは`Passport::routes`メソッドによって定義されます。このルートを手作業で定義する必要はありません。
 
 <a name="tokens-json-api"></a>
 #### JSON API

@@ -34,7 +34,7 @@ LaravelSanctumは、２つの別々の問題を解決するために存在しま
 <a name="how-it-works-api-tokens"></a>
 #### APIトークン
 
-１つ目にSanctumは、OAuthの複雑さなしに、ユーザーにAPIトークンを発行するために使用できるシンプルなパッケージです。この機能は、「パーソナルアクセストークン」を発行するGitHubやその他のアプリケーションに触発されています。たとえば、アプリケーションの「アカウント設定」に、ユーザーが自分のアカウントのAPIトークンを生成できる画面があるとします。Sanctumを使用して、これらのトークンを生成および管理できます。これらのトークンは通常、非常に長い有効期限(年)がありますが、ユーザーはいつでも手動で取り消すことができます。
+１つ目にSanctumは、OAuthの複雑さなしに、ユーザーにAPIトークンを発行するために使用できるシンプルなパッケージです。この機能は、「パーソナルアクセストークン」を発行するGitHubやその他のアプリケーションに触発されています。たとえば、アプリケーションの「アカウント設定」に、ユーザーが自分のアカウントのAPIトークンを生成できる画面があるとします。Sanctumを使用して、これらのトークンを生成および管理できます。これらのトークンは通常、非常に長い有効期限(年)がありますが、ユーザーはいつでも手作業で取り消すことができます。
 
 Laravel Sanctumは、ユーザーAPIトークンを単一のデータベーステーブルに保存し、有効なAPIトークンを含む必要がある`Authorization`ヘッダを介して受信HTTPリクエストを認証することでこの機能を提供します。
 
@@ -288,12 +288,12 @@ axios.get('/sanctum/csrf-cookie').then(response => {
 });
 ```
 
-このリクエスト中に、Laravelは現在のCSRFトークンを含む`XSRF-TOKEN`クッキーをセットします。このトークンは、後続のリクエストへ`X-XSRF-TOKEN`ヘッダで渡す必要があります。これは、AxiosやAngular HttpClientなどの一部のHTTPクライアントライブラリでは自動的に行います。JavaScript　HTTPライブラリで値が設定されていない場合は、このルートで設定された`XSRF-TOKEN`クッキーの値と一致するように`X-XSRF-TOKEN`ヘッダを手動で設定する必要があります。
+このリクエスト中に、Laravelは現在のCSRFトークンを含む`XSRF-TOKEN`クッキーをセットします。このトークンは、後続のリクエストへ`X-XSRF-TOKEN`ヘッダで渡す必要があります。これは、AxiosやAngular HttpClientなどの一部のHTTPクライアントライブラリでは自動的に行います。JavaScript　HTTPライブラリで値が設定されていない場合は、このルートで設定された`XSRF-TOKEN`クッキーの値と一致するように`X-XSRF-TOKEN`ヘッダを手作業で設定する必要があります。
 
 <a name="logging-in"></a>
 #### ログイン
 
-CSRF保護を初期化したら、Laravelアプリケーションの`/login`ルートに`POST`リクエストを行う必要があります。この`/login`ルートは[手動で実装](/docs/{{version}}/authentication#authenticating-users)するか、または[Laravel　Fortify](/docs/{{version}}/fortify)のようなヘッドレス認証パッケージを使用します。
+CSRF保護を初期化したら、Laravelアプリケーションの`/login`ルートに`POST`リクエストを行う必要があります。この`/login`ルートは[手作業で実装](/docs/{{version}}/authentication#authenticating-users)するか、または[Laravel　Fortify](/docs/{{version}}/fortify)のようなヘッドレス認証パッケージを使用します。
 
 ログインリクエストが成功すると、認証され、アプリケーションのルートへの後続リクエストは、Laravelアプリケーションがクライアントに発行したセッションクッキーを介して自動的に認証されます。さらに、アプリケーションはすでに`/sanctum/csrf-cookie`ルートにリクエストを送信しているため、JavaScript HTTPクライアントが`XSRF-TOKEN`クッキーの値を`X-XSRF-TOKEN`ヘッダで送信する限り、後続のリクエストは自動的にCSRF保護を受けます。
 

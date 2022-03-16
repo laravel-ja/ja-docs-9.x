@@ -64,7 +64,7 @@
 
     $firstName = $user->first_name;
 
-> {tip} こうした計算値をモデルの配列／JSON表現に追加したい場合は、[手動で追加する必要があります](/docs/{{version}}/eloquent-serialization#appending-values-to-json)。
+> {tip} こうした計算値をモデルの配列／JSON表現に追加したい場合は、[手作業で追加する必要があります](/docs/{{version}}/eloquent-serialization#appending-values-to-json)。
 
 <a name="building-value-objects-from-multiple-attributes"></a>
 #### 複数の属性からの値オブジェクト構築
@@ -443,7 +443,7 @@ Eloquentは、属性値をPHPの[「値に依存した（backed）」 Enum](http
 <a name="key-rotation"></a>
 #### キーの変更
 
-ご存知のように、Laravelはアプリケーションの`app`設定ファイルで指定した`key`設定値を使い、文字列を暗号化します。通常、この値は環境変数`APP_KEY`の値です。もし、アプリケーションの暗号化キーを変更する必要がある場合は、新しいキーを使い、暗号化した属性を手動で再暗号化する必要があります。
+ご存知のように、Laravelはアプリケーションの`app`設定ファイルで指定した`key`設定値を使い、文字列を暗号化します。通常、この値は環境変数`APP_KEY`の値です。もし、アプリケーションの暗号化キーを変更する必要がある場合は、新しいキーを使い、暗号化した属性を手作業で再暗号化する必要があります。
 
 <a name="query-time-casting"></a>
 ### クエリ時のキャスト

@@ -335,7 +335,7 @@ JavaScriptエラーを回避するため、以下のファイルを正しい順�
 <a name="custom-webpack-configuration"></a>
 ### Webpackカスタム設定
 
-時折、ベースとなるWebpack設定を手動で変更する必要が起きるでしょう。たとえば、参照する必要がある特別なローダーまたはプラグインがある可能性があります。
+時折、ベースとなるWebpack設定を手作業で変更する必要が起きるでしょう。たとえば、参照する必要がある特別なローダーまたはプラグインがある可能性があります。
 
 Mixは、短いWebpack設定オーバーライドをマージできる便利な`webpackConfig`メソッドを提供します。これは、`webpack.config.js`ファイルの独自のコピーをコピーして維持する必要がないため、特に魅力的です。`webpackConfig`メソッドはオブジェクトを受け入れます。オブジェクトには、適用する[Webpack固有の設定](https://webpack.js.org/configuration/)が含まれている必要があります。
 
@@ -393,7 +393,7 @@ https://cdn.example.com/js/app.js?id=1964becbdd96414518cd
 <a name="browsersync-reloading"></a>
 ## Browsersyncによるリロード
 
-[BrowserSync](https://browsersync.io/)は、ファイルの変更を自動的に監視し、手動で更新しなくても変更をブラウザに反映できます。`mix.browserSync()`メソッドを呼び出すことにより、これのサポートを有効にすることができます。
+[BrowserSync](https://browsersync.io/)は、ファイルの変更を自動的に監視し、手作業で更新しなくても変更をブラウザに反映できます。`mix.browserSync()`メソッドを呼び出すことにより、これのサポートを有効にすることができます。
 
 ```js
 mix.browserSync('laravel.test');

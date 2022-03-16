@@ -3,12 +3,12 @@
 - [イントロダクション](#introduction)
 - [イベントとリスナの登録](#registering-events-and-listeners)
     - [イベントとリスナの生成](#generating-events-and-listeners)
-    - [イベントの手動登録](#manually-registering-events)
+    - [イベントの手作業登録](#manually-registering-events)
     - [イベントディスカバリー](#event-discovery)
 - [イベント定義](#defining-events)
 - [リスナ定義](#defining-listeners)
 - [キュー投入するイベントリスナ](#queued-event-listeners)
-    - [キューの手動操作](#manually-interacting-with-the-queue)
+    - [キューの手作業操作](#manually-interacting-with-the-queue)
     - [キュー投入するイベントリスナとデータベーストランザクション](#queued-event-listeners-and-database-transactions)
     - [失敗したジョブの処理](#handling-failed-jobs)
 - [イベント発行](#dispatching-events)
@@ -62,9 +62,9 @@ php artisan make:listener SendPodcastNotification --event=PodcastProcessed
 ```
 
 <a name="manually-registering-events"></a>
-### イベントの手動登録
+### イベントの手作業登録
 
-通常、イベントは`EventServiceProvider`の`$listen`配列を介して登録する必要があります。ただし、`EventServiceProvider`の`boot`メソッドでクラスまたはクロージャベースのイベントリスナを手動で登録することもできます。
+通常、イベントは`EventServiceProvider`の`$listen`配列を介して登録する必要があります。ただし、`EventServiceProvider`の`boot`メソッドでクラスまたはクロージャベースのイベントリスナを手作業で登録することもできます。
 
     use App\Events\PodcastProcessed;
     use App\Listeners\SendPodcastNotification;
@@ -90,7 +90,7 @@ php artisan make:listener SendPodcastNotification --event=PodcastProcessed
 <a name="queuable-anonymous-event-listeners"></a>
 #### Queueable匿名イベントリスナ
 
-クロージャベースのイベントリスナを手動で登録する場合、リスナクロージャを`Illuminate\Events\queueable`関数内にラップして、[キュー](/docs/{{version}}/queues)を使用してリスナを実行するようにLaravelへ指示できます。
+クロージャベースのイベントリスナを手作業で登録する場合、リスナクロージャを`Illuminate\Events\queueable`関数内にラップして、[キュー](/docs/{{version}}/queues)を使用してリスナを実行するようにLaravelへ指示できます。
 
     use App\Events\PodcastProcessed;
     use function Illuminate\Events\queueable;
@@ -139,7 +139,7 @@ php artisan make:listener SendPodcastNotification --event=PodcastProcessed
 <a name="event-discovery"></a>
 ### イベントディスカバリー
 
-`EventServiceProvider`の`$listen`配列にイベントとリスナを手動で登録する代わりに、自動イベント検出を有効にすることもできます。イベント検出が有効になっている場合、Laravelはアプリケーションの`Listeners`ディレクトリをスキャンすることでイベントとリスナを自動的に見つけて登録します。さらに、`EventServiceProvider`にリストされている明示的に定義されたイベントは引き続き登録します。
+`EventServiceProvider`の`$listen`配列にイベントとリスナを手作業で登録する代わりに、自動イベント検出を有効にすることもできます。イベント検出が有効になっている場合、Laravelはアプリケーションの`Listeners`ディレクトリをスキャンすることでイベントとリスナを自動的に見つけて登録します。さらに、`EventServiceProvider`にリストされている明示的に定義されたイベントは引き続き登録します。
 
 Laravelは、PHPのリフレクションサービスを使用してリスナクラスをスキャンし、イベントリスナを見つけます。Laravelがリスナクラスのメソッドで、`handle`または`__invoke`で始まるものを見つけると、メソッドのシグネチャでタイプヒントされているイベントのリスナとして、Laravelはメソッドを登録します。
 
@@ -388,9 +388,9 @@ Laravelは、PHPのリフレクションサービスを使用してリスナク�
     }
 
 <a name="manually-interacting-with-the-queue"></a>
-### キューの手動操作
+### キューの手作業操作
 
-リスナの基になるキュージョブの`delete`メソッドと`release`メソッドへ手動でアクセスする必要がある場合は、`Illuminate\Queue\InteractsWithQueue`トレイトを使用してアクセスできます。このトレイトは、生成したリスナにはデフォルトでインポートされ、以下のメソッドへのアクセスを提供します。
+リスナの基になるキュージョブの`delete`メソッドと`release`メソッドへ手作業でアクセスする必要がある場合は、`Illuminate\Queue\InteractsWithQueue`トレイトを使用してアクセスできます。このトレイトは、生成したリスナにはデフォルトでインポートされ、以下のメソッドへのアクセスを提供します。
 
     <?php
 

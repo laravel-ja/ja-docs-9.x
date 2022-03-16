@@ -298,7 +298,7 @@ php artisan make:policy PostPolicy --model=Post
 <a name="policy-auto-discovery"></a>
 #### ポリシーの自動検出
 
-モデルポリシーを手動で登録する代わりに、モデルとポリシーが標準のLaravel命名規約に従っている限り、Laravelはポリシーを自動的に検出できます。具体的にポリシーは、モデルを含むディレクトリが存在する階層より上の`Policies`ディレクトリにある必要があります。したがって、たとえばモデルは`app/Models`ディレクトリに配置し、ポリシーは`app/Policies`ディレクトリに配置する場合があるでしょう。この場合、Laravelは`app/Models/Policies`、次に`app/Policies`のポリシーをチェックします。さらに、ポリシー名はモデル名と一致し、`Policy`サフィックスが付いている必要があります。したがって、`User`モデルは`UserPolicy`ポリシークラスに対応します。
+モデルポリシーを手作業で登録する代わりに、モデルとポリシーが標準のLaravel命名規約に従っている限り、Laravelはポリシーを自動的に検出できます。具体的にポリシーは、モデルを含むディレクトリが存在する階層より上の`Policies`ディレクトリにある必要があります。したがって、たとえばモデルは`app/Models`ディレクトリに配置し、ポリシーは`app/Policies`ディレクトリに配置する場合があるでしょう。この場合、Laravelは`app/Models/Policies`、次に`app/Policies`のポリシーをチェックします。さらに、ポリシー名はモデル名と一致し、`Policy`サフィックスが付いている必要があります。したがって、`User`モデルは`UserPolicy`ポリシークラスに対応します。
 
 独自のポリシー検出ロジックを定義する場合は、`Gate::guessPolicyNamesUsing`メソッドを使用してカスタムポリシー検出コールバックを登録できます。通常、このメソッドは、アプリケーションの`AuthServiceProvider`の`boot`メソッドから呼び出す必要があります。
 

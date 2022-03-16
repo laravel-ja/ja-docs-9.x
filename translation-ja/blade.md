@@ -24,7 +24,7 @@
     - [インラインコンポーネントビュー](#inline-component-views)
     - [匿名コンポーネント](#anonymous-components)
     - [動的コンポーネント](#dynamic-components)
-    - [コンポーネントの手動登録](#manually-registering-components)
+    - [コンポーネントの手作業登録](#manually-registering-components)
 - [レイアウト構築](#building-layouts)
     - [コンポーネントを使用したレイアウト](#layouts-using-components)
     - [テンプレートの継承を使用したレイアウト](#layouts-using-template-inheritance)
@@ -602,11 +602,11 @@ php artisan make:component forms.input --view
 上記のコマンドは、`resources/views/components/forms/input.blade.php`へBladeファイルを作成します。このファイルは`<x-forms.input />`により、コンポーネントとしてレンダできます。
 
 <a name="manually-registering-package-components"></a>
-#### パッケージコンポーネントの手動登録
+#### パッケージコンポーネントの手作業登録
 
 独自のアプリケーション用コンポーネントを作成する場合、コンポーネントを`app/View/Components`ディレクトリと`resources/views/components`ディレクトリ内で自動的に検出します。
 
-ただし、Bladeコンポーネントを利用するパッケージを構築する場合は、コンポーネントクラスとそのHTMLタグエイリアスを手動で登録する必要があります。通常、コンポーネントはパッケージのサービスプロバイダの`boot`メソッドに登録する必要があります。
+ただし、Bladeコンポーネントを利用するパッケージを構築する場合は、コンポーネントクラスとそのHTMLタグエイリアスを手作業で登録する必要があります。通常、コンポーネントはパッケージのサービスプロバイダの`boot`メソッドに登録する必要があります。
 
     use Illuminate\Support\Facades\Blade;
 
@@ -1272,13 +1272,13 @@ Bladeでは幸い、コンポーネントのテンプレートディレクトリ
 ```
 
 <a name="manually-registering-components"></a>
-### コンポーネントの手動登録
+### コンポーネントの手作業登録
 
-> {note} コンポーネントの手動登録に関する以下のドキュメントは、主にビューコンポーネントを含むLaravelパッケージを作成している人に当てはまります。パッケージを作成していない場合は、コンポーネントドキュメントのこの箇所は関係ないでしょう。
+> {note} コンポーネントの手作業登録に関する以下のドキュメントは、主にビューコンポーネントを含むLaravelパッケージを作成している人に当てはまります。パッケージを作成していない場合は、コンポーネントドキュメントのこの箇所は関係ないでしょう。
 
 独自のアプリケーション用コンポーネントを作成する場合、コンポーネントを`app/View/Components`ディレクトリと`resources/views/components`ディレクトリ内で自動的に検出します。
 
-ただし、Bladeコンポーネントを利用するパッケージを構築する場合、またはコンポーネントを従来とは異なるディレクトリに配置する場合は、Laravelがコンポーネントの場所を認識できるように、コンポーネントクラスとそのHTMLタグエイリアスを手動で登録する必要があります。通常、コンポーネントはパッケージのサービスプロバイダの`boot`メソッドで、登録する必要があります。
+ただし、Bladeコンポーネントを利用するパッケージを構築する場合、またはコンポーネントを従来とは異なるディレクトリに配置する場合は、Laravelがコンポーネントの場所を認識できるように、コンポーネントクラスとそのHTMLタグエイリアスを手作業で登録する必要があります。通常、コンポーネントはパッケージのサービスプロバイダの`boot`メソッドで、登録する必要があります。
 
     use Illuminate\Support\Facades\Blade;
     use VendorPackage\View\Components\AlertComponent;

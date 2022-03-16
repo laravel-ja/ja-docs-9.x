@@ -184,9 +184,9 @@ php artisan dusk --group=foo
 > {tip} [Laravel Sail](/docs/{{version}}/sale)を使用してローカル開発環境を管理している場合は、[Duskテストの設定と実行](/docs/{{version}}/sail#laravel-dusk)に関するSailのドキュメントを参照してください。
 
 <a name="manually-starting-chromedriver"></a>
-#### ChromeDriverの手動起動
+#### ChromeDriverの手作業起動
 
-デフォルトのDuskは、ChromeDriverを自動的に起動しようとします。特定のシステムで自動起動しない場合は、`dusk`コマンドを実行する前に手動でChromeDriverを起動することもできます。ChromeDriverを手動起動する場合は、`tests/DuskTestCase.php`ファイルの以下の行をコメントアウトしてください。
+デフォルトのDuskは、ChromeDriverを自動的に起動しようとします。特定のシステムで自動起動しない場合は、`dusk`コマンドを実行する前に手作業でChromeDriverを起動することもできます。ChromeDriverを手作業起動する場合は、`tests/DuskTestCase.php`ファイルの以下の行をコメントアウトしてください。
 
     /**
      * Duskテスト実行準備

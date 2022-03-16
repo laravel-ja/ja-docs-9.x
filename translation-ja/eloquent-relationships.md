@@ -282,7 +282,7 @@ Eloquentはリレーションメソッドの名前を調べ、メソッド名の
 <a name="querying-belongs-to-relationships"></a>
 #### Belongs toリレーションのクエリ
 
-"belongs to"リレーションの子モデルをクエリする場合は、対応するEloquentモデルを取得する`where`句を手動で構築してください。
+"belongs to"リレーションの子モデルをクエリする場合は、対応するEloquentモデルを取得する`where`句を手作業で構築してください。
 
     use App\Models\Post;
 
@@ -292,7 +292,7 @@ Eloquentはリレーションメソッドの名前を調べ、メソッド名の
 
     $posts = Post::whereBelongsTo($user)->get();
 
-デフォルトでLaravelはモデルのクラス名に基づいて、与えられたモデルに関連するリレーションを決定しますが、リレーション名を`whereBelongsTo`メソッドの第２引数に渡すことで、手動で指定できます。
+デフォルトでLaravelはモデルのクラス名に基づいて、与えられたモデルに関連するリレーションを決定しますが、リレーション名を`whereBelongsTo`メソッドの第２引数に渡すことで、手作業で指定できます。
 
     $posts = Post::whereBelongsTo($user, 'author')->get();
 
@@ -1731,7 +1731,7 @@ Model::handleLazyLoadingViolationUsing(function ($model, $relation) {
 <a name="the-save-method"></a>
 ### `save`メソッド
 
-Eloquentは、リレーションへ新しいモデルを追加する便利な手法を提供しています。たとえば、投稿に新しいコメントを追加する必要があるかもしれません。`Comment`モデルで`post_id`属性を手動で設定する代わりに、リレーションの`save`メソッドを使用してもコメントを追加できます。
+Eloquentは、リレーションへ新しいモデルを追加する便利な手法を提供しています。たとえば、投稿に新しいコメントを追加する必要があるかもしれません。`Comment`モデルで`post_id`属性を手作業で設定する代わりに、リレーションの`save`メソッドを使用してもコメントを追加できます。
 
     use App\Models\Comment;
     use App\Models\Post;

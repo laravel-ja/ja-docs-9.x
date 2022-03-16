@@ -3,7 +3,7 @@
 - [イントロダクション](#introduction)
     - [キャッシュ設定](#cache-configuration)
 - [基本の使い方](#basic-usage)
-    - [試行回数の手動増加](#manually-incrementing-attempts)
+    - [試行回数の手作業増加](#manually-incrementing-attempts)
     - [試行のクリア](#clearing-attempts)
 
 <a name="introduction"></a>
@@ -44,9 +44,9 @@ Laravelには、簡単に使用できるレート制限の抽象化機能があ�
     }
 
 <a name="manually-incrementing-attempts"></a>
-### 試行回数の手動増加
+### 試行回数の手作業増加
 
-レート制限を手動で操作する場合は、他にもさまざまな方法があります。たとえば、`tooManyAttempts`メソッドを呼び出して、指定したレート制限キーが１分間に許可した最大試行回数を超えたかを判断できます。
+レート制限を手作業で操作する場合は、他にもさまざまな方法があります。たとえば、`tooManyAttempts`メソッドを呼び出して、指定したレート制限キーが１分間に許可した最大試行回数を超えたかを判断できます。
 
     use Illuminate\Support\Facades\RateLimiter;
 

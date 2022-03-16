@@ -50,7 +50,7 @@
 
     Route::get('/user', [UserController::class, 'index']);
 
-`routes/api.php`ファイルで定義したルートは、`RouteServiceProvider`によってルートグループ内にネストされます。このグループ内では`/api`URIプレフィックスが自動的に適用されるため、ファイル内のすべてのルートに手動で適用する必要はありません。`RouteServiceProvider`クラスを変更することにより、プレフィックスおよびその他のルートグループオプションを変更できます。
+`routes/api.php`ファイルで定義したルートは、`RouteServiceProvider`によってルートグループ内にネストされます。このグループ内では`/api`URIプレフィックスが自動的に適用されるため、ファイル内のすべてのルートに手作業で適用する必要はありません。`RouteServiceProvider`クラスを変更することにより、プレフィックスおよびその他のルートグループオプションを変更できます。
 
 <a name="available-router-methods"></a>
 #### 利用可能なルーターメソッド

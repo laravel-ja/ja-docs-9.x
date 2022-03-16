@@ -317,9 +317,9 @@ Horizo​​nを使用すると、メール可能、ブロードキャストイ�
     RenderVideo::dispatch($video);
 
 <a name="manually-tagging-jobs"></a>
-#### ジョブに手動でタグ付ける
+#### ジョブに手作業でタグ付ける
 
-Queueableオブジェクトの１つにタグを手動で定義する場合は、クラスに`tags`メソッドを定義します。
+Queueableオブジェクトの１つにタグを手作業で定義する場合は、クラスに`tags`メソッドを定義します。
 
     class RenderVideo implements ShouldQueue
     {

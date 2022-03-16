@@ -381,7 +381,7 @@ php artisan make:resource UserCollection
         }
     }
 
-> {note} `withoutWrapping`メソッドは最も外側のレスポンスにのみ影響し、独自のリソースコレクションに手動で追加した`data`キーは削除しません。
+> {note} `withoutWrapping`メソッドは最も外側のレスポンスにのみ影響し、独自のリソースコレクションに手作業で追加した`data`キーは削除しません。
 
 <a name="wrapping-nested-resources"></a>
 #### ネストされたリソースのラップ

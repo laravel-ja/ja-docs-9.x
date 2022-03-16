@@ -605,7 +605,7 @@ Laravelの依存パッケージの`opis/closure`を`laravel/serializable-closure
 
 **影響の可能性： 低い**
 
-`Illuminate\Queue\Failed\FailedJobProviderInterface`インターフェイスで定義した`flush`メソッドは、`$hours`引数を受けるようにしました。これは失敗したジョブを`queue:flush`コマンドでフラッシュするまで何時間待つかを決定します。`FailedJobProviderInterface`を手動で実装している場合、この新しい引数を反映するように実装を更新する必要があります。
+`Illuminate\Queue\Failed\FailedJobProviderInterface`インターフェイスで定義した`flush`メソッドは、`$hours`引数を受けるようにしました。これは失敗したジョブを`queue:flush`コマンドでフラッシュするまで何時間待つかを決定します。`FailedJobProviderInterface`を手作業で実装している場合、この新しい引数を反映するように実装を更新する必要があります。
 
 ```php
 public function flush($hours = null);
@@ -683,7 +683,7 @@ public function validated($key = null, $default = null)
 
 **影響の可能性： 中程度**
 
-Laravelの以前のリリースでは、Laravelのバリデータが返す「バリデーション済み」データから、バリデーションしていない配列キーを除外するには、手動で指示する必要がありました。特に、許容するキーのリストを指定しない`array`ルールと組み合わせた場合です。
+Laravelの以前のリリースでは、Laravelのバリデータが返す「バリデーション済み」データから、バリデーションしていない配列キーを除外するには、手作業で指示する必要がありました。特に、許容するキーのリストを指定しない`array`ルールと組み合わせた場合です。
 
 しかし、Laravel9.xでは、`array`ルールで許可するキーを指定していない場合でも、バリデーションしていない配列キーは常に「バリデーション済み」データから除外されます。通常、この動作は最も期待されている動作であり、以前の`excludeUnvalidatedArrayKeys`メソッドは、Laravel8.xで下位互換性を保つための一時的な措置として追加したものでした。
 

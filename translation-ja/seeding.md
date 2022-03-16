@@ -23,7 +23,7 @@ Laravelは、シードクラスを使用してデータベースにデータを�
 php artisan make:seeder UserSeeder
 ```
 
-シーダクラスには、デフォルトで１つのメソッド、`run`のみ存在します。このメソッドは、`db:seed` [Artisanコマンド](/docs/{{version}}/artisan)が実行されるときに呼び出されます。`run`メソッド内で、データベースにデータを好きなように挿入できます。[クエリビルダ](/docs/{{version}}/queries)を使用してデータを手動で挿入するか、[Eloquentモデルファクトリ](/docs/{{version}}/database-testing#defining-model-factories)を使用できます。
+シーダクラスには、デフォルトで１つのメソッド、`run`のみ存在します。このメソッドは、`db:seed` [Artisanコマンド](/docs/{{version}}/artisan)が実行されるときに呼び出されます。`run`メソッド内で、データベースにデータを好きなように挿入できます。[クエリビルダ](/docs/{{version}}/queries)を使用してデータを手作業で挿入するか、[Eloquentモデルファクトリ](/docs/{{version}}/database-testing#defining-model-factories)を使用できます。
 
 例として、デフォルトの`DatabaseSeeder`クラスを変更し、データベース挿入文を`run`メソッドに追加しましょう。
 

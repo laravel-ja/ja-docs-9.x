@@ -9,7 +9,7 @@
     - [認証済みユーザー取得](#retrieving-the-authenticated-user)
     - [ルートの保護](#protecting-routes)
     - [ログイン回数制限](#login-throttling)
-- [ユーザーを手動で認証する](#authenticating-users)
+- [ユーザーを手作業で認証する](#authenticating-users)
     - [持続ログイン](#remembering-users)
     - [他の認証方法](#other-authentication-methods)
 - [HTTP基本認証](#http-basic-authentication)
@@ -73,7 +73,7 @@ Laravelは、通常`Auth`もしくは`Session`ファサードを介してアク�
 
 **アプリケーションスターターキット**
 
-このドキュメントで説明しているように、これらの認証サービスを手動で操作して、アプリケーション独自の認証レイヤーを構築できます。ただし、より素早く開始できるように、認証レイヤー全体の堅牢で最新のスカフォールドを提供する[無料パッケージ](/docs/{{version}}/starter-kits)をリリースしました。こうしたパッケージは、[Laravel Breeze](/docs/{{version}}/starter-kits#laravel-breeze)、[Laravel Jetstream](/docs/{{version}}/starter-kits#laravel-jetstream)、[Laravel Fortify](/docs/{{version}}/fortify)です。
+このドキュメントで説明しているように、これらの認証サービスを手作業で操作して、アプリケーション独自の認証レイヤーを構築できます。ただし、より素早く開始できるように、認証レイヤー全体の堅牢で最新のスカフォールドを提供する[無料パッケージ](/docs/{{version}}/starter-kits)をリリースしました。こうしたパッケージは、[Laravel Breeze](/docs/{{version}}/starter-kits#laravel-breeze)、[Laravel Jetstream](/docs/{{version}}/starter-kits#laravel-jetstream)、[Laravel Fortify](/docs/{{version}}/fortify)です。
 
 *Laravel Breeze*は、ログイン、登録、パスワードのリセット、電子メールの確認、パスワードの確認など、Laravelの全認証機能のシンプルで最小限の実装です。Laravel Breezeのビューレイヤーは、[Tailwind CSS](https://tailwindcss.com)によりスタイル設定したシンプルな[Bladeテンプレート](/docs/{{version}}/blade)で構成しています。使い始めるには、Laravelの[アプリケーションスターターキット](/docs/{{version}}/starter-kits)のドキュメントを確認してください。
 
@@ -105,7 +105,7 @@ Laravel Sanctumは、[Laravel Jetstream](https://jetstream.laravel.com)（[和�
 
 次に、アプリケーションがサードパーティによって使用されるAPIを提供している場合は、[Passport](/docs/{{version}}/passport)または[Sanctum](/docs/{{version}}/sanctum)のどちらかを選んでください。アプリケーションにAPIトークン認証を提供します。一般に、Sanctumは、API認証、SPA認証、さらに「スコープ(socpe)」や「能力(ability)」のサポートを含むモバイル認証のためのシンプルで完全なソリューションであるため、使える場合はこちらを推奨します。
 
-Laravelをバックエンドで利用するシングルページアプリケーション（SPA）を構築している場合は、[Laravel Sanctum](/docs/{{version}}/sanctum)を使用するべきでしょう。Sanctumを使用する場合は、[独自のバックエンド認証ルートを手動で実装する](#authenticating-users)か、[Laravel Fortify](/docs/{{version}}/fortify)をユーザー登録、パスワードのリセット、メールの検証などの機能のためのルートとコントローラを提供するヘッドレス認証バックエンドサービスとして利用する必要があります。
+Laravelをバックエンドで利用するシングルページアプリケーション（SPA）を構築している場合は、[Laravel Sanctum](/docs/{{version}}/sanctum)を使用するべきでしょう。Sanctumを使用する場合は、[独自のバックエンド認証ルートを手作業で実装する](#authenticating-users)か、[Laravel Fortify](/docs/{{version}}/fortify)をユーザー登録、パスワードのリセット、メールの検証などの機能のためのルートとコントローラを提供するヘッドレス認証バックエンドサービスとして利用する必要があります。
 
 パスポートは、アプリケーションがOAuth2仕様によって提供されるすべての機能を絶対に必要とする場合に選択できます。
 
@@ -114,7 +114,7 @@ Laravelをバックエンドで利用するシングルページアプリケー�
 <a name="authentication-quickstart"></a>
 ## 認証クイックスタート
 
-> {note} ドキュメントのこの部分では、[Laravelアプリケーションスターターキット](/docs/{{version}}/starter-kits)を介したユーザーの認証について説明します。これには、すばやく開始するのに便利なＵＩスカフォールドが含まれています。Laravelの認証システムを直接統合したい場合は、[ユーザーの手動認証](#authenticating-users)に関するドキュメントを確認してください。
+> {note} ドキュメントのこの部分では、[Laravelアプリケーションスターターキット](/docs/{{version}}/starter-kits)を介したユーザーの認証について説明します。これには、すばやく開始するのに便利なＵＩスカフォールドが含まれています。Laravelの認証システムを直接統合したい場合は、[ユーザーの手作業認証](#authenticating-users)に関するドキュメントを確認してください。
 
 <a name="install-a-starter-kit"></a>
 ### スターターキットのインストール
@@ -215,7 +215,7 @@ Laravel BreezeまたはLaravel Jetstream [スターターキット](/docs/{{vers
 > {tip} アプリケーション内の他のルートのレート制限を希望する場合は、[レート制限のドキュメント](/docs/{{version}}/routing#rate-limiting)を確認してください。
 
 <a name="authenticating-users"></a>
-## ユーザーを手動で認証する
+## ユーザーを手作業で認証する
 
 Laravelの[アプリケーションスターターキット](/docs/{{version}}/starter-kits)に含まれている認証スカフォールドを必ず使用する必要はありません。このスカフォールドを使用しないことを選択した場合は、Laravel認証クラスを直接使用してユーザー認証を管理する必要があります。心配ありません。簡単です！
 
@@ -290,7 +290,7 @@ Laravelのリダイレクタが提供する`intended`メソッドは、認証ミ
 
 多くのWebアプリケーションでは、ログインフォームに「継続ログイン（remember me）」チェックボックスがあります。アプリケーションで「継続ログイン」機能を提供したい場合は、`attempt`メソッドの2番目の引数としてブール値を渡すことができます。
 
-この値が`true`の場合、Laravelはユーザーを無期限に、または手動でログアウトするまで認証されたままにします。 `users`テーブルには、「継続ログイン（remember me）」トークンを格納するために使用される文字列、`remember_token`カラムを含める必要があります。新しいLaravelアプリケーションに含まれている `users`テーブルのマイグレーションには、すでにこのカラムが含まれています。
+この値が`true`の場合、Laravelはユーザーを無期限に、または手作業でログアウトするまで認証されたままにします。 `users`テーブルには、「継続ログイン（remember me）」トークンを格納するために使用される文字列、`remember_token`カラムを含める必要があります。新しいLaravelアプリケーションに含まれている `users`テーブルのマイグレーションには、すでにこのカラムが含まれています。
 
     use Illuminate\Support\Facades\Auth;
 
@@ -395,7 +395,7 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 <a name="logging-out"></a>
 ## ログアウト
 
-アプリケーションからユーザーを手動でログアウトするには、`Auth`ファサードが提供する`logout`メソッドを使用できます。これにより、ユーザーのセッションから認証情報が削除され、以降のリクエストが認証されなくなります。
+アプリケーションからユーザーを手作業でログアウトするには、`Auth`ファサードが提供する`logout`メソッドを使用できます。これにより、ユーザーのセッションから認証情報が削除され、以降のリクエストが認証されなくなります。
 
 `logout`メソッドを呼び出すことに加えて、ユーザーのセッションを無効にして、[CSRFトークン](/docs/{{version}}/csrf)を再生成することを推奨します。ユーザーをログアウトした後、通常はユーザーをアプリケーションのルートにリダイレクトします。
 

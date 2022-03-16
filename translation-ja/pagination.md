@@ -5,7 +5,7 @@
     - [ペジネーションクエリビルダ結果](#paginating-query-builder-results)
     - [Eloquent結果のペジネーション](#paginating-eloquent-results)
     - [カーソルページング](#cursor-pagination)
-    - [ペジネータの手動生成](#manually-creating-a-paginator)
+    - [ペジネータの手作業生成](#manually-creating-a-paginator)
     - [ペジネーションURLのカスタマイズ](#customizing-pagination-urls)
 - [ペジネーション結果の表示](#displaying-pagination-results)
     - [ペジネーションリンクウィンドウの調整](#adjusting-the-pagination-link-window)
@@ -153,15 +153,15 @@ select * from users where id > 15 order by id asc limit 15;
 - "order by"句のクエリ表現はエイリアス化され、"select"句にも同様に追加されている場合のみサポートします。
 
 <a name="manually-creating-a-paginator"></a>
-### ペジネータの手動生成
+### ペジネータの手作業生成
 
-場合によっては、ペジネーションインスタンスを手動で作成し、メモリ内にすでにあるアイテムの配列を渡すことができます。必要に応じて、`Illuminate\Pagination\Paginator`、`Illuminate\Pagination\LengthAwarePaginator`、`Illuminate\Pagination\CursorPaginator`インスタンスを生成することでこれが行えます。
+場合によっては、ペジネーションインスタンスを手作業で作成し、メモリ内にすでにあるアイテムの配列を渡すことができます。必要に応じて、`Illuminate\Pagination\Paginator`、`Illuminate\Pagination\LengthAwarePaginator`、`Illuminate\Pagination\CursorPaginator`インスタンスを生成することでこれが行えます。
 
 `Paginator`と`CursorPaginator`クラスは結果セットのアイテムの総数を知る必要はありません。しかしこのため、これらのクラスには最後のページのインデックスを取得するメソッドがありません。`LengthAwarePaginator`は`Paginator`とほぼ同じ引数を取りますが、結果セットのアイテムの総数をカウントする必要があります．
 
 つまり，`Paginator`はクエリビルダの`simplePaginate`メソッドに、`CursorPaginator`は`cursorPaginate`メソッドに，`LengthAwarePaginator`は`paginate`メソッドに、それぞれ対応しています。
 
-> {note} ペジネーションインスタンスを手動で作成する場合は、ペジネーションに渡す結果の配列を手動で「スライス」する必要があります。これを行う方法がわからない場合は、[array_slice](https://secure.php.net/manual/en/function.array-slice.php)PHP関数を確認してください。
+> {note} ペジネーションインスタンスを手作業で作成する場合は、ペジネーションに渡す結果の配列を手作業で「スライス」する必要があります。これを行う方法がわからない場合は、[array_slice](https://secure.php.net/manual/en/function.array-slice.php)PHP関数を確認してください。
 
 <a name="customizing-pagination-urls"></a>
 ### ペジネーションURLのカスタマイズ
