@@ -338,6 +338,10 @@ JSONレスポンスの指定パスに指定データが含まれていること�
         }
     }
 
+`assertJsonPath`メソッドはクロージャも引数に取れます。クロージャはアサートをパスするか動的に判断するため使用されます。
+
+    $response->assertJsonPath('team.owner.name', fn ($name) => strlen($name) >= 3);
+
 <a name="fluent-json-testing"></a>
 ### FluentなJSONテスト
 

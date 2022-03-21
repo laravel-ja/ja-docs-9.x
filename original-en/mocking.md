@@ -598,6 +598,9 @@ The `Storage` facade's `fake` method allows you to easily generate a fake disk t
             // Assert one or more files were not stored...
             Storage::disk('photos')->assertMissing('missing.jpg');
             Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
+
+            // Assert that a given directory is empty...
+            Storage::disk('photos')->assertDirectoryEmpty('/wallpapers');
         }
     }
 
@@ -610,6 +613,8 @@ For more information on testing file uploads, you may consult the [HTTP testing 
 
 When testing, you may occasionally need to modify the time returned by helpers such as `now` or `Illuminate\Support\Carbon::now()`. Thankfully, Laravel's base feature test class includes helpers that allow you to manipulate the current time:
 
+    use Illuminate\Support\Carbon;
+
     public function testTimeCanBeManipulated()
     {
         // Travel into the future...
@@ -620,6 +625,11 @@ When testing, you may occasionally need to modify the time returned by helpers s
         $this->travel(5)->days();
         $this->travel(5)->weeks();
         $this->travel(5)->years();
+
+        // Freeze time and resume normal time after executing closure...
+        $this->freezeTime(function (Carbon $time) {
+            // ...
+        });
 
         // Travel into the past...
         $this->travel(-5)->hours();

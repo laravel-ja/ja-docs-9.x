@@ -498,8 +498,6 @@ Laravel ペジネータインスタンスをリソースの`collection`メソッ
 
 特定の条件が満たされた場合にのみ、リソースレスポンスに属性を含めたい場合があるでしょう。たとえば、現在のユーザーが「管理者（administrator）」である場合にのみ値を含めることができます。Laravelはこうした状況で、皆さんを支援するためのさまざまなヘルパメソッドを提供します。`when`メソッドを使用して、リソースレスポンスに属性を条件付きで追加できます。
 
-    use Illuminate\Support\Facades\Auth;
-
     /**
      * リソースを配列に変換
      *
@@ -512,7 +510,7 @@ Laravel ペジネータインスタンスをリソースの`collection`メソッ
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'secret' => $this->when(Auth::user()->isAdmin(), 'secret-value'),
+            'secret' => $this->when($request->user()->isAdmin(), 'secret-value'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
@@ -522,7 +520,7 @@ Laravel ペジネータインスタンスをリソースの`collection`メソッ
 
 `when`メソッドは２番目の引数としてクロージャも受け入れ、指定する条件が`true`の場合にのみ結果の値を計算できるようにします。
 
-    'secret' => $this->when(Auth::user()->isAdmin(), function () {
+    'secret' => $this->when($request->user()->isAdmin(), function () {
         return 'secret-value';
     }),
 
@@ -543,7 +541,7 @@ Laravel ペジネータインスタンスをリソースの`collection`メソッ
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            $this->mergeWhen(Auth::user()->isAdmin(), [
+            $this->mergeWhen($request->user()->isAdmin(), [
                 'first-secret' => 'value',
                 'second-secret' => 'value',
             ]),

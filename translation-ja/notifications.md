@@ -17,6 +17,7 @@
     - [テンプレートのカスタマイズ](#customizing-the-templates)
     - [添付](#mail-attachments)
     - [タグとメタデータの追加](#adding-tags-metadata)
+    - [Symfonyメッセージのカスタマイズ](#customizing-the-symfony-message)
     - [Mailablesの使用](#using-mailables)
     - [メール通知のプレビュー](#previewing-mail-notifications)
 - [Markdownメール通知](#markdown-mail-notifications)
@@ -349,7 +350,7 @@ php artisan make:notification InvoicePaid
      * 通知のメールプレゼンテーションを取得
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Message
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
@@ -530,7 +531,7 @@ Mailableオブジェクトにファイルを添付するのとは異なり、`at
 <a name="adding-tags-metadata"></a>
 ### タグとメタデータの追加
 
-タグやメタデータを`MailMessage`へ追加できます。メールサービスがフィルタリングや処理を行う際にこれらを使用します。
+MailgunやPostmarkなどのサードパーティのメールプロバイダは、メッセージの「タグ」や「メタデータ」をサポートしており、アプリケーションから送信されたメールをグループ化し、追跡するため使用できます。タグやメタデータは、`tag`メソッドや`metadata`メソッドを使ってメールメッセージへ追加します。
 
     /**
      * 通知のメール表現の取得
@@ -544,6 +545,34 @@ Mailableオブジェクトにファイルを添付するのとは異なり、`at
                     ->greeting('Comment Upvoted!')
                     ->tag('upvote')
                     ->metadata('comment_id', $this->comment->id);
+    }
+
+Mailgunドライバを使用しているアプリケーションの場合は、[タグ](https://documentation.mailgun.com/en/latest/user_manual.html#tagging-1)と[メタデータ](https://documentation.mailgun.com/en/latest/user_manual.html#attaching-data-to-messages)の詳細は、Mailgunのドキュメントを参照してください。同様に、Postmarkのドキュメントの[タグ](https://postmarkapp.com/blog/tags-support-for-smtp)と[メタデータ](https://postmarkapp.com/support/article/1125-custom-metadata-faq)で、サポートに関するより詳しい情報を得られます。
+
+アプリケーションでAmazon SESを使用してメール送信する場合、`metadata`メソッドを使用して、メッセージへ[SESのタグ](https://docs.aws.amazon.com/ses/latest/APIReference/API_MessageTag.html)を添付する必要があります。
+タグやメタデータを`MailMessage`に追加できます。これらは、メールサービスがフィルタリングや処理を行う際に使用されます。
+
+<a name="customizing-the-symfony-message"></a>
+### Symfonyメッセージのカスタマイズ
+
+`MailMessage`クラスの`withSymfonyMessage`メソッドを使うと、メッセージを送信する前に、Symfonyメッセージインスタンスで呼び出すクロージャを登録できます。これにより、メッセージが配信される前に、メッセージを細かくカスタマイズする機会を提供しています。
+
+    use Symfony\Component\Mime\Email;
+
+    /**
+     * 通知のメール表現の取得
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->withSymfonyMessage(function (Email $message) {
+                        $message->getHeaders()->addTextHeader(
+                            'Custom-Header', 'Header Value'
+                        );
+                    });
     }
 
 <a name="using-mailables"></a>

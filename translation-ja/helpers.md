@@ -143,6 +143,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Str::title](#method-title-case)
 [Str::toHtmlString](#method-str-to-html-string)
 [Str::ucfirst](#method-str-ucfirst)
+[Str::ucsplit](#method-str-ucsplit)
 [Str::upper](#method-str-upper)
 [Str::uuid](#method-str-uuid)
 [Str::wordCount](#method-str-word-count)
@@ -220,6 +221,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [title](#method-fluent-str-title)
 [trim](#method-fluent-str-trim)
 [ucfirst](#method-fluent-str-ucfirst)
+[ucsplit](#method-fluent-str-ucsplit)
 [upper](#method-fluent-str-upper)
 [when](#method-fluent-str-when)
 [whenContains](#method-fluent-str-when-contains)
@@ -1877,6 +1879,17 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 
     // Foo bar
 
+<a name="method-str-ucsplit"></a>
+#### `Str::ucsplit()` {.collection-method}
+
+`Str::ucsplit`メソッドは、指定した文字列を文字列を大文字で分割して配列にします。
+
+    use Illuminate\Support\Str;
+
+    $segments = Str::ucsplit('FooBar');
+
+    // [0 => 'Foo', 1 => 'Bar']
+
 <a name="method-str-upper"></a>
 #### `Str::upper()` {.collection-method}
 
@@ -2297,8 +2310,8 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 
     // foo-bar
 
-<a name="method-str-fluent-lcfirst"></a>
-#### `lcfirst()` {.collection-method}
+<a name="method-fluent-str-lcfirst"></a>
+#### `lcfirst` {.collection-method}
 
 `lcfirst`メソッドは、指定した文字列の最初の文字を小文字にしたものを返します。
 
@@ -2834,6 +2847,17 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     $string = Str::of('foo bar')->ucfirst();
 
     // Foo bar
+
+<a name="method-fluent-str-ucsplit"></a>
+#### `ucsplit` {.collection-method}
+
+`ucsplit`メソッドは、指定した文字列を文字列を大文字で分割して配列にします。
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('Foo Bar')->ucsplit();
+
+    // collect(['Foo', 'Bar'])
 
 <a name="method-fluent-str-upper"></a>
 #### `upper` {.collection-method}

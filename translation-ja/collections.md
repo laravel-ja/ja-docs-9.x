@@ -1820,7 +1820,7 @@ staticの`make`メソッドは、新しいコレクションインスタンス�
     });
 
     // 4264
-    
+
 <a name="method-reduce-spread"></a>
 #### `reduceSpread()` {.collection-method}
 
@@ -2769,15 +2769,15 @@ staticの`unwrap`メソッドは適用可能な場合、指定値からコレク
 <a name="method-when"></a>
 #### `when()` {.collection-method}
 
-`when`メソッドは、メソッドの第１引数が`true`に評価される場合、コールバックを実行します。
+`when`メソッドは、メソッドの第１引数が`true`に評価される場合、コールバックを実行します。コレクションインスタンスと`when`メソッドに指定した第１引数は、クロージャへ渡されます。
 
     $collection = collect([1, 2, 3]);
 
-    $collection->when(true, function ($collection) {
+    $collection->when(true, function ($collection, $value) {
         return $collection->push(4);
     });
 
-    $collection->when(false, function ($collection) {
+    $collection->when(false, function ($collection, $value) {
         return $collection->push(5);
     });
 
@@ -2789,7 +2789,7 @@ staticの`unwrap`メソッドは適用可能な場合、指定値からコレク
 
     $collection = collect([1, 2, 3]);
 
-    $collection->when(false, function ($collection) {
+    $collection->when(false, function ($collection, $value) {
         return $collection->push(4);
     }, function ($collection) {
         return $collection->push(5);

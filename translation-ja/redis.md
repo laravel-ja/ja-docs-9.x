@@ -148,7 +148,11 @@ RedisクライアントはRedisサーバへ接続するとき、デフォルト�
 <a name="the-redis-facade-alias"></a>
 #### Redisファサードのエイリアス
 
-Laravelの`config/app.php`設定ファイルには、フレームワークが登録するすべてのクラスエイリアスを定義する`aliases`配列があります。便宜上、Laravelが提供する[ファサード](/docs/{{version}}/facades)ごとのエイリアスエントリを持っています。ただし、`Redis`エイリアスは、phpredis拡張機能が提供する`Redis`クラス名と競合するため無効になっています。Predisクライアントを使用していて、このエイリアスを有効にしたい場合は、アプリケーションの`config/app.php`設定ファイルでエイリアスをアンコメントしてください。
+Laravelの`config/app.php`設定ファイルには`aliases`配列があり、フレームワークが登録するすべてのクラスエイリアスを定義しています。デフォルトで、`Redis`のエイリアスは含まれていません。なぜなら、phpredis拡張モジュールが提供する`Redis`クラス名と衝突してしまうからです。Predisクライアントを使用していて、`Redis`のエイリアスを追加したい場合は、アプリケーションの`config/app.php`設定ファイル内の`aliases`配列へ追加してください。
+
+    'aliases' => Facade::defaultAliases()->merge([
+        'Redis' => Illuminate\Support\Facades\Redis::class,
+    ])->toArray(),
 
 <a name="phpredis"></a>
 ### phpredis

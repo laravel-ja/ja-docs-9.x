@@ -598,6 +598,9 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
             // ひとつ以上のファイルが保存されなかったことをアサート
             Storage::disk('photos')->assertMissing('missing.jpg');
             Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
+
+            // 指定したディレクトリが空であることをアサート
+            Storage::disk('photos')->assertDirectoryEmpty('/wallpapers');
         }
     }
 
@@ -610,6 +613,8 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
 
 テスト時、`now`や`Illuminate\Support\Carbon::now()`のようなヘルパが返す時間を変更したいことはよくあります。幸いなことに、Laravelのベース機能テストクラスは現在時間を操作するヘルパを用意しています。
 
+    use Illuminate\Support\Carbon;
+
     public function testTimeCanBeManipulated()
     {
         // 未来へ移行する
@@ -620,6 +625,11 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
         $this->travel(5)->days();
         $this->travel(5)->weeks();
         $this->travel(5)->years();
+
+        // 時間を止め、クロージャ実行後、通常時刻へ戻す
+        $this->freezeTime(function (Carbon $time) {
+            // ...
+        });
 
         // 過去へ移行する
         $this->travel(-5)->hours();
