@@ -136,6 +136,12 @@ public function ignore(string $class);
 
 Bladeテンプレート内の`LazyCollection`インスタンスを反復処理すると`$loop`変数は使用できなくなります。この変数にアクセスすると、`LazyCollection`全体がメモリに読み込まれるため、このシナリオではレイジーコレクションの使用が無意味になるためです。
 
+#### Checked／Disabled／Selected Bladeディレクティブ
+
+**影響の可能性： 低い**
+
+新しい`@checked`、`@disabled`、`@selected` Bladeディレクティブは、同名のVueイベントと競合する可能性があります。`@@`でディレクティブをエスケープすると、この衝突を回避できます。
+
 ### コレクション
 
 #### `Enumerable`契約
@@ -549,6 +555,12 @@ composer require symfony/postmark-mailer symfony/http-client
 #### 生成するメッセージID
 
 SwiftMailerは、`mime.idgenerator.idright`設定オプションで、生成するメッセージIDに含めるカスタムドメインを定義することが可能でした。これはSymfony Mailerではサポートされていません。代わりに、Symfony Mailerは送信者に基づいてメッセージIDを自動的に生成します。
+
+#### `MessageSent`イベントの変更
+
+`Illuminate\Mail\Events\MessageSent`イベントの`message`プロパティは、`Swift_Message`インスタンスの代わりに、`Symfony\Component\Mime\Email`インスタンスを含むようにしました。このメッセージは、**送信前**の電子メールを表します。
+
+さらに、`MessageSent`イベントへ、新しく`sent`プロパティを追加しました。このプロパティは`Illuminate\Mail\SentMessage`インスタンスを含み、メッセージIDなど送信したメールに関する情報を含んでいます。
 
 #### 再接続の強制
 

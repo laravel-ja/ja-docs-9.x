@@ -1492,7 +1492,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 <a name="method-str-markdown"></a>
 #### `Str::markdown()` {.collection-method}
 
-`Str::markdown`メソッドは、GitHub風なマークダウンをHTMLに変換します。
+`Str::markdown`メソッドは、GitHub風なマークダウンをHTMLへ、[CommonMark](https://commonmark.thephpleague.com/)を用い変換します。
 
     use Illuminate\Support\Str;
 

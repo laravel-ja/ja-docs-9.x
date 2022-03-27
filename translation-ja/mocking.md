@@ -604,9 +604,9 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
         }
     }
 
-ファイルアップロードのテストの詳細には、[ファイルアップロードに関するHTTPテストドキュメントの情報](/docs/{{version}}/http-tests#testing-file-uploads)を参照してください。
+`fake`メソッドはデフォルトで、一時ディレクトリにあるすべてのファイルを削除します。これらのファイルを残しておきたい場合は、代わりに`persistentFake`メソッドを使用してください。ファイルアップロードのテストの詳細は、[ファイルアップロードに関するHTTPテストドキュメントの情報](/docs/{{version}}/http-tests#testing-file-uploads)を参照してください。
 
-> {tip} デフォルトでは、`fake`メソッドは一時ディレクトリ内のすべてのファイルを削除します。これらのファイルを保持したい場合は、代わりに"persistentFake"メソッドを使用できます。
+> {note} `image`メソッドには、[GD拡張](https://www.php.net/manual/en/book.image.php)が必要です。
 
 <a name="interacting-with-time"></a>
 ## 時間操作
