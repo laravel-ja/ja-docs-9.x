@@ -192,6 +192,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [mask](#method-fluent-str-mask)
 [match](#method-fluent-str-match)
 [matchAll](#method-fluent-str-match-all)
+[newLine](#method-fluent-str-new-line)
 [padBoth](#method-fluent-str-padboth)
 [padLeft](#method-fluent-str-padleft)
 [padRight](#method-fluent-str-padright)
@@ -2447,6 +2448,18 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
     // collect(['un', 'ly']);
 
 一致しなかった場合は、空のコレクションを返します。
+
+<a name="method-fluent-str-new-line"></a>
+#### `newLine` {.collection-method}
+
+`newLine`メソッドは、文字列に「行末」コードを追加します。
+
+    use Illuminate\Support\Str;
+
+    $padded = Str::of('Laravel')->newLine()->append('Framework');
+
+    // 'Laravel
+    //  Framework'
 
 <a name="method-fluent-str-padboth"></a>
 #### `padBoth` {.collection-method}

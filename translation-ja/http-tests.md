@@ -1048,6 +1048,8 @@ Assert that the response is a redirect to the given [signed route](/docs/{{versi
         'name' => 'The given name was invalid.'
     ]);
 
+> {tip} より汎用的な[assertInvalid](#assert-invalid)メソッドは、レスポンスがJSONとして返されたバリデーションエラーを持つか、**または**エラーがセッションストレージに一時保存されたことを宣言するため使用できます。
+
 <a name="assert-session-has-errors-in"></a>
 #### assertSessionHasErrorsIn
 
@@ -1068,6 +1070,8 @@ Assert that the response is a redirect to the given [signed route](/docs/{{versi
 指定するキーのバリデーションエラーがセッションにないことを宣言します。
 
     $response->assertSessionDoesntHaveErrors($keys = [], $format = null, $errorBag = 'default');
+
+> {tip} より汎用的な[assertValid](#assert-valid)メソッドは、レスポンスにJSON形式で返された結果にバリデーションエラーがなく、**かつ**セッションストレージにエラーが保存されていないことを宣言するために使用できます。
 
 <a name="assert-session-missing"></a>
 #### assertSessionMissing

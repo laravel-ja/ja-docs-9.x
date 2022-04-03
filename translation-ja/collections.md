@@ -119,6 +119,7 @@
 [except](#method-except)
 [filter](#method-filter)
 [first](#method-first)
+[firstOrFail](#method-first-or-fail)
 [firstWhere](#method-first-where)
 [flatMap](#method-flatmap)
 [flatten](#method-flatten)
@@ -793,6 +794,23 @@
     collect([1, 2, 3, 4])->first();
 
     // 1
+
+<a name="method-first-or-fail"></a>
+#### `firstOrFail()` {.collection-method}
+
+`firstOrFail`メソッドは、結果が見つからない場合に`Illuminate\Support\ItemNotFoundException`例外を投げる以外、`first`メソッドと同じです。
+
+    collect([1, 2, 3, 4])->firstOrFail(function ($value, $key) {
+        return $value > 5;
+    });
+
+    // ItemNotFoundExceptionを投げる
+
+また、引数なしで`firstOrFail`メソッドを呼び出すと、コレクション内の最初の要素を取得できます。コレクションが空の場合、`Illuminate\Support\ItemNotFoundException`例外を投げます。
+
+    collect([])->firstOrFail();
+
+    // ItemNotFoundExceptionを投げる
 
 <a name="method-first-where"></a>
 #### `firstWhere()` {.collection-method}
@@ -3260,6 +3278,7 @@ staticの`wrap`メソッドは適用可能であれば、指定値をコレク�
 [except](#method-except)
 [filter](#method-filter)
 [first](#method-first)
+[firstOrFail](#method-first-or-fail)
 [firstWhere](#method-first-where)
 [flatMap](#method-flatmap)
 [flatten](#method-flatten)

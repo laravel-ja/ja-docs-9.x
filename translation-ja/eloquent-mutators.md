@@ -91,6 +91,9 @@ public function address(): Attribute
 }
 ```
 
+<a name="accessor-caching"></a>
+#### アクセサのキャッシュ
+
 アクセサから値オブジェクトを返すとき、値オブジェクトに加えられたすべての変更は、モデルが保存される前に自動的にモデルに同期して戻されます。これはEloquentがアクセサから返したインスタンスを保持し、アクセサが呼び出されるたびに同じインスタンスを返すことができるためです。
 
     use App\Models\User;
@@ -101,6 +104,17 @@ public function address(): Attribute
     $user->address->lineTwo = 'Updated Address Line 2 Value';
 
     $user->save();
+
+しかし、文字列やブーリアンなどのプリミティブな値については、特に計算量が多い場合、キャッシュを有効にしたい場合が起きます。その場合は、アクセサを定義するときに、`shouldCache`メソッドを呼び出してください。
+
+```php
+public function hash(): Attribute
+{
+    return Attribute::make(
+        get: fn ($value) => bcrypt(gzuncompress($value)),
+    )->shouldCache();
+}
+```
 
 属性のオブジェクトキャッシュ動作を無効にしたい場合は、属性の定義時に`withoutObjectCaching`メソッドを呼び出してください。
 

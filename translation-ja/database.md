@@ -18,7 +18,7 @@
 
 - MariaDB10.2以上 ([バージョンポリシー](https://mariadb.org/about/#maintenance-policy))
 - MySQL5.7以上 ([バージョンポリシー](https://en.wikipedia.org/wiki/MySQL#Release_history))
-- PostgreSQL9.6以上 ([バージョンポリシー](https://www.postgresql.org/support/versioning/))
+- PostgreSQL10.0以上 ([バージョンポリシー](https://www.postgresql.org/support/versioning/))
 - SQLite3.8.8以上
 - SQL Server2017以上 ([バージョンポリシー](https://docs.microsoft.com/en-us/lifecycle/products/?products=sql-server))
 
@@ -326,4 +326,3 @@ php artisan db
 ```shell
 php artisan db mysql
 ```
-

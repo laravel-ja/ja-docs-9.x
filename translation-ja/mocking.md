@@ -422,6 +422,11 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
         return $mail->order->id === $order->id;
     });
 
+<a name="testing-mailable-content"></a>
+#### Mailable内容のテスト
+
+Mailableの内容のテストと、Mailableが特定のユーザーへ「送信」されたことをアサートするテストは別にすることをお勧めします。Mailableの内容をテストする方法は、[Mailablesのテスト](/docs/{{version}}/mail#testing-mailables)のドキュメントを参照してください。
+
 <a name="notification-fake"></a>
 ## Notification Fake
 

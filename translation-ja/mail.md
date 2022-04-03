@@ -943,7 +943,7 @@ Laravelは様々なメールトランスポートを用意していますが、L
          */
         public function __construct(ApiClient $client)
         {
-            $this->client = $client
+            $this->client = $client;
         }
 
         /**

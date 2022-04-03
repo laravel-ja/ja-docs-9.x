@@ -271,12 +271,14 @@ class User extends Authenticatable
 <a name="enabling-two-factor-authentication"></a>
 ### ２要素認証の有効化
 
-２要素認証を有効にするには、アプリケーションはFortifyで定義された`/user/two-factor-authentication`エンドポイントにPOSTリクエストを行う必要があります。リクエストが成功すると、ユーザーは前のURLにリダイレクトされ、`status`セッション変数は`two-factor-authentication-enabled`にセットされます。テンプレート内でこの`status`セッション変数を検出して、適切な成功メッセージを表示してください。リクエストがXHRリクエストの場合、`200` HTTPレスポンスが返されます。
+２要素認証を有効にし始めるには、Fortifyが定義した`/user/two-factor-authentication`エンドポイントへ、POSTリクエストを送信する必要があります。リクエストが成功すると、ユーザーは以前のURLへリダイレクトされ、セッション変数`status`へ `two-factor-authentication-enabled`がセットされます。テンプレート内でこの`status`セッション変数を検出し、適切な成功メッセージを表示してください。リクエストがXHRリクエストであった場合は、`200` HTTP レスポンスを返します。
+
+２要素認証の有効化を選択したあとに、ユーザーは有効な２要素認証コードを入力し、２要素認証の設定を「確認」する必要があります。そのため、「成功」メッセージでは、２要素認証の確認がまだ必要であることをユーザーへ指示する必要があります。
 
 ```html
 @if (session('status') == 'two-factor-authentication-enabled')
-    <div class="mb-4 font-medium text-sm text-green-600">
-        ２要素認証が有効になりました。
+    <div class="mb-4 font-medium text-sm">
+        以下の、２要素認証の設定を完了して下さい。
     </div>
 @endif
 ```
@@ -288,6 +290,23 @@ $request->user()->twoFactorQrCodeSvg();
 ```
 
 JavaScriptを利用したフロントエンドを構築している場合は、`/user/two-factor-qr-code`エンドポイントにXHRのGETリクエストを送信して、ユーザーの2要素認証ＱＲコードを取得できます。このエンドポイントは、`svg`キーを含むJSONオブジェクトを返します。
+
+<a name="confirming-two-factor-authentication"></a>
+#### ２要素認証の確認
+
+ＱＲコードを表示するだけではなく、ユーザーが２要素認証の設定を「確認」するため、認証コードを入力するテキスト入力を用意する必要があります。このコードは、Fortifyが定義した`/user/confirmed-two-factor-authentication`エンドポイントへのPOSTリクエストにより、Laravelアプリケーションへ提供する必要があります。
+
+このリクエストが成功すると、ユーザーは以前のURLへリダイレクトで戻され、`status`セッション変数は`two-factor-authentication-confirmed`にセットされます。
+
+```html
+@if (session('status') == 'two-factor-authentication-confirmed')
+    <div class="mb-4 font-medium text-sm">
+        ２要素認証を確認し、有効にしました。
+    </div>
+@endif
+```
+
+２要素認証確認エンドポイントへのリクエストが、XHRリクエストにより行われた場合は、`200` HTTPレスポンスを返します。
 
 <a name="displaying-the-recovery-codes"></a>
 #### リカバリコードの表示

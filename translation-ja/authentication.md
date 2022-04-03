@@ -424,13 +424,13 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
 Laravelは、現在のデバイスのセッションを無効にすることなく、他のデバイスでアクティブなそのユーザーのセッションを無効にして「ログアウト」するためのメカニズムも提供しています。この機能は通常、ユーザーがパスワードを変更または更新していて、現在のデバイスを認証したまま他のデバイスのセッションを無効にしたい状況で使用します。
 
-開始する前に、`Illuminate\Session\Middleware\AuthenticationSession`ミドルウェアが存在し、`App\Http\Kernel`クラスの'`web`ミドルウェアグループがアンコメントされているのを確認する必要があります。
+始める前に、セッション認証を受け取るべきルートで`Illuminate\Session\Middleware\AuthenticateSession`ミドルウェアが指定されていることを確認する必要があります。通常、このミドルウェアはルートグループ定義に配置し、アプリケーションの大半のルートに適用できるようにします。`AuthenticateSession`ミドルウェアはデフォルトで、アプリケーションのHTTPカーネルで定義する`auth.session`ルートミドルウェアキーを使い、指定できます。
 
-    'web' => [
-        // ...
-        \Illuminate\Session\Middleware\AuthenticateSession::class,
-        // ...
-    ],
+    Route::middleware(['auth', 'auth.session'])->group(function () {
+        Route::get('/', function () {
+            // ...
+        });
+    });
 
 次に、`Auth`ファサードが提供する`logoutOtherDevices`メソッドを使用します。このメソッドは、アプリケーションが入力フォームから受け入れた、ユーザーの現在のパスワードを確認する必要があります。
 

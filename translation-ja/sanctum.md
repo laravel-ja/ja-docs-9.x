@@ -10,6 +10,7 @@
     - [トークンのアビリティ](#token-abilities)
     - [ルートの保護](#protecting-routes)
     - [トークンの削除](#revoking-tokens)
+    - [トークンの有効期限](#token-expiration)
 - [SPA認証](#spa-authentication)
     - [設定](#spa-configuration)
     - [認証](#spa-authenticating)
@@ -225,6 +226,21 @@ return $request->user()->id === $server->user_id &&
 
     // 特定のトークンを取り消す
     $user->tokens()->where('id', $tokenId)->delete();
+
+<a name="token-expiration"></a>
+### トークンの有効期限
+
+デフォルトでは、Sanctumトークンに有効期限はなく、[トークンの取り消し](#revoking-tokens)によってのみ無効化される可能性があります。しかし、アプリケーションのAPIトークンに有効期限を設定したい場合は、アプリケーションの`sanctum`設定ファイルで定義する、`expiration`設定オプションで指定できます。このオプションは、発行したトークンを期限切れと判断するまでの分数を定義します。
+
+```php
+'expiration' => 525600,
+```
+
+アプリケーションのトークン有効期限を設定した場合、有効期限が切れたトークンを削除する[タスクをスケジュール](/docs/{{version}}/scheduling)もしたくなるでしょう。さいわいSanctumは、`sanctum:prune-expired` Artisanコマンドが用意されており、これが利用可能です。例として、２４時間以上有効期限が切れているトークンデータベースのレコードをすべて削除するようにスケジュールタスクを設定してみましょう。
+
+```php
+$schedule->command('sanctum:prune-expired --hours=24')->daily();
+```
 
 <a name="spa-authentication"></a>
 ## SPA認証

@@ -795,6 +795,7 @@ The credit card number field is required when payment type is credit card.
 [除外](#rule-exclude)
 [条件一致時フィールド除外](#rule-exclude-if)
 [条件不一致時フィールド除外](#rule-exclude-unless)
+[存在時フィールド除外](#rule-exclude-with)
 [不在時フィールド除外](#rule-exclude-without)
 [存在（データベース）](#rule-exists)
 [ファイル](#rule-file)
@@ -1090,10 +1091,28 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 **他のフィールド**が**値**と等しい場合、`validate`と`validated`メソッドが返すリクエストデータから、バリデーション指定下のフィールドが除外されます。
 
+複雑な条件付き除外ロジックが必要な場合は、`Rule::excludeIf`メソッドが便利です。このメソッドは、論理値かクロージャを引数に取ります。クロージャを指定する場合、そのクロージャは、`true`または`false`を返し、バリデーション中のフィールドを除外するかしないかを示す必要があります。
+
+    use Illuminate\Support\Facades\Validator;
+    use Illuminate\Validation\Rule;
+
+    Validator::make($request->all(), [
+        'role_id' => Rule::excludeIf($request->user()->is_admin),
+    ]);
+
+    Validator::make($request->all(), [
+        'role_id' => Rule::excludeIf(fn () => $request->user()->is_admin),
+    ]);
+
 <a name="rule-exclude-unless"></a>
 #### exclude_unless:_他のフィールド_,_値_
 
 **他のフィールド**が**値**と等しくない場合、`validate`と`validated`メソッドが返すリクエストデータから、バリデーション指定下のフィールドが除外されます。もし**値**が`null`（`exclude_unless:name,null`）の場合は、比較フィールドが`null`であるか、比較フィールドがリクエストデータに含まれていない限り、バリデーション指定下のフィールドは除外されます。
+
+<a name="rule-exclude-with"></a>
+#### exclude_with:_他のフィールド_
+
+**他のフィールド**が存在する場合、`validate`と`validated`メソッドが返すリクエストデータから、バリデーション指定可のフィールドが除外されます。
 
 <a name="rule-exclude-without"></a>
 #### exclude_without:_他のフィールド_
@@ -1339,6 +1358,19 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 #### prohibited_if:_anotherfield_,_value_,...
 
 **anotherfield**フィールドが任意の**value**と等しい場合、対象のフィールドは空であるか、存在しないことをバリデートします。
+
+複雑な条件付き禁止（空か存在してない）ロジックが必要な場合は、`Rule::prohibitedIf`メソッドを利用してください。このメソッドは、論理値かクロージャを引数に取ります。クロージャを指定する場合、そのクロージャは`true`または`false`を返し、バリデーション中のフィールドを禁止するかしないかを示す必要があります。
+
+    use Illuminate\Support\Facades\Validator;
+    use Illuminate\Validation\Rule;
+
+    Validator::make($request->all(), [
+        'role_id' => Rule::prohibitedIf($request->user()->is_admin),
+    ]);
+
+    Validator::make($request->all(), [
+        'role_id' => Rule::prohibitedIf(fn () => $request->user()->is_admin),
+    ]);
 
 <a name="rule-prohibited-unless"></a>
 #### prohibited_unless:_anotherfield_,_value_,...
