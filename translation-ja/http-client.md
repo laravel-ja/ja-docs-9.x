@@ -181,13 +181,27 @@ composer require guzzlehttp/guzzle
 
 必要であれば、`retry`メソッドに第３引数を渡せます。第３引数には、実際に再試行を行うかどうかを決定するCallableを指定します。例えば、最初のリクエストで`ConnectionException`が発生した場合にのみ、リクエストを再試行したいとしましょう。
 
-    $response = Http::retry(3, 100, function ($exception) {
+    $response = Http::retry(3, 100, function ($exception, $request) {
         return $exception instanceof ConnectionException;
+    })->post(...);
+
+リクエストの試行に失敗した場合、新しく試みる前にリクエストへ変更を加えたい場合があります。これを実現するには、`retry`メソッドに渡すコールバックのrequest引数を変更します。例えば、最初の試行が認証エラーを返した場合、新しい認証トークンを使ってリクエストを再試行したいと思います。
+
+    $response = Http::withToken($this->getToken())->retry(2, 0, function ($exception, $request) {
+        if (! $exception instanceof RequestException || $request->response->status() !== 401) {
+            return false;
+        }
+
+        $request->withToken($this->getNewToken());
+
+        return true;
     })->post(...);
 
 すべてのリクエストが失敗した場合、 `Illuminate\Http\Client\RequestException`インスタンスを投げます。この動作を無効にする場合は、`throw`引数へ`false`を指定してください。無効にすると、すべての再試行のあと、クライアントが最後に受信したレスポンスを返します。
 
     $response = Http::retry(3, 100, throw: false)->post(...);
+
+> {note} 接続の問題ですべてのリクエストが失敗した場合は、`throw`引数を`false`に設定していても`Illuminate\Http\Client\ConnectionException`が投げられます。
 
 <a name="error-handling"></a>
 ### エラー処理
@@ -380,7 +394,9 @@ $response = Http::github()->get('/');
 
 特定のエンドポイントに対して返すレスポンスを決定するために、より複雑なロジックが必要な場合は、`fake`メソッドにクロージャを渡すことができます。このクロージャは`Illuminate\Http\Client\Request`インスタンスを受け取り、レスポンスインスタンスを返す必要があります。クロージャ内で、返すレスポンスのタイプを決定するために必要なロジックを実行できます。
 
-    Http::fake(function ($request) {
+    use Illuminate\Http\Client\Request;
+
+    Http::fake(function (Request $request) {
         return Http::response('Hello World', 200);
     });
 

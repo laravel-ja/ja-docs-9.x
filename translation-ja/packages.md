@@ -252,36 +252,57 @@ Laravelアプリケーションの`config/app.php`設定ファイルには、Lar
 <a name="view-components"></a>
 ### ビューコンポーネント
 
-パッケージに[ビューコンポーネント](/docs/{{version}}/Blade#components)が含まれている場合は、`loadViewComponentsAs`メソッドを使用して、それらのロード方法をLaravelに通知します。`loadViewComponentsAs`メソッドは、ビューコンポーネントのタグプレフィックスとビューコンポーネントクラス名の配列の２つの引数とります。たとえば、パッケージのプレフィックスが`courier`で、`Alert`および`Button`ビューコンポーネントがある場合、サービスプロバイダの`boot`メソッドへ以下を追加します。
+Bladeコンポーネントを利用するパッケージを構築する場合、またはコンポーネントを従来と異なるディレクトリへ配置する場合、コンポーネントクラスとそのHTMLタグエイリアスを手作業で登録し、Laravelがコンポーネントを見つける場所を認識できるようにする必要があります。通常、パッケージのサービスプロバイダの`boot`メソッドで、コンポーネントを登録する必要があります。
 
-    use Courier\Components\Alert;
-    use Courier\Components\Button;
+    use Illuminate\Support\Facades\Blade;
+    use VendorPackage\View\Components\AlertComponent;
 
     /**
-     * 全パッケージサービスの初期起動処理
+     * アプリケーションの全サービスの初期起動処理
      *
      * @return void
      */
     public function boot()
             __DIR__.'/../config/courier.php', 'courier'
-        $this->loadViewComponentsAs('courier', [
-            Alert::class,
-            Button::class,
-        ]);
+        Blade::component('package-alert', AlertComponent::class);
     }
 
-ビューコンポーネントをサービスプロバイダ中で登録したら、以下のようにビューの中で参照します。
+コンポーネントを登録したら、タグエイリアスを使いレンダリングします。
 
 ```blade
-<x-courier-alert />
-
-<x-courier-button />
+<x-package-alert/>
 ```
+
+<a name="autoloading-package-components"></a>
+#### パッケージコンポーネントの自動ロード
+
+もしくは、`componentNamespace`メソッドを使用して、コンポーネントクラスを規約に従いオートロードできます。例えば、`Nightshade`パッケージに`Calendar`と`ColorPicker`コンポーネントがあり、これらが`Nightshade\Views\Components`名前空間内に存在しているとしましょう。
+
+    use Illuminate\Support\Facades\Blade;
+
+    /**
+     * パッケージの全サービスの初期起動処理
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Blade::componentNamespace('Nightshade\Views\Components', 'nightshade');
+    }
+
+これにより、`パッケージ名::`記法を使用し、ベンダーの名前空間により、パッケージコンポーネントが利用できるようになります。
+
+```blade
+<x-nightshade::calendar />
+<x-nightshade::color-picker />
+```
+
+Bladeは、コンポーネント名をパスカルケース化し、このコンポーネントとリンクしているクラスを自動的に検出します。サブディレクトリも「ドット」記法でサポートしています。
 
 <a name="anonymous-components"></a>
 #### 無名コンポーネント
 
-パッケージが無名コンポーネントを持っている場合、"views"ディレクトリ（`loadViewsFrom`で指定している場所）の`components`ディレクトリの中へ設置する必要があります。すると、パッケージのビュー名前空間を先頭に付けたコンポーネント名でレンダできます。
+パッケージが無名コンポーネントを持っている場合、"views"ディレクトリ（[`loadViewsFrom`](#views)で指定している場所）の`components`ディレクトリの中へ設置する必要があります。すると、パッケージのビュー名前空間を先頭に付けたコンポーネント名でレンダできます。
 
 ```blade
 <x-courier::alert />

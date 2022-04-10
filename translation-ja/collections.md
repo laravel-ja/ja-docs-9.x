@@ -138,6 +138,7 @@
 [keyBy](#method-keyby)
 [keys](#method-keys)
 [last](#method-last)
+[lazy](#method-lazy)
 [macro](#method-macro)
 [make](#method-make)
 [map](#method-map)
@@ -1228,6 +1229,31 @@
     collect([1, 2, 3, 4])->last();
 
     // 4
+
+<a name="method-lazy"></a>
+#### `lazy()` {.collection-method}
+
+`lazy`メソッドは、アイテムの配列から新しい[レイジーコレクション](#lazy-collections)インスタンスを返します。
+
+    $lazyCollection = collect([1, 2, 3, 4])->lazy();
+
+    get_class($lazyCollection);
+
+    // Illuminate\Support\LazyCollection
+
+    $lazyCollection->all();
+
+    // [1, 2, 3, 4]
+
+このメソッドは多くのアイテムを持つ巨大なコレクション（`Collection`）を変換する必要がある場合に役立ちます。
+
+    $count = $hugeCollection()
+        ->lazy()
+        ->where('country', 'FR')
+        ->where('balance', '>', '100')
+        ->count();
+
+コレクションをレイジーコレクション（`LazyCollection`）に変換することで、元の値はすべてメモリ上に保持されるものの、後続のフィルタが値をメモリに格納する必要がなくなります。したがって、コレクションの結果をフィルタリングする時点で、実質的に追加のメモリが割り当てられることはありません。
 
 <a name="method-macro"></a>
 #### `macro()` {.collection-method}

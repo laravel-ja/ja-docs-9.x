@@ -8,6 +8,7 @@
     - ["Link"コマンド](#the-link-command)
     - [TLSによる安全なサイト](#securing-sites)
     - [デフォルトサイトの提供](#serving-a-default-site)
+    - [サイトごとのPHPバージョン](#per-site-php-versions)
 - [サイト共有](#sharing-sites)
     - [Ngrokによるサイト共有](#sharing-sites-via-ngrok)
     - [Exposeによるサイト共有](#sharing-sites-via-expose)
@@ -171,6 +172,12 @@ cd ~/Sites/laravel
 valet link application
 ```
 
+もちろん、`link`コマンドを使用してサブドメイン上のアプリケーションを提供することもできます。
+
+```shell
+valet link api.application
+```
+
 `links`コマンドを実行して、リンクされているすべてのディレクトリのリストを表示できます。
 
 ```shell
@@ -205,7 +212,44 @@ valet unsecure laravel
 
 時には、未知の`test`ドメインを訪問したときに、`404`の代わりに「デフォルト」サイトを提供するよう、Valetを設定したいことがあるかもしれません。これを実現するには、デフォルトサイトとして機能するサイトへのパスを含む `~/.config/valet/config.json`設定ファイルへ`default`オプションを追加します。
 
-    "default": "/Users/Sally/Sites/foo",
+    "default": "/Users/Sally/Sites/example-site",
+
+<a name="per-site-php-versions"></a>
+### サイトごとのPHPバージョン
+
+Valetはサイトにサービスを提供するため、デフォルトでグローバルなPHPインストールを使用します。しかし、さまざまなサイトで複数のPHPバージョンをサポートする必要がある場合は、`isolate`コマンドを使用して、特定のサイトが使用するPHPバージョンを指定してください。`isolate`コマンドは、現在の作業ディレクトリにあるサイトに対し、Valetが指定したPHPバージョンを使用するように設定します。
+
+```shell
+cd ~/Sites/example-site
+
+valet isolate php@8.0
+```
+
+サイト名がそれを含むディレクトリ名と一致しない場合は、`--site`オプションを使い、サイト名を指定します。
+
+```shell
+valet isolate php@8.0 --site="site-name"
+```
+
+便利なように、`valet php`、`composer`、`which-php`コマンドはプロキシされ、サイトのPHPバージョンに応じて適切な PHP CLIやツールが呼び出されます。
+
+```shell
+valet php
+valet composer
+valet which-php
+```
+
+個別のサイトとPHPバージョンの全一覧を表示するには、`isolated`コマンドを実行してください。
+
+```shell
+valet isolated
+```
+
+サイトのPHPをValetのグローバルインストールしたPHPバージョンに戻すには、サイトのルートディレクトリで、`unisolate`コマンドを実行します。
+
+```shell
+valet unisolate
+```
 
 <a name="sharing-sites"></a>
 ## サイト共有

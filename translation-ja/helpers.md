@@ -133,6 +133,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Str::singular](#method-str-singular)
 [Str::slug](#method-str-slug)
 [Str::snake](#method-snake-case)
+[Str::squish](#method-str-squish)
 [Str::start](#method-str-start)
 [Str::startsWith](#method-starts-with)
 [Str::studly](#method-studly-case)
@@ -211,6 +212,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [slug](#method-fluent-str-slug)
 [snake](#method-fluent-str-snake)
 [split](#method-fluent-str-split)
+[squish](#method-fluent-str-squish)
 [start](#method-fluent-str-start)
 [startsWith](#method-fluent-str-starts-with)
 [studly](#method-fluent-str-studly)
@@ -1757,6 +1759,17 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 
     // foo-bar
 
+<a name="method-str-squish"></a>
+#### `Str::squish()` {.collection-method}
+
+`Str::squish`メソッドは、単語間の余分な空白を含め、文字列から余分な空白をすべて削除します。
+
+    use Illuminate\Support\Str;
+
+    $string = Str::squish('    laravel    framework    ');
+
+    // laravel framework
+
 <a name="method-str-start"></a>
 #### `Str::start()` {.collection-method}
 
@@ -2714,6 +2727,17 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     $segments = Str::of('one, two, three')->split('/[\s,]+/');
 
     // collect(["one", "two", "three"])
+
+<a name="method-fluent-str-squish"></a>
+#### `squish` {.collection-method}
+
+`squish`メソッドは、単語間の余分な空白を含め、文字列から余分な空白をすべて削除します。
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('    laravel    framework    ')->squish();
+
+    // laravel framework
 
 <a name="method-fluent-str-start"></a>
 #### `start` {.collection-method}

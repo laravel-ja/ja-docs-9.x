@@ -1509,13 +1509,19 @@ Webフックの検証を有効にするには、`STRIPE_WEBHOOK_SECRET`環境変
         'default_tax_rates' => ['txr_id'],
     ]);
 
+`invoicePrice`と同様、`tabPrice`メソッドを使用して、複数のアイテム（１インボイスにつき２５０アイテムまで）を顧客の「タブ」へ追加し、顧客にインボイスを発行することで、一回限りの課金ができます。例として、シャツ５枚とマグカップ２個のインボイスを顧客へ発行してみましょう。
+
+    $user->tabPrice('price_tshirt', 5);
+    $user->tabPrice('price_mug', 2);
+    $user->invoice();
+
 もしくは、`invoiceFor`メソッドを使って、顧客のデフォルトの支払い方法に対して「一回限り」の請求を行うこともできます。
 
     $user->invoiceFor('One Time Fee', 500);
 
-`invoiceFor`メソッドを利用することもできますが、あらかじめ価格を設定した`invoicePrice`メソッドを利用することを推奨します。そうすることにより、Stripeダッシュボード内で、商品ごとの売上に関するより良い分析とデータへアクセスできるようになります。
+`invoiceFor`メソッドを使用することもできますが、あらかじめ価格を設定し、`invoicePrice`メソッドや`tabPrice`メソッドの使用を推奨します。それにより、商品ごとの売上に関するより良い分析・データへ、Stripeのダッシュボードによりアクセスできます。
 
-> {note} `invoicePrice`と`invoiceFor`メソッドは、失敗した請求を再試行するStripeのインボイスを作成します。請求に失敗したインボイスを再試行したくない場合は、最初の請求に失敗した後で、Stripe APIを使いインボイスを閉じる必要があります。
+> {note} `invoice`、`invoicePrice`、`invoiceFor`メソッドは、課金に失敗した場合に再試行する、Stripeインボイスを作成します。請求の失敗時に再試行したくない場合は、最初の請求が失敗した後に、Stripe APIを使用し、そのインボイスを閉じる必要があります。
 
 <a name="refunding-charges"></a>
 ### 支払の返金

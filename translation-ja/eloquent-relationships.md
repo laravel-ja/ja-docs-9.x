@@ -288,9 +288,15 @@ Eloquentはリレーションメソッドの名前を調べ、メソッド名の
 
     $posts = Post::where('user_id', $user->id)->get();
 
-しかし、`whereBelongsTo`メソッドを使う方が便利かもしれません。このメソッドは、与えられたモデルに対して適切なリレーションと外部キーを自動的に決定します。
+しかし、`whereBelongsTo`メソッドを使う方が便利でしょう。このメソッドは、与えられたモデルに対して適切なリレーションと外部キーを自動的に決定します。
 
     $posts = Post::whereBelongsTo($user)->get();
+
+また、`whereBelongsTo`メソッドへ、[コレクション](/docs/{{version}}/eloquent-collections)インスタンスも指定可能です。その場合、Laravelはコレクション内から、親モデルに所属する全モデルを取得します。
+
+    $users = User::where('vip', true)->get();
+
+    $posts = Post::whereBelongsTo($users)->get();
 
 デフォルトでLaravelはモデルのクラス名に基づいて、与えられたモデルに関連するリレーションを決定しますが、リレーション名を`whereBelongsTo`メソッドの第２引数に渡すことで、手作業で指定できます。
 

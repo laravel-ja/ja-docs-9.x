@@ -3,7 +3,7 @@
 - [イントロダクション](#introduction)
 - [Laravel Breeze](#laravel-breeze)
     - [インストール](#laravel-breeze-installation)
-    - [BreezeとInertia](#breeze-and-inertia)
+    - [BreezeとReact／Vue](#breeze-and-inertia)
     - [BreezeとNext.js／API](#breeze-and-next)
 - [Laravel Jetstream](#laravel-jetstream)
 
@@ -55,14 +55,16 @@ php artisan migrate
 > {tip} アプリケーションのCSSとJavaScriptのコンパイルの詳細は、[Laravel Mixドキュメント](/docs/{{version}}/mix#running-mix)をご覧ください。
 
 <a name="breeze-and-inertia"></a>
-### BreezeとInertia
+### BreezeとReact／Vue
 
-Laravel Breezeでは、VueやReactを使った[Inertia.js](https://inertiajs.com)のフロントエンド実装も提供しています。Inertiaスタックを使用するには、`breeze:install` Artisanコマンドを実行する際に、希望するスタックとして`vue`または`react`を指定します。
+Laravel Breezeは、ReactとVueのスカフォールドを[Inertia.js](https://inertiajs.com)フロントエンド実装で提供しています。Inertiaを使用すると、古典的なサーバサイドのルーティングとコントローラを使用して、モダンなシングルページのReactとVueのアプリケーションを構築することができます。
+
+Inertiaにより、ReactとVueのフロントエンドのパワーと、Laravelの素晴らしいバックエンドの生産性のコンビネーションが楽しめます。Inertiaスタックを使用するには、`breeze:install` Artisanコマンドを実行し、使用するスタックとして`vue`、または`react`を指定してください。
 
 ```shell
 php artisan breeze:install vue
 
-// もしくは…
+# もしくは
 
 php artisan breeze:install react
 

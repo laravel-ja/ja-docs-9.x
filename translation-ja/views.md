@@ -205,7 +205,6 @@
          */
         public function __construct(UserRepository $users)
         {
-            // 依存関係はサービスコンテナによって自動的に解決される
             $this->users = $users;
         }
 

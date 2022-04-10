@@ -524,6 +524,10 @@ Laravel ペジネータインスタンスをリソースの`collection`メソッ
         return 'secret-value';
     }),
 
+さらに、`whenNotNull`メソッドを使用すると、属性がNULLでない場合、その属性をリソースレスポンスへ含められます。
+
+    'name' => $this->whenNotNull($this->name),
+
 <a name="merging-conditional-attributes"></a>
 #### 条件付き属性のマージ
 

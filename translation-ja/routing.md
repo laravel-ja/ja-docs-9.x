@@ -221,6 +221,10 @@ Laravelサービスコンテナにより、ルートのコールバックへ自�
         //
     })->whereUuid('id');
 
+    Route::get('/category/{category}', function ($category) {
+        //
+    })->whereIn(['movie', 'song', 'painting']);
+
 受信リクエストがルートパターンの制約と一致しない場合、404 HTTPレスポンスを返します。
 
 <a name="parameters-global-constraints"></a>
