@@ -4,6 +4,7 @@
 - [設定](#configuration)
 - [例外ハンドラ](#the-exception-handler)
     - [例外のレポート](#reporting-exceptions)
+    - [例外のログレベル](#exception-log-levels)
     - [タイプによる例外の無視](#ignoring-exceptions-by-type)
     - [例外のレンダ](#rendering-exceptions)
     - [Reportable／Renderable例外](#renderable-exceptions)
@@ -117,6 +118,27 @@
         }
     }
 
+<a name="exception-log-levels"></a>
+### 例外のログレベル
+
+アプリケーションの[ログ](/docs/{{version}}/logging)にメッセージが書き込まれるとき、そのメッセージは指定された[ログレベル](/docs/{{version}}/logging#log-levels)で書かれ、これは書き込まれるメッセージの緊急度や重要度を表します。
+
+前記のように、`reportable`メソッドを使用してカスタム例外レポートコールバックを登録した場合でも、Laravelはアプリケーションのデフォルトログ設定を使用して例外を記録します。しかし、ログレベルはメッセージを記録するチャンネルへ影響を与えることがあるため、特定の例外を記録するログレベルを設定したいでしょう。
+
+そのため、アプリケーションの例外ハンドラの`$levels`プロパティで、例外の種類と関連するログレベルの配列を定義できます。
+
+    use PDOException;
+    use Psr\Log\LogLevel;
+
+    /**
+     * 例外タイプと関係するカスタムログレベルのリスト
+     *
+     * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
+     */
+    protected $levels = [
+        PDOException::class => LogLevel::CRITICAL,
+    ];
+
 <a name="ignoring-exceptions-by-type"></a>
 ### タイプによる例外の無視
 
@@ -125,9 +147,9 @@
     use App\Exceptions\InvalidOrderException;
 
     /**
-     * 報告しない例外タイプのリスト
+     * レポートしない例外タイプのリスト
      *
-     * @var array
+     * @var array<int, class-string<\Throwable>>
      */
     protected $dontReport = [
         InvalidOrderException::class,

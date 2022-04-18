@@ -223,7 +223,7 @@ Laravelサービスコンテナにより、ルートのコールバックへ自�
 
     Route::get('/category/{category}', function ($category) {
         //
-    })->whereIn(['movie', 'song', 'painting']);
+    })->whereIn('category', ['movie', 'song', 'painting']);
 
 受信リクエストがルートパターンの制約と一致しない場合、404 HTTPレスポンスを返します。
 

@@ -153,6 +153,15 @@ SELECTステートメントに１つのデータベース接続を使用し、IN
         echo $user->name;
     }
 
+<a name="selecting-scalar-values"></a>
+#### スカラー値のセレクト
+
+データベースへの問い合わせの結果が、単一のスカラー値であることがあります。Laravelでは、クエリのスカラー結果をレコードオブジェクトから取得する代わりに、`scalar`メソッドを使用し、この値を直接取得できます。
+
+    $burgers = DB::scalar(
+        "select count(case when food = 'burger' then 1 end) as burgers from menu"
+    );
+
 <a name="using-named-bindings"></a>
 #### 名前付きバインディングの使用
 
@@ -326,4 +335,3 @@ php artisan db
 ```shell
 php artisan db mysql
 ```
-

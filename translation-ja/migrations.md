@@ -104,20 +104,6 @@ php artisan schema:dump --prune
         }
     };
 
-<a name="anonymous-migrations"></a>
-#### 無名マイグレーション
-
-上記の例で気付いたかもしれませんが、Laravelは`make:migration`コマンドで生成した全てのマイグレーションへ自動的にクラス名を割り当てます。しかし、必要であれば、マイグレーションファイルから無名のクラスを返すこともできます。これは主に、アプリケーションが多くのマイグレーションを蓄積し、そのうち2つのマイグレーションでクラス名が衝突している場合に便利です。
-
-    <?php
-
-    use Illuminate\Database\Migrations\Migration;
-
-    return new class extends Migration
-    {
-        //
-    };
-
 <a name="setting-the-migration-connection"></a>
 #### マイグレーション接続の設定
 

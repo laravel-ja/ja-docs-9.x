@@ -807,10 +807,10 @@ The credit card number field is required when payment type is credit card.
 [配列内](#rule-in-array)
 [整数](#rule-integer)
 [IPアドレス](#rule-ip)
-[MACアドレス](#rule-mac)
 [JSON](#rule-json)
 [より小さい](#rule-lt)
 [以下](#rule-lte)
+[MACアドレス](#rule-mac)
 [最大値](#rule-max)
 [MIMEタイプ](#rule-mimetypes)
 [MIMEタイプ(ファイル拡張子)](#rule-mimes)
@@ -1248,11 +1248,6 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 フィールドがIPv6アドレスの形式として正しいことをバリデートします。
 
-<a name="rule-mac"></a>
-#### mac_address
-
-フィールドがMACアドレスとして正しいことをバリデートします。
-
 <a name="rule-json"></a>
 #### json
 
@@ -1267,6 +1262,11 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 #### lte:_field_
 
 フィールドが指定した**フィールド**以下であることをバリデートします。２つのフィールドは同じタイプでなくてはなりません。文字列、数値、配列、ファイルは、[`size`](#rule-size)ルールと同じ規約により評価します。
+
+<a name="rule-mac"></a>
+#### mac_address
+
+フィールドがMACアドレスとして正しいことをバリデートします。
 
 <a name="rule-max"></a>
 #### max:_値_

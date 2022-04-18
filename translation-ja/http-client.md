@@ -188,7 +188,7 @@ composer require guzzlehttp/guzzle
 リクエストの試行に失敗した場合、新しく試みる前にリクエストへ変更を加えたい場合があります。これを実現するには、`retry`メソッドに渡すコールバックのrequest引数を変更します。例えば、最初の試行が認証エラーを返した場合、新しい認証トークンを使ってリクエストを再試行したいと思います。
 
     $response = Http::withToken($this->getToken())->retry(2, 0, function ($exception, $request) {
-        if (! $exception instanceof RequestException || $request->response->status() !== 401) {
+        if (! $exception instanceof RequestException || $exception->response->status() !== 401) {
             return false;
         }
 

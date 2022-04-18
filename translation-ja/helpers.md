@@ -3487,6 +3487,14 @@ Str::of('Hello, world!')->wordCount(); // 2
 
     $value = old('value', 'default');
 
+`old`関数の第２引数として指定される「デフォルト値」は、Eloquentモデルの属性であることが多いため、LaravelではEloquentモデル全体を`old`関数の第２引数として渡せるようになっています。この場合、Laravelは`old`関数に渡された最初の引数を「デフォルト値」とみなすべきEloquent属性の名前として扱います。
+
+    {{ old('name', $user->name) }}
+
+    // 上記は下記と同じ
+
+    {{ old('name', $user) }}
+
 <a name="method-optional"></a>
 #### `optional()` {.collection-method}
 

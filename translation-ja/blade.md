@@ -22,9 +22,13 @@
     - [予約語](#reserved-keywords)
     - [スロット](#slots)
     - [インラインコンポーネントビュー](#inline-component-views)
-    - [匿名コンポーネント](#anonymous-components)
     - [動的コンポーネント](#dynamic-components)
     - [コンポーネントの手作業登録](#manually-registering-components)
+- [匿名コンポーネント](#anonymous-components)
+    - [匿名インデックスコンポーネント](#anonymous-index-components)
+    - [データプロパティ／属性](#data-properties-attributes)
+    - [親データへのアクセス](#accessing-parent-data)
+    - [匿名コンポーネントの名前空間](#anonymous-component-namespaces)
 - [レイアウト構築](#building-layouts)
     - [コンポーネントを使用したレイアウト](#layouts-using-components)
     - [テンプレートの継承を使用したレイアウト](#layouts-using-template-inheritance)
@@ -338,7 +342,7 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 
 > {tip} `foreach`ループの反復処理中に、[ループ変数](#the-loop-variable) を使い、ループの最初の反復処理や最後の反復処理というような、反復に関する役立つ情報を取得可能です。
 
-ループを使用する場合は、`@continue`および`@break`ディレクティブを使用して、ループを終了するか、現在の反復をスキップすることもできます。
+ループを使用する場合は、`@continue`および`@break`ディレクティブを使用して、現在の反復をスキップするか、ループを終了することもできます。
 
 ```blade
 @foreach ($users as $user)
@@ -1157,8 +1161,70 @@ VueのようなJavaScriptフレームワークを使用している方は「ス�
 php artisan make:component Alert --inline
 ```
 
+<a name="dynamic-components"></a>
+### 動的コンポーネント
+
+時には、あるコンポーネントをレンダする必要があっても、実行時までどのコンポーネントをレンダすべきか分からないことがあります。この場合、Laravelの組み込みコンポーネントである`dynamic-component`を使用すると、実行時の値や変数に基づいてコンポーネントをレンダできます。
+
+```blade
+<x-dynamic-component :component="$componentName" class="mt-4" />
+```
+
+<a name="manually-registering-components"></a>
+### コンポーネントの手作業登録
+
+> {note} コンポーネントの手作業登録に関する以下のドキュメントは、主にビューコンポーネントを含むLaravelのパッケージを作成している開発者に当てはまるものです。こうしたパッケージを書いていない場合は、コンポーネントに関する以下のドキュメントは、あなたに関係しないでしょう。
+
+自分のアプリケーションのコンポーネントを書く場合、コンポーネントは`app/View/Components`ディレクトリと`resources/views/components`ディレクトリの中から自動的に見つけ出されます。
+
+しかし、Bladeコンポーネントを利用するパッケージを構築する場合や、コンポーネントをデフォルト外のディレクトリに配置する場合は、コンポーネントクラスとそのHTMLタグエイリアスを手作業で登録し、Laravelがコンポーネントを探す場所を認識できるようにする必要があります。通常、パッケージのサービスプロバイダの`boot`メソッドでコンポーネントを登録する必要があります。
+
+    use Illuminate\Support\Facades\Blade;
+    use VendorPackage\View\Components\AlertComponent;
+
+    /**
+     * パッケージのサービスの初期起動処理
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Blade::component('package-alert', AlertComponent::class);
+    }
+
+登録し終えたら、タグエイリアスを使いレンダします。
+
+```blade
+<x-package-alert/>
+```
+
+#### パッケージコンポーネントの自動ロード
+
+また、`componentNamespace`メソッドを使用して、コンポーネントクラスを規約に従い自動ロードすることもできます。たとえば、`Nightshade`パッケージは`Calendar`と`ColorPicker`コンポーネントを持ち、`PackageViewsComponents`ネームスペース下に存在するとしましょう。
+
+    use Illuminate\Support\Facades\Blade;
+
+    /**
+     * パッケージのサービスの初期起動処理
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Blade::componentNamespace('Nightshade\Views\Components', 'nightshade');
+    }
+
+これにより、`パッケージ名::`構文を使い、パッケージコンポーネントをそのベンダーの名前空間により使用できるようになります。
+
+```blade
+<x-nightshade::calendar />
+<x-nightshade::color-picker />
+```
+
+コンポーネント名をパスカル記法にしたものをこのコンポーネントとリンクするクラスとして、Bladeは自動的に検出します。サブディレクトリも「ドット」記法でサポートします。
+
 <a name="anonymous-components"></a>
-### 匿名コンポーネント
+## 匿名コンポーネント
 
 インラインコンポーネントと同様に、匿名コンポーネントは、単一のファイルを介してコンポーネントを管理するためのメカニズムを提供します。ただし、匿名コンポーネントは単一のビューファイルを利用し、関連するクラスはありません。匿名コンポーネントを定義するには、`resources/views/components`ディレクトリ内にBladeテンプレートを配置するだけで済みます。たとえば、`resources/views/components/alert.blade.php`でコンポーネントを定義すると、以下のようにレンダできます。
 
@@ -1173,7 +1239,7 @@ php artisan make:component Alert --inline
 ```
 
 <a name="anonymous-index-components"></a>
-#### 無名インデックスコンポーネント
+### 匿名インデックスコンポーネント
 
 あるコンポーネントが多数のBladeテンプレートから構成されている場合、そのコンポーネントのテンプレートを１つのディレクトリにまとめたいことがあります。例えば、以下のようなディレクトリ構造を持つ「アコーディオン」コンポーネントがあるとします。
 
@@ -1202,7 +1268,7 @@ Bladeでは幸い、コンポーネントのテンプレートディレクトリ
 ```
 
 <a name="data-properties-attributes"></a>
-#### データのプロパティ／属性
+### データプロパティ／属性
 
 匿名コンポーネントには関連付けたクラスがないため、どのデータを変数としてコンポーネントに渡す必要があり、どの属性をコンポーネントの[属性バッグ](#component-attributes)に配置する必要があるか、どう区別するか疑問に思われるかもしれません。
 
@@ -1225,7 +1291,7 @@ Bladeでは幸い、コンポーネントのテンプレートディレクトリ
 ```
 
 <a name="accessing-parent-data"></a>
-#### 親データへのアクセス
+### 親データへのアクセス
 
 子コンポーネントの中にある親コンポーネントのデータにアクセスしたい場合があります。このような場合は、`@aware`ディレクティブを使用します。例えば、親の`<x-menu>`と子の`<x-menu.item>`で構成される複雑なメニューコンポーネントを作っていると想像してください。
 
@@ -1262,67 +1328,30 @@ Bladeでは幸い、コンポーネントのテンプレートディレクトリ
 
 > {note} `@aware`ディレクティブは、HTML属性によって親コンポーネントに明示的に渡されていない親データにはアクセスできません。親コンポーネントに明示的に渡されていないデフォルトの`@props`値は、`@aware`ディレクティブではアクセスすることができません。
 
-<a name="dynamic-components"></a>
-### 動的コンポーネント
+<a name="anonymous-component-namespaces"></a>
+### 匿名コンポーネントの名前空間
 
-コンポーネントをレンダする必要があるが、実行時までどのコンポーネントをレンダする必要のわからない場合があります。その状況では、Laravel組み込みの`dynamic-component`コンポーネントを使用して、ランタイム値または変数に基づいてコンポーネントをレンダできます。
+前で説明したように、匿名コンポーネントは通常、`resources/views/components`ディレクトリに、Bladeテンプレートを配置することにより定義します。しかし、時にはデフォルトのパスに加えて、他の匿名コンポーネントパスをLaravelへ登録したい場合が起こるでしょう。
 
-```blade
-<x-dynamic-component :component="$componentName" class="mt-4" />
-```
+例えば、バケーション予約アプリケーションを構築する場合、フライト予約関連の匿名コンポーネントを`resources/views/flights/bookings/components`ディレクトリに置きたいと思うかもしれません。この匿名コンポーネントの場所をLaravelへ登録するには、`Blade`ファサードが提供している`anonymousComponentNamespace`メソッドを使用します。
 
-<a name="manually-registering-components"></a>
-### コンポーネントの手作業登録
-
-> {note} コンポーネントの手作業登録に関する以下のドキュメントは、主にビューコンポーネントを含むLaravelパッケージを作成している人に当てはまります。パッケージを作成していない場合は、コンポーネントドキュメントのこの箇所は関係ないでしょう。
-
-独自のアプリケーション用コンポーネントを作成する場合、コンポーネントを`app/View/Components`ディレクトリと`resources/views/components`ディレクトリ内で自動的に検出します。
-
-ただし、Bladeコンポーネントを利用するパッケージを構築する場合、またはコンポーネントを従来とは異なるディレクトリに配置する場合は、Laravelがコンポーネントの場所を認識できるように、コンポーネントクラスとそのHTMLタグエイリアスを手作業で登録する必要があります。通常、コンポーネントはパッケージのサービスプロバイダの`boot`メソッドで、登録する必要があります。
-
-    use Illuminate\Support\Facades\Blade;
-    use VendorPackage\View\Components\AlertComponent;
+この`anonymousComponentNamespace`メソッドは、最初の引数に匿名コンポーネントの場所の「パス」を、２番目の引数にコンポーネントを配置する「名前空間（namespace）」を取ります。以下の例の通り、「名前空間」はコンポーネントをレンダするときに、コンポーネント名の前に付けられます。通常、このメソッドはアプリケーションの[サービスプロバイダ](/docs/{{version}}/providers)の`boot`メソッドで呼び出される必要があります。
 
     /**
-     * パッケージの全サービスの初期起動処理
+     * アプリケーションの全サービスの初期起動処理
      *
      * @return void
      */
     public function boot()
     {
-        Blade::component('package-alert', AlertComponent::class);
+        Blade::anonymousComponentNamespace('flights.bookings.components', 'flights');
     }
 
-コンポーネントを登録すると、タグエイリアスを使用してレンダリングできます。
+上記の例の場合、新しく登録したコンポーネントディレクトリに存在する、`panel`コンポーネントは以下のようにレンダします。
 
 ```blade
-<x-package-alert/>
+<x-flights::panel :flight="$flight" />
 ```
-
-#### パッケージコンポーネントの自動ロード
-
-または、規約により、`componentNamespace`メソッドを使用してコンポーネントクラスを自動ロードすることもできます。たとえば、`Nightshade`パッケージには、`Package\Views\Components`名前空間内にある`Calendar`と`ColorPicker`コンポーネントが含まれているとしましょう。
-
-    use Illuminate\Support\Facades\Blade;
-
-    /**
-     * パッケージの全サービスの初期起動処理
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        Blade::componentNamespace('Nightshade\\Views\\Components', 'nightshade');
-    }
-
-これにより、`package-name::`構文を使用して、ベンダーの名前空間でパッケージコンポーネントが使用できるようになります。
-
-```blade
-<x-nightshade::calendar />
-<x-nightshade::color-picker />
-```
-
-Bladeは、コンポーネント名のパスカルケースを使い、コンポーネントにリンクしているクラスを自動的に検出します。サブディレクトリもサポートしており、「ドット」表記を使用します。
 
 <a name="building-layouts"></a>
 ## レイアウト構築
