@@ -326,7 +326,7 @@ Laravelの[スコープ付き暗黙モデル結合](/docs/{{version}}/routing#im
 <a name="restful-localizing-resource-uris"></a>
 ### リソースURIのローカライズ
 
-`Route::resource`はデフォルトで、英語の動詞を使用してリソースURIを作成します。`create`および`edit`アクション動詞をローカライズする必要がある場合は、`Route::resourceVerbs`メソッドを使用します。これは、アプリケーションの`App\Providers\RouteServiceProvider`内の`boot`メソッドの先頭で実行します。
+`Route::resource`はデフォルトで、英語の動詞と複数形のルールを使用してリソースURIを作成します。`create`および`edit`アクション動詞をローカライズする必要がある場合は、`Route::resourceVerbs`メソッドを使用します。これは、アプリケーションの`App\Providers\RouteServiceProvider`内の`boot`メソッドの先頭で実行します。
 
     /**
      * ルートモデルの結合、パターンフィルターなどを定義
@@ -343,11 +343,11 @@ Laravelの[スコープ付き暗黙モデル結合](/docs/{{version}}/routing#im
         // ...
     }
 
-動詞をカスタマイズすると、`Route::resource('fotos'、PhotoController::class)`などのリソースルート登録により、次のURIが生成されます。
+Laravelの複数形化機能は、[皆さんがニーズに基づいて設定した複数の異なる言語](/docs/{{version}}/localization#pluralization-language)をサポートしています。言語の動詞と複数形化をカスタマイズしたら、`Route::resource('publicacion', PublicacionController::class)`のようなリソースルート登録で、以下のURIが生成されるようになります。
 
-    /fotos/crear
+    /publicacion/crear
 
-    /fotos/{foto}/editar
+    /publicacion/{publicaciones}/editar
 
 <a name="restful-supplementing-resource-controllers"></a>
 ### リソースコントローラへのルート追加

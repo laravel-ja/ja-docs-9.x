@@ -298,6 +298,14 @@ Laravelのリダイレクタが提供する`intended`メソッドは、認証ミ
         // $rememberがtrueならユーザーは持続ログインされる
     }
 
+アプリケーションで、"remember me"機能を提供している場合は、`viaRemember`メソッドを使用して、現在認証されているユーザーが"remember me"クッキーで認証されているかを判断できます。
+
+    use Illuminate\Support\Facades\Auth;
+
+    if (Auth::viaRemember()) {
+        // ...
+    }
+
 <a name="other-authentication-methods"></a>
 ### 他の認証方法
 

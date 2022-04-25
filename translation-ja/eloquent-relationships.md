@@ -663,7 +663,7 @@ public function currentPricing()
 <a name="defining-custom-intermediate-table-models"></a>
 ### カスタム中間テーブルモデルの定義
 
-多対多の関係の中間（ピボット）テーブルを表すカスタムモデルを定義する場合は、関係定義時に`using`メソッドを呼び出してください。カスタムピボットモデルを使用すると、ピボットモデルに追加のメソッドを定義できます。
+多対多の関係の中間（ピボット）テーブルを表すカスタムモデルを定義する場合は、関係定義時に`using`メソッドを呼び出してください。カスタムピボットモデルを使用すると、ピボットモデルにメソッドやキャストのような追加動作を定義できます。
 
 カスタムの多対多ピボットモデルは`Illuminate\Database\Eloquent\Relationships\Pivot`クラス、カスタムのポリモーフィック多対多ピボットモデルは`Illuminate\Database\Eloquent\Relationships\MorphPivot`クラスを拡張する必要があります。たとえば、カスタムの`RoleUser`ピボットモデルを使用する`Role`モデルを定義してみましょう。
 

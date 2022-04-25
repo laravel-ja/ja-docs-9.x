@@ -1583,7 +1583,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 <a name="method-str-plural"></a>
 #### `Str::plural()` {.collection-method}
 
-`Str::plural`メソッドは単数形の単語文字列を複数形に変換します。この関数は現在、英語のみをサポートしています。
+`Str::plural`メソッドは、単数形の単語文字列を複数形に変換します。この関数は、[Laravelの複数形化機能により、どんな言語も](/docs/{{version}}/localization#pluralization-language)サポートしています。
 
     use Illuminate\Support\Str;
 
@@ -1610,7 +1610,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 <a name="method-str-plural-studly"></a>
 #### `Str::pluralStudly()` {.collection-method}
 
-`Str::pluralStudly`メソッドは、アッパーキャメルケースでフォーマットされた文字列の単語を複数形に変換します。この機能は現在英語のみサポートしています。
+`Str::pluralStudly`メソッドは、アッパーキャメルケースでフォーマットされた文字列の単語を複数形に変換します。この関数は、[Laravelの複数形化機能により、どんな言語も](/docs/{{version}}/localization#pluralization-language)サポートしています。
 
     use Illuminate\Support\Str;
 
@@ -1721,7 +1721,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 <a name="method-str-singular"></a>
 #### `Str::singular()` {.collection-method}
 
-`Str::singular`メソッドは複数形を単数形へ変換します。このメソッドは、現在英語のみサポートしています。
+`Str::singular`メソッドは複数形を単数形へ変換します。この関数は、[Laravelの複数形化機能により、どんな言語も](/docs/{{version}}/localization#pluralization-language)サポートしています。
 
     use Illuminate\Support\Str;
 
@@ -2539,7 +2539,7 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 <a name="method-fluent-str-plural"></a>
 #### `plural` {.collection-method}
 
-`plural`メソッドは、単数形の単語文字列を複数形に変換します。この関数は現在、英語のみをサポートしています。
+`plural`メソッドは、単数形の単語文字列を複数形に変換します。この関数は、[Laravelの複数形化機能により、どんな言語も](/docs/{{version}}/localization#pluralization-language)サポートしています。
 
     use Illuminate\Support\Str;
 
@@ -2683,7 +2683,7 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 <a name="method-fluent-str-singular"></a>
 #### `singular` {.collection-method}
 
-`singular`メソッドは、単語を単数形に変換します。この関数は現在英語のみ対応しています。
+`singular`メソッドは、単語を単数形に変換します。この関数は、[Laravelの複数形化機能により、どんな言語も](/docs/{{version}}/localization#pluralization-language)サポートしています。
 
     use Illuminate\Support\Str;
 

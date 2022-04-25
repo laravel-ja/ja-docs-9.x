@@ -837,14 +837,20 @@ havingBetween`メソッドを使うと、指定した範囲内の結果をフィ
         ['email' => 'janeway@example.com', 'votes' => 0],
     ]);
 
-`insertOrIgnore`メソッドは、データベースにレコードを挿入するときにエラーを無視します。
+`insertOrIgnore`メソッドは、データベースにレコードを挿入する際に、発生するエラーを無視します。このメソッドを使う場合は、重複したレコードのエラーが無視され、データベースエンジンにより他のタイプのエラーも無視されることを留意してください。たとえば、`insertOrIgnore`は、[MySQLのstrictモードをバイパスします](https://dev.mysql.com/doc/refman/en/sql-mode.html#ignore-effect-on-execution)。
 
     DB::table('users')->insertOrIgnore([
         ['id' => 1, 'email' => 'sisko@example.com'],
         ['id' => 2, 'email' => 'archer@example.com'],
     ]);
 
-> {note} `insertOrIgnore` は重複レコードを無視し、データベースエンジンにより他のタイプのエラーも無視します。たとえば、`insertOrIgnore`は [MySQLのstrictモードをバイパス]します(https://dev.mysql.com/doc/refman/en/sql-mode.html#ignore-effect-on-execution)。
+`insertUsing`メソッドは、サブクエリを使用して挿入するべきデータを判定しながら、テーブルに新しいレコードを挿入します。
+
+    DB::table('pruned_users')->insertUsing([
+        'id', 'name', 'email', 'email_verified_at'
+    ], DB::table('users')->select(
+        'id', 'name', 'email', 'email_verified_at'
+    )->where('updated_at', '<=', now()->subMonth()));
 
 <a name="auto-incrementing-ids"></a>
 #### 自動増分ID

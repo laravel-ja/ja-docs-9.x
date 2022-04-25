@@ -486,7 +486,7 @@ composer require symfony/postmark-mailer symfony/http-client
 
 #### 戻り値の変更
 
-`send`、` html`、 `text`、および` plain`メソッドは、メッセージを受信した受信者の数を返さなくしました。代わりに、`Illuminate\Mail\SentMessage`インスタンスを返します。このオブジェクトには、`getSymfonySentMessage`メソッドでアクセス、もしくはオブジェクトのメソッドを動的に呼び出すことでアクセスできる`Symfony\Component\Mailer\SentMessage`インスタンスが含まれています。
+`Illuminate\Mail\Mailer`の`send`、` html`、`text`、`plain`メソッドは、`void`を返さなくしました。代わりに、`Illuminate\Mail\SentMessage`インスタンスを返します。このオブジェクトには、`getSymfonySentMessage`メソッドでアクセス、もしくはオブジェクトのメソッドを動的に呼び出すことでアクセスできる`Symfony\Component\Mailer\SentMessage`インスタンスが含まれています。
 
 #### "Swift"メソッドの変更
 

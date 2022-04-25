@@ -21,6 +21,8 @@
 
 Breezeは、新しいLaravelアプリケーションを始めるための素晴らしい出発点となり、Bladeテンプレートを[Laravel Livewire](https://laravel-livewire.com)を使用し、レベルを上げる計画をしているプロジェクトにも最適な選択肢です。
 
+<img src="https://laravel.com/img/docs/breeze-register.png">
+
 <a name="laravel-breeze-installation"></a>
 ### インストール
 

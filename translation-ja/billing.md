@@ -47,6 +47,7 @@
 - [一回限りの支払い](#single-charges)
       - [シンプルな支払い](#simple-charge)
     - [インボイス付きの支払い](#charge-with-invoice)
+    - [支払いインテントの作成](#creating-payment-intents)
     - [支払いの払い戻し](#refunding-charges)
 - [支払い](#checkout)
     - [商品の支払い](#product-checkouts)
@@ -1458,8 +1459,6 @@ Webフックの検証を有効にするには、`STRIPE_WEBHOOK_SECRET`環境変
 <a name="simple-charge"></a>
 ### シンプルな支払い
 
-> {note} `charge`メソッドは、アプリケーションで使用する通貨の最小単位で請求する金額を受け入れます。たとえば、米ドルを使用する場合、金額はペニーで指定する必要があります。
-
 顧客に対して1回限りの請求を行う場合は、Billableなモデルインスタンスで`charge`メソッドを使用します。`charge`メソッドの２番目の引数として[支払い方法識別子を指定](#payment-methods-for-single-charges)する必要があります。
 
     use Illuminate\Http\Request;
@@ -1492,6 +1491,8 @@ Webフックの検証を有効にするには、`STRIPE_WEBHOOK_SECRET`環境変
         //
     }
 
+> {note} `charge`メソッドは、アプリケーションで使用する通貨の最小単位で支払い金額を指定します。例えば、顧客が米ドルで支払う場合、金額はペニーで指定する必要があります。
+
 <a name="charge-with-invoice"></a>
 ### インボイス付きの支払い
 
@@ -1522,6 +1523,37 @@ Webフックの検証を有効にするには、`STRIPE_WEBHOOK_SECRET`環境変
 `invoiceFor`メソッドを使用することもできますが、あらかじめ価格を設定し、`invoicePrice`メソッドや`tabPrice`メソッドの使用を推奨します。それにより、商品ごとの売上に関するより良い分析・データへ、Stripeのダッシュボードによりアクセスできます。
 
 > {note} `invoice`、`invoicePrice`、`invoiceFor`メソッドは、課金に失敗した場合に再試行する、Stripeインボイスを作成します。請求の失敗時に再試行したくない場合は、最初の請求が失敗した後に、Stripe APIを使用し、そのインボイスを閉じる必要があります。
+
+<a name="creating-payment-intents"></a>
+### 支払いインテントの作成
+
+Billableモデルのインスタンスで、`pay`メソッドを呼び出すと、新しいStripe支払いインテントを作成できます。このメソッドを呼び出すと、`Laravel\Cashier\Payment`インスタンスでラップした支払いインテントが作成されます。
+
+    use Illuminate\Http\Request;
+
+    Route::post('/pay', function (Request $request) {
+        $payment = $request->user()->pay(
+            $request->get('amount')
+        );
+
+        return $payment->client_secret;
+    });
+
+支払いインテントを作成したら、アプリケーションのフロントエンドへクライアントシークレットを返し、ユーザーにブラウザで支払いを完了してもらえます。Stripe支払いインテントを使った支払いフロー全体の構築は、[Stripeのドキュメント](https://stripe.com/docs/payments/accept-a-payment?platform=web)を参照してください。
+
+`pay`メソッドを使用すると、Stripeのダッシュボードで有効に設定されているデフォルト支払い方法を顧客が利用できるようになります。もしくは、特定の支払い方法のみを許可したい場合は、`payWith`メソッドを使用できます。
+
+    use Illuminate\Http\Request;
+
+    Route::post('/pay', function (Request $request) {
+        $payment = $request->user()->payWith(
+            $request->get('amount'), ['card', 'bancontact']
+        );
+
+        return $payment->client_secret;
+    });
+
+> {note} `pay`と`payWith`メソッドは、アプリケーションで使用する通貨の最小単位で支払額を引数に取ります。例えば、顧客が米ドルで支払う場合、金額はペニーで指定する必要があります。
 
 <a name="refunding-charges"></a>
 ### 支払の返金

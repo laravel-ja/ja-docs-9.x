@@ -171,6 +171,8 @@ cd example-app
 php artisan serve
 ```
 
+Artisan開発サーバを起動したら、`http://localhost:8000`でアプリケーションへアクセスできます。
+
 <a name="the-laravel-installer"></a>
 #### Laravelインストーラ
 

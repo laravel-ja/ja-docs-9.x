@@ -386,8 +386,8 @@ JSONレスポンスの指定パスに指定データが含まれていること�
 さらに、`hasAll`と`missingAll`メソッドは、複数の属性の有無を同時にアサートできます。
 
     $response->assertJson(fn (AssertableJson $json) =>
-        $json->hasAll('status', 'data')
-             ->missingAll('message', 'code')
+        $json->hasAll(['status', 'data'])
+             ->missingAll(['message', 'code'])
     );
 
 `hasAny`メソッドを使用して、指定する属性リスト中に少なくとも１つ存在しているか判断できます。

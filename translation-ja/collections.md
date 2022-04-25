@@ -1034,7 +1034,7 @@
 
     $result = $data->groupBy(['skill', function ($item) {
         return $item['roles'];
-    }], $preserveKeys = true);
+    }], preserveKeys: true);
 
     /*
     [

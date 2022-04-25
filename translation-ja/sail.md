@@ -416,7 +416,7 @@ SAIL_XDEBUG_MODE=develop,debug
 
 #### LinuxホストIP設定
 
-内部的には、`XDEBUG_CONFIG`環境変数は`client_host=host.docker.internal`として定義しているため、XdebugはMacとWindows(WSL2)用に正しく設定します。ローカルマシンがLinuxを実行している場合は、この環境変数を手作業で定義する必要があります。
+環境変数`XDEBUG_CONFIG`は、内部で`client_host=host.docker.internal`と定義されてため、XdebugはMacとWindows（WSL2）で適切に設定されます。ローカルマシンがLinuxの場合、Docker Engine17.06.0以上とCompose1.16.0以上が動作していることを確認してください。動作していない場合は、以下のようこの環境変数を手作業で定義する必要があります。
 
 まず、以下のコマンドを実行して、環境変数に追加する正しいホストIPアドレスを決定します。通常、`<container-name>`は、アプリケーションを提供するコンテナの名前であるべきで、多くの場合、`_laravel.test_1`で終わります。
 
