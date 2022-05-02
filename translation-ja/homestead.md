@@ -597,7 +597,7 @@ Homesteadは、Homestead仮想マシンが破壊されたときに、データ�
 
     backup: true
 
-設定が完了すると、Homesteadは、`vagrant destroy`コマンドの実行時に、データベースを`mysql_backup`もしくは`postgres_backup`ディレクトリにエクスポートします。これらのディレクトリは、Homesteadをインストールしたフォルダ、または[プロジェクトごとのインストール](#per-project-installation)メソッドを使用している場合はプロジェクトのルートにできます。
+設定が完了すると、Homesteadは、`vagrant destroy`コマンドの実行時に、データベースを`.backup/mysql_backup`もしくは`.backup/postgres_backup`ディレクトリにエクスポートします。これらのディレクトリは、Homesteadをインストールしたフォルダ、または[プロジェクトごとのインストール](#per-project-installation)メソッドを使用している場合はプロジェクトのルートにできます。
 
 <a name="configuring-cron-schedules"></a>
 ### cronスケジュールの設定
