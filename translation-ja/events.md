@@ -553,6 +553,12 @@ Laravelは、PHPのリフレクションサービスを使用してリスナク�
         }
     }
 
+条件付きでイベントをディスパッチしたい場合は、`dispatchIf`か`dispatchUnless`メソッドが使用できます。
+
+    OrderShipped::dispatchIf($condition, $order);
+
+    OrderShipped::dispatchUnless($condition, $order);
+
 > {tip} テスト時は、特定のイベントが実際にリスナを起動せずにディスパッチされたことを宣言できると役立つでしょう。Laravelの[組み込みのテストヘルパ](/docs/{{version}}/mocking#event-fake)で簡単にできます。
 
 <a name="event-subscribers"></a>

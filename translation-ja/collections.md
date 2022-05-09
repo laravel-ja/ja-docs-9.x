@@ -79,17 +79,19 @@
 コレクションドキュメントの残りの大部分は、`Collection`クラスで使用できる各メソッドについて説明します。これらのメソッドはすべて、基になる配列をスムースに操作するためチェーン化できることを忘れないでください。さらに、ほとんどすべてのメソッドが新しい`Collection`インスタンスを返すため、必要に応じて元のコレクションを保持できます。
 
 <style>
-    #collection-method-list > p {
-        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
-        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
+    .collection-method-list > p {
+        columns: 10.8em 3; -moz-columns: 10.8em 3; -webkit-columns: 10.8em 3;
     }
 
-    #collection-method-list a {
+    .collection-method-list a {
         display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 </style>
 
-<div id="collection-method-list" markdown="1">
+<div class="collection-method-list" markdown="1">
 
 [all](#method-all)
 [average](#method-average)
@@ -3351,6 +3353,7 @@ staticの`wrap`メソッドは適用可能であれば、指定値をコレク�
 [shuffle](#method-shuffle)
 [skip](#method-skip)
 [slice](#method-slice)
+[sole](#method-sole)
 [some](#method-some)
 [sort](#method-sort)
 [sortBy](#method-sortby)

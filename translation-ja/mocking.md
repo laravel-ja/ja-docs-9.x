@@ -479,18 +479,13 @@ Mailableの内容のテストと、Mailableが特定のユーザーへ「送信�
 <a name="on-demand-notifications"></a>
 #### オンデマンド通知
 
-テストしているコードが[オンデマンド通知](/docs/{{version}}/notifys#on-demand-notifications)を送信する場合は、通知が`Illuminate\Notifications\AnonymousNotifiable`インスタンスへ送信されたことをアサートする必要があります。
+テストしているコードが[オンデマンド通知](/docs/{{version}}/notifications#on-demand-notifications)を送る場合、`assertSentOnDemand`メソッドにより、そのオンデマンド通知が送られたことをテストできます。
 
-    use Illuminate\Notifications\AnonymousNotifiable;
+    Notification::assertSentOnDemand(OrderShipped::class);
 
-    Notification::assertSentTo(
-        new AnonymousNotifiable, OrderShipped::class
-    );
+`assertSentOnDemand`メソッドの第２引数にクロージャを渡し、オンデマンド通知が正しい「ルート(route)」アドレスへ送られたかを判定できます。
 
-通知アサーションメソッドの３番目の引数としてクロージャを渡すことにより、オンデマンド通知が正しい「ルート」アドレスに送信されたか判定できます。
-
-    Notification::assertSentTo(
-        new AnonymousNotifiable,
+    Notification::assertSentOnDemand(
         OrderShipped::class,
         function ($notification, $channels, $notifiable) use ($user) {
             return $notifiable->routes['mail'] === $user->email;

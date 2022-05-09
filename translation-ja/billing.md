@@ -160,7 +160,10 @@ CashierはLaravelに同梱されている`App\Models\User`クラスをBillable�
 ```ini
 STRIPE_KEY=your-stripe-key
 STRIPE_SECRET=your-stripe-secret
+STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
 ```
+
+> {note} アプリケーションの`.env`ファイルで、`STRIPE_WEBHOOK_SECRET`環境変数を確実に定義してください。この変数は、受け取ったWebhookが実際にStripeから送られたものであることを確認するために使用します。
 
 <a name="currency-configuration"></a>
 ### 通貨設定
@@ -665,11 +668,53 @@ Stripeがサポートしている[顧客](https://stripe.com/docs/api/customers/
          ->withCoupon('code')
          ->create($paymentMethod);
 
-また、[Stripeプロモーションコード](https://stripe.com/docs/billing/subscriptions/discounts/codes)を適用したい場合には、`withPromotionCode`メソッドを使用してください。指定するプロモーションコードIDは、プロモーションコードに割り当てたStripe API IDであり、顧客向けのプロモーションコードではありません。
+また、[Stripeプロモーションコード](https://stripe.com/docs/billing/subscriptions/discounts/codes)を適用したい場合には、`withPromotionCode`メソッドを使用してください。
 
     $user->newSubscription('default', 'price_monthly')
-         ->withPromotionCode('promo_code')
+         ->withPromotionCode('promo_code_id')
          ->create($paymentMethod);
+
+指定するプロモーションコードIDは、プロモーションコードに割り当てたStripe APIのIDであり、顧客向けのプロモーションコードにすべきでありません。もし、指定する顧客向けプロモーションコードに基づいた、プロモーションコードIDを見つける必要がある場合は、`findPromotionCode`メソッドを使用してください。
+
+    // 顧客向けコードにより、プロモーションコードを見つける
+    $promotionCode = $user->findPromotionCode('SUMMERSALE');
+
+    // 顧客向けコードにより、有効なプロモーションコードを見つける
+    $promotionCode = $user->findActivePromotionCode('SUMMERSALE');
+
+上の例で、返される`$promotionCode`オブジェクトは、`Laravel\Cashier\PromotionCode`インスタンスです。このクラスは、基礎となる`Stripe\PromotionCode`オブジェクトをデコレートしています。プロモーションコードに関連するクーポンは、`coupon`メソッドを呼び出すことで取得できます。
+
+    $coupon = $user->findPromotionCode('SUMMERSALE')->coupon();
+
+クーポンのインスタンスで、割引額と、固定割引／パーセントベース割引を判定できます。
+
+    if ($coupon->isPercentage()) {
+        return $coupon->percentOff().'%'; // 21.5%
+    } else {
+        return $coupon->amountOff(); // $5.99
+    }
+
+また、顧客やサブスクリプションへ現在適用している割引も取得できます。
+
+    $discount = $billable->discount();
+
+    $discount = $subscription->discount();
+
+返される`Laravel\Cashier\Discount`インスタンスは、基礎となる`Stripe\Discount`オブジェクトインスタンスをデコレートしています。この割引に関連するクーポンは、`coupon`メソッドを呼び出し、取得できます。
+
+    $coupon = $subscription->discount()->coupon();
+
+新しいクーポンやプロモーションコードを顧客やサブスクリプションへ適用したい場合は、`applyCoupon`か、`applyPromotionCode`メソッドにより、可能です。
+
+    $billable->applyCoupon('coupon_id');
+    $billable->applyPromotionCode('promotion_code_id');
+
+    $subscription->applyCoupon('coupon_id');
+    $subscription->applyPromotionCode('promotion_code_id');
+
+顧客側へ提示するプロモーションコードは使用せず、そのプロモーションコードに割り当てられたStripe APIのIDを使用していることに留意してください。クーポンやプロモーションコードは、一度に１つの顧客やサブスクリプションにのみ適用できます。
+
+この主題の詳細は、[クーポン](https://stripe.com/docs/billing/subscriptions/coupons)と[プロモーションコード](https://stripe.com/docs/billing/subscriptions/coupons/codes)に関する、Stripeのドキュメントを参照してください。
 
 <a name="adding-subscriptions"></a>
 #### サブスクリプションの追加

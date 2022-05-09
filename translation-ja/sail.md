@@ -202,7 +202,9 @@ sail yarn
 <a name="mysql"></a>
 ### MySQL
 
-お気づきかもしれませんが、アプリケーションの`docker-compose.yml`ファイルには、MySQLコンテナのエントリが含まれています。このコンテナは[Dockerボリューム](https://docs.docker.com/storage/volumes/)を使用しているため、コンテナを停止して再起動しても、データベースに保存されているデータは保持されます。また、MySQLコンテナの起動時に、名前が`DB_DATABASE`環境変数の値と一致するデータベースが存在することを確認します。
+お気づきかもしれませんが、アプリケーションの`docker-compose.yml`ファイルには、MySQLコンテナのエントリが含まれています。このコンテナは[Dockerボリューム](https://docs.docker.com/storage/volumes/)を使用しているため、コンテナを停止して再起動しても、データベースに保存されているデータは保持されます。
+
+さらに、MySQLコンテナの初回起動時に、２つのデータベースが作成されます。最初のデータベースは、環境変数`DB_DATABASE`の値で命名され、ローカル開発用に使用するものです。もうひとつは、`testing`という名前のテスト専用データベースで、テストが開発データに干渉しないようにするためのものです。
 
 コンテナを起動したら、アプリケーションの`.env`ファイル内の`DB_HOST`環境変数を`mysql`に設定することで、アプリケーション内のMySQLインスタンスに接続できます。
 
@@ -254,6 +256,12 @@ Sailの`test`コマンドは、`test` Artisanコマンドを実行するのと�
 
 ```shell
 sail artisan test
+```
+
+デフォルトでSailは、テストがデータベースの現在の状態に影響を与えないよう、専用の`testing`データベースを作成します。Laravelのデフォルトインストールは、Sailがテストを実行するときにこのデータベースを使用するように、`phpunit.xml`ファイルを構成します。
+
+```xml
+<env name="DB_DATABASE" value="testing"/>
 ```
 
 <a name="laravel-dusk"></a>
