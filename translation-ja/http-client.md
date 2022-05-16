@@ -14,6 +14,7 @@
 - [テスト](#testing)
     - [レスポンスのfake](#faking-responses)
     - [レスポンスの検査](#inspecting-requests)
+    - [行き先がないリクエストの防止](#preventing-stray-requests)
 - [イベント](#events)
 
 <a name="introduction"></a>
@@ -324,7 +325,7 @@ $response = Http::github()->get('/');
 <a name="testing"></a>
 ## テスト
 
-多くのLaravelサービスは、テストを簡単かつ表現力豊かに作成するのに役立つ機能を提供しています。LaravelのHTTPラッパーも例外ではありません。`Http`ファサードの`fake`メソッドを使用すると、リクエストが行われたときに、スタブ/ダミーレスポンスを返すようにHTTPクライアントに指示できます。
+Laravelの多くのサービスでは、テストを簡単かつ表現豊かに書くための機能を提供しており、HTTPクライアントも例外ではありません。`Http`ファサードの`fake`メソッドにより、リクエストが行われたときにスタブ/ダミーレスポンスを返すようにHTTPクライアントに指示できます。
 
 <a name="faking-responses"></a>
 ### レスポンスのfake
@@ -399,6 +400,25 @@ $response = Http::github()->get('/');
     Http::fake(function (Request $request) {
         return Http::response('Hello World', 200);
     });
+
+<a name="preventing-stray-requests"></a>
+### 行き先がないリクエストの防止
+
+HTTPクライアントから送信したすべてのリクエストを個々のテスト、またはテストスイート全体で確実にフェイクにしたい場合は、`preventStrayRequests`メソッドをコールします。このメソッドを呼び出すと、対応するフェイクレスポンスがないリクエストは、実際にHTTPリクエストを行うのではなく、例外を投げるようになります。
+
+    use Illuminate\Support\Facades\Http;
+
+    Http::preventStrayRequests();
+
+    Http::fake([
+        'github.com/*' => Http::response('ok'),
+    ]);
+
+    // "ok"レスポンスが返される
+    Http::get('https://github.com/laravel/framework');
+
+    // 例外が投げられる
+    Http::get('https://laravel.com');
 
 <a name="inspecting-requests"></a>
 ### レスポンスの検査

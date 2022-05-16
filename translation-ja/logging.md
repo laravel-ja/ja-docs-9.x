@@ -206,7 +206,7 @@ PHPやLaravelなどのライブラリは、その機能の一部が非推奨と�
 
     Log::info('User failed to login.', ['id' => $user->id]);
 
-後続のすべてのログエントリに含めるコンテキスト情報を指定したい場合もあるでしょう。例えば、アプリケーションに入ってくる各リクエストに関連付けたリクエストIDをログに記録したい場合があります。実現するには、`Log`ファサードの`withContext`メソッドを呼び出してください。
+特定のチャンネルで、後に続くすべてのログエントリに含まれるコンテキスト情報を指定したい場合もあるでしょう。例えば、アプリケーションに入ってくる各リクエストに関連付けたリクエストIDをログに記録したい場合があります。これを行うには、`Log`ファサードの`withContext`メソッドを呼び出します。
 
     <?php
 
@@ -234,6 +234,26 @@ PHPやLaravelなどのライブラリは、その機能の一部が非推奨と�
             ]);
 
             return $next($request)->header('Request-Id', $requestId);
+        }
+    }
+
+もし、*すべて*のログ収集チャンネルでコンテキスト情報を共有したい場合は、`Log::shareContext()`メソッドを呼び出してください。このメソッドは、作成したすべてのチャンネルと、以降に作成するすべてのチャンネルへ、コンテキスト情報を提供します。通常、`shareContext`メソッドは、アプリケーションサービスプロバイダの`boot`メソッドから呼び出すべきでしょう。
+
+    use Illuminate\Support\Facades\Log;
+    use Illuminate\Support\Str;
+
+    class AppServiceProvider
+    {
+        /**
+         * 全アプリケーションサービスの初期起動処理
+         *
+         * @return void
+         */
+        public function boot()
+        {
+            Log::shareContext([
+                'invocation-id' => (string) Str::uuid(),
+            ]);
         }
     }
 

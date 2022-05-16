@@ -154,11 +154,19 @@ php artisan make:notification InvoicePaid
 
     $user->notify(new InvoicePaid($invoice));
 
+通知をキュー投入する場合、受信者とチャンネルの組み合わせごとにジョブを作成し、投入します。例えば、通知が3人の受信者と2つのチャンネルを持つ場合、６つのジョブをキューへディスパッチします。
+
+<a name="delaying-notifications"></a>
+#### 遅延通知
+
 通知の配信を遅らせたい場合、`delay`メソッドを通知のインスタンスへチェーンしてください。
 
     $delay = now()->addMinutes(10);
 
     $user->notify((new InvoicePaid($invoice))->delay($delay));
+
+<a name="delaying-notifications-per-channel"></a>
+#### チャンネルごとの遅延通知
 
 特定のチャンネルの遅​​延量を指定するため、配列を`delay`メソッドに渡せます。
 
@@ -167,7 +175,21 @@ php artisan make:notification InvoicePaid
         'sms' => now()->addMinutes(10),
     ]));
 
-通知をキューへ投入すると、受信者とチャンネルの組み合わせごとにキュー投入済みジョブが作成されます。たとえば、通知に３つの受信者と２つのチャンネルがある場合、６つのジョブがキューにディスパッチされます。
+あるいは、Notificationクラス自体に`withDelay`メソッドを定義することもできます。`withDelay`メソッドは、チャンネル名と遅延値の配列を返す必要があります。
+
+    /**
+     * 通知の送信遅延を決める
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function withDelay($notifiable)
+    {
+        return [
+            'mail' => now()->addMinutes(5),
+            'sms' => now()->addMinutes(10),
+        ];
+    }
 
 <a name="customizing-the-notification-queue-connection"></a>
 #### 通知キュー接続のカスタマイズ

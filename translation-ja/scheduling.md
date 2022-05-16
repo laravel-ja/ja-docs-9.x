@@ -262,6 +262,8 @@ php artisan schedule:list
 
     $schedule->command('emails:send')->withoutOverlapping(10);
 
+`withoutOverlapping`メソッドは、動作の裏でアプリケーションの[キャッシュ](/docs/{{version}}/cache)を利用してロックを取得します。必要であれば、`schedule:clear-cache` Artisanコマンドを使用して、これらのキャッシュ・ロックを解除できます。これは通常、予期しないサーバの問題でタスクがスタックした場合のみ必要です。
+
 <a name="running-tasks-on-one-server"></a>
 ### 単一サーバ上でのタスク実行
 
