@@ -927,7 +927,7 @@ php artisan migrate:fresh --seed
         }
     };
 
-> {note} デフォルト式のサポートは、データベースドライバ、データベースバージョン、およびフィールドタイプによって異なります。データベースのドキュメントを参照してください。
+> {note} デフォルト式のサポートは、データベースドライバ、データベースバージョン、およびフィールドタイプによって異なります。データベースのドキュメントを参照してください。また、`change`メソッドを用い、`DB::raw`を使う生の`default`表現とカラム変更を組み合わせることはできません。
 
 <a name="column-order"></a>
 #### カラム順序
@@ -1194,4 +1194,3 @@ Laravelは、データベースレベルで参照整合性を強制するため�
 | `Illuminate\Database\Events\MigrationEnded` | 単一マイグレーションが実行終了した |
 | `Illuminate\Database\Events\SchemaDumped` | データベーススキマのダンプが終了した |
 | `Illuminate\Database\Events\SchemaLoaded` | 既存のデータベーススキマのダンプをロードした |
-

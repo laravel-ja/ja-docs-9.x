@@ -1325,6 +1325,16 @@ Cashierは、顧客が非課税であるかどうかを判断するために、`
 
     $user->subscription('default')->endTrial();
 
+既存のトライアル期間が切れているかを判断するには、`hasExpiredTrial`メソッドを使用します。
+
+    if ($user->hasExpiredTrial('default')) {
+        //
+    }
+
+    if ($user->subscription('default')->hasExpiredTrial()) {
+        //
+    }
+
 <a name="defining-trial-days-in-stripe-cashier"></a>
 #### ストライプ／Cashierでの無料トライアル日数の定義
 

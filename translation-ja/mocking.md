@@ -464,6 +464,9 @@ Mailableの内容のテストと、Mailableが特定のユーザーへ「送信�
             Notification::assertNotSentTo(
                 [$user], AnotherNotification::class
             );
+
+            // 指定した数の通知が送信されたことをアサート
+            Notification::assertCount(3);
         }
     }
 

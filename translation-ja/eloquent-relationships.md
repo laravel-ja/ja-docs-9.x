@@ -1229,7 +1229,7 @@ Eloquentリレーションクエリへ制約を追加する必要がない場合
 <a name="inline-relationship-existence-queries"></a>
 #### インライン関係存在クエリ
 
-リレーションのクエリに付加する単純な１つの条件で、リレーションの存在をクエリしたい場合は、`whereRelation`と`whereMorphRelation`メソッドを使用するのが便利です。例として、承認されていないコメントを持つすべての投稿を照会してみましょう。
+リレーションのクエリに付加する単純な１つの条件で、リレーションの存在をクエリしたい場合は、`whereRelation`、`orWhereRelation`、`whereMorphRelation`、`orWhereMorphRelation`メソッドを使用するのが便利です。例として、承認されていないコメントを持つすべての投稿を照会してみましょう。
 
     use App\Models\Post;
 

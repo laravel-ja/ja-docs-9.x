@@ -1219,8 +1219,8 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
         'airports' => [
             'required',
             'array',
-            Rule::in(['NYC', 'LIT']),
         ],
+        'airports.*' => Rule::in(['NYC', 'LIT']),
     ]);
 
 <a name="rule-in-array"></a>

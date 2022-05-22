@@ -212,6 +212,7 @@
 [unlessEmpty](#method-unlessempty)
 [unlessNotEmpty](#method-unlessnotempty)
 [unwrap](#method-unwrap)
+[value](#method-value)
 [values](#method-values)
 [when](#method-when)
 [whenEmpty](#method-whenempty)
@@ -2790,6 +2791,20 @@ staticの`unwrap`メソッドは適用可能な場合、指定値からコレク
     Collection::unwrap('John Doe');
 
     // 'John Doe'
+
+<a name="method-value"></a>
+#### `value()` {.collection-method}
+
+`value`メソッドは、コレクション内の最初の要素から、指定した値を取得します。
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Speaker', 'price' => 400],
+    ]);
+
+    $value = $collection->value('price');
+
+    // 200
 
 <a name="method-values"></a>
 #### `values()` {.collection-method}
