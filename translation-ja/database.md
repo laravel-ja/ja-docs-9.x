@@ -231,7 +231,7 @@ SELECTステートメントに１つのデータベース接続を使用し、IN
 
     use Illuminate\Support\Facades\DB;
 
-    $users = DB::connection('sqlite')->select(...);
+    $users = DB::connection('sqlite')->select(/* ... */);
 
 接続インスタンスで`getPdo`メソッドを使用して、接続の基になる素のPDOインスタンスにアクセスできます。
 

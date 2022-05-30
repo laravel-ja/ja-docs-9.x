@@ -80,7 +80,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  *
  * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
-public function address(): Attribute
+protected function address(): Attribute
 {
     return Attribute::make(
         get: fn ($value, $attributes) => new Address(
@@ -108,7 +108,7 @@ public function address(): Attribute
 しかし、文字列やブーリアンなどのプリミティブな値については、特に計算量が多い場合、キャッシュを有効にしたい場合が起きます。その場合は、アクセサを定義するときに、`shouldCache`メソッドを呼び出してください。
 
 ```php
-public function hash(): Attribute
+protected function hash(): Attribute
 {
     return Attribute::make(
         get: fn ($value) => bcrypt(gzuncompress($value)),
@@ -124,7 +124,7 @@ public function hash(): Attribute
  *
  * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
-public function address(): Attribute
+protected function address(): Attribute
 {
     return Attribute::make(
         get: fn ($value, $attributes) => new Address(
@@ -188,7 +188,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  *
  * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
-public function address(): Attribute
+protected function address(): Attribute
 {
     return Attribute::make(
         get: fn ($value, $attributes) => new Address(

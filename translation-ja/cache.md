@@ -141,7 +141,7 @@ Redisの設定の詳細については、[Laravelドキュメントページ](/d
 デフォルト値としてクロージャを渡すこともできます。指定されたアイテムがキャッシュに存在しない場合、クロージャの結果が返されます。クロージャを渡すことで、データベースまたは他の外部サービスからのデフォルト値の取得を延期できるようになります。
 
     $value = Cache::get('key', function () {
-        return DB::table(...)->get();
+        return DB::table(/* ... */)->get();
     });
 
 <a name="checking-for-item-existence"></a>

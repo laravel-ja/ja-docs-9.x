@@ -622,7 +622,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // ...
 
@@ -660,7 +660,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // ...
 
@@ -713,7 +713,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // ポッドキャストの生成
 
@@ -775,7 +775,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
         new ProcessPodcast,
         new OptimizePodcast,
         function () {
-            Podcast::update(...);
+            Podcast::update(/* ... */);
         },
     ])->dispatch();
 
@@ -835,7 +835,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // ポッドキャストの生成
 
@@ -894,7 +894,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // ポッドキャストの生成
 

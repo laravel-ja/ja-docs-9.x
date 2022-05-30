@@ -406,6 +406,6 @@ Monologのインスタンス化と設定を完全に制御する、完全なカ�
          */
         public function __invoke(array $config)
         {
-            return new Logger(...);
+            return new Logger(/* ... */);
         }
     }

@@ -987,7 +987,7 @@ Laravelは様々なメールトランスポートを用意していますが、L
     public function boot()
     {
         Mail::extend('mailchimp', function (array $config = []) {
-            return new MailchimpTransport(...);
+            return new MailchimpTransport(/* ... */);
         })
     }
 

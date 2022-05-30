@@ -51,8 +51,8 @@ npm -v
 [Nodeの公式ウェブサイト](https://nodejs.org/en/download/)から簡単なグラフィカルインストーラを使用して、最新バージョンのNodeとNPMを簡単にインストールできます。または、[Laravel Sail](/docs/{{version}}/sale)を使用している場合は、Sailを介してNodeとNPMを呼び出すことができます。
 
 ```shell
-./sail node -v
-./sail npm -v
+./vendor/bin/sail node -v
+./vendor/bin/sail npm -v
 ```
 
 <a name="installing-laravel-mix"></a>

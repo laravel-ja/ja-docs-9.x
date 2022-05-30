@@ -269,6 +269,14 @@ php artisan migrate:fresh --seed
         // ...
     });
 
+データベースのテーブルへ「コメント」を追加したい場合は、テーブルのインスタンスに対し`comment`メソッドを呼び出してください。テーブルコメントは現在、MySQLとPostgresでのみサポートしています。
+
+    Schema::create('calculations', function (Blueprint $table) {
+        $table->comment('Business calculations');
+
+        // ...
+    });
+
 <a name="updating-tables"></a>
 ### テーブルの更新
 

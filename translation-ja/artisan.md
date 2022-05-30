@@ -43,7 +43,7 @@ php artisan help migrate
 ローカル開発環境として[Laravel Sail](/docs/{{version}}/sale)を使用している場合は、必ず`sail`コマンドラインを使用してArtisanコマンドを呼び出してください。Sailは、アプリケーションのDockerコンテナ内でArtisanコマンドを実行します。
 
 ```shell
-./sail artisan list
+./vendor/bin/sail artisan list
 ```
 
 <a name="tinker"></a>

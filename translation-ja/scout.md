@@ -8,6 +8,7 @@
     - [モデルインデックスの設定](#configuring-model-indexes)
     - [検索可能データの設定](#configuring-searchable-data)
     - [モデルIDの設定](#configuring-the-model-id)
+    - [モデルごとのサーチエンジン設定](#configuring-search-engines-per-model)
     - [ユーザーの識別](#identifying-users)
 - [データベース／コレクションエンジン](#database-and-collection-engines)
     - [データベースエンジン](#database-engine)
@@ -209,6 +210,34 @@ MeiliSearchの詳細については、[MeiliSearchのドキュメント](https:/
         }
     }
 
+<a name="configuring-search-engines-per-model"></a>
+### モデルごとのサーチエンジン設定
+
+検索時、Scoutはアプリケーションの`scout`設定ファイルで指定したデフォルト検索エンジンを通常使用します。しかし、特定モデルの検索エンジンを変更したい場合は、そのモデルの`searchableUsing`メソッドをオーバーライドしてください。
+
+    <?php
+
+    namespace App\Models;
+
+    use Illuminate\Database\Eloquent\Model;
+    use Laravel\Scout\EngineManager;
+    use Laravel\Scout\Searchable;
+
+    class User extends Model
+    {
+        use Searchable;
+
+        /**
+         * Get the engine used to index the model.
+         *
+         * @return \Laravel\Scout\Engines\Engine
+         */
+        public function searchableUsing()
+        {
+            return app(EngineManager::class)->engine('meilisearch');
+        }
+    }
+
 <a name="identifying-users"></a>
 ### ユーザーの識別
 
@@ -226,7 +255,7 @@ SCOUT_IDENTIFY=true
 <a name="database-engine"></a>
 ### データベースエンジン
 
-> {note} The database engine currently supports MySQL and PostgreSQL.
+> {note} 現在、データベースエンジンは、MySQLとPostgreSQLをサポートしています。
 
 中規模のデータベースとやり取りするしたり、作業負荷が軽いアプリケーションでは、Scoutの「データベース」エンジンで始めるのが便利でしょう。データベースエンジンは、既存のデータベースから結果をフィルタリングする際に、「where like」句と全文インデックスを使用して、クエリの検索結果を決定します。
 

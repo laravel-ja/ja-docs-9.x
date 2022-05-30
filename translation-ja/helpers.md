@@ -50,6 +50,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Arr::only](#method-array-only)
 [Arr::pluck](#method-array-pluck)
 [Arr::prepend](#method-array-prepend)
+[Arr::prependKeysWith](#method-array-prependkeyswith)
 [Arr::pull](#method-array-pull)
 [Arr::query](#method-array-query)
 [Arr::random](#method-array-random)
@@ -710,6 +711,27 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
     $array = Arr::prepend($array, 'Desk', 'name');
 
     // ['name' => 'Desk', 'price' => 100]
+
+<a name="method-array-prependkeyswith"></a>
+#### `Arr::prependKeysWith()` {.collection-method}
+
+`Arr::prependKeysWith`は、連想配列のすべてのキー名の前に、指定したプレフィックスを付加します。
+
+    use Illuminate\Support\Arr;
+
+    $array = [
+        'name' => 'Desk',
+        'price' => 100,
+    ];
+
+    $keyed = Arr::prependKeysWith($array, 'product.');
+
+    /*
+        [
+            'product.name' => 'Desk',
+            'product.price' => 100,
+        ]
+    */
 
 <a name="method-array-pull"></a>
 #### `Arr::pull()` {.collection-method}
