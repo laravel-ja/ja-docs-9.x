@@ -8,6 +8,7 @@
     - [バリデーションエラー表示](#quick-displaying-the-validation-errors)
     - [フォームの再取得](#repopulating-forms)
     - [オプションフィールドに対する注意](#a-note-on-optional-fields)
+    - [バリデーションエラーのレスポンス形式](#validation-error-response-format)
 - [フォームリクエストバリデーション](#form-request-validation)
     - [フォームリクエスト作成](#creating-form-requests)
     - [フォームリクエストの認可](#authorizing-form-requests)
@@ -99,7 +100,7 @@ Laravelの強力なバリデーション機能について学ぶため、フォ�
 
 これで、新しいブログ投稿をバリデーションするロジックを`store`メソッドに入力する準備が整いました。これを行うには、`Illuminate\Http\Request`オブジェクトによって提供される`validate`メソッドを使用します。バリデーションルールにパスすると、コードは正常に実行され続けます。しかし、バリデーションに失敗すると`Illuminate\Validation\ValidationException`例外が投げられ、適切なエラーレスポンスが自動的にユーザーに返送されます。
 
-伝統的なHTTPリクエスト処理中にバリデーションが失敗した場合、直前のURLへのリダイレクトレスポンスが生成されます。受信リクエストがXHRリクエストの場合、バリデーションエラーメッセージを含むJSONレスポンスが返されます。
+伝統的なHTTPリクエスト処理中にバリデーションが失敗した場合、直前のURLへのリダイレクトレスポンスが生成されます。受信リクエストがXHRリクエストの場合、[バリデーションエラーメッセージを含むJSONレスポンス](#validation-error-response-format)が返されます。
 
 `validate`メソッドをもっとよく理解するため、`store`メソッドに取り掛かりましょう。
 
@@ -202,7 +203,7 @@ Laravelの組み込みバリデーションルールは、それぞれエラー�
 <a name="quick-xhr-requests-and-validation"></a>
 #### XHRリクエストとバリデーション
 
-この例では、従来のフォームを使用してデータをアプリケーションに送信しました。ただし、多くのアプリケーションは、JavaScriptを利用したフロントエンドからXHRリクエストを受信します。XHRリクエスト中に`validate`メソッドを使用すると、Laravelはリダイレクト応答を生成しません。代わりに、Laravelはすべてのバリデーションエラーを含むJSONレスポンスを生成します。このJSONレスポンスは、422 HTTPステータスコードとともに送信されます。
+この例では、従来のフォームを使用してデータをアプリケーションに送信しました。ただし、多くのアプリケーションは、JavaScriptを利用したフロントエンドからXHRリクエストを受信します。XHRリクエスト中に`validate`メソッドを使用すると、Laravelはリダイレクト応答を生成しません。代わりに、Laravelは[すべてのバリデーションエラーを含むJSONレスポンス](#validation-error-response-format)を生成します。このJSONレスポンスは、422 HTTPステータスコードとともに送信されます。
 
 <a name="the-at-error-directive"></a>
 #### `@error`ディレクティブ
@@ -258,6 +259,34 @@ Laravelは`TrimStrings`と`ConvertEmptyStringsToNull`ミドルウェアをアプ
 
 上記の例の場合、`publish_at`フィールドが`null`か、有効な日付表現であることを指定しています。ルール定義に`nullable`が追加されないと、バリデータは`null`を無効な日付として判定します。
 
+<a name="validation-error-response-format"></a>
+### バリデーションエラーのレスポンス形式
+
+受信HTTPリクエストがJSONレスポンスを期待しており、アプリケーションが`Illuminate\Validation\ValidationException`例外を投げる場合、Laravelは自動的にエラーメッセージをフォーマットして、`422 Unprocessable Entity` HTTPレスポンスを返します。
+
+以下に、バリデーションエラーのJSONレスポンスフォーマット例を示します。ネストしたエラーのキーは、「ドット」記法で１次元化されることに注意してください。
+
+```json
+{
+    "message": "The team name must be a string. (and 4 more errors)",
+    "errors": {
+        "team_name": [
+            "The team name must be a string.",
+            "The team name must be at least 1 characters."
+        ],
+        "authorization.role": [
+            "The selected authorization.role is invalid."
+        ],
+        "users.0.email": [
+            "The users.0.email field is required."
+        ],
+        "users.2.email": [
+            "The users.2.email must be a valid email address."
+        ]
+    }
+}
+```
+
 <a name="form-request-validation"></a>
 ## フォームリクエストバリデーション
 
@@ -309,7 +338,7 @@ php artisan make:request StorePostRequest
         $validated = $request->safe()->except(['name', 'email']);
     }
 
-バリデーションが失敗した場合、リダイレクトレスポンスが生成され、ユーザーを直前の場所に送り返します。エラーもセッ​​ションに一時保持され、表示できます。リクエストがXHRリクエストの場合、バリデーションエラーのJSON表現を含む422ステータスコードのHTTPレスポンスがユーザーに返されます。
+バリデーションが失敗した場合、リダイレクトレスポンスが生成され、ユーザーを直前の場所に送り返します。エラーもセッ​​ションに一時保持され、表示できます。リクエストがXHRリクエストの場合、422ステータスコードで、[バリデーションエラーのJSON表現を含むHTTPレスポンス](#validation-error-response-format)がユーザーに返されます。
 
 <a name="adding-after-hooks-to-form-requests"></a>
 #### フォームリクエストへのAfterフックを追加
@@ -522,7 +551,7 @@ Laravelの組み込みバリデーションルールエラーメッセージの�
 <a name="automatic-redirection"></a>
 ### 自動リダイレクト
 
-バリデータインスタンスを手作業で作成するが、HTTPリクエストの`validate`メソッドによって提供される自動リダイレクトを利用したい場合は、既存のバリデータインスタンスで`validate`メソッドを呼び出すことができます。バリデーションが失敗した場合、ユーザーは自動的にリダイレクトされます。XHRリクエストの場合は、JSONレスポンスが返されます。
+バリデータインスタンスを手作業で作成するが、HTTPリクエストの`validate`メソッドによって提供される自動リダイレクトを利用したい場合は、既存のバリデータインスタンスで`validate`メソッドを呼び出すことができます。バリデーションが失敗した場合、ユーザーは自動的にリダイレクトされます。XHRリクエストの場合は、[JSONレスポンスが返されます](#validation-error-response-format)。
 
     Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
@@ -994,12 +1023,12 @@ The credit card number field is required when payment type is credit card.
 <a name="rule-digits"></a>
 #### digits:_値_
 
-フィールドが**数値**で、**値**の桁数であることをバリデートします。
+フィールドが整数で、**値**の桁数であることをバリデートします。
 
 <a name="rule-digits-between"></a>
 #### digits_between:_最小値_,_最大値_
 
-フィールドが**整数で**、桁数が**最小値**から**最大値**の間であることをバリデートします。
+フィールドが整数で、桁数が**最小値**から**最大値**の間であることをバリデートします。
 
 <a name="rule-dimensions"></a>
 #### dimensions

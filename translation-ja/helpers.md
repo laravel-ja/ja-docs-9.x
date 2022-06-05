@@ -45,8 +45,10 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Arr::hasAny](#method-array-hasany)
 [Arr::isAssoc](#method-array-isassoc)
 [Arr::isList](#method-array-islist)
+[Arr::join](#method-array-join)
 [Arr::keyBy](#method-array-keyby)
 [Arr::last](#method-array-last)
+[Arr::map](#method-array-map)
 [Arr::only](#method-array-only)
 [Arr::pluck](#method-array-pluck)
 [Arr::prepend](#method-array-prepend)
@@ -112,6 +114,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Str::headline](#method-str-headline)
 [Str::is](#method-str-is)
 [Str::isAscii](#method-str-is-ascii)
+[Str::isJson](#method-str-is-json)
 [Str::isUuid](#method-str-is-uuid)
 [Str::kebab](#method-kebab-case)
 [Str::lcfirst](#method-str-lcfirst)
@@ -185,6 +188,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [isAscii](#method-fluent-str-is-ascii)
 [isEmpty](#method-fluent-str-is-empty)
 [isNotEmpty](#method-fluent-str-is-not-empty)
+[isJson](#method-fluent-str-is-json)
 [isUuid](#method-fluent-str-is-uuid)
 [kebab](#method-fluent-str-kebab)
 [lcfirst](#method-fluent-str-lcfirst)
@@ -610,6 +614,23 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 
     // false
 
+<a name="method-array-join"></a>
+#### `Arr::join()` {.collection-method}
+
+`Arr::join`メソッドは、配列の要素を文字列として結合します。このメソッドに第２引数を使用し、配列の最後の要素前に挿入する文字列を指定できます。
+
+    use Illuminate\Support\Arr;
+
+    $array = ['Tailwind', 'Alpine', 'Laravel', 'Livewire'];
+
+    $joined = Arr::join($array, ', ');
+
+    // Tailwind, Alpine, Laravel, Livewire
+
+    $joined = Arr::join($array, ', ', ' and ');
+
+    // Tailwind, Alpine, Laravel and Livewire
+
 <a name="method-array-keyby"></a>
 #### `Arr::keyBy()` {.collection-method}
 
@@ -651,6 +672,21 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
     use Illuminate\Support\Arr;
 
     $last = Arr::last($array, $callback, $default);
+
+<a name="method-array-map"></a>
+#### `Arr::map()` {.collection-method}
+
+`Arr::map`メソッドは配列を繰り返し処理し、それぞれの値とキーを指定したコールバックへ渡します。配列の値は、コールバックの返却値で置き換えます。
+
+    use Illuminate\Support\Arr;
+
+    $array = ['first' => 'james', 'last' => 'kirk'];
+
+    $mapped = Arr::map($array, function ($value, $key) {
+        return ucfirst($value);
+    });
+
+    // ['first' => 'James', 'last' => 'Kirk']
 
 <a name="method-array-only"></a>
 #### `Arr::only()` {.collection-method}
@@ -1435,6 +1471,25 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
     // true
 
     $isAscii = Str::isAscii('ü');
+
+    // false
+
+<a name="method-str-is-json"></a>
+#### `Str::isJson()` {.collection-method}
+
+`Str::isJson`メソッドは、指定文字列が有効なJSONであるかを判定します。
+
+    use Illuminate\Support\Str;
+
+    $result = Str::isJson('[1,2,3]');
+
+    // true
+
+    $result = Str::isJson('{"first": "John", "last": "Doe"}');
+
+    // true
+
+    $result = Str::isJson('{first: "John", last: "Doe"}');
 
     // false
 
@@ -2321,6 +2376,25 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
     $result = Str::of('Laravel')->trim()->isNotEmpty();
 
     // true
+
+<a name="method-fluent-str-is-json"></a>
+#### `isJson` {.collection-method}
+
+`isJson`メソッドは、指定文字列が有効なJSONであるかを判定します。
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('[1,2,3]')->isJson();
+
+    // true
+
+    $result = Str::of('{"first": "John", "last": "Doe"}')->isJson();
+
+    // true
+
+    $result = Str::of('{first: "John", last: "Doe"}')->isJson();
+
+    // false
 
 <a name="method-fluent-str-is-uuid"></a>
 #### `isUuid` {.collection-method}
@@ -3622,7 +3696,7 @@ Str::of('Hello, world!')->wordCount(); // 2
 
     return retry(5, function () {
         // ...
-    }, function ($attempt) {
+    }, function ($attempt, $exception) {
         return $attempt * 100;
     });
 

@@ -146,6 +146,12 @@ php artisan route:list -v
 php artisan route:list --except-vendor
 ```
 
+同様に、`route:list`コマンドを実行するときに、`--only-vendor`オプションを指定し、サードパーティーのパッケージが定義したルートだけを表示できます。
+
+```shell
+php artisan route:list --only-vendor
+```
+
 <a name="route-parameters"></a>
 ## ルートパラメータ
 

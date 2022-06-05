@@ -45,8 +45,10 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Arr::hasAny](#method-array-hasany)
 [Arr::isAssoc](#method-array-isassoc)
 [Arr::isList](#method-array-islist)
+[Arr::join](#method-array-join)
 [Arr::keyBy](#method-array-keyby)
 [Arr::last](#method-array-last)
+[Arr::map](#method-array-map)
 [Arr::only](#method-array-only)
 [Arr::pluck](#method-array-pluck)
 [Arr::prepend](#method-array-prepend)
@@ -112,6 +114,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::headline](#method-str-headline)
 [Str::is](#method-str-is)
 [Str::isAscii](#method-str-is-ascii)
+[Str::isJson](#method-str-is-json)
 [Str::isUuid](#method-str-is-uuid)
 [Str::kebab](#method-kebab-case)
 [Str::lcfirst](#method-str-lcfirst)
@@ -185,6 +188,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [isAscii](#method-fluent-str-is-ascii)
 [isEmpty](#method-fluent-str-is-empty)
 [isNotEmpty](#method-fluent-str-is-not-empty)
+[isJson](#method-fluent-str-is-json)
 [isUuid](#method-fluent-str-is-uuid)
 [kebab](#method-fluent-str-kebab)
 [lcfirst](#method-fluent-str-lcfirst)
@@ -610,6 +614,23 @@ The `Arr::isList` method returns `true` if the given array's keys are sequential
 
     // false
 
+<a name="method-array-join"></a>
+#### `Arr::join()` {.collection-method}
+
+The `Arr::join` method joins array elements with a string. Using this method's second argument, you may also specify the joining string for the final element of the array:
+
+    use Illuminate\Support\Arr;
+
+    $array = ['Tailwind', 'Alpine', 'Laravel', 'Livewire'];
+
+    $joined = Arr::join($array, ', ');
+
+    // Tailwind, Alpine, Laravel, Livewire
+
+    $joined = Arr::join($array, ', ', ' and ');
+
+    // Tailwind, Alpine, Laravel and Livewire
+
 <a name="method-array-keyby"></a>
 #### `Arr::keyBy()` {.collection-method}
 
@@ -651,6 +672,21 @@ A default value may be passed as the third argument to the method. This value wi
     use Illuminate\Support\Arr;
 
     $last = Arr::last($array, $callback, $default);
+
+<a name="method-array-map"></a>
+#### `Arr::map()` {.collection-method}
+
+The `Arr::map` method iterates through the array and passes each value and key to the given callback. The array value is replaced by the value returned by the callback:
+
+    use Illuminate\Support\Arr;
+
+    $array = ['first' => 'james', 'last' => 'kirk'];
+
+    $mapped = Arr::map($array, function ($value, $key) {
+        return ucfirst($value);
+    });
+
+    // ['first' => 'James', 'last' => 'Kirk']
 
 <a name="method-array-only"></a>
 #### `Arr::only()` {.collection-method}
@@ -1435,6 +1471,25 @@ The `Str::isAscii` method determines if a given string is 7 bit ASCII:
     // true
 
     $isAscii = Str::isAscii('ü');
+
+    // false
+
+<a name="method-str-is-json"></a>
+#### `Str::isJson()` {.collection-method}
+
+The `Str::isJson` method determines if the given string is valid JSON:
+
+    use Illuminate\Support\Str;
+
+    $result = Str::isJson('[1,2,3]');
+
+    // true
+
+    $result = Str::isJson('{"first": "John", "last": "Doe"}');
+
+    // true
+
+    $result = Str::isJson('{first: "John", last: "Doe"}');
 
     // false
 
@@ -2321,6 +2376,25 @@ The `isNotEmpty` method determines if the given string is not empty:
     $result = Str::of('Laravel')->trim()->isNotEmpty();
 
     // true
+
+<a name="method-fluent-str-is-json"></a>
+#### `isJson` {.collection-method}
+
+The `isJson` method determines if a given string is valid JSON:
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('[1,2,3]')->isJson();
+
+    // true
+
+    $result = Str::of('{"first": "John", "last": "Doe"}')->isJson();
+
+    // true
+
+    $result = Str::of('{first: "John", last: "Doe"}')->isJson();
+
+    // false
 
 <a name="method-fluent-str-is-uuid"></a>
 #### `isUuid` {.collection-method}
@@ -3622,7 +3696,7 @@ If you would like to manually calculate the number of milliseconds to sleep betw
 
     return retry(5, function () {
         // ...
-    }, function ($attempt) {
+    }, function ($attempt, $exception) {
         return $attempt * 100;
     });
 
