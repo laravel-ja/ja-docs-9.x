@@ -1676,9 +1676,15 @@ staticの`make`メソッドは、新しいコレクションインスタンス�
 
     $collection = collect([
         [
+            'name' => 'Laracon',
             'speakers' => [
                 'first_day' => ['Rosa', 'Judith'],
-                'second_day' => ['Angela', 'Kathleen'],
+            ],
+        ],
+        [
+            'name' => 'VueConf',
+            'speakers' => [
+                'first_day' => ['Abigail', 'Joey'],
             ],
         ],
     ]);
@@ -1687,7 +1693,7 @@ staticの`make`メソッドは、新しいコレクションインスタンス�
 
     $plucked->all();
 
-    // ['Rosa', 'Judith']
+    // [['Rosa', 'Judith'], ['Abigail', 'Joey']]
 
 重複するキーが存在している場合は、最後に一致した要素が結果のコレクションへ挿入されます。
 

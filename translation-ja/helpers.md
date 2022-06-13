@@ -176,6 +176,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [between](#method-fluent-str-between)
 [betweenFirst](#method-fluent-str-between-first)
 [camel](#method-fluent-str-camel)
+[classBasename](#method-fluent-str-class-basename)
 [contains](#method-fluent-str-contains)
 [containsAll](#method-fluent-str-contains-all)
 [dirname](#method-fluent-str-dirname)
@@ -2180,6 +2181,17 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
     $converted = Str::of('foo_bar')->camel();
 
     // fooBar
+
+<a name="method-fluent-str-class-basename"></a>
+#### `classBasename` {.collection-method}
+
+`classBasename`メソッドは、指定したクラスから名前空間を削除したクラス名を返す。
+
+    use Illuminate\Support\Str;
+
+    $class = Str::of('Foo\Bar\Baz')->classBasename();
+
+    // Baz
 
 <a name="method-fluent-str-contains"></a>
 #### `contains` {.collection-method}
