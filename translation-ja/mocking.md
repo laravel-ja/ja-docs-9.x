@@ -308,9 +308,15 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
 
         Event::assertDispatched(OrderCreated::class);
 
-        // Other events are dispatched as normal...
+        // その他のイベントは通常通りディスパッチされる
         $order->update([...]);
     }
+
+`fakeExcept`メソッドを使用すると、指定したイベントセット以外の全イベントをフェイクできます。
+
+    Event::fakeExcept([
+        OrderCreated::class,
+    ]);
 
 <a name="scoped-event-fakes"></a>
 ### 限定的なEvent Fake
@@ -406,12 +412,15 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
         return $mail->order->id === $order->id;
     });
 
-`Mail`ファサードのアサートメソッドを呼び出すと、引数中のクロージャが受け取るMailableインスタンスは、Mailableの受信者を調べる便利なメソッドを提供しています。
+`Mail`ファサードのアサートメソッドを呼び出すと、引数中のクロージャが受け取るMailableインスタンスは、Mailableを調べる便利なメソッドを提供しています。
 
     Mail::assertSent(OrderShipped::class, function ($mail) use ($user) {
         return $mail->hasTo($user->email) &&
                $mail->hasCc('...') &&
-               $mail->hasBcc('...');
+               $mail->hasBcc('...') &&
+               $mail->hasReplyTo('...') &&
+               $mail->hasFrom('...') &&
+               $mail->hasSubject('...');
     });
 
 メールが送信されなかったことを宣言する方法として、`assertNotSent`と`assertNotQueued`の２つの方法があるのにお気づきでしょうか。時には、メールが送信されなかったこと、**または**キューに入れられなかったことをアサートしたい場合があります。これを実現するには、`assertNothingOutgoing`や`assertNotOutgoing`メソッドを使用してください。

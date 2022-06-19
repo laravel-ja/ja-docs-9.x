@@ -62,6 +62,7 @@
 
 <div class="collection-method-list" markdown="1">
 
+[append](#method-append)
 [contains](#method-contains)
 [diff](#method-diff)
 [except](#method-except)
@@ -79,8 +80,17 @@
 
 </div>
 
+<a name="method-append"></a>
+#### `append($attributes)` {.collection-method .first-collection-method}
+
+`append`メソッドは、コレクション内の全モデルへ属性を[追加](/docs/{{version}}/eloquent-serialization#appending-values-to-json)するように指示するために使用します。このメソッドには、属性の配列か、単一の属性を指定します。
+
+    $users->append('team');
+
+    $users->append(['team', 'is_admin']);
+
 <a name="method-contains"></a>
-#### `contains($key, $operator = null, $value = null)` {.collection-method .first-collection-method}
+#### `contains($key, $operator = null, $value = null)` {.collection-method}
 
 `contains`メソッドを使い、指定モデルインスタンスがコレクションに含まれているかどうかを判定できます。このメソッドは、主キーまたはモデルインスタンスを引数に取ります。
 
