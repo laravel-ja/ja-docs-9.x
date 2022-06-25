@@ -1512,6 +1512,15 @@ select * from authors where id in (1, 2, 3, 4, 5, ...)
 
     $books = Book::with('author.contacts')->get();
 
+あるいは、`with`メソッドにネストした配列を指定し、ネストしたEagerロード関係を指定することもできます。これは、複数のネストした関係をEagerロードする場合に便利です。
+
+    $books = Book::with([
+        'author' => [
+            'contacts',
+            'publisher',
+        ],
+    ])->get();
+
 <a name="nested-eager-loading-morphto-relationships"></a>
 #### `morphTo`リレーションのネストしたEagerロード
 

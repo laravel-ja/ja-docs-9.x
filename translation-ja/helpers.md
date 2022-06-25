@@ -294,6 +294,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [encrypt](#method-encrypt)
 [env](#method-env)
 [event](#method-event)
+[fake](#method-fake)
 [filled](#method-filled)
 [info](#method-info)
 [logger](#method-logger)
@@ -3525,6 +3526,27 @@ Str::of('Hello, world!')->wordCount(); // 2
 `event`関数は、指定した[イベント](/docs/{{version}}/events)をリスナにディスパッチします。
 
     event(new UserRegistered($user));
+
+<a name="method-fake"></a>
+#### `fake()` {.collection-method}
+
+`fake`関数は、コンテナから[Faker](https://github.com/FakerPHP/Faker)シングルトンを依存解決します。これは、モデルファクトリ、データベース初期値設定、テスト、プロトタイピングビューでフェイクデータを作成する場合に便利です。
+
+```blade
+@for($i = 0; $i < 10; $i++)
+    <dl>
+        <dt>Name</dt>
+        <dd>{{ fake()->name() }}</dd>
+
+        <dt>Email</dt>
+        <dd>{{ fake()->unique()->safeEmail() }}</dd>
+    </dl>
+@endfor
+```
+
+`fake`関数はデフォルトで、`config/app.php`設定ファイルの`app.faker_locale`設定オプションを利用しますが、`fake`関数でロケールを直接指定することもできます。各ロケールは個々のシングルトンを解決します:
+
+    fake('nl_NL')->name()
 
 <a name="method-filled"></a>
 #### `filled()` {.collection-method}

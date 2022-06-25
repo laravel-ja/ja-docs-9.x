@@ -1873,61 +1873,56 @@ public function boot()
 Laravelは有用な数多くのバリデーションルールを提供しています。ただし、独自のものを指定することもできます。カスタムバリデーションルールを登録する１つの方法は、ルールオブジェクトを使用することです。新しいルールオブジェクトを生成するには、`make:rule`Artisanコマンドを使用できます。このコマンドを使用して、文字列が大文字であることを確認するルールを生成してみましょう。Laravelは新しいルールを`app/Rules`ディレクトリに配置します。このディレクトリが存在しない場合、Artisanコマンドを実行してルールを作成すると、Laravelがそのディレクトリを作成します。
 
 ```shell
-php artisan make:rule Uppercase
+php artisan make:rule Uppercase --invokable
 ```
 
-ルールを生成したら、動作を定義する準備ができました。ルールオブジェクトは２つのメソッドを含みます。`passes`と`message`です。`passes`メソッドは属性の値と名前を受け取り、その属性値が有効であれば`true`、無効であれば`false`を返します。`message`メソッドは、バリデーション失敗時に使用する、バリデーションエラーメッセージを返します。
+ルールを作成したら、動作を定義する準備ができました。ルールオブジェクトには、`__invoke`という１つのメソッドを用意します。このメソッドは、属性名とその値、バリデーションエラーメッセージと、失敗時に呼び出すコールバックを指定します。
 
     <?php
 
     namespace App\Rules;
 
-    use Illuminate\Contracts\Validation\Rule;
+    use Illuminate\Contracts\Validation\InvokableRule;
 
-    class Uppercase implements Rule
+    class Uppercase implements InvokableRule
     {
         /**
-         * バリデーションの成功を判定
+         * バリデーションルールの実行
          *
          * @param  string  $attribute
          * @param  mixed  $value
-         * @return bool
+         * @param  \Closure  $fail
+         * @return void
          */
-        public function passes($attribute, $value)
+        public function __invoke($attribute, $value, $fail)
         {
-            return strtoupper($value) === $value;
-        }
-
-        /**
-         * バリデーションエラーメッセージの取得
-         *
-         * @return string
-         */
-        public function message()
-        {
-            return 'The :attribute must be uppercase.';
+            if (strtoupper($value) !== $value) {
+                $fail('The :attribute must be uppercase.');
+            }
         }
     }
 
-もちろん、翻訳ファイルのエラーメッセージを返したい場合は、`message`メソッドから`trans`ヘルパを呼び出せます。
-
-    /**
-     * バリデーションエラーメッセージの取得
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return trans('validation.uppercase');
-    }
-
-ルールが定義できたら、他のバリデーションルールと一緒に、ルールオブジェクトのインスタンスをバリデータへ渡し、指定します。
+ルールを定義したら、他のバリデーションルールと一緒に、ルールオブジェクトのインスタンスをバリデータへ渡し、指定します。
 
     use App\Rules\Uppercase;
 
     $request->validate([
         'name' => ['required', 'string', new Uppercase],
     ]);
+
+#### バリデーションメッセージの翻訳
+
+`$fail`クロージャへ文字列のエラーメッセージを指定する代わりに、[翻訳文字列キー](/docs/{{version}}/localization)を指定し、Laravelへエラーメッセージの翻訳を指示できます。
+
+    if (strtoupper($value) !== $value) {
+        $fail('validation.uppercase')->translate();
+    }
+
+必要に応じ、プレースホルダを置き換えたり、`translate`メソッドの第１引数と第２引数として使用する言語を指定することもできます。
+
+    $fail('validation.location')->translate([
+        'value' => $this->value,
+    ], 'fr')
 
 #### 追加データへのアクセス
 
@@ -1937,10 +1932,10 @@ php artisan make:rule Uppercase
 
     namespace App\Rules;
 
-    use Illuminate\Contracts\Validation\Rule;
     use Illuminate\Contracts\Validation\DataAwareRule;
+    use Illuminate\Contracts\Validation\InvokableRule;
 
-    class Uppercase implements Rule, DataAwareRule
+    class Uppercase implements DataAwareRule, InvokableRule
     {
         /**
          * バリデーション下の全データ
@@ -1971,10 +1966,10 @@ php artisan make:rule Uppercase
 
     namespace App\Rules;
 
-    use Illuminate\Contracts\Validation\Rule;
+    use Illuminate\Contracts\Validation\InvokableRule;
     use Illuminate\Contracts\Validation\ValidatorAwareRule;
 
-    class Uppercase implements Rule, ValidatorAwareRule
+    class Uppercase implements InvokableRule, ValidatorAwareRule
     {
         /**
          * バリデータインスタンス
@@ -2036,7 +2031,7 @@ php artisan make:rule Uppercase
 新しい暗黙のルールオブジェクトを生成するには、`make:rule` Artisanコマンドに`--implicit`オプションを付けて使用してください。
 
 ```shell
-php artisan make:rule Uppercase --implicit
+php artisan make:rule Uppercase --invokable --implicit
 ```
 
 > {note} 「暗黙の」ルールは、属性が必要であることを**暗黙的に**します。欠落している属性または空の属性を実際に無効にするかどうかは、あなた次第です。

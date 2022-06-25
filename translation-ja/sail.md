@@ -241,6 +241,12 @@ AWS_ENDPOINT=http://minio:9000
 AWS_USE_PATH_STYLE_ENDPOINT=true
 ```
 
+LaravelのFlysystemインテグレーションで、MinIOを使用している場合、適切なURLを生成するには、`AWS_URL`環境変数を定義してアプリケーションのローカルURLと一致させ、URLパスにバケット名を含める必要があります:
+
+```ini
+AWS_URL=http://localhost:9000/local
+```
+
 <a name="running-tests"></a>
 ## テスト実行
 
