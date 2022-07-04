@@ -1,60 +1,60 @@
-# Bundling Assets (Vite)
+# アセットの構築（Vite）
 
-- [Introduction](#introduction)
-- [Installation & Setup](#installation)
-  - [Installing Node](#installing-node)
-  - [Installing Vite And The Laravel Plugin](#installing-vite-and-laravel-plugin)
-  - [Configuring Vite](#configuring-vite)
-  - [Loading Your Scripts And Styles](#loading-your-scripts-and-styles)
-- [Running Vite](#running-vite)
-- [Working With JavaScript](#working-with-scripts)
-  - [Aliases](#aliases)
+- [イントロダクション](#introduction)
+- [インストールと準備](#installation)
+  - [Nodeのインストール](#installing-node)
+  - [ViteとLaravelプラグインのインストール](#installing-vite-and-laravel-plugin)
+  - [Viteの設定](#configuring-vite)
+  - [スクリプトとスタイルの読み込み](#loading-your-scripts-and-styles)
+- [Viteの実行](#running-vite)
+- [JavaScriptの操作](#working-with-scripts)
+  - [エイリアス](#aliases)
   - [Vue](#vue)
   - [React](#react)
   - [Inertia](#inertia)
-  - [URL Processing](#url-processing)
-- [Working With Stylesheets](#working-with-stylesheets)
-- [Custom Base URLs](#custom-base-urls)
-- [Environment Variables](#environment-variables)
-- [Server-Side Rendering (SSR)](#ssr)
+  - [URL処理](#url-processing)
+- [スタイルシートの操作](#working-with-stylesheets)
+- [ベースURLのカスタマイズ](#custom-base-urls)
+- [環境変数](#environment-variables)
+- [サーバサイドレンダリング(SSR)](#ssr)
 
 <a name="introduction"></a>
-## Introduction
+## イントロダクション
 
-[Vite](https://vitejs.dev) is a modern frontend build tool that provides an extremely fast development environment and bundles your code for production. When building applications with Laravel, you will typically use Vite to bundle your application's CSS and JavaScript files into production ready assets.
+[Vite](https://vitejs.dev)は、非常に高速な開発環境を提供してくれる、コードを本番用に構築する最新のフロントエンド・ビルド・ツールです。Laravelでアプリケーションを構築する場合、通常、Viteを使用してアプリケーションのCSSとJavaScriptファイルを本番環境用のアセットへ構築することになります。
 
-Laravel integrates seamlessly with Vite by providing an official plugin and Blade directive to load your assets for development and production.
+Laravelは、開発および実働用アセットをロードするため、公式プラグインとBladeディレクティブを提供し、Viteをシームレスに統合しています。
 
-> {tip} Are you running Laravel Mix? Vite has replaced Laravel Mix in new Laravel installations. For Mix documentation, please visit the [Laravel Mix](https://laravel-mix.com/) website. If you would like to switch to Vite, please see our [migration guide](https://github.com/laravel/vite-plugin/blob/main/UPGRADE.md#migrating-from-laravel-mix-to-vite).
+> {tip} Laravel Mixを実行していますか？新しいLaravelのインストールでは、Laravel MixをViteへ置き換えました。Mixのドキュメントは、[Laravel Mix](https://laravel-mix.com/)のウェブサイトをご覧ください。Viteに切り替えたい場合は、[移行ガイド](https://github.com/laravel/vite-plugin/blob/main/UPGRADE.md#migrating-from-laravel-mix-to-vite)を参照してください。
 
 <a name="vite-or-mix"></a>
-#### Choosing Between Vite And Laravel Mix
+#### ViteとLaravel Mixの選択
 
-Before transitioning to Vite, new Laravel applications utilized [Mix](https://laravel-mix.com/), which is powered by [webpack](https://webpack.js.org/), when bundling assets. Vite focuses on providing a faster and more productive experience when building rich JavaScript applications. If you are developing a Single Page Application (SPA), including those developed with tools like [Inertia](https://inertiajs.com), Vite will be the perfect fit.
+Viteへ移行する前、新しいLaravelアプリケーションは、アセットをバンドルする際に[webpack](https://webpack.js.org/)で動作する[Mix](https://laravel-mix.com/)を使用していました。Viteは、リッチなJavaScriptアプリケーションを構築する際に、より速く、より生産的な体験を提供することに重点を置いています。[Inertia](https://inertiajs.com) のようなツールで開発したものを含め、シングルページアプリケーション（SPA）を開発している場合、Viteは完璧にフィットするでしょう。
 
-Vite also works well with traditional server-side rendered applications with JavaScript "sprinkles", including those using [Livewire](https://laravel-livewire.com). However, it lacks some features that Laravel Mix supports, such as the ability to copy arbitrary assets into the build that are not referenced directly in your JavaScript application.
+Viteは、[Livewire](https://laravel-livewire.com)を使用したものを含む、JavaScriptを「ふりかけ」程度に使った従来のサーバサイドレンダリングアプリケーションでもうまく機能します。しかし、Laravel Mixがサポートしている、JavaScriptアプリケーションで直接参照されていない任意のアセットをビルドにコピーする機能など、いくつかの機能が欠落しています。
 
 <a name="migrating-back-to-mix"></a>
-#### Migrating Back To Mix
+#### Mixへ戻す
 
-Have you started a new Laravel application using our Vite scaffolding but need to move back to Laravel Mix and webpack? No problem. Please consult our [official guide on migrating from Vite to Mix](https://github.com/laravel/vite-plugin/blob/main/UPGRADE.md#migrating-from-vite-to-laravel-mix).
+Vite scaffoldingを使用して新しいLaravelアプリケーションを開始したが、Laravel Mixとwebpackへ戻る必要があるのですか？大丈夫です。[ViteからMixへの移行に関する公式ガイド](https://github.com/laravel/vite-plugin/blob/main/UPGRADE.md#migrating-from-vite-to-laravel-mix)を参照してください。
 
 <a name="installation"></a>
-## Installation & Setup
+## インストールと準備
 
-> {tip} The following documentation discusses how to manually install and configure the Laravel Vite plugin. However, Laravel's [starter kits](/docs/{{version}}/starter-kits) already include all of this scaffolding and are the fastest way to get started with Laravel and Vite.
+> {tip} 以下のドキュメントでは、Laravel Viteプラグインを手作業でインストールし、設定する方法について説明しています。しかし、Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでにこのスカフォールドがすべて含まれており、LaravelとViteを始める最速の方法を用意しています。
 
 <a name="installing-node"></a>
-### Installing Node
+### Nodeのインストール
 
-You must ensure that Node.js and NPM are installed before running Vite and the Laravel plugin:
+ViteとLaravelプラグインを実行する前に、Node.jsとNPMを確実にインストールしてください。
 
 ```sh
 node -v
 npm -v
 ```
 
-You can easily install the latest version of Node and NPM using simple graphical installers from [the official Node website](https://nodejs.org/en/download/). Or, if you are using [Laravel Sail](https://laravel.com/docs/{{version}}/sail), you may invoke Node and NPM through Sail:
+NodeとNPMの最新版は、[Node公式サイト](https://nodejs.org/en/download/)からグラフィカルインストーラを使って簡単にインストールできます。また、[Laravel Sail](/docs/{{version}}/sail)を使用している場合は、SailからNodeとNPMを呼び出せます。
 
 ```sh
 ./vendor/bin/sail node -v
@@ -62,20 +62,20 @@ You can easily install the latest version of Node and NPM using simple graphical
 ```
 
 <a name="installing-vite-and-laravel-plugin"></a>
-### Installing Vite And The Laravel Plugin
+### ViteとLaravelプラグインのインストール
 
-Within a fresh installation of Laravel, you will find a `package.json` file in the root of your application's directory structure. The default `package.json` file already includes everything you need to get started using Vite and the Laravel plugin. You may install your application's frontend dependencies via NPM:
+Laravelを新規にインストールすると、アプリケーションのディレクトリ構造のルートに`package.json`ファイルができます。デフォルトの`package.json`ファイルは、ViteとLaravelプラグインを使い始めるために必要なものを既に含んでいます。アプリケーションのフロントエンドの依存関係は、NPM経由でインストールできます。
 
 ```sh
 npm install
 ```
 
 <a name="configuring-vite"></a>
-### Configuring Vite
+### Viteの設定
 
-Vite is configured via a `vite.config.js` file in the root of your project. You are free to customize this file based on your needs, and you may also install any other plugins your application requires, such as `@vitejs/plugin-vue` or `@vitejs/plugin-react`.
+Viteは、プロジェクトルートの`vite.config.js`ファイルで設定します。また、アプリケーションが必要とする他のプラグイン、例えば、`@vitejs/plugin-vue`や`@vitejs/plugin-react`をインストールすることもできます。
 
-The Laravel Vite plugin requires you to specify the entry points for your application. These may be JavaScript or CSS files, and include preprocessed languages such as TypeScript, JSX, TSX, and Sass.
+Laravel Viteプラグインでは、アプリケーションのエントリーポイントを指定する必要があります。これらは、JavaScriptまたはCSSファイルであり、TypeScript、JSX、TSX、Sassなどのプリプロセス言語が含まれます。
 
 ```js
 import { defineConfig } from 'vite';
@@ -91,7 +91,7 @@ export default defineConfig({
 });
 ```
 
-If you are building an SPA, including applications built using Inertia, Vite works best without CSS entry points:
+Inertiaを使用したアプリケーションを含むSPAを構築する場合、ViteはCSSエントリポイントなしで最適に動作します。
 
 ```js
 import { defineConfig } from 'vite';
@@ -100,43 +100,43 @@ import laravel from 'laravel-vite-plugin';
 export default defineConfig({
     plugins: [
         laravel([
-            'resources/css/app.css', // [tl! remove]
+            'resources/css/app.css', // [tl! 削除]
             'resources/js/app.js',
         ]),
     ],
 });
 ```
 
-Instead, you should import your CSS via JavaScript. Typically, this would be done in your application's `resources/js/app.js` file:
+代わりに、JavaScriptでCSSをインポートする必要があります。通常、これはアプリケーションの `resources/js/app.js` ファイルで行います。
 
 ```js
 import './bootstrap';
-import '../css/app.css'; // [tl! add]
+import '../css/app.css'; // [tl! 追加]
 ```
 
-The Laravel plugin also supports multiple entry points and advanced configuration options such as [SSR entry points](#ssr).
+また、Laravelプラグインは複数のエントリーポイントに対応し、[SSRエントリーポイント](#ssr)などの高度な設定オプションにも対応しています。
 
 <a name="working-with-a-secure-development-server"></a>
-#### Working With A Secure Development Server
+#### セキュアな開発サーバの取り扱い
 
-If your development web server is running on HTTPS, including Valet's [secure command](/docs/{{version}}/valet#securing-sites), you may run into issues connecting to the Vite development server. You may configure Vite to also run on HTTPS by adding the following to your `vite.config.js` configuration file:
+Valetの[セキュアコマンド](/docs/{{version}}/valet#securing-sites)を含め、開発用WebサーバがHTTPSで動作している場合、Vite開発サーバへの接続に問題が発生する可能性があります。Vite設定ファイルの`vite.config.js`へ以下を追加すれば、ViteをHTTPSでも動作するように設定できます。
 
 ```js
 export default defineConfig({
     // ...
-    server: { // [tl! add]
-        https: true, // [tl! add]
-        host: 'localhost', // [tl! add]
-    }, // [tl! add]
+    server: { // [tl! 追加]
+        https: true, // [tl! 追加]
+        host: 'localhost', // [tl! 追加]
+    }, // [tl! 追加]
 });
 ```
 
-You will also need to accept the certificate warning for Vite's development server in your browser by following the "Local" link in your console when running the `npm run dev` command.
+また、`npm run dev`コマンドを実行する際に、コンソールの「Local」リンクをたどり、ブラウザでViteの開発サーバの証明書の警告を受け入れる必要があります。
 
 <a name="loading-your-scripts-and-styles"></a>
-### Loading Your Scripts And Styles
+### スクリプトとスタイルの読み込み
 
-With your Vite entry points configured, you only need reference them in a `@vite()` Blade directive that you add to the `<head>` of your application's root template:
+Viteのエントリーポイントを設定したら、アプリケーションのルートテンプレートの`<head>`へ追加する、`@vite()` Bladeディレクティブで参照するだけです。
 
 ```blade
 <!doctype html>
@@ -147,7 +147,7 @@ With your Vite entry points configured, you only need reference them in a `@vite
 </head>
 ```
 
-If you're importing your CSS via JavaScript, you only need to include the JavaScript entry point:
+JavaScriptでCSSをインポートする場合は、JavaScriptのエントリーポイントのみを記載するだけです。
 
 ```blade
 <!doctype html>
@@ -158,30 +158,30 @@ If you're importing your CSS via JavaScript, you only need to include the JavaSc
 </head>
 ```
 
-The `@vite` directive will automatically detect the Vite development server and inject the Vite client to enable Hot Module Replacement. In build mode, the directive will load your compiled and versioned assets, including any imported CSS.
+`@vite` ディレクティブは、Vite開発サーバを自動的に検出し、Viteクライアントを注入してホットモジュール置換を有効にします。ビルドモードでは、このディレクティブはインポートしたCSSを含む、コンパイル済みのバージョン管理しているアセットを読み込みます。
 
 <a name="running-vite"></a>
-## Running Vite
+## Viteの実行
 
-There are two ways you can run Vite. You may run the development server via the `dev` command, which is useful while developing locally. The development server will automatically detect changes to your files and instantly reflect them in any open browser windows.
+Viteを起動する方法は2つあります。`dev`コマンドで開発サーバを起動するのは、ローカルで開発する際に便利です。開発サーバは、ファイルの変更を自動的に検出し、開いているブラウザウィンドウへ即座に反映させます。
 
-Or, running the `build` command will version and bundle your application's assets and get them ready for you to deploy to production:
+もしくは、`build`コマンドを実行すると、アプリケーションのアセットをバージョン付けして構築し、本番環境にデプロイできる状態にします。
 
 ```shell
-# Run the Vite development server...
+# Viteを開発サーバで実行する
 npm run dev
 
-# Build and version the assets for production...
+# 実働用にアセットをバンドルし、バージョン付けする
 npm run build
 ```
 
 <a name="working-with-scripts"></a>
-## Working With JavaScript
+## JavaScriptの操作
 
 <a name="aliases"></a>
-### Aliases
+### エイリアス
 
-By default, The Laravel plugin provides a common alias to help you hit the ground running and conveniently import your application's assets:
+デフォルトでLaravelプラグインは、アプリケーションのアセットを便利にインポートできるように、共用エイリアスを提供します。
 
 ```js
 {
@@ -189,7 +189,7 @@ By default, The Laravel plugin provides a common alias to help you hit the groun
 }
 ```
 
-You may overwrite the `'@'` alias by adding your own to the `vite.config.js` configuration file:
+設定ファイル`vite.config.js`に独自のエイリアスを追加すれば、`'@'`エイリアスを上書きできます。
 
 ```js
 import { defineConfig } from 'vite';
@@ -210,7 +210,7 @@ export default defineConfig({
 <a name="vue"></a>
 ### Vue
 
-There are a few additional options you will need to include in the `vite.config.js` configuration file when using the Vue plugin with the Laravel plugin:
+LaravelプラグインでVueプラグインを使用する場合、`vite.config.js`設定ファイルへ追加オプションをいくつか追加する必要があります。
 
 ```js
 import { defineConfig } from 'vite';
@@ -223,17 +223,17 @@ export default defineConfig({
         vue({
             template: {
                 transformAssetUrls: {
-                    // The Vue plugin will re-write asset URLs, when referenced
-                    // in Single File Components, to point to the Laravel web
-                    // server. Setting this to `null` allows the Laravel plugin
-                    // to instead re-write asset URLs to point to the Vite
-                    // server instead.
+                    // Vueプラグインは、Single File Componentsで
+                    // 参照する場合、アセットのURLをLaravelのWebサーバを
+                    // 指すように書き換えます。
+                    // これを`null`に設定すると、Laravelプラグインは
+                    // アセットURLをViteサーバを指すように書き換えます。
                     base: null,
 
-                    // The Vue plugin will parse absolute URLs and treat them
-                    // as absolute paths to files on disk. Setting this to
-                    // `false` will leave absolute URLs un-touched so they can
-                    // reference assets in the public directly as expected.
+                    // Vueプラグインは、絶対URLを解析し、ディスク上のファイルへの
+                    // 絶対パスとして扱います。
+                    // これを`false`に設定すると、絶対URLはそのままになり、
+                    // 期待通りに公開されているアセットを直接参照できるようになります。
                     includeAbsolute: false,
                 },
             },
@@ -242,26 +242,26 @@ export default defineConfig({
 });
 ```
 
-> {tip} Laravel's [starter kits](/docs/{{version}}/starter-kits) already include the proper Laravel, Vue, and Vite configuration. Check out [Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) for the fastest way to get started with Laravel, Vue, and Vite.
+> {tip} Laravelの[スターターキット](/docs/{{version}/starter-kits)には、すでに適切なLaravel、Vue、Viteの構成が含まれています。Laravel、Vue、Viteを最速で使い始めるには、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia)をチェックしてください。
 
 <a name="react"></a>
 ### React
 
-When using Vite with React, you will need to ensure that any files containing JSX have a `.jsx` or `.tsx` extension, remembering to update your entry point, if required, as [shown above](#configuring-vite). You will also need to include the additional `@viteReactRefresh` Blade directive alongside your existing `@vite` directive.
+ViteをReactで使用する場合、JSXを含むすべてのファイルに`.jsx`または`.tsx`拡張子が付いていることを確認し、[上記](#configuring-vite)のように、必要に応じてエントリポイントを更新することを忘れないようにする必要があります。また、既存の`@vite`ディレクティブとともに追加の`@viteReactRefresh` Bladeディレクティブを含める必要もあります。
 
 ```blade
 @viteReactRefresh
 @vite('resources/js/app.jsx')
 ```
 
-The `@viteReactRefresh` directive must be called before the `@vite` directive.
+`@viteReactRefresh`ディレクティブは、`@vite`ディレクティブの前に呼び出す必要があります。
 
-> {tip} Laravel's [starter kits](/docs/{{version}}/starter-kits) already include the proper Laravel, React, and Vite configuration. Check out [Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) for the fastest way to get started with Laravel, React, and Vite.
+> {tip} Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでに適切なLaravel、React、Viteの設定が含まれています。Laravel、React、Viteを最速で始めるには、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) をチェックしてください。
 
 <a name="inertia"></a>
 ### Inertia
 
-The Laravel Vite plugin provides a convenient `resolvePageComponent` function to help you resolve your Inertia page components. Below is an example of the helper in use with Vue 3; however, you may also utilize the function in other frameworks such as React:
+Laravel Viteプラグインは、Inertiaページコンポーネントを解決するのに便利な `resolvePageComponent` 関数を提供しています。以下はVue 3で使用するヘルパの例ですが、Reactなど他のフレームワークでもこの関数を利用することができます。
 
 ```js
 import { createApp, h } from 'vue';
@@ -278,16 +278,16 @@ createInertiaApp({
 });
 ```
 
-> {tip} Laravel's [starter kits](/docs/{{version}}/starter-kits) already include the proper Laravel, Inertia, and Vite configuration. Check out [Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) for the fastest way to get started with Laravel, Inertia, and Vite.
+> {tip} Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでに適切なLaravel、Inertia、Viteの構成が含まれています。Laravel、Inertia、Viteを最速で始めるには、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) をチェックしてください。
 
 <a name="url-processing"></a>
-### URL Processing
+### URL処理
 
-When using Vite and referencing assets in your application's HTML, CSS, or JS, there are a couple of things to consider. First, if you reference assets with an absolute path, Vite will not include the asset in the build; therefore, you should ensure that the asset is available in your public directory.
+Viteを使用して、アプリケーションのHTML、CSS、JSアセットを参照する場合、いくつか考慮すべき点があります。まず、絶対パスでアセットを参照した場合、Viteはそのアセットをビルドに含めません。したがって、そのアセットがパブリックディレクトリで利用可能であることを確認する必要があります。
 
-When referencing relative asset paths, you should remember that the paths are relative to the file where they are referenced. Any assets referenced via a relative path will be re-written, versioned, and bundled by Vite.
+相対パスで参照する場合、参照するファイルからの相対パスであることを覚えておく必要があります。相対パスで参照されたアセットは、Viteによって書き直され、バージョン付けされ、バンドルされます。
 
-Consider the following project structure:
+以下のようなプロジェクト構成を考えてみましょう。
 
 ```nothing
 public/
@@ -300,20 +300,20 @@ resources/
     abigail.png
 ```
 
-The following example demonstrates how Vite will treat relative and absolute URLs:
+以下の例は、Viteが相対URLと絶対URLをどのように扱うかを示しています。
 
 ```html
-<!-- This asset is not handled by Vite and will not be included in the build -->
+<!-- このアセットをViteは扱わず、バンドルへ含まれない -->
 <img src="/taylor.png">
 
-<!-- This asset will be re-written, versioned, and bundled by Vite -->
+<!-- このアセットは書き換えられ、バージョン付けし、バンドルへ含まれる -->
 <img src="../../images/abigail.png">
 ```
 
 <a name="working-with-stylesheets"></a>
-## Working With Stylesheets
+## スタイルシートの操作
 
-You can learn more about Vite's CSS support within the [Vite documentation](https://vitejs.dev/guide/features.html#css). If you are using PostCSS plugins such as [Tailwind](https://tailwindcss.com), you may create a `postcss.config.js` file in the root of your project and Vite will automatically apply it:
+ViteのCSSサポートは、[Viteドキュメント](https://vitejs.dev/guide/features.html#css) で詳しく説明されています。[Tailwind](https://tailwindcss.com)のようなPostCSSプラグインを使用している場合、プロジェクトのルートに`postcss.config.js`ファイルを作成すると、Vite が自動的にそれを適用してくれます。
 
 ```js
 module.exports = {
@@ -325,41 +325,41 @@ module.exports = {
 ```
 
 <a name="custom-base-urls"></a>
-## Custom Base URLs
+## ベースURLのカスタマイズ
 
-If your Vite compiled assets are deployed to a domain separate from your application, such as via a CDN, you must specify the `ASSET_URL` environment variable within your application's `.env` file:
+ViteでコンパイルしたアセットをCDN経由など、アプリケーションとは別のドメインにデプロイする場合は、アプリケーションの`.env`ファイル内に`ASSET_URL`環境変数を指定する必要があります。
 
 ```env
 ASSET_URL=https://cdn.example.com
 ```
 
-After configuring the asset URL, all re-written URLs to your assets will be prefixed with the configured value:
+アセットURLを設定すると、アセットを指す全ての書き換えられるURLの先頭に、設定した値が付きます。
 
 ```nothing
 https://cdn.example.com/build/assets/app.9dce8d17.js
 ```
 
-Remember that [absolute URLs are not re-written by Vite](#url-processing), so they will not be prefixed.
+[絶対URLはViteで書き直されない](#url-processing)ため、プリフィックスが付かないことを覚えておいてください。
 
 <a name="environment-variables"></a>
-## Environment Variables
+## 環境変数
 
-You may inject environment variables into your JavaScript by prefixing them with `VITE_` in your application's `.env` file:
+アプリケーションの`.env`ファイルに、`VITE_` というプレフィックスを付ける環境変数を設置することで、それらの環境変数をJavaScriptへ注入できます。
 
 ```env
 VITE_SENTRY_DSN_PUBLIC=http://example.com
 ```
 
-You may access injected environment variables via the `import.meta.env` object:
+注入された環境変数は、`import.meta.env`オブジェクトを介してアクセスできます。
 
 ```js
 import.meta.env.VITE_SENTRY_DSN_PUBLIC
 ```
 
 <a name="ssr"></a>
-## Server-Side Rendering (SSR)
+## サーバサイドレンダリング(SSR)
 
-The Laravel Vite plugin makes it painless to set up server-side rending with Vite. To get started, create an SSR entry point at `resources/js/ssr.js` and specify the entry point by passing a configuration option to the Laravel plugin:
+Laravel Viteプラグインを使用すると、Viteでサーバサイドレンダリングを簡単に設定できます。まず、SSRエントリーポイントを`resources/js/ssr.js`に作成し、Laravelプラグインに設定オプションを渡して、エントリーポイントを指定します。
 
 ```js
 import { defineConfig } from 'vite';
@@ -375,21 +375,21 @@ export default defineConfig({
 });
 ```
 
-To ensure you don't forget to rebuild the SSR entry point, we recommend augmenting the "build" script in your application's `package.json` to create your SSR build:
+SSRエントリポイントの再構築を忘れないようにするために、アプリケーションの`package.json`にある"build"スクリプトを拡張して、SSRビルドを作成することをお勧めします。
 
 ```json
 "scripts": {
      "dev": "vite",
-     "build": "vite build" // [tl! remove]
-     "build": "vite build && vite build --ssr" // [tl! add]
+     "build": "vite build" // [tl! 削除]
+     "build": "vite build && vite build --ssr" // [tl! 追加]
 }
 ```
 
-Then, to build and start the SSR server, you may run the following commands:
+最後に、SSRサーバの構築と起動のため、以下のコマンドを実行してください。
 
 ```sh
 npm run build
 node storage/ssr/ssr.js
 ```
 
-> {tip} Laravel's [starter kits](/docs/{{version}}/starter-kits) already include the proper Laravel, Inertia SSR, and Vite configuration. Check out [Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) for the fastest way to get started with Laravel, Inertia SSR, and Vite.
+> {tip} Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでに適切なLaravel、Inertia SSR、Viteの構成が含まれています。Laravel、Inertia SSR、Viteを最速で使い始めるため、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) をチェックしてください。
