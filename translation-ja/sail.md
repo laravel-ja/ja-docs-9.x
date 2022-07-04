@@ -187,7 +187,7 @@ Nodeコマンドは`npm`コマンドを使用して実行し、NPMコマンド�
 ```shell
 sail node --version
 
-sail npm run prod
+sail npm run dev
 ```
 
 ご希望であれば、NPMの代わりにYarnを使用できます。

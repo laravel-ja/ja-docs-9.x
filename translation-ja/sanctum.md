@@ -340,9 +340,9 @@ SPAが[プライベート/プレゼンスブロードキャストチャネル](/
 ```js
 window.Echo = new Echo({
     broadcaster: "pusher",
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     encrypted: true,
-    key: process.env.MIX_PUSHER_APP_KEY,
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
     authorizer: (channel, options) => {
         return {
             authorize: (socketId, callback) => {

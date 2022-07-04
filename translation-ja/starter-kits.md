@@ -3,6 +3,7 @@
 - [イントロダクション](#introduction)
 - [Laravel Breeze](#laravel-breeze)
     - [インストール](#laravel-breeze-installation)
+    - [BreezeとBlade](#breeze-and-blade)
     - [BreezeとReact／Vue](#breeze-and-inertia)
     - [BreezeとNext.js／API](#breeze-and-next)
 - [Laravel Jetstream](#laravel-jetstream)
@@ -17,7 +18,7 @@
 <a name="laravel-breeze"></a>
 ## Laravel Breeze
 
-[Laravel Breeze](https://github.com/laravel/breeze)へログイン、ユーザー登録、パスワードのリセット、メールの検証、パスワードの確認など、Laravelのすべての[認証機能](/docs/{{version}}/authentication)を最小限シンプルに実装しました。Laravel Breezeのデフォルトビュー層は、[Tailwind CSS](https://tailwindcss.com)でスタイルを設定したシンプルな[Bladeテンプレート](/docs/{{version}}/blade)で構成しています。
+[Laravel Breeze](https://github.com/laravel/breeze)へログイン、ユーザー登録、パスワードのリセット、メールの検証、パスワードの確認など、Laravelのすべての[認証機能](/docs/{{version}}/authentication)を最小限シンプルに実装しました。Laravel Breezeのデフォルトビュー層は、[Tailwind CSS](https://tailwindcss.com)でスタイルを設定したシンプルな[Bladeテンプレート](/docs/{{version}}/blade)で構成しています。あるいは、Breezeで、VueやReactと[Inertia](https://inertiajs.com)を使用したアプリケーションのスカフォールドを生成できます。
 
 Breezeは、新しいLaravelアプリケーションを始めるための素晴らしい出発点となり、Bladeテンプレートを[Laravel Livewire](https://laravel-livewire.com)を使用し、レベルを上げる計画をしているプロジェクトにも最適な選択肢です。
 
@@ -26,23 +27,20 @@ Breezeは、新しいLaravelアプリケーションを始めるための素晴�
 <a name="laravel-breeze-installation"></a>
 ### インストール
 
-まず、[新しいLaravelアプリケーションを作成](/docs/{{version}}/installation)し、データベースを設定後、[データベースのマイグレーション](/docs/{{version}}/migrations)を実行する必要があります。
-
-```shell
-curl -s https://laravel.build/example-app | bash
-
-cd example-app
-
-php artisan migrate
-```
-
-新しいLaravelアプリケーションを作成したら、Composerを使用してLaravel Breezeをインストールします。
+まず、[新規Laravelアプリケーションの作成](/docs/{{version}}/installation)、データベースの設定、[データベースマイグレーション](/docs/{{version}}/migrations)を実行してください。Laravelアプリケーションを新規作成したら、Composerを使用してLaravel Breezeをインストールできます。
 
 ```shell
 composer require laravel/breeze --dev
 ```
 
-ComposerでLaravel Breezeパッケージをインストールしたら、`breeze:install` Artisanコマンドを実行します。このコマンドは、認証ビュー、ルート、コントローラ、およびその他のリソースをアプリケーションにリソース公開します。Laravel Breezeは、その機能と実装を完全に制御し目に見えるようにするために、すべてのコードをアプリケーションへリソース公開します。Breezeをインストールしたら、アプリケーションのCSSファイルを使用できるようにアセットをコンパイルする必要もあります。
+Breezeをインストールしたら、以下のドキュメントで説明するBreeze「スタック」のいずれかを使用し、アプリケーションのスカフォールドを生成できます。
+
+<a name="breeze-and-blade"></a>
+### BreezeとBlade
+
+ComposerでLaravel Breezeパッケージをインストールしたら、`breeze:install` Artisanコマンドを実行してください。このコマンドは、認証ビュー、ルート、コントローラ、およびその他のリソースをアプリケーションへリソース公開します。Laravel Breezeは、すべてのコードをアプリケーションへリソース公開するため、その機能と実装を完全に制御し、可視化することができます。
+
+デフォルトのBreeze「スタック」はBladeスタックで、シンプルな[Bladeテンプレート](/docs/{{version}}/blade)を使用して、アプリケーションのフロントエンドをレンダします。Bladeスタックは、`breeze:install`コマンドを追加引数なしで実行することでインストールできます。Breezeの雛形をインストールしたら、アプリケーションのフロントエンドアセットをコンパイルする必要があります。
 
 ```shell
 php artisan breeze:install
@@ -52,16 +50,16 @@ npm run dev
 php artisan migrate
 ```
 
-次に、Webブラウザでアプリケーションの`/login`または`/register`のURLにアクセスしてください。Breezeのすべてのルートは、`routes/auth.php'ファイル内に定義しています。
+続いて、Webブラウザでアプリケーションの`/login`または`/register`のURLにアクセスしてください。Breezeのすべてのルートは、`routes/auth.php'ファイル内に定義しています。
 
-> {tip} アプリケーションのCSSとJavaScriptのコンパイルの詳細は、[Laravel Mixドキュメント](/docs/{{version}}/mix#running-mix)をご覧ください。
+> {tip} アプリケーションのCSSとJavaScriptのコンパイルについて詳しく知りたい方は、Laravelの[Viteドキュメント](/docs/{{version}}/vite#running-vite)を参照してください。
 
 <a name="breeze-and-inertia"></a>
 ### BreezeとReact／Vue
 
-Laravel Breezeは、ReactとVueのスカフォールドを[Inertia.js](https://inertiajs.com)フロントエンド実装で提供しています。Inertiaを使用すると、古典的なサーバサイドのルーティングとコントローラを使用して、モダンなシングルページのReactとVueのアプリケーションを構築することができます。
+Laravel Breezeは、[Inertia](https://inertiajs.com)フロントエンド実装により、ReactとVueを使用するスカフォールドも提供しています。Inertiaは、従来のサーバサイドルーティングとコントローラを使用して、モダンなシングルページのReactとVueのアプリケーションを構築することができます。
 
-Inertiaにより、ReactとVueのフロントエンドのパワーと、Laravelの素晴らしいバックエンドの生産性のコンビネーションが楽しめます。Inertiaスタックを使用するには、`breeze:install` Artisanコマンドを実行し、使用するスタックとして`vue`、または`react`を指定してください。
+Inertiaは、ReactとVueが持つフロントエンドのパワーと、Laravelの驚異的なバックエンドの生産性、そして[Vite](https://vitejs.dev)の軽快なコンパイルを組み合わせた開発を楽しめます。Inertiaスタックを使用するには、`breeze:install` Artisanコマンドを実行する際に、使用するスタックとして`vue`または`react`を指定します。Breezeの雛形をインストールしたら、アプリケーションのフロントエンドアセットをコンパイルする必要があります。
 
 ```shell
 php artisan breeze:install vue
@@ -75,6 +73,11 @@ npm run dev
 php artisan migrate
 ```
 
+続いて、Webブラウザでアプリケーションの`/login`または`/register`のURLにアクセスしてください。Breezeのすべてのルートは、`routes/auth.php'ファイル内に定義しています。
+
+<a name="server-side-rendering"></a>
+#### サーバサイドレンダリング
+
 Breezeの[Inertia SSR](https://inertiajs.com/server-side-rendering)のscaffoldサポートを使う場合は、`breeze:install`コマンドを実行時に、`ssr`オプションを指定してください。
 
 ```shell
@@ -85,7 +88,7 @@ php artisan breeze:install react --ssr
 <a name="breeze-and-next"></a>
 ### BreezeとNext.js／API
 
-Laravel Breezeは、[Next](https://nextjs.org)や[Nuxt](https://nuxtjs.org)などのモダンなJavaScriptアプリケーションで認証するAPIをスカフォールドすることもできます。使い始めるには、`breeze:install` Artisanコマンドを実行する時、`api`スタックを希望するスタックとして指定します。
+Laravel Breezeは、[Next](https://nextjs.org)や[Nuxt](https://nuxtjs.org)などのモダンなJavaScriptアプリケーションで認証するAPIもスカフォールドできます。これを使い始めるには、`breeze:install` Artisanコマンドを実行する時に、`api`を希望スタックとして指定します。
 
 ```shell
 php artisan breeze:install api
@@ -105,6 +108,6 @@ php artisan migrate
 
 Laravel Breezeは、Laravelアプリケーションを構築するためのシンプルで最小限の開始点を提供しますが、Jetstreamはより堅牢な機能と、追加のフロントエンドテクノロジースタックで、その機能を強化します。**Laravelを初めて使用する場合は、Laravel Jetstreamへ進む前に、Laravel Breezeで勘所を掴むことをおすめします。**
 
-Jetstreamは、Laravelに美しく設計されたアプリケーションのスカフォールドを提供し、ログイン、ユーザー登録、メール検証、２要素認証、セッション管理、Laravel Sanctumを介したAPIサポート、およびオプションとしてチーム管理機能を含みます。Jetstreamは[TailwindCSS](https://tailwindcss.com)を使用して設計されており、[Livewire](https://laravel-livewire.com)（[日本語](/livewire/2.x/ja/quickstart.html)）もしくは[Inertia.js](https://inertiajs.com)駆動のフロントエンドスカフォールドから選択できます。
+Jetstreamは、Laravelのために美しくデザインされたアプリケーションのスカフォールドを提供し、ログイン、登録、電子メール検証、二要素認証、セッション管理、Laravel Sanctum経由のAPIサポート、およびオプションのチーム管理を備えています。Jetstreamは、[Tailwind CSS](https://tailwindcss.com)を使用して設計しており、[Livewire](https://laravel-livewire.com)または[Inertia](https://inertiajs.com)駆動のフロントエンドスカフォールドから選択可能です。
 
 Laravel Jetstreamをインストールするための完全なドキュメントは、[公式Jetstreamドキュメント](https://jetstream.laravel.com/2.x/introduction.html)にあります。

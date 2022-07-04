@@ -257,7 +257,7 @@ php artisan octane:start --workers=4 --task-workers=6
 <a name="specifying-the-max-request-count"></a>
 ### 最大リクエスト数の指定
 
-偶然によるメモリリークを防ぐために、指定リクエスト数を処理した後に、オクタンはワーカを穏やかに再起動させることができます。これをOctaneへ指示するには、`--max-requests`オプションを使用します。
+メモリリークを防ぐために、Octaneは500リクエストを処理した時点でワーカを再起動します。この回数を調整するには、`--max-requests`オプションを使います。
 
 ```shell
 php artisan octane:start --max-requests=250

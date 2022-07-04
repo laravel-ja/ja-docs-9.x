@@ -581,7 +581,7 @@ Bladeの`@include`ディレクティブを使用すると、別のビュー内�
 
 コンポーネントとスロットは、セクション、レイアウト、インクルードと同様の利便性を提供します。ただし、コンポーネントとスロットのメンタルモデルが理解しやすいと感じる人もいるでしょう。コンポーネントを作成するには、クラスベースのコンポーネントと匿名コンポーネントの2つのアプローチがあります。
 
-クラスベースのコンポーネントを作成するには、`make:component` Artisanコマンドを使用できます。コンポーネントの使用方法を説明するために、単純な「アラート（`Alert`）」コンポーネントを作成します。`make:component`コマンドは、コンポーネントを`App\View\Components`ディレクトリに配置します。
+クラスベースのコンポーネントを作成するには、`make:component` Artisanコマンドを使用できます。コンポーネントの使用方法を説明するために、単純な「アラート（`Alert`）」コンポーネントを作成します。`make:component`コマンドは、コンポーネントを`app/View/Components`ディレクトリに配置します。
 
 ```shell
 php artisan make:component Alert
@@ -595,7 +595,7 @@ php artisan make:component Alert
 php artisan make:component Forms/Input
 ```
 
-上記のコマンドは、`App\View\Components\Forms`ディレクトリに`Input`コンポーネントを作成し、ビューは`resources/views/components/forms`ディレクトリに配置します。
+上記のコマンドは、`app/View/Components/Forms`ディレクトリに`Input`コンポーネントを作成し、ビューは`resources/views/components/forms`ディレクトリに配置します。
 
 匿名コンポーネント(Bladeテンプレートのみでクラスを持たないコンポーネント)を作成したい場合は、`make:component`コマンドを実行するとき、`--view`フラグを使用します。
 
@@ -662,7 +662,7 @@ Bladeは、コンポーネント名のパスカルケースを使い、コンポ
 <x-user-profile/>
 ```
 
-コンポーネントクラスが`App\View\Components`ディレクトリ内のより深い場所にネストしている場合は、`.`文字を使用してディレクトリのネストを表せます。たとえば、コンポーネントが`App\View\Components\Inputs\Button.php`にあるとしたら、以下のようにレンダリングできます。
+コンポーネントクラスが`app/View/Components`ディレクトリ内のより深い場所にネストしている場合は、`.`文字を使用してディレクトリのネストを表せます。たとえば、コンポーネントが`app/View/Components/Inputs/Button.php`にあるとしたら、以下のようにレンダリングします。
 
 ```blade
 <x-inputs.button/>

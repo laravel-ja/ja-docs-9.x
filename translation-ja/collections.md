@@ -2641,7 +2641,7 @@ sliceメソッドはデフォルトでキー値を保持したまま返します
         'address.suburb' => 'Detroit',
         'address.state' => 'MI',
         'address.postcode' => '48219'
-    ])
+    ]);
 
     $person = $person->undot();
 

@@ -3736,7 +3736,7 @@ Str::of('Hello, world!')->wordCount(); // 2
 
 便利なように、`retry`関数の最初の引数には配列を指定することもできます。この配列は、次の再試行の間に何ミリ秒スリープさせるかを決定するために使用されます。
 
-    return retry([100, 200] function () {
+    return retry([100, 200], function () {
         // 最初に100ms、２回目に200msスリープする
     });
 

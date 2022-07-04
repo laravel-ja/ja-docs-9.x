@@ -374,3 +374,4 @@ php artisan db
 ```shell
 php artisan db mysql
 ```
+
