@@ -187,7 +187,7 @@ php artisan auth:clear-resets
 <a name="reset-email-customization"></a>
 #### リセットメールカスタマイズ
 
-パスワードリセットリンクをユーザーに送信するために使用する通知クラスは簡単に変更できます。それには、`App\Models\User`モデルの`sendPasswordResetNotification`メソッドをオーバーライドします。このメソッド内で、自分で作成した[通知クラス](/docs/{{version}}/notifys)を使用して通知を送信できます。パスワードリセット`$token`は、メソッドが受け取る最初の引数です。この`$token`を使用して、パスワードリセットURLを作成し、ユーザーに通知を送信します。
+パスワードリセットリンクをユーザーに送信するために使用する通知クラスは簡単に変更できます。それには、`App\Models\User`モデルの`sendPasswordResetNotification`メソッドをオーバーライドします。このメソッド内で、自分で作成した[通知クラス](/docs/{{version}}/notifications)を使用して通知を送信できます。パスワードリセット`$token`は、メソッドが受け取る最初の引数です。この`$token`を使用して、パスワードリセットURLを作成し、ユーザーに通知を送信します。
 
     use App\Notifications\ResetPasswordNotification;
 

@@ -148,7 +148,7 @@ php artisan migrate
         });
     }
 
-> {tip}メール通知の詳細は、[メール通知ドキュメント](/docs/{{version}}/notifys#mail-notifications)を参照してください。
+> {tip}メール通知の詳細は、[メール通知ドキュメント](/docs/{{version}}/notifications#mail-notifications)を参照してください。
 
 <a name="events"></a>
 ## イベント

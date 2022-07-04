@@ -580,7 +580,7 @@ MailgunやPostmarkなどのサードパーティのメールプロバイダー�
 <a name="markdown-mailables"></a>
 ## Markdown Mailable
 
-Markdown Mailableメッセージを使用すると、Mailableで[メール通知](/docs/{{version}}/notifys#mail-notifications)の事前に作成されたテンプレートとコンポーネントを利用できます。メッセージはMarkdownで記述されているため、Laravelはメッセージの美しくレスポンシブなHTMLテンプレートをレンダすると同時に、平文テキスト版も自動的に生成できます。
+Markdown Mailableメッセージを使用すると、Mailableで[メール通知](/docs/{{version}}/notifications#mail-notifications)の事前に作成されたテンプレートとコンポーネントを利用できます。メッセージはMarkdownで記述されているため、Laravelはメッセージの美しくレスポンシブなHTMLテンプレートをレンダすると同時に、平文テキスト版も自動的に生成できます。
 
 <a name="generating-markdown-mailables"></a>
 ### Markdown Mailableの生成
