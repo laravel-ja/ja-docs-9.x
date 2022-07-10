@@ -942,7 +942,7 @@ The credit card number field is required when payment type is credit card.
     ];
 
     Validator::make($input, [
-        'user' => 'array:username,locale',
+        'user' => 'array:name,username',
     ]);
 
 一般に、配列に存在を許すキーは、常に指定する必要があります。

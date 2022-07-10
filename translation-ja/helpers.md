@@ -2942,7 +2942,7 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     $string = Str::of('Laravel')
         ->append(' Framework')
         ->tap(function ($string) {
-            dump('String after append: ' . $string);
+            dump('String after append: '.$string);
         })
         ->upper();
 
