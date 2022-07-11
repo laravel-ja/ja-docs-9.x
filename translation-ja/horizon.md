@@ -337,7 +337,7 @@ Queueableオブジェクトの１つにタグを手作業で定義する場合�
 <a name="notifications"></a>
 ## 通知
 
-> {note} SlackまたはSMS通知を送信するようにHorizo​​nを設定する場合は、[関連する通知チャネルの前提条件](/docs/{{version}}/notifys)を確認する必要があります。
+> {note} SlackまたはSMS通知を送信するようにHorizo​​nを設定する場合は、[関連する通知チャネルの前提条件](/docs/{{version}}/notifications)を確認する必要があります。
 
 キューの１つに長い待機時間があったときに通知を受け取りたい場合は、`Horizo​​n::routeMailNotificationsTo`、`Horizo​​n::routeSlackNotificationsTo`、および`Horizo​​n::routeSmsNotificationsTo`メソッドが使用できます。これらのメソッドは、アプリケーションの`App\Providers\Horizo​​nServiceProvider`の`boot`メソッドから呼び出せます。
 

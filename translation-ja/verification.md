@@ -110,11 +110,11 @@ php artisan migrate
 <a name="protecting-routes"></a>
 ### 保護下のルート
 
-[ルートミドルウェア](/docs/{{version}}/middleware)は、確認済みユーザーのみが特定のルートにアクセスできるようにするために使用できます。Laravelには、`Illuminate\Auth\Middleware\EnsureEmailIsVerified`クラスを参照する`verified`ミドルウェアが付属しています。このミドルウェアはアプリケーションのHTTPカーネルではじめから登録されているため、必要なのはミドルウェアをルート定義にアタッチすることだけです。
+[ルートミドルウェア](/docs/{{version}}/middleware)は、確認済みユーザーのみが特定のルートにアクセスできるようにするために使用できます。Laravelには、`Illuminate\Auth\Middleware\EnsureEmailIsVerified`クラスを参照する`verified`ミドルウェアが付属しています。このミドルウェアはアプリケーションのHTTPカーネルではじめから登録されているため、必要なのはミドルウェアをルート定義にアタッチすることだけです。通常、このミドルウェアは`auth`ミドルウェアと一緒に使います。
 
     Route::get('/profile', function () {
         // 確認済みのユーザーのみがこのルートにアクセス可能
-    })->middleware('verified');
+    })->middleware(['auth', 'verified']);
 
 このミドルウェアが割り当てられているルートに、未確認ユーザーがアクセスしようとすると自動的に`verification.notice`[名前付きルート](/docs/{{version}}/routing#named-routes)にリダイレクトされます。
 
@@ -148,7 +148,7 @@ php artisan migrate
         });
     }
 
-> {tip}メール通知の詳細は、[メール通知ドキュメント](/docs/{{version}}/notifys#mail-notifications)を参照してください。
+> {tip}メール通知の詳細は、[メール通知ドキュメント](/docs/{{version}}/notifications#mail-notifications)を参照してください。
 
 <a name="events"></a>
 ## イベント

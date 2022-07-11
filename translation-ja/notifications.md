@@ -495,6 +495,8 @@ php artisan vendor:publish --tag=laravel-notifications
                     ->attach('/path/to/file');
     }
 
+> {tip} 通知メールメッセージが提供する`attach`メソッドは、[Attachableオブジェクト](/docs/{{version}}/mail#attachable-objects)も受け付けます。詳細は、包括的な[Attachableオブジェクトのドキュメント](/docs/{{version}}/mail#attachable-objects)を参照してください。
+
 メッセージにファイルを添付するとき、`attach`メソッドの第２引数として配列を渡し、表示名やMIMEタイプの指定もできます。
 
     /**

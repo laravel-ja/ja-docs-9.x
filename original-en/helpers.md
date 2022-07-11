@@ -176,6 +176,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [between](#method-fluent-str-between)
 [betweenFirst](#method-fluent-str-between-first)
 [camel](#method-fluent-str-camel)
+[classBasename](#method-fluent-str-class-basename)
 [contains](#method-fluent-str-contains)
 [containsAll](#method-fluent-str-contains-all)
 [dirname](#method-fluent-str-dirname)
@@ -293,6 +294,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [encrypt](#method-encrypt)
 [env](#method-env)
 [event](#method-event)
+[fake](#method-fake)
 [filled](#method-filled)
 [info](#method-info)
 [logger](#method-logger)
@@ -2181,6 +2183,17 @@ The `camel` method converts the given string to `camelCase`:
 
     // fooBar
 
+<a name="method-fluent-str-class-basename"></a>
+#### `classBasename` {.collection-method}
+
+The `classBasename` method returns the class name of the given class with the class's namespace removed:
+
+    use Illuminate\Support\Str;
+
+    $class = Str::of('Foo\Bar\Baz')->classBasename();
+
+    // Baz
+
 <a name="method-fluent-str-contains"></a>
 #### `contains` {.collection-method}
 
@@ -2929,7 +2942,7 @@ The `tap` method passes the string to the given closure, allowing you to examine
     $string = Str::of('Laravel')
         ->append(' Framework')
         ->tap(function ($string) {
-            dump('String after append: ' . $string);
+            dump('String after append: '.$string);
         })
         ->upper();
 
@@ -3514,6 +3527,27 @@ The `event` function dispatches the given [event](/docs/{{version}}/events) to i
 
     event(new UserRegistered($user));
 
+<a name="method-fake"></a>
+#### `fake()` {.collection-method}
+
+The `fake` function resolves a [Faker](https://github.com/FakerPHP/Faker) singleton from the container, which can be useful when creating fake data in model factories, database seeding, tests, and prototyping views:
+
+```blade
+@for($i = 0; $i < 10; $i++)
+    <dl>
+        <dt>Name</dt>
+        <dd>{{ fake()->name() }}</dd>
+
+        <dt>Email</dt>
+        <dd>{{ fake()->unique()->safeEmail() }}</dd>
+    </dl>
+@endfor
+```
+
+By default, the `fake` function will utilize the `app.faker_locale` configuration option in your `config/app.php` configuration file; however, you may also specify the locale by passing it to the `fake` function. Each locale will resolve an individual singleton:
+
+    fake('nl_NL')->name()
+
 <a name="method-filled"></a>
 #### `filled()` {.collection-method}
 
@@ -3702,7 +3736,7 @@ If you would like to manually calculate the number of milliseconds to sleep betw
 
 For convenience, you may provide an array as the first argument to the `retry` function. This array will be used to determine how many milliseconds to sleep between subsequent attempts:
 
-    return retry([100, 200] function () {
+    return retry([100, 200], function () {
         // Sleep for 100ms on first retry, 200ms on second retry...
     });
 

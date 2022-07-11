@@ -84,8 +84,8 @@
         public function definition()
         {
             return [
-                'name' => $this->faker->name(),
-                'email' => $this->faker->unique()->safeEmail(),
+                'name' => fake()->name(),
+                'email' => fake()->unique()->safeEmail(),
                 'email_verified_at' => now(),
                 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'remember_token' => Str::random(10),
@@ -95,7 +95,7 @@
 
 ご覧のとおり、一番基本的な形式では、ファクトリはLaravelの基本ファクトリクラスを拡張し、`definition`メソッドを定義するクラスです。`definition`メソッドは、ファクトリを使用してモデルを作成するときに適用する必要がある属性値のデフォルトセットを返します。
 
-ファクトリは`faker`プロパティを介して、[Faker](https://github.com/FakerPHP/Faker) PHPライブラリにアクセスできます。これにより、テスト用のさまざまな種類のランダムデータを簡単に生成できます。
+ファクトリは`fake`ヘルパを介して、[Faker](https://github.com/FakerPHP/Faker) PHPライブラリにアクセスできます。これにより、テスト用のさまざまな種類のランダムデータを簡単に生成できます。
 
 > {tip} `config/app.php`設定ファイルに`faker_locale`オプションを追加することで、アプリケーションのFakerロケールを設定できます。
 
@@ -515,8 +515,8 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
     {
         return [
             'user_id' => User::factory(),
-            'title' => $this->faker->title(),
-            'content' => $this->faker->paragraph(),
+            'title' => fake()->title(),
+            'content' => fake()->paragraph(),
         ];
     }
 
@@ -534,8 +534,8 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
             'user_type' => function (array $attributes) {
                 return User::find($attributes['user_id'])->type;
             },
-            'title' => $this->faker->title(),
-            'content' => $this->faker->paragraph(),
+            'title' => fake()->title(),
+            'content' => fake()->paragraph(),
         ];
     }
 

@@ -55,7 +55,7 @@
 
 始める前に、アプリケーションがLaravel Passport、もしくは[Laravel Sanctum](/docs/{{version}}/sanctum)のどちらがより適しているかを検討することをお勧めします。アプリケーションが絶対にOAuth2をサポートする必要がある場合は、Laravel　Passportを使用する必要があります。
 
-しかし、シングルページアプリケーションやモバイルアプリケーションを認証したり、APIトークンを発行したりする場合は、[Laravel Sanctum](/docs/{{version}}/sanctum)を使用する必要があります。Laravel SanctumはOAuth2をサポートしていません。ただし、はるかにシンプルななAPI認証開発エクスペリエンスを提供します。
+しかし、シングルページアプリケーションやモバイルアプリケーションを認証したり、APIトークンを発行したりする場合は、[Laravel Sanctum](/docs/{{version}}/sanctum)を使用する必要があります。Laravel SanctumはOAuth2をサポートしていません。ただし、はるかにシンプルなAPI認証開発エクスペリエンスを提供します。
 
 <a name="installation"></a>
 ## インストール

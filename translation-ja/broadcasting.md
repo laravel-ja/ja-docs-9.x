@@ -163,13 +163,14 @@ Echoをインストールできたら、アプリケーションのJavaScriptで
 
 ```js
 import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-window.Pusher = require('pusher-js');
+window.Pusher = Pusher;
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true
 });
 ```
@@ -180,7 +181,7 @@ window.Echo = new Echo({
 npm run dev
 ```
 
-> {tip} アプリケーションのJavaScriptアセットのコンパイルの詳細は、[Laravel Mix](/docs/{{version}}/mix)のドキュメントを参照してください。
+> {tip} アプリケーションで使用しているJavaScriptリソースのコンパイルについて詳しく知りたい場合は、[Vite](/docs/{{version}}/vite)ドキュメントを参照してください。
 
 <a name="using-an-existing-client-instance"></a>
 #### 既存のクライアントインスタンスの使用
@@ -189,13 +190,16 @@ Echoで利用したい事前設定済みのPusherチャンネルクライアン�
 
 ```js
 import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-const client = require('pusher-js');
+const options = {
+    broadcaster: 'pusher',
+    key: 'your-pusher-channels-key'
+}
 
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'your-pusher-channels-key',
-    client: client
+    ...options,
+    client: new Pusher(options.key, options)
 });
 ```
 
@@ -216,12 +220,13 @@ Echoをインストールしたら、アプリケーションのJavaScriptで新
 
 ```js
 import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-window.Pusher = require('pusher-js');
+window.Pusher = Pusher;
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: process.env.MIX_ABLY_PUBLIC_KEY,
+    key: import.meta.env.VITE_ABLY_PUBLIC_KEY,
     wsHost: 'realtime-pusher.ably.io',
     wsPort: 443,
     disableStats: true,
@@ -229,7 +234,7 @@ window.Echo = new Echo({
 });
 ```
 
-Ably　Echo設定は`MIX_ABLY_PUBLIC_KEY`環境変数を参照していることに注意してください。この変数の値へAbly公開鍵を指定する必要があります。公開鍵は、`:`文字の前にあるAbly鍵の部分です。
+Ably　Echo設定は`VITE_ABLY_PUBLIC_KEY`環境変数を参照していることに注意してください。この変数の値へAbly公開鍵を指定する必要があります。公開鍵は、`:`文字の前にあるAbly鍵の部分です。
 
 アンコメントし、必要に応じEcho設定を調整したら、アプリケーションのアセットをコンパイルします。
 
@@ -237,7 +242,7 @@ Ably　Echo設定は`MIX_ABLY_PUBLIC_KEY`環境変数を参照していること
 npm run dev
 ```
 
-> {tip} アプリケーションのJavaScriptアセットのコンパイルの詳細は、[Laravel Mix](/docs/{{version}}/mix)のドキュメントを参照してください。
+> {tip} アプリケーションで使用しているJavaScriptリソースのコンパイルについて詳しく知りたい場合は、[Vite](/docs/{{version}}/vite)ドキュメントを参照してください。
 
 <a name="concept-overview"></a>
 ## 概論
@@ -1095,7 +1100,7 @@ Echo.private(`chat.${roomId}`)
 <a name="notifications"></a>
 ## 通知
 
-イベントブロードキャストを[通知](/docs/{{version}}/notifications)と組み合わせることで、JavaScriptアプリケーションは、ページを更新せず発生した新しい通知を受け取ることができます。実現する前に、[ブロードキャスト通知チャンネル](/docs/{{version}}/notifys#broadcast-notifications)の使用に関するドキュメントを必ずお読みください。
+イベントブロードキャストを[通知](/docs/{{version}}/notifications)と組み合わせることで、JavaScriptアプリケーションは、ページを更新せず発生した新しい通知を受け取ることができます。実現する前に、[ブロードキャスト通知チャンネル](/docs/{{version}}/notifications#broadcast-notifications)の使用に関するドキュメントを必ずお読みください。
 
 ブロードキャストチャンネルを使用するように通知を設定すると、Echoの`notification`メソッドを使用してブロードキャストイベントをリッスンできます。チャンネル名は、通知を受信するエンティティのクラス名と一致する必要があることに注意してください。
 

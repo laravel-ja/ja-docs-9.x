@@ -1,119 +1,196 @@
-# JavaScript & CSS Scaffolding
+# Frontend
 
 - [Introduction](#introduction)
-- [Writing CSS](#writing-css)
-- [Writing JavaScript](#writing-javascript)
-    - [Writing Vue Components](#writing-vue-components)
-    - [Using React](#using-react)
-- [Adding Presets](#adding-presets)
+- [Using PHP](#using-php)
+    - [PHP & Blade](#php-and-blade)
+    - [Livewire](#livewire)
+    - [Starter Kits](#php-starter-kits)
+- [Using Vue / React](#using-vue-react)
+    - [Inertia](#inertia)
+    - [Starter Kits](#inertia-starter-kits)
+- [Bundling Assets](#bundling-assets)
 
 <a name="introduction"></a>
 ## Introduction
 
-While Laravel does not dictate which JavaScript or CSS pre-processors you use, it does provide a basic starting point using [Bootstrap](https://getbootstrap.com/), [React](https://reactjs.org/), and / or [Vue](https://vuejs.org/) that will be helpful for many applications. By default, Laravel uses [NPM](https://www.npmjs.org) to install both of these frontend packages.
+Laravel is a backend framework that provides all of the features you need to build modern web applications, such as [routing](/docs/{{version}}/routing), [validation](/docs/{{version}}/validation), [caching](/docs/{{version}}/cache), [queues](/docs/{{version}}/queues), [file storage](/docs/{{version}}/filesystem), and more. However, we believe it's important to offer developers a beautiful full-stack experience, including powerful approaches for building your application's frontend.
 
-The Bootstrap and Vue scaffolding provided by Laravel is located in the `laravel/ui` Composer package, which may be installed using Composer:
+There are two primary ways to tackle frontend development when building an application with Laravel, and which approach you choose is determined by whether you would like to build your frontend by leveraging PHP or by using JavaScript frameworks such as Vue and React. We'll discuss both of these options below so that you can make an informed decision regarding the best approach to frontend development for your application.
 
-    composer require laravel/ui
+<a name="using-php"></a>
+## Using PHP
 
-Once the `laravel/ui` package has been installed, you may install the frontend scaffolding using the `ui` Artisan command:
+<a name="php-and-blade"></a>
+### PHP & Blade
 
-    // Generate basic scaffolding...
-    php artisan ui bootstrap
-    php artisan ui vue
-    php artisan ui react
+In the past, most PHP applications rendered HTML to the browser using simple HTML templates interspersed with PHP `echo` statements which render data that was retrieved from a database during the request:
 
-    // Generate login / registration scaffolding...
-    php artisan ui bootstrap --auth
-    php artisan ui vue --auth
-    php artisan ui react --auth
+```blade
+<div>
+    <?php foreach ($users as $user): ?>
+        Hello, <?php echo $user->name; ?> <br />
+    <?php endforeach; ?>
+</div>
+```
 
-#### CSS
+In Laravel, this approach to rendering HTML can still be achieved using [views](/docs/{{version}}/views) and [Blade](/docs/{{version}}/blade). Blade is an extremely light-weight templating language that provides convenient, short syntax for displaying data, iterating over data, and more:
 
-[Laravel Mix](/docs/{{version}}/mix) provides a clean, expressive API over compiling SASS or Less, which are extensions of plain CSS that add variables, mixins, and other powerful features that make working with CSS much more enjoyable. In this document, we will briefly discuss CSS compilation in general; however, you should consult the full [Laravel Mix documentation](/docs/{{version}}/mix) for more information on compiling SASS or Less.
+```blade
+<div>
+    @foreach ($users as $user)
+        Hello, {{ $user->name }} <br />
+    @endforeach
+</div>
+```
 
-#### JavaScript
+When building applications in this fashion, form submissions and other page interactions typically receive an entirely new HTML document from the server and the entire page is re-rendered by the browser. Even today, many applications may be perfectly suited to having their frontends constructed in this way using simple Blade templates.
 
-Laravel does not require you to use a specific JavaScript framework or library to build your applications. In fact, you don't have to use JavaScript at all. However, Laravel does include some basic scaffolding to make it easier to get started writing modern JavaScript using the [Vue](https://vuejs.org) library. Vue provides an expressive API for building robust JavaScript applications using components. As with CSS, we may use Laravel Mix to easily compile JavaScript components into a single, browser-ready JavaScript file.
+<a name="growing-expectations"></a>
+#### Growing Expectations
 
-<a name="writing-css"></a>
-## Writing CSS
+However, as user expectations regarding web applications have matured, many developers have found the need to build more dynamic frontends with interactions that feel more polished. In light of this, some developers choose to begin building their application's frontend using JavaScript frameworks such as Vue and React.
 
-After installing the `laravel/ui` Composer package and [generating the frontend scaffolding](#introduction), Laravel's `package.json` file will include the `bootstrap` package to help you get started prototyping your application's frontend using Bootstrap. However, feel free to add or remove packages from the `package.json` file as needed for your own application. You are not required to use the Bootstrap framework to build your Laravel application - it is provided as a good starting point for those who choose to use it.
+Others, preferring to stick with the backend language they are comfortable with, have developed solutions that allow the construction of modern web application UIs while still primarily utilizing their backend language of choice. For example, in the [Rails](https://rubyonrails.org/) ecosystem, this has spurred the creation of libraries such as [Turbo](https://turbo.hotwired.dev/) [Hotwire](https://hotwired.dev/), and [Stimulus](https://stimulus.hotwired.dev/).
 
-Before compiling your CSS, install your project's frontend dependencies using the [Node package manager (NPM)](https://www.npmjs.org):
+Within the Laravel ecosystem, the need to create modern, dynamic frontends by primarily using PHP has led to the creation of [Laravel Livewire](https://laravel-livewire.com) and [Alpine.js](https://alpinejs.dev/).
 
-    npm install
+<a name="livewire"></a>
+### Livewire
 
-Once the dependencies have been installed using `npm install`, you can compile your SASS files to plain CSS using [Laravel Mix](/docs/{{version}}/mix#working-with-stylesheets). The `npm run dev` command will process the instructions in your `webpack.mix.js` file. Typically, your compiled CSS will be placed in the `public/css` directory:
+[Laravel Livewire](https://laravel-livewire.com) is a framework for building Laravel powered frontends that feel dynamic, modern, and alive just like frontends built with modern JavaScript frameworks like Vue and React.
 
-    npm run dev
+When using Livewire, you will create Livewire "components" that render a discrete portion of your UI and expose methods and data that can be invoked and interacted with from your application's frontend. For example, a simple "Counter" component might look like the following:
 
-The `webpack.mix.js` file included with Laravel's frontend scaffolding will compile the `resources/sass/app.scss` SASS file. This `app.scss` file imports a file of SASS variables and loads Bootstrap, which provides a good starting point for most applications. Feel free to customize the `app.scss` file however you wish or even use an entirely different pre-processor by [configuring Laravel Mix](/docs/{{version}}/mix).
+```php
+<?php
 
-<a name="writing-javascript"></a>
-## Writing JavaScript
+namespace App\Http\Livewire;
 
-All of the JavaScript dependencies required by your application can be found in the `package.json` file in the project's root directory. This file is similar to a `composer.json` file except it specifies JavaScript dependencies instead of PHP dependencies. You can install these dependencies using the [Node package manager (NPM)](https://www.npmjs.org):
+use Livewire\Component;
 
-    npm install
+class Counter extends Component
+{
+    public $count = 0;
 
-> {tip} By default, the Laravel `package.json` file includes a few packages such as `lodash` and `axios` to help you get started building your JavaScript application. Feel free to add or remove from the `package.json` file as needed for your own application.
+    public function increment()
+    {
+        $this->count++;
+    }
 
-Once the packages are installed, you can use the `npm run dev` command to [compile your assets](/docs/{{version}}/mix). Webpack is a module bundler for modern JavaScript applications. When you run the `npm run dev` command, Webpack will execute the instructions in your `webpack.mix.js` file:
+    public function render()
+    {
+        return view('livewire.counter');
+    }
+}
+```
 
-    npm run dev
+And, the corresponding template for the counter would be written like so:
 
-By default, the Laravel `webpack.mix.js` file compiles your SASS and the `resources/js/app.js` file. Within the `app.js` file you may register your Vue components or, if you prefer a different framework, configure your own JavaScript application. Your compiled JavaScript will typically be placed in the `public/js` directory.
+```blade
+<div>
+    <button wire:click="increment">+</button>
+    <h1>{{ $count }}</h1>
+</div>
+```
 
-> {tip} The `app.js` file will load the `resources/js/bootstrap.js` file which bootstraps and configures Vue, Axios, jQuery, and all other JavaScript dependencies. If you have additional JavaScript dependencies to configure, you may do so in this file.
+As you can see, Livewire enables you to write new HTML attributes such as `wire:click` that connect your Laravel application's frontend and backend. In addition, you can render your component's current state using simple Blade expressions.
 
-<a name="writing-vue-components"></a>
-### Writing Vue Components
+For many, Livewire has revolutionized frontend development with Laravel, allowing them to stay within the comfort of Laravel while constructing modern, dynamic web applications. Typically, developers using Livewire will also utilize [Alpine.js](https://alpinejs.dev/) to "sprinkle" JavaScript onto their frontend only where it is needed, such as in order to render a dialog window.
 
-When using the `laravel/ui` package to scaffold your frontend, an `ExampleComponent.vue` Vue component will be placed in the `resources/js/components` directory. The `ExampleComponent.vue` file is an example of a [single file Vue component](https://vuejs.org/guide/single-file-components) which defines its JavaScript and HTML template in the same file. Single file components provide a very convenient approach to building JavaScript driven applications. The example component is registered in your `app.js` file:
+If you're new to Laravel, we recommend getting familiar with the basic usage of [views](/docs/{{version}}/views) and [Blade](/docs/{{version}}/blade). Then, consult the official [Laravel Livewire documentation](https://laravel-livewire.com/docs) to learn how to take your application to the next level with interactive Livewire components.
 
-    Vue.component(
-        'example-component',
-        require('./components/ExampleComponent.vue').default
-    );
+<a name="php-starter-kits"></a>
+### Starter Kits
 
-To use the component in your application, you may drop it into one of your HTML templates. For example, after running the `php artisan ui vue --auth` Artisan command to scaffold your application's authentication and registration screens, you could drop the component into the `home.blade.php` Blade template:
+If you would like to build your frontend using PHP and Livewire, you can leverage our Breeze or Jetstream [starter kits](/docs/{{version}}/starter-kits) to jump-start your application's development. Both of these starter kits scaffold your application's backend and frontend authentication flow using [Blade](/docs/{{version}}/blade) and [Tailwind](https://tailwindcss.com) so that you can simply start building your next big idea.
 
-    @extends('layouts.app')
+<a name="using-vue-react"></a>
+## Using Vue / React
 
-    @section('content')
-        <example-component></example-component>
-    @endsection
+Although it's possible to build modern frontends using Laravel and Livewire, many developers still prefer to leverage the power of a JavaScript framework like Vue or React. This allows developers to take advantage of the rich ecosystem of JavaScript packages and tools available via NPM.
 
-> {tip} Remember, you should run the `npm run dev` command each time you change a Vue component. Or, you may run the `npm run watch` command to monitor and automatically recompile your components each time they are modified.
+However, without additional tooling, pairing Laravel with Vue or React would leave us needing to solve a variety of complicated problems such as client-side routing, data hydration, and authentication. Client-side routing is often simplified by using opinionated Vue / React frameworks such as [Nuxt](https://nuxtjs.org/) and [Next](https://nextjs.org/); however, data hydration and authentication remain complicated and cumbersome problems to solve when pairing a backend framework like Laravel with these frontend frameworks.
 
-If you are interested in learning more about writing Vue components, you should read the [Vue documentation](https://vuejs.org/guide/), which provides a thorough, easy-to-read overview of the entire Vue framework.
+In addition, developers are left maintaining two separate code repositories, often needing to coordinate maintenance, releases, and deployments across both repositories. While these problems are not insurmountable, we don't believe it's a productive or enjoyable way to develop applications.
 
-<a name="using-react"></a>
-### Using React
+<a name="inertia"></a>
+### Inertia
 
-If you prefer to use React to build your JavaScript application, Laravel makes it a cinch to swap the Vue scaffolding with React scaffolding:
+Thankfully, Laravel offers the best of both worlds. [Inertia](https://inertiajs.com) bridges the gap between your Laravel application and your modern Vue or React frontend, allowing you to build full-fledged, modern frontends using Vue or React while leveraging Laravel routes and controllers for routing, data hydration, and authentication — all within a single code repository. With this approach, you can enjoy the full power of both Laravel and Vue / React without crippling the capabilities of either tool.
 
-    composer require laravel/ui
+After installing Inertia into your Laravel application, you will write routes and controllers like normal. However, instead of returning a Blade template from your controller, you will return an Inertia page:
 
-    // Generate basic scaffolding...
-    php artisan ui react
+```php
+<?php
 
-    // Generate login / registration scaffolding...
-    php artisan ui react --auth
+namespace App\Http\Controllers;
 
-<a name="adding-presets"></a>
-## Adding Presets
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Inertia\Inertia;
 
-Presets are "macroable", which allows you to add additional methods to the `UiCommand` class at runtime. For example, the following code adds a `nextjs` method to the `UiCommand` class. Typically, you should declare preset macros in a [service provider](/docs/{{version}}/providers):
+class UserController extends Controller
+{
+    /**
+     * Show the profile for a given user.
+     *
+     * @param  int  $id
+     * @return \Inertia\Response
+     */
+    public function show($id)
+    {
+        return Inertia::render('Users/Profile', [
+            'user' => User::findOrFail($id)
+        ]);
+    }
+}
+```
 
-    use Laravel\Ui\UiCommand;
+An Inertia page corresponds to a Vue or React component, typically stored within the `resources/js/Pages` directory of your application. The data given to the page via the `Inertia::render` method will be used to hydrate the "props" of the page component:
 
-    UiCommand::macro('nextjs', function (UiCommand $command) {
-        // Scaffold your frontend...
-    });
+```vue
+<script setup>
+import Layout from '@/Layouts/Authenticated.vue';
+import { Head } from '@inertiajs/inertia-vue3';
 
-Then, you may call the new preset via the `ui` command:
+const props = defineProps(['user']);
+</script>
 
-    php artisan ui nextjs
+<template>
+    <Head title="User Profile" />
+
+    <Layout>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Profile
+            </h2>
+        </template>
+
+        <div class="py-12">
+            Hello, {{ user.name }}
+        </div>
+    </Layout>
+</template>
+```
+
+As you can see, Inertia allows you to leverage the full power of Vue or React when building your frontend, while providing a light-weight bridge between your Laravel powered backend and your JavaScript powered frontend.
+
+#### Server-Side Rendering
+
+If you're concerned about diving into Inertia because your application requires server-side rendering, don't worry. Inertia offers [server-side rendering support](https://inertiajs.com/server-side-rendering). And, when deploying your application via [Laravel Forge](https://forge.laravel.com), it's a breeze to ensure that Inertia's server-side rendering process is always running.
+
+<a name="inertia-starter-kits"></a>
+### Starter Kits
+
+If you would like to build your frontend using Inertia and Vue / React, you can leverage our Breeze or Jetstream [starter kits](/docs/{{version}}/starter-kits#breeze-and-inertia) to jump-start your application's development. Both of these starter kits scaffold your application's backend and frontend authentication flow using Inertia, Vue / React, [Tailwind](https://tailwindcss.com), and [Vite](https://vitejs.dev) so that you can start building your next big idea.
+
+<a name="bundling-assets"></a>
+## Bundling Assets
+
+Regardless of whether you choose to develop your frontend using Blade and Livewire or Vue / React and Inertia, you will likely need to bundle your application's CSS into production ready assets. Of course, if you choose to build your application's frontend with Vue or React, you will also need to bundle your components into browser ready JavaScript assets.
+
+By default, Laravel utilizes [Vite](https://vitejs.dev) to bundle your assets. Vite provides lightning-fast build times and near instantaneous Hot Module Replacement (HMR) during local development. In all new Laravel application's, including those using our [starter kits](/docs/{{version}}/starter-kits), you will find a `vite.config.js` file that loads our light-weight Laravel Vite plugin that makes Vite a joy to use with Laravel applications.
+
+The fastest way to get started with Laravel and Vite is by beginning your application's development using [Laravel Breeze](/docs/{{version}}/starter-kits#laravel-breeze), our simplest starter kit that jump-starts your application by providing frontend and backend authentication scaffolding.
+
+> {tip} For more detailed documentation on utilizing Vite with Laravel, please see our [dedicated documentation on bundling and compiling your assets](/docs/{{version}}/vite).

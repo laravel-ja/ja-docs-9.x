@@ -176,6 +176,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [between](#method-fluent-str-between)
 [betweenFirst](#method-fluent-str-between-first)
 [camel](#method-fluent-str-camel)
+[classBasename](#method-fluent-str-class-basename)
 [contains](#method-fluent-str-contains)
 [containsAll](#method-fluent-str-contains-all)
 [dirname](#method-fluent-str-dirname)
@@ -293,6 +294,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [encrypt](#method-encrypt)
 [env](#method-env)
 [event](#method-event)
+[fake](#method-fake)
 [filled](#method-filled)
 [info](#method-info)
 [logger](#method-logger)
@@ -2181,6 +2183,17 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 
     // fooBar
 
+<a name="method-fluent-str-class-basename"></a>
+#### `classBasename` {.collection-method}
+
+`classBasename`メソッドは、指定したクラスから名前空間を削除したクラス名を返す。
+
+    use Illuminate\Support\Str;
+
+    $class = Str::of('Foo\Bar\Baz')->classBasename();
+
+    // Baz
+
 <a name="method-fluent-str-contains"></a>
 #### `contains` {.collection-method}
 
@@ -2929,7 +2942,7 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     $string = Str::of('Laravel')
         ->append(' Framework')
         ->tap(function ($string) {
-            dump('String after append: ' . $string);
+            dump('String after append: '.$string);
         })
         ->upper();
 
@@ -3514,6 +3527,27 @@ Str::of('Hello, world!')->wordCount(); // 2
 
     event(new UserRegistered($user));
 
+<a name="method-fake"></a>
+#### `fake()` {.collection-method}
+
+`fake`関数は、コンテナから[Faker](https://github.com/FakerPHP/Faker)シングルトンを依存解決します。これは、モデルファクトリ、データベース初期値設定、テスト、プロトタイピングビューでフェイクデータを作成する場合に便利です。
+
+```blade
+@for($i = 0; $i < 10; $i++)
+    <dl>
+        <dt>Name</dt>
+        <dd>{{ fake()->name() }}</dd>
+
+        <dt>Email</dt>
+        <dd>{{ fake()->unique()->safeEmail() }}</dd>
+    </dl>
+@endfor
+```
+
+`fake`関数はデフォルトで、`config/app.php`設定ファイルの`app.faker_locale`設定オプションを利用しますが、`fake`関数でロケールを直接指定することもできます。各ロケールは個々のシングルトンを解決します:
+
+    fake('nl_NL')->name()
+
 <a name="method-filled"></a>
 #### `filled()` {.collection-method}
 
@@ -3702,7 +3736,7 @@ Str::of('Hello, world!')->wordCount(); // 2
 
 便利なように、`retry`関数の最初の引数には配列を指定することもできます。この配列は、次の再試行の間に何ミリ秒スリープさせるかを決定するために使用されます。
 
-    return retry([100, 200] function () {
+    return retry([100, 200], function () {
         // 最初に100ms、２回目に200msスリープする
     });
 
