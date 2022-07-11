@@ -146,6 +146,12 @@ php artisan route:list -v
 php artisan route:list --except-vendor
 ```
 
+同様に、`route:list`コマンドを実行するときに、`--only-vendor`オプションを指定し、サードパーティーのパッケージが定義したルートだけを表示できます。
+
+```shell
+php artisan route:list --only-vendor
+```
+
 <a name="route-parameters"></a>
 ## ルートパラメータ
 
@@ -644,6 +650,7 @@ Laravelは特定のルートまたはルートのグループのトラフィッ�
 レート制限は、`RateLimiter`ファサードの`for`メソッドを使用して定義します。`for`メソッドは、レート制限名と、レート制限をしていするルートへ適用する必要がある制限構成を返すクロージャを引数に取ります。制限設定は、`Illuminate\Cache\RateLimiting\Limit`クラスのインスタンスです。このクラスには、制限を簡単に定義するのに役立つ「組み立て」メソッドを用意しています。レート制限名は、任意の文字列にできます。
 
     use Illuminate\Cache\RateLimiting\Limit;
+    use Illuminate\Http\Request;
     use Illuminate\Support\Facades\RateLimiter;
 
     /**
@@ -661,8 +668,8 @@ Laravelは特定のルートまたはルートのグループのトラフィッ�
 受信リクエストが指定したレート制限を超えると、429 HTTPステータスコードのレスポンスをLaravelは自動的に返します。レート制限によって返す独自のレスポンスを定義する場合は、`response`メソッドを使用できます。
 
     RateLimiter::for('global', function (Request $request) {
-        return Limit::perMinute(1000)->response(function () {
-            return response('Custom response...', 429);
+        return Limit::perMinute(1000)->response(function (Request $request, array $headers) {
+            return response('Custom response...', 429, $headers);
         });
     });
 

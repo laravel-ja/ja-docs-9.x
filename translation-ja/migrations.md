@@ -269,6 +269,14 @@ php artisan migrate:fresh --seed
         // ...
     });
 
+データベースのテーブルへ「コメント」を追加したい場合は、テーブルのインスタンスに対し`comment`メソッドを呼び出してください。テーブルコメントは現在、MySQLとPostgresでのみサポートしています。
+
+    Schema::create('calculations', function (Blueprint $table) {
+        $table->comment('Business calculations');
+
+        // ...
+    });
+
 <a name="updating-tables"></a>
 ### テーブルの更新
 
@@ -927,7 +935,7 @@ php artisan migrate:fresh --seed
         }
     };
 
-> {note} デフォルト式のサポートは、データベースドライバ、データベースバージョン、およびフィールドタイプによって異なります。データベースのドキュメントを参照してください。
+> {note} デフォルト式のサポートは、データベースドライバ、データベースバージョン、およびフィールドタイプによって異なります。データベースのドキュメントを参照してください。また、`change`メソッドを用い、`DB::raw`を使う生の`default`表現とカラム変更を組み合わせることはできません。
 
 <a name="column-order"></a>
 #### カラム順序

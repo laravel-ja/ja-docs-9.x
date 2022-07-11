@@ -45,11 +45,14 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Arr::hasAny](#method-array-hasany)
 [Arr::isAssoc](#method-array-isassoc)
 [Arr::isList](#method-array-islist)
+[Arr::join](#method-array-join)
 [Arr::keyBy](#method-array-keyby)
 [Arr::last](#method-array-last)
+[Arr::map](#method-array-map)
 [Arr::only](#method-array-only)
 [Arr::pluck](#method-array-pluck)
 [Arr::prepend](#method-array-prepend)
+[Arr::prependKeysWith](#method-array-prependkeyswith)
 [Arr::pull](#method-array-pull)
 [Arr::query](#method-array-query)
 [Arr::random](#method-array-random)
@@ -111,6 +114,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Str::headline](#method-str-headline)
 [Str::is](#method-str-is)
 [Str::isAscii](#method-str-is-ascii)
+[Str::isJson](#method-str-is-json)
 [Str::isUuid](#method-str-is-uuid)
 [Str::kebab](#method-kebab-case)
 [Str::lcfirst](#method-str-lcfirst)
@@ -172,6 +176,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [between](#method-fluent-str-between)
 [betweenFirst](#method-fluent-str-between-first)
 [camel](#method-fluent-str-camel)
+[classBasename](#method-fluent-str-class-basename)
 [contains](#method-fluent-str-contains)
 [containsAll](#method-fluent-str-contains-all)
 [dirname](#method-fluent-str-dirname)
@@ -184,6 +189,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [isAscii](#method-fluent-str-is-ascii)
 [isEmpty](#method-fluent-str-is-empty)
 [isNotEmpty](#method-fluent-str-is-not-empty)
+[isJson](#method-fluent-str-is-json)
 [isUuid](#method-fluent-str-is-uuid)
 [kebab](#method-fluent-str-kebab)
 [lcfirst](#method-fluent-str-lcfirst)
@@ -288,6 +294,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [encrypt](#method-encrypt)
 [env](#method-env)
 [event](#method-event)
+[fake](#method-fake)
 [filled](#method-filled)
 [info](#method-info)
 [logger](#method-logger)
@@ -609,6 +616,23 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 
     // false
 
+<a name="method-array-join"></a>
+#### `Arr::join()` {.collection-method}
+
+`Arr::join`メソッドは、配列の要素を文字列として結合します。このメソッドに第２引数を使用し、配列の最後の要素前に挿入する文字列を指定できます。
+
+    use Illuminate\Support\Arr;
+
+    $array = ['Tailwind', 'Alpine', 'Laravel', 'Livewire'];
+
+    $joined = Arr::join($array, ', ');
+
+    // Tailwind, Alpine, Laravel, Livewire
+
+    $joined = Arr::join($array, ', ', ' and ');
+
+    // Tailwind, Alpine, Laravel and Livewire
+
 <a name="method-array-keyby"></a>
 #### `Arr::keyBy()` {.collection-method}
 
@@ -650,6 +674,21 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
     use Illuminate\Support\Arr;
 
     $last = Arr::last($array, $callback, $default);
+
+<a name="method-array-map"></a>
+#### `Arr::map()` {.collection-method}
+
+`Arr::map`メソッドは配列を繰り返し処理し、それぞれの値とキーを指定したコールバックへ渡します。配列の値は、コールバックの返却値で置き換えます。
+
+    use Illuminate\Support\Arr;
+
+    $array = ['first' => 'james', 'last' => 'kirk'];
+
+    $mapped = Arr::map($array, function ($value, $key) {
+        return ucfirst($value);
+    });
+
+    // ['first' => 'James', 'last' => 'Kirk']
 
 <a name="method-array-only"></a>
 #### `Arr::only()` {.collection-method}
@@ -710,6 +749,27 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
     $array = Arr::prepend($array, 'Desk', 'name');
 
     // ['name' => 'Desk', 'price' => 100]
+
+<a name="method-array-prependkeyswith"></a>
+#### `Arr::prependKeysWith()` {.collection-method}
+
+`Arr::prependKeysWith`は、連想配列のすべてのキー名の前に、指定したプレフィックスを付加します。
+
+    use Illuminate\Support\Arr;
+
+    $array = [
+        'name' => 'Desk',
+        'price' => 100,
+    ];
+
+    $keyed = Arr::prependKeysWith($array, 'product.');
+
+    /*
+        [
+            'product.name' => 'Desk',
+            'product.price' => 100,
+        ]
+    */
 
 <a name="method-array-pull"></a>
 #### `Arr::pull()` {.collection-method}
@@ -1416,6 +1476,25 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 
     // false
 
+<a name="method-str-is-json"></a>
+#### `Str::isJson()` {.collection-method}
+
+`Str::isJson`メソッドは、指定文字列が有効なJSONであるかを判定します。
+
+    use Illuminate\Support\Str;
+
+    $result = Str::isJson('[1,2,3]');
+
+    // true
+
+    $result = Str::isJson('{"first": "John", "last": "Doe"}');
+
+    // true
+
+    $result = Str::isJson('{first: "John", last: "Doe"}');
+
+    // false
+
 <a name="method-str-is-uuid"></a>
 #### `Str::isUuid()` {.collection-method}
 
@@ -2104,6 +2183,17 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 
     // fooBar
 
+<a name="method-fluent-str-class-basename"></a>
+#### `classBasename` {.collection-method}
+
+`classBasename`メソッドは、指定したクラスから名前空間を削除したクラス名を返す。
+
+    use Illuminate\Support\Str;
+
+    $class = Str::of('Foo\Bar\Baz')->classBasename();
+
+    // Baz
+
 <a name="method-fluent-str-contains"></a>
 #### `contains` {.collection-method}
 
@@ -2299,6 +2389,25 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
     $result = Str::of('Laravel')->trim()->isNotEmpty();
 
     // true
+
+<a name="method-fluent-str-is-json"></a>
+#### `isJson` {.collection-method}
+
+`isJson`メソッドは、指定文字列が有効なJSONであるかを判定します。
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('[1,2,3]')->isJson();
+
+    // true
+
+    $result = Str::of('{"first": "John", "last": "Doe"}')->isJson();
+
+    // true
+
+    $result = Str::of('{first: "John", last: "Doe"}')->isJson();
+
+    // false
 
 <a name="method-fluent-str-is-uuid"></a>
 #### `isUuid` {.collection-method}
@@ -2833,7 +2942,7 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     $string = Str::of('Laravel')
         ->append(' Framework')
         ->tap(function ($string) {
-            dump('String after append: ' . $string);
+            dump('String after append: '.$string);
         })
         ->upper();
 
@@ -3418,6 +3527,27 @@ Str::of('Hello, world!')->wordCount(); // 2
 
     event(new UserRegistered($user));
 
+<a name="method-fake"></a>
+#### `fake()` {.collection-method}
+
+`fake`関数は、コンテナから[Faker](https://github.com/FakerPHP/Faker)シングルトンを依存解決します。これは、モデルファクトリ、データベース初期値設定、テスト、プロトタイピングビューでフェイクデータを作成する場合に便利です。
+
+```blade
+@for($i = 0; $i < 10; $i++)
+    <dl>
+        <dt>Name</dt>
+        <dd>{{ fake()->name() }}</dd>
+
+        <dt>Email</dt>
+        <dd>{{ fake()->unique()->safeEmail() }}</dd>
+    </dl>
+@endfor
+```
+
+`fake`関数はデフォルトで、`config/app.php`設定ファイルの`app.faker_locale`設定オプションを利用しますが、`fake`関数でロケールを直接指定することもできます。各ロケールは個々のシングルトンを解決します:
+
+    fake('nl_NL')->name()
+
 <a name="method-filled"></a>
 #### `filled()` {.collection-method}
 
@@ -3600,13 +3730,13 @@ Str::of('Hello, world!')->wordCount(); // 2
 
     return retry(5, function () {
         // ...
-    }, function ($attempt) {
+    }, function ($attempt, $exception) {
         return $attempt * 100;
     });
 
 便利なように、`retry`関数の最初の引数には配列を指定することもできます。この配列は、次の再試行の間に何ミリ秒スリープさせるかを決定するために使用されます。
 
-    return retry([100, 200] function () {
+    return retry([100, 200], function () {
         // 最初に100ms、２回目に200msスリープする
     });
 

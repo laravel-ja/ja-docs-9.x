@@ -183,7 +183,7 @@ php artisan make:job ProcessPodcast
          *
          * @var \App\Models\Podcast
          */
-        protected $podcast;
+        public $podcast;
 
         /**
          * 新しいジョブインスタンスの生成
@@ -622,7 +622,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // ...
 
@@ -660,7 +660,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // ...
 
@@ -713,7 +713,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // ポッドキャストの生成
 
@@ -775,7 +775,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
         new ProcessPodcast,
         new OptimizePodcast,
         function () {
-            Podcast::update(...);
+            Podcast::update(/* ... */);
         },
     ])->dispatch();
 
@@ -835,7 +835,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // ポッドキャストの生成
 
@@ -894,7 +894,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // ポッドキャストの生成
 
@@ -1034,7 +1034,7 @@ php artisan queue:work --tries=3
 
 > {note} ジョブのタイムアウトを指定するには、`pcntl` PHP拡張機能をインストールする必要があります。
 
-多くの場合、キュー投入したジョブにかかると予想されるおおよその時間をあなたは知っています。このため、Laravelでは「タイムアウト」値も指定できます。ジョブがタイムアウト値で指定する秒数より長く処理されている場合、ジョブを処理しているワーカはエラーで終了します。通常、ワーカは[サーバで設定したプロセスマネージャ](#supervisor-configuration)によって自動的に再起動されます。
+多くの場合、キュー投入したジョブにかかると予想されるおおよその時間をあなたは知っています。このため、Laravelでは「タイムアウト」値も指定できます。デフォルトのタイムアウト値は６０秒です。ジョブがタイムアウト値で指定する秒数より長く処理されている場合、ジョブを処理しているワーカはエラーで終了します。通常、ワーカは[サーバで設定したプロセスマネージャ](#supervisor-configuration)によって自動的に再起動されます。
 
 ジョブを実行できる最大秒数は、Artisanコマンドラインの`--timeout`スイッチを使用して指定できます。
 
@@ -1560,7 +1560,7 @@ php artisan queue:restart
 <a name="worker-timeouts"></a>
 #### ワーカタイムアウト
 
-`queue:work` Artisanコマンドは`--timeout`オプションを用意しています。ジョブがタイムアウト値で指定する秒数より長く処理されている場合、ジョブを処理しているワーカはエラーで終了します。通常、ワーカは[サーバで構築済みのプロセスマネージャ](#supervisor-configuration)によって自動的に再起動されます。
+`queue:work` Artisanコマンドは`--timeout`オプションを用意しています。`--timeout`のデフォルト値は６０秒です。ジョブがタイムアウト値で指定する秒数より長く処理されている場合、ジョブを処理しているワーカはエラーで終了します。通常、ワーカは[サーバで構築済みのプロセスマネージャ](#supervisor-configuration)によって自動的に再起動されます。
 
 ```shell
 php artisan queue:work --timeout=60
@@ -1711,7 +1711,7 @@ php artisan queue:work redis --tries=3 --backoff=3
          *
          * @var \App\Podcast
          */
-        protected $podcast;
+        public $podcast;
 
         /**
          * 新しいジョブインスタンスの生成

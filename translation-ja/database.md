@@ -6,6 +6,7 @@
 - [SQLクエリの実行](#running-queries)
     - [複数データベース接続の使用](#using-multiple-database-connections)
     - [クエリイベントのリッスン](#listening-for-query-events)
+    - [累積クエリ時間の監視](#monitoring-cumulative-query-time)
 - [データベーストランザクション](#database-transactions)
 - [データベースCLIへの接続](#connecting-to-the-database-cli)
 
@@ -231,7 +232,7 @@ SELECTステートメントに１つのデータベース接続を使用し、IN
 
     use Illuminate\Support\Facades\DB;
 
-    $users = DB::connection('sqlite')->select(...);
+    $users = DB::connection('sqlite')->select(/* ... */);
 
 接続インスタンスで`getPdo`メソッドを使用して、接続の基になる素のPDOインスタンスにアクセスできます。
 
@@ -272,6 +273,44 @@ SELECTステートメントに１つのデータベース接続を使用し、IN
                 // $query->sql;
                 // $query->bindings;
                 // $query->time;
+            });
+        }
+    }
+
+<a name="monitoring-cumulative-query-time"></a>
+### 累積クエリ時間の監視
+
+モダンなWebアプリケーションの一般的なパフォーマンスボトルネックは、データベースのクエリに費やす時間の長さです。幸いなことに、Laravelは、単一のリクエスト中にデータベースのクエリに時間がかかりすぎる場合、選んだクロージャやコールバックを呼び出せます。これを使うには、`whenQueryingForLongerThan`メソッドへ、クエリ時間しきい値(ミリ秒単位)とクロージャを指定します。このメソッドは、[サービスプロバイダ](/docs/{{version}}/providers)の`boot`メソッドで呼び出します
+
+    <?php
+
+    namespace App\Providers;
+
+    use Illuminate\Database\Connection;
+    use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\ServiceProvider;
+
+    class AppServiceProvider extends ServiceProvider
+    {
+        /**
+         * アプリケーションの全サービスの登録
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * アプリケーションの全サービスの初期起動
+         *
+         * @return void
+         */
+        public function boot()
+        {
+            DB::whenQueryingForLongerThan(500, function (Connection $connection) {
+                // 開発チームへ通知を送る…
             });
         }
     }

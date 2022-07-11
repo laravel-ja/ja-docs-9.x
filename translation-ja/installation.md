@@ -3,14 +3,15 @@
 - [Laravelとの出会い](#meet-laravel)
     - [なぜLaravelなのか？](#why-laravel)
 - [最初のLaravelプロジェクト](#your-first-laravel-project)
+- [LaravelとDocker](#laravel-and-docker)
     - [macOSで始める](#getting-started-on-macos)
     - [Windowsで始める](#getting-started-on-windows)
     - [Linuxで始める](#getting-started-on-linux)
     - [Sailサービスの選択](#choosing-your-sail-services)
-    - [Composerでのインストール](#installation-via-composer)
 - [初期設定](#initial-configuration)
     - [環境ベースの設定](#environment-based-configuration)
     - [ディレクトリ設定](#directory-configuration)
+    - [データベースとマイグレーション](#databases-and-migrations)
 - [次のステップ](#next-steps)
     - [Laravelフルスタックフレームワーク](#laravel-the-fullstack-framework)
     - [Laravel APIバックエンド](#laravel-the-api-backend)
@@ -48,7 +49,30 @@ LaravelはPHPエコシステムで最高のパッケージを組み合わせ、�
 <a name="your-first-laravel-project"></a>
 ## 最初のLaravelプロジェクト
 
-私たちはLaravelをできるだけ簡単に使い始められるようにしたいと思っています。ローカルのコンピューター上でLaravelプロジェクトを開発し、実行するには、さまざまな選択肢があります。後でこうしたオプションを検討することもできますが、Laravelは[Docker](https://www.docker.com)を利用する、Laravelプロジェクトを実行できる組み込みソルーションである[Sail](/docs/{{version}}/sail)を提供しています。
+最初のLaravelプロジェクトを作成する前に、ローカルマシンにPHPと[Composer](https://getcomposer.org)をインストールしていることを確認してください。macOSで開発している場合、PHPとComposerは[Homebrew](https://brew.sh/)を使い、インストールできます。さらに、[NodeとNPMのインストール](https://nodejs.org)もおすすめします。
+
+PHPとComposerをインストールしたら、Composerの`create-project`コマンドで、Laravelの新規プロジェクトを作成できます。
+
+```nothing
+composer create-project laravel/laravel example-app
+```
+
+プロジェクト作成後、LaravelのArtisan `serve` CLIコマンドを使用して、Laravelローカル開発サーバを起動します。
+
+```nothing
+cd example-app
+
+php artisan serve
+```
+
+Artisan開発サーバを起動すると、Webブラウザで`http://localhost:8000`からアプリケーションへアクセスできるようになります。次に、[Laravelエコシステムへの次のステップを開始](#next-steps)する準備が整いました。もちろん、[データベースの設定](#databases-and-migrations)も必要になります。
+
+> {tip} Laravelアプリケーションを開発する際に、有利なスタートダッシュを切りたければ、[スターターキット](/docs/{{version}}/starter-kits)の１つを使用することを検討してください。Laravelのスターターキットは、新しいLaravelアプリケーションのために、バックエンドとフロントエンド側の認証のスカフォールドを提供します。
+
+<a name="laravel-and-docker"></a>
+## LaravelとDocker
+
+皆さんの好みのオペレーティングシステムが何であれ、できるだけ簡単にLaravelを始められるようにしたいと考えています。そのため、ローカルマシンでLaravelプロジェクトを開発・実行するための様々なオプションが用意されています。これらのオプションは後ほど検討していただけますが、Laravelでは[Sail](/docs/{バージョン}}/sail)という、[Docker](https://www.docker.com)を使用してLaravelプロジェクトを実行する組み込みソリューションを提供しています。
 
 Dockerは、ローカルマシンにインストールしているソフトウェアや構成に干渉しない、小型で軽量の「コンテナ」でアプリケーションとサービスを実行するためのツールです。これはつまり、パーソナルマシン上のWebサーバやデータベースなどの複雑な開発ツールの構成や準備について心配する必要はないことを意味します。開発を開始するには、[Docker Desktop](https://www.docker.com/products/docker-desktop)をインストールするだけです。
 
@@ -158,96 +182,55 @@ URLへ`devcontainer`パラメータを追加し、デフォルトの[Devcontaine
 curl -s "https://laravel.build/example-app?with=mysql,redis&devcontainer" | bash
 ```
 
-<a name="installation-via-composer"></a>
-### Composerでのインストール
-
-ローカルマシンにすでにPHPとComposerがインストールされていれば、Composerを直接使用して新しいLaravelプロジェクトを作成できます。アプリケーションを作成したら、Artisan CLIの`serve`コマンドを使用して、Laravelのローカル開発サーバを起動できます。
-
-```shell
-composer create-project laravel/laravel example-app
-
-cd example-app
-
-php artisan serve
-```
-
-Artisan開発サーバを起動したら、`http://localhost:8000`でアプリケーションへアクセスできます。
-
-<a name="the-laravel-installer"></a>
-#### Laravelインストーラ
-
-または、LaravelインストーラをグローバルなComposerのパッケージとしてインストールすることもできます。
-
-```shell
-composer global require laravel/installer
-
-laravel new example-app
-
-cd example-app
-
-php artisan serve
-```
-
-Composerのシステム全体のvendor/binディレクトリを`$PATH`に配置して、システムで`laravel`実行可能ファイルが見つかるようにしてください。このディレクトリは、オペレーティングシステムに基づいてさまざまな場所に存在します。ただし、一般的には以下の場所にあります。
-
-<div class="content-list" markdown="1">
-
-- macOS: `$HOME/.composer/vendor/bin`
-- Windows: `%USERPROFILE%\AppData\Roaming\Composer\vendor\bin`
-- GNU／Linuxディストリビューション: `$HOME/.config/composer/vendor/bin`もしくは`$HOME/.composer/vendor/bin`
-
-</div>
-
-便利なように、Laravelインストーラはあなたの新しいプロジェクトのためにGitリポジトリを作成することもできます。Gitリポジトリを作成することを指示するには、新しいプロジェクトを作成するときに`--git`フラグを渡します。
-
-```shell
-laravel new example-app --git
-```
-
-このコマンドはプロジェクトの新しいGitリポジトリを初期化し、基本的なLaravelのスケルトンを自動的にコミットします。`git`フラグは正しくインストールされ、設定したGitを持っていると仮定しています。`--branch`フラグを使用して最初の分岐名を設定することもできます。
-
-```shell
-laravel new example-app --git --branch="main"
-```
-
-`--git`フラグを使用する代わりに、`--github`フラグを使用してGitリポジトリを作成し、GitHubで対応するプライベートリポジトリを作成することもできます。
-
-```shell
-laravel new example-app --github
-```
-
-作成されたリポジトリは`https://github.com/<your-account>/example-app`で入手できます。`github`フラグは、[GitHub CLI](https://cli.github.com)を正しくインストールし、GitHubで認証されていると仮定しています。さらに、`git`がインストールされ、正しく設定されている必要があります。必要に応じて、GitHub CLIがサポートしている追加のフラグを渡せます。
-
-```shell
-laravel new example-app --github="--public"
-```
-
-`--organization`フラグを使用して、特定のGitHubオーガニゼーションの下へリポジトリを作成できます。
-
-```shell
-laravel new example-app --github="--public" --organization="laravel"
-```
-
 <a name="initial-configuration"></a>
 ## 初期設定
 
-Laravelフレームワークのすべての設定ファイルは、`config`ディレクトリに保存されます。各オプションはコメントで説明してますので、ファイルを読み、使用可能なオプションを理解してください。
+Laravelフレームワークのすべての設定ファイルは、`config`ディレクトリに格納されています。各オプションにコメントが記述していますので、気兼ねなくファイルに目を通し、利用可能なオプションに馴染んでください。
 
-Laravelは最初から、追加設定をほぼ必要としません。あなたは自由に開発を始めることができます！しかし、`config/app.php`ファイルとコメントを確認されることを推奨します。`timezone`や`locale`などのオプションが含まれており、アプリケーションに合わせて変更したいはずです。
+Laravelでは、初期の追加設定はほとんど必要ありません。すぐに開発を始められます。しかし、`config/app.php`ファイルとそのコメントを確認することをお勧めします。このファイルには、`timezone`や`locale` など、アプリケーションに応じて更新しておきたいオプションが含まれています。
 
 <a name="environment-based-configuration"></a>
-### 環境ベースの設定
+### 環境ベースの設置
 
-Laravelの設定オプション値の多くは、アプリケーションがローカルマシンで実行されているか、本番Webサーバで実行されているかにより別の値にする場合があるため、多くの重要な設定値をアプリケーションのルートにある`.env`ファイルを使用して定義しています。
+Laravelの設定オプションの値の多くは、アプリケーションがローカルマシンで動作しているか、実働Webサーバで動作しているかにより異なるため、多くの重要な設定値はアプリケーションルートに存在する、`.env`ファイルを用いて定義します。
 
-アプリケーションを使用する開発者／サーバごとに異なる環境設定が必要になる可能性があるため、`.env`ファイルをアプリケーションのソース管理へコミットしないでください。さらに、機密性の高い資格情報が公開されるため、侵入者がソース管理リポジトリにアクセスした場合のセキュリティリスクになります。
+`.env`ファイルは、アプリケーションのソース管理へコミットしてはいけません。なぜなら、アプリケーションを使用する開発者やサーバごとに、異なる環境設定が必要になる可能性があるからです。さらに、侵入者がソースコントロールリポジトリへアクセスした場合、機密情報が漏洩してしまうため、セキュリティリスクにもなります。
 
-> {tip} `.env`ファイルと環境ベースの設定の詳細については、完全な[設定ドキュメント](/docs/{{version}}/configuration#environment-configuration)で確認してください。
+> {tip} `.env`ファイルと環境ベースの設定の詳細は、完全な[設定ドキュメント](/docs/{{version}}/configuration#environment-configuration)をチェックしてください。
 
 <a name="directory-configuration"></a>
 ### ディレクトリ設定
 
-Laravelは常に、Webサーバで設定する「Webディレクトリ」のルートから提供するべきです。WebディレクトリのサブディレクトリからLaravelアプリケーションを提供しないでください。そうしてしまうと、アプリケーション内に存在する機密ファイルが漏洩する可能性があります。
+Laravelは、常にWebサーバ用に設定した「Webディレクトリ」のルート上から提供する必要があります。「Webディレクトリ」のサブディレクトリからLaravelアプリケーションを提供しようとしないでください。提供してしまうと、アプリケーション内に存在する機密ファイルを公開してしまう可能性があります。
+
+<a name="databases-and-migrations"></a>
+### データベースとマイグレーション
+
+Laravelアプリケーションを作成したら、データをデータベースへ保存したいと思うことでしょう。アプリケーションの`.env`設定ファイルはデフォルトで、MySQLデータベースを操作するように指定し、`127.0.0.1`のデータベースへアクセスするようになっています。macOSで開発しており、MySQL、Postgres、Redisをローカルにインストールする必要がある場合、[DBngin](https://dbngin.com/)を利用すると便利です。
+
+ローカルマシンにMySQLやPostgresをインストールしたくない場合は、いつでも[SQLite](https://www.sqlite.org/index.html)データベースを使用できます。SQLiteは小さく、高速で、自己完結型のデータベースエンジンです。使用し始めるには、空のSQLiteファイルを作成することにより、SQLiteデータベースを作成します。通常、このファイルはLaravelアプリケーションの`database`ディレクトリの中に設置します。
+
+```shell
+touch database/database.sqlite
+```
+
+次に、Laravelが`sqlite`データベースドライバを使用するよう、`.env`設定ファイルを変更します。他のデータベース設定オプションは削除してかまいません。
+
+```ini
+DB_CONNECTION=sqlite # [tl! 追加]
+DB_CONNECTION=mysql # [tl! 削除]
+DB_HOST=127.0.0.1 # [tl! 削除]
+DB_PORT=3306 # [tl! 削除]
+DB_DATABASE=laravel # [tl! 削除]
+DB_USERNAME=root # [tl! 削除]
+DB_PASSWORD= # [tl! 削除]
+```
+
+SQLiteデータベースの設定が終わったら、[データベースマイグレーション](/docs/{{version}}/migrations)を実行し、アプリケーションのデータベーステーブルを作成できます。
+
+```shell
+php artisan migrate
+```
 
 <a name="next-steps"></a>
 ## 次のステップ
@@ -259,6 +242,7 @@ Laravelプロジェクトを設定し終えて、次に何を学ぶべきか迷�
 - [リクエストのライフサイクル](/docs/{{version}}/lifecycle)
 - [設定](/docs/{{version}}/configuration)
 - [ディレクトリ構成](/docs/{{version}}/structure)
+- [Frontend](/docs/{{version}}/frontend)
 - [サービスコンテナ](/docs/{{version}}/container)
 - [ファサード](/docs/{{version}}/facades)
 
@@ -269,11 +253,11 @@ Laravelをどのように使用するかにより、旅の次の行き先も決�
 <a name="laravel-the-fullstack-framework"></a>
 ### Laravelフルスタックフレームワーク
 
-Laravelはフルスタックフレームワークとして機能します。「フルスタック」フレームワークとは、Laravelを使用してリクエストをアプリケーションにルーティングし、[Bladeテンプレート](/docs/{{version}}/blade)を介して、[Inertia.js](https://inertiajs.com)のようなシングルページアプリケーションハイブリッド技術を使用してフロントエンドをレンダすることを意味します。これは、Laravelフレームワークが利用される、最も一般的な方法であり、我々の意見では最も生産的な手法です。
+Laravelは、フルスタックフレームワークとして機能させることができます。「フルスタック」フレームワークとは、Laravelを使用して、アプリケーションへのリクエストをルーティングし、[Bladeテンプレート](/docs/{{version}}/blade)や[Inertia](https://inertiajs.com)などのシングルページアプリケーションハイブリッド技術でフロントエンドをレンダすることを意味します。これは、Laravelフレームワークの最も一般的な使用方法であり、私たちの意見では、Laravelを使用する最も生産的な方法です。
 
-Laravelをこの方法で使用しようと計画している場合は、[ルーティング](/docs/{{version}}/routing)、[ビュー](/docs/{{version}}/views) 、または[Eloquent ORM](/docs/{{version}}/eloquent)に関するドキュメントを確認するのが良いでしょう。さらに、[Livewire](https://laravel-livewire.com)や[Inertia.js](https://inertiajs.com)などのコミュニティパッケージについて学ぶこともできます。これらのパッケージを使用すると、Laravelをフルスタックフレームワークとして使用しながら、単一ページのJavaScriptアプリケーションによって提供されるUIの利点の多くを享受できます。
+もし、Laravelをどうしようしようかと考えているのであれば、[フロントエンド開発](/docs/{{version}}/frontend)、[ルーティング](/docs/{{version}}/routing)、[ビュー](/docs/{{version}}/views)、[Eloquent ORM](/docs/{{version}}/eloquent)についてのドキュメントをチェックすると良いかも知れません。さらに、[Livewire](https://laravel-livewire.com)や[Inertia](https://inertiajs.com)といったコミュニティパッケージについても学ぶことに興味があるかもしれません。これらのパッケージにより、Laravelをフルスタックフレームワークとして使用しながら、シングルページのJavaScriptアプリケーションが提供するUIの、利点をたくさん享受できます。
 
-Laravelをフルスタックフレームワークとして使用する場合は、[Laravel Mix](/docs/{{version}}/mix)を使用してアプリケーションのCSSとJavaScriptをコンパイルする方法を学ぶことも強くおすすめします。
+Laravelをフルスタックフレームワークとして使用している場合、[Vite](/docs/{{version}}/vite)を使用してアプリケーションのCSSとJavaScriptをコンパイルする方法を学ぶのも強く推奨します。
 
 > {tip} アプリケーションの構築をすぐに始めたい場合は、公式の[アプリケーションスターターキット](/docs/{{version}}/starter-kits)の１つをチェックしてください。
 

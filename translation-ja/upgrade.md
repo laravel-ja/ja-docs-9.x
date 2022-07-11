@@ -449,7 +449,7 @@ $collection->when(function ($collection) {
 
 もし、指定するリクエストへより長いタイムアウトを指定したい場合は、`timeout`メソッドを使用して指定できます。
 
-    $response = Http::timeout(120)->get(...);
+    $response = Http::timeout(120)->get(/* ... */);
 
 #### HTTP Fakeとミドルウェア
 

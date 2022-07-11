@@ -1,119 +1,196 @@
-# JavaScriptとCSSスカフォールド
+# フロントエンド
 
 - [イントロダクション](#introduction)
-- [CSSの出力](#writing-css)
-- [JavaScriptの出力](#writing-javascript)
-    - [Vueコンポーネントの出力](#writing-vue-components)
-    - [Reactの使用](#using-react)
-- [プリセットの追加](#adding-presets)
+- [PHPの使用](#using-php)
+    - [PHPとBlade](#php-and-blade)
+    - [Livewire](#livewire)
+    - [スターターキット](#php-starter-kits)
+- [Vue／Reactの使用](#using-vue-react)
+    - [Inertia](#inertia)
+    - [スターターキット](#inertia-starter-kits)
+- [アセットの結合](#bundling-assets)
 
 <a name="introduction"></a>
 ## イントロダクション
 
-LaravelはJavaScriptやCSSプリプロセッサの使用を規定してはいませんが、開発時点の元としてほとんどのアプリケーションで役立つだろう[Bootstrap](https://getbootstrap.com)や[React](https://reactjs.org/)、[Vue](https://vuejs.org)を提供しています。これらのフロントエンドパッケージをインストールするため、Laravelは[NPM](https://www.npmjs.org)を使用しています。
+Laravelは、[ルーティング](/docs/{{version}}/routing)、[バリデーション](/docs/{{version}}/validation)、[キャッシュ](/docs/{{version}}/cache), [キュー](/docs/{{version}}/queues), [ファイルストレージ](/docs/{{version}}/filesystem)など、最新のウェブアプリケーション構築に必要となる全ての機能が提供されているバックエンド・フレームワークです。しかし、私たちはアプリケーションのフロントエンドを構築するための強力なアプローチを含む、美しいフルスタック体験を開発者に提供することも重要であると考えています。
 
-Laravelが提供するBootstrapとVueのスカフォールドは、Composerを使いインストールする`laravel/ui`パッケージに用意してあります。
+Laravelでアプリケーションを構築する場合、フロントエンドの開発には主に２つの方法があります。どちらの方法を選択するかは、PHPを活用してフロントエンドを構築するか、VueやReactなどのJavaScriptフレームワークを使用するかにより決まります。以下では、こうした選択肢について説明し、あなたのアプリケーションに最適なフロントエンド開発のアプローチの情報を十分に得た上で、決定してもらえるようにします。
 
-    composer require laravel/ui
+<a name="using-php"></a>
+## PHPの使用
 
-`laravel/ui`パッケージをインストールできたら、`ui` Artisanコマンドを使いフロントエンドのスカフォールドをインストールします。
+<a name="php-and-blade"></a>
+### PHPとBlade
 
-    // 基本的なスカフォールドを生成
-    php artisan ui bootstrap
-    php artisan ui vue
-    php artisan ui react
+以前、ほとんどのPHPアプリケーションでは、リクエスト時にデータベースから取得したデータを表示するため、PHPの`echo`文を散りばめた単純なHTMLテンプレートを使用し、ブラウザでHTMLをレンダしていました。
 
-    // ログイン／ユーザー登録スカフォールドを生成
-    php artisan ui bootstrap --auth
-    php artisan ui vue --auth
-    php artisan ui react --auth
+```blade
+<div>
+    <?php foreach ($users as $user): ?>
+        Hello, <?php echo $user->name; ?> <br />
+    <?php endforeach; ?>
+</div>
+```
 
-#### CSS
+このHTML表示の手法を使う場合、Laravelでは[ビュー](/docs/{{version}}/views)と[Blade](/docs/{{version}}/blade)を使用して実現できます。Bladeは非常に軽量なテンプレート言語で、データの表示や反復処理などに便利な、短い構文を提供しています。
 
-CSSをもっと楽しく取り扱うために役立つ、変数やmixinなどのパワフルな機能を通常のCSSへ付け加え、SASSとLESSをコンパイルするため、[Laravel Mix](/docs/{{version}}/mix)はクリーンで表現的なAPIを提供しています。このドキュメントでは、CSSコンパイル全般について簡単に説明します。SASSとLESSのコンパイルに関する情報は、[Laravel Mix documentation](/docs/{{version}}/mix)で確認してください。
+```blade
+<div>
+    @foreach ($users as $user)
+        Hello, {{ $user->name }} <br />
+    @endforeach
+</div>
+```
 
-#### JavaScript
+この方法でアプリケーションを構築する場合、フォーム送信や他のページへの操作は、通常サーバから全く新しいHTMLドキュメントを受け取り、ページ全体をブラウザで再レンダします。現在でも多くのアプリケーションは、シンプルなBladeテンプレートを使い、この方法でフロントエンドを構築するのが、最も適していると思われます。
 
-アプリケーションを構築するために、特定のJavaScriptフレームワークやライブラリの使用をLaravelは求めていません。しかし、[Vue](https://vuejs.org)ライブラリを使用した近代的なJavaScriptを書き始めやすくできるように、基本的なスカフォールドを用意しています。Vueはコンポーネントを使った堅牢なJavaScriptアプリケーションを構築するために、記述的なAPIを提供しています。CSSに関しては、Laravel Mixを使用し、JavaScriptコンポーネントをブラウザでそのまま使用できる１ファイルへ、簡単に圧縮できます。
+<a name="growing-expectations"></a>
+#### 高まる期待
 
-<a name="writing-css"></a>
-## CSSの出力
+しかし、Webアプリケーションに対するユーザーの期待値が高まるにつれ、多くの開発者がよりダイナミックなフロントエンドを構築し、洗練した操作性を感じてもらう必要性を感じてきています。そのため、VueやReactといったJavaScriptフレームワークを用いた、アプリケーションのフロントエンド構築を選択する開発者もいます。
 
-`laravel/ui` Composerパッケージをインストールし、[フロントエンドスカフォールドを生成](#introduction)すると、Laravelの`package.json`ファイルに`bootstrap`パッケージが追加されます。これはBootstrapを使用したアプリケーションフロントエンドのプロトタイピングを開始する手助けになるからです。しかしながら、アプリケーションの必要に応じて、`package.json`への追加や削除は自由に行ってください。Bootstrapを選んでいる人には良いスタートポイントを提供しますが、Laravelアプリケーションを構築するために必須ではありません。
+一方で、自分が使い慣れたバックエンド言語にこだわる人たちは、そのバックエンド言語を主に利用しながら、最新のWebアプリケーションUIの構築を可能にするソリューションを開発しました。たとえば、[Rails](https://rubyonrails.org/) のエコシステムでは、[Turbo](https://turbo.hotwired.dev/) や[Hotwire]、[Stimulus](https://stimulus.hotwired.dev/) などのライブラリ作成が勢いづいています。
 
-CSSのコンパイルを始める前に、プロジェクトのフロントエンド開発に必要な依存パッケージである、[Nodeプロジェクトマネージャ(NPM)](https://www.npmjs.org)を使用し、インストールしてください。
+Laravelのエコシステムでは、主にPHPを使い、モダンでダイナミックなフロントエンドを作りたいというニーズから、[Laravel Livewire](https://laravel-livewire.com)と[Alpine.js](https://alpinejs.dev/)が生まれました。
 
-    npm install
+<a name="livewire"></a>
+### Livewire
 
-`npm install`を使い、依存パッケージをインストールし終えたら、[Laravel Mix](/docs/{{version}}/mix#working-with-stylesheets)を使用して、SASSファイルを通常のCSSへコンパイルできます。`npm run dev`コマンドは`webpack.mix.js`ファイル中の指示を処理します。通常、コンパイル済みCSSは`public/css`ディレクトリへ設置されます。
+[Laravel Livewire](https://laravel-livewire.com)は、VueやReactといったモダンなJavaScriptフレームワークで作られたフロントエンドのように、ダイナミックでモダン、そして生き生きとしたLaravelで動作するフロントエンドを構築するためのフレームワークです。
 
-    npm run dev
+Livewireを使用する場合、レンダし、アプリケーションのフロントエンドから呼び出したり操作したりできるメソッドやデータを公開するUI部分をLivewire「コンポーネント」として作成します。例えば、シンプルな"Counter"コンポーネントは、以下のようなものです。
 
-Laravelのフロントエンドスカフォールドを含んでいる`webpack.mix.js`ファイルは、`resources/sass/app.scss` SASSファイルをコンパイルします。この`app.scss`ファイルはSASS変数をインポートし、大抵のアプリケーションでよりスタートポイントとなるBootstrapをロードします。お好みに合わせ、もしくはまったく異なったプリプロセッサを使うならば、[Laravel Mixの設定](/docs/{{version}}/mix)に従い自由に`app.scss`ファイルをカスタマイズしてください。
+```php
+<?php
 
-<a name="writing-javascript"></a>
-## JavaScriptの出力
+namespace App\Http\Livewire;
 
-アプリケーションで要求されている、JavaScriptの全依存パッケージは、プロジェクトルートディレクトリにある`package.json`ファイルで見つかります。このファイルは`composer.json`ファイルと似ていますが、PHPの依存パッケージの代わりにJavaScriptの依存が指定されている点が異なります。依存パッケージは、[Node package manager (NPM)](https://www.npmjs.org)を利用し、インストールできます。
+use Livewire\Component;
 
-    npm install
+class Counter extends Component
+{
+    public $count = 0;
 
-> {tip} デフォルトで`package.json`ファイルは、JavaScriptアプリケーションを構築する良い開始点を手助けする`lodash`や`axios`のようなわずかなパッケージを含んでいるだけです。アプリケーションの必要に応じ、自由に`package.json`に追加や削除を行ってください。
+    public function increment()
+    {
+        $this->count++;
+    }
 
-`webpack.mix.js` file:パッケージをインストールしたら、`npm run dev`コマンドで[アセットをコンパイル](/docs/{{version}}/mix)できます。webpackは、モダンなJavaScriptアプリケーションのための、モジュールビルダです。`npm run dev`コマンドを実行すると、webpackは`webpack.mix.js`ファイル中の指示を実行します。
+    public function render()
+    {
+        return view('livewire.counter');
+    }
+}
+```
 
-    npm run dev
+そして、このCounterに対応するテンプレートは、次のようになります。
 
-デフォルトでLaravelの`webpack.mix.js`ファイルは、SASSと`resources/js/app.js`ファイルをコンパイルするように指示しています。`app.js`ファイルの中で、Vueコンポーネントを登録してください。もしくは、他のフレームワークが好みであれば、自分のJavaScriptアプリケーションの設定を行えます。コンパイル済みのJavaScriptは通常、`public/js`ディレクトリへ出力されます。
+```blade
+<div>
+    <button wire:click="increment">+</button>
+    <h1>{{ $count }}</h1>
+</div>
+```
 
-> {tip} `app.js`ファイルは、Vue、Axios、jQuery、その他のJavaScript依存パッケージを起動し、設定する`resources/js/bootstrap.js`ファイルをロードします。JacaScript依存パッケージを追加した場合、このファイルの中で設定してください。
+ご覧の通り、Livewireでは、Laravelアプリケーションのフロントエンドとバックエンドをつなぐ、`wire:click`のような新しいHTML属性を書けます。さらに、シンプルなBlade式を使って、コンポーネントの現在の状態をレンダできます。
 
-<a name="writing-vue-components"></a>
-### Vueコンポーネントの出力
+多くの人にとって、LivewireはLaravelでのフロントエンド開発に革命を起こし、Laravelの快適さを保ちながら、モダンでダイナミックなWebアプリケーションを構築することを可能にしました。通常、Livewireを使用している開発者は、[Alpine.js](https://alpinejs.dev/)も利用して、ダイアログウィンドウのレンダーなど、必要な場合にのみフロントエンドにJavaScriptを「トッピング」します。
 
-フロントエンドのスカフォールドに`laravel/ui`パッケージを利用するとき、`resources/js/components`ディレクトリの中に`ExampleComponent.vue` Vueコンポーネントが設置されます。`ExampleComponent.vue`ファイルはJavaScriptとHTMLテンプレートを同じファイルで定義する、[シングルファイルVueコンポーネント](https://vuejs.org/guide/single-file-components)のサンプルです。シングルファイルコンポーネントはJavaScriptで駆動するアプリケーションを構築するための便利なアプローチを提供しています。このサンプルコンポーネントは`app.js`ファイルで登録されています。
+Laravelに慣れていない方は、[ビュー](/docs/{{version}}/views)と[Blade](/docs/{{version}}/blade)の基本的な使い方に、まず慣れることをお勧めします。その後、公式の[Laravel Livewireドキュメント](https://laravel-livewire.com/docs)を参照し、インタラクティブなLivewireコンポーネントでアプリケーションを次のレベルに引き上げる方法を学んでください。
 
-    Vue.component(
-        'example-component',
-        require('./components/ExampleComponent.vue').default
-    );
+<a name="php-starter-kits"></a>
+### スターターキット
 
-コンポーネントをアプリケーションで使用するには、HTMLテンプレートの中へ埋め込みます。たとえば、アプリケーションの認証と登録スクリーンをスカフォールドするために、`php artisan ui vue --auth` Artisanコマンドを実行下後に、`home.blade.php` Bladeテンプレートへ埋め込みます。
+PHPとLivewireを使ってフロントエンドを構築したい場合、BreezeまたはJetstreamの[スターターキット](/docs/{{version}}/starter-kits)を活用して、アプリケーション開発を迅速に開始できます。これらのスターターキットは、[Blade](/docs/{{version}}/blade)と[Tailwind](https://tailwindcss.com)を使って、アプリケーションのバックエンドおよびフロントエンドの認証フローに対するスカフォールドを生成するため、次回に開発する皆さんの大きなアイデアの構築を簡単に開始できます。
 
-    @extends('layouts.app')
+<a name="using-vue-react"></a>
+## Vue／Reactの使用
 
-    @section('content')
-        <example-component></example-component>
-    @endsection
+LaravelやLivewireを使用してモダンなフロントエンドを構築することは可能ですが、多くの開発者はVueやReactなどのJavaScriptフレームワークのパワーを活用することをまだ好んでいます。このため、開発者はNPMを使い、利用可能なJavaScriptパッケージやツールの豊富なエコシステムを活用できます。
 
-> {tip} Vueコンポーネントを変更したら、毎回`npm run dev`コマンドを実行しなくてはならないことを覚えておきましょう。もしくは、`npm run watch`コマンドを実行して監視すれば、コンポーネントが更新されるたび、自動的に再コンパイルされます。
+しかし、LaravelとVueやReactを組み合わせるには、クライアントサイドのルーティング、データハイドレーション、認証など、様々な複雑な問題を解決する必要があり、追加のツールがなければLaravelを使うことはできません。クライアントサイドのルーティングは、[Nuxt](https://nuxtjs.org/)や[Next](https://nextjs.org/)など主義的なVue／Reactフレームワークを取り入れて簡素化されていることが多いですが、Laravelなどのバックエンドフレームワークとこれらのフレームワークを組み合わせる場合、データのハイドレートと認証で、複雑で面倒な問題が残ります。
 
-Vueコンポーネントの記述を学ぶことに興味があれば、Vueフレームワーク全体についての概念を簡単に読み取れる、[Vueドキュメント](https://vuejs.org/guide/)を一読してください。
+さらに、開発者は２つの別々のコードリポジトリを管理することになり、しばしばメンテナンス、リリース、デプロイメントを両方のリポジトリにまたがって調整する必要が起きます。こうした問題は克服できないものではありませんが、アプリケーションを開発する上で、生産的で楽しい方法とは思えません。
 
-<a name="using-react"></a>
-### Reactの使用
+<a name="inertia"></a>
+### Inertia
 
-JavaScriptアプリケーションでReactを使用するほうが好みであれば、VueスカフォールドをReactスカフォールドへ簡単に切り替えられます。
+幸運にも、Laravelは両方の世界の最良を提供しています。[Inertia](https://inertiajs.com)は、LaravelアプリケーションとモダンなVueまたはReactフロントエンドの間のギャップを埋めるもので、VueやReactを使って本格的でモダンなフロントエンドを構築しながら、ルーティング、データハイドレート、認証にLaravelルートとコントローラを活用できます。すべて単一のコードリポジトリ内で行えます。このアプローチではどちらのツールの能力も損なうことなく、LaravelとVue／Reactの両能力を享受することができます。
 
-    composer require laravel/ui
+LaravelアプリケーションにInertiaをインストールしたあとで、通常通りにルートとコントローラを記述します。しかし、コントローラからBladeテンプレートを返すのではなく、Inertiaページを返すようにします。
 
-    // 基本的なスカフォールドを生成
-    php artisan ui react
+```php
+<?php
 
-    // ログイン／ユーザー登録スカフォールドを生成
-    php artisan ui react --auth
+namespace App\Http\Controllers;
 
-<a name="adding-presets"></a>
-## プリセットの追加
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Inertia\Inertia;
 
-独自メソッドを`UiCommand`へ追加できるように、プリセットは「マクロ可能(macroable)」になっています。たとえば以下の例では、`UiCommand`へ`nextjs`メソッドのコードを追加しています。通常、プリセットマクロは[サービスプロバイダ](/docs/{{version}}/providers)で定義します。
+class UserController extends Controller
+{
+    /**
+     * 指定ユーザーのプロフィールページを表示
+     *
+     * @param  int  $id
+     * @return \Inertia\Response
+     */
+    public function show($id)
+    {
+        return Inertia::render('Users/Profile', [
+            'user' => User::findOrFail($id)
+        ]);
+    }
+}
+```
 
-    use Laravel\Ui\UiCommand;
+Inertiaページは、VueまたはReactコンポーネントに対応し、通常アプリケーションの`resources/js/Pages`ディレクトリに格納します。`Inertia::render`メソッドにより、ページに与えたデータは、ページコンポーネントの"props"をハイドレートするために使用されます。
 
-    UiCommand::macro('nextjs', function (UiCommand $command) {
-        // 独自フロントエンドのスカフォールド…
-    });
+```vue
+<script setup>
+import Layout from '@/Layouts/Authenticated.vue';
+import { Head } from '@inertiajs/inertia-vue3';
 
-次に、`ui`コマンドで新しいプリセットを呼び出します。
+const props = defineProps(['user']);
+</script>
 
-    php artisan ui nextjs
+<template>
+    <Head title="User Profile" />
+
+    <Layout>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Profile
+            </h2>
+        </template>
+
+        <div class="py-12">
+            Hello, {{ user.name }}
+        </div>
+    </Layout>
+</template>
+```
+
+ご覧の通り、Inertiaを使うことで、Laravelを使ったバックエンドと、JavaScriptを使ったフロントエンドの間の軽量なブリッジが提供され、フロントエンドを構築する際にVueやReactのパワーをフル活用することができます。
+
+#### サーバサイドレンダ
+
+アプリケーションでサーバサイドレンダが必要なため、Inertiaに飛び込むことを躊躇している方も、安心してください。Inertiaは[サーバサイドレンダリングサポート](https://inertiajs.com/server-side-rendering)を提供しています。また、[Laravel Forge](https://forge.laravel.com)を介してアプリケーションをデプロイする場合、Inertiaのサーバサイドレンダリングプロセスが常に実行されていることを簡単に確認できます。
+
+<a name="inertia-starter-kits"></a>
+### スターターキット
+
+InertiaとVue／Reactを使用してフロントエンドを構築したい場合は、BreezeまたはJetstreamの[スターターキット](/docs/{{version}}/starter-kits#breeze-and-inertia)を活用して、アプリケーション開発を迅速に開始できます。これらのスターターキットは、Inertia、Vue／React、[Tailwind](https://tailwindcss.com)、[Vite](https://vitejs.dev)を使用してアプリケーションのバックエンドとフロントエンドでの認証フローに必要なスカフォールディングを生成するため、次に開発する皆さんの大きなアイデアをすぐに構築開始できます。
+
+<a name="bundling-assets"></a>
+## アセットの結合
+
+BladeとLivewire、Vue／ReactとInertiaのどちらを使用してフロントエンドを開発するにしても、アプリケーションのCSSをプロダクション用アセットへバンドルする必要があるでしょう。もちろん、VueやReactでアプリケーションのフロントエンドを構築することを選択した場合は、コンポーネントをブラウザ用JavaScriptアセットへバンドルする必要があります。
+
+Laravelは、デフォルトで[Vite](https://vitejs.dev)を利用してアセットをバンドルします。Viteは、ローカル開発において、ビルドが非常に速く、ほぼ瞬時のホットモジュール交換（HMR）を提供しています。[スターターキット](/docs/{{version}}/starter-kits)を含むすべての新しいLaravelアプリケーションでは、`vite.config.js`ファイルがあり、軽量なLaravel Viteプラグインがロードされ、LaravelアプリケーションでViteを楽しく使用できるようにしています。
+
+LaravelとViteを使い始める最も早い方法は、[Laravel Breeze](/docs/{{version}}/starter-kits#laravel-breeze)を使ってアプリケーションの開発を始めることです。これは、フロントエンドとバックエンドで認証に必要なスカフォールドを生成してくれます。アプリケーション開発をロケットスタートする、最もシンプルなスターターキットです。
+
+> {tip} LaravelでViteを活用するための詳細なドキュメントは、[アセットバンドルとコンパイルに関する専用のドキュメント](/docs/{{version}}/vite)を参照してください。

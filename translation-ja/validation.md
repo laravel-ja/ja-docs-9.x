@@ -8,6 +8,7 @@
     - [バリデーションエラー表示](#quick-displaying-the-validation-errors)
     - [フォームの再取得](#repopulating-forms)
     - [オプションフィールドに対する注意](#a-note-on-optional-fields)
+    - [バリデーションエラーのレスポンス形式](#validation-error-response-format)
 - [フォームリクエストバリデーション](#form-request-validation)
     - [フォームリクエスト作成](#creating-form-requests)
     - [フォームリクエストの認可](#authorizing-form-requests)
@@ -99,7 +100,7 @@ Laravelの強力なバリデーション機能について学ぶため、フォ�
 
 これで、新しいブログ投稿をバリデーションするロジックを`store`メソッドに入力する準備が整いました。これを行うには、`Illuminate\Http\Request`オブジェクトによって提供される`validate`メソッドを使用します。バリデーションルールにパスすると、コードは正常に実行され続けます。しかし、バリデーションに失敗すると`Illuminate\Validation\ValidationException`例外が投げられ、適切なエラーレスポンスが自動的にユーザーに返送されます。
 
-伝統的なHTTPリクエスト処理中にバリデーションが失敗した場合、直前のURLへのリダイレクトレスポンスが生成されます。受信リクエストがXHRリクエストの場合、バリデーションエラーメッセージを含むJSONレスポンスが返されます。
+伝統的なHTTPリクエスト処理中にバリデーションが失敗した場合、直前のURLへのリダイレクトレスポンスが生成されます。受信リクエストがXHRリクエストの場合、[バリデーションエラーメッセージを含むJSONレスポンス](#validation-error-response-format)が返されます。
 
 `validate`メソッドをもっとよく理解するため、`store`メソッドに取り掛かりましょう。
 
@@ -202,7 +203,7 @@ Laravelの組み込みバリデーションルールは、それぞれエラー�
 <a name="quick-xhr-requests-and-validation"></a>
 #### XHRリクエストとバリデーション
 
-この例では、従来のフォームを使用してデータをアプリケーションに送信しました。ただし、多くのアプリケーションは、JavaScriptを利用したフロントエンドからXHRリクエストを受信します。XHRリクエスト中に`validate`メソッドを使用すると、Laravelはリダイレクト応答を生成しません。代わりに、Laravelはすべてのバリデーションエラーを含むJSONレスポンスを生成します。このJSONレスポンスは、422 HTTPステータスコードとともに送信されます。
+この例では、従来のフォームを使用してデータをアプリケーションに送信しました。ただし、多くのアプリケーションは、JavaScriptを利用したフロントエンドからXHRリクエストを受信します。XHRリクエスト中に`validate`メソッドを使用すると、Laravelはリダイレクト応答を生成しません。代わりに、Laravelは[すべてのバリデーションエラーを含むJSONレスポンス](#validation-error-response-format)を生成します。このJSONレスポンスは、422 HTTPステータスコードとともに送信されます。
 
 <a name="the-at-error-directive"></a>
 #### `@error`ディレクティブ
@@ -258,6 +259,34 @@ Laravelは`TrimStrings`と`ConvertEmptyStringsToNull`ミドルウェアをアプ
 
 上記の例の場合、`publish_at`フィールドが`null`か、有効な日付表現であることを指定しています。ルール定義に`nullable`が追加されないと、バリデータは`null`を無効な日付として判定します。
 
+<a name="validation-error-response-format"></a>
+### バリデーションエラーのレスポンス形式
+
+受信HTTPリクエストがJSONレスポンスを期待しており、アプリケーションが`Illuminate\Validation\ValidationException`例外を投げる場合、Laravelは自動的にエラーメッセージをフォーマットして、`422 Unprocessable Entity` HTTPレスポンスを返します。
+
+以下に、バリデーションエラーのJSONレスポンスフォーマット例を示します。ネストしたエラーのキーは、「ドット」記法で１次元化されることに注意してください。
+
+```json
+{
+    "message": "The team name must be a string. (and 4 more errors)",
+    "errors": {
+        "team_name": [
+            "The team name must be a string.",
+            "The team name must be at least 1 characters."
+        ],
+        "authorization.role": [
+            "The selected authorization.role is invalid."
+        ],
+        "users.0.email": [
+            "The users.0.email field is required."
+        ],
+        "users.2.email": [
+            "The users.2.email must be a valid email address."
+        ]
+    }
+}
+```
+
 <a name="form-request-validation"></a>
 ## フォームリクエストバリデーション
 
@@ -309,7 +338,7 @@ php artisan make:request StorePostRequest
         $validated = $request->safe()->except(['name', 'email']);
     }
 
-バリデーションが失敗した場合、リダイレクトレスポンスが生成され、ユーザーを直前の場所に送り返します。エラーもセッ​​ションに一時保持され、表示できます。リクエストがXHRリクエストの場合、バリデーションエラーのJSON表現を含む422ステータスコードのHTTPレスポンスがユーザーに返されます。
+バリデーションが失敗した場合、リダイレクトレスポンスが生成され、ユーザーを直前の場所に送り返します。エラーもセッ​​ションに一時保持され、表示できます。リクエストがXHRリクエストの場合、422ステータスコードで、[バリデーションエラーのJSON表現を含むHTTPレスポンス](#validation-error-response-format)がユーザーに返されます。
 
 <a name="adding-after-hooks-to-form-requests"></a>
 #### フォームリクエストへのAfterフックを追加
@@ -522,7 +551,7 @@ Laravelの組み込みバリデーションルールエラーメッセージの�
 <a name="automatic-redirection"></a>
 ### 自動リダイレクト
 
-バリデータインスタンスを手作業で作成するが、HTTPリクエストの`validate`メソッドによって提供される自動リダイレクトを利用したい場合は、既存のバリデータインスタンスで`validate`メソッドを呼び出すことができます。バリデーションが失敗した場合、ユーザーは自動的にリダイレクトされます。XHRリクエストの場合は、JSONレスポンスが返されます。
+バリデータインスタンスを手作業で作成するが、HTTPリクエストの`validate`メソッドによって提供される自動リダイレクトを利用したい場合は、既存のバリデータインスタンスで`validate`メソッドを呼び出すことができます。バリデーションが失敗した場合、ユーザーは自動的にリダイレクトされます。XHRリクエストの場合は、[JSONレスポンスが返されます](#validation-error-response-format)。
 
     Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
@@ -590,7 +619,7 @@ Laravelの組み込みエラーメッセージの多くには、バリデーシ�
 
 バリデーションが完了した後に実行するコールバックを添付することもできます。これにより、追加のバリデーションを簡単に実行し、メッセージコレクションにエラーメッセージを追加することもできます。利用するには、バリデータインスタンスで`after`メソッドを呼び出します。
 
-    $validator = Validator::make(...);
+    $validator = Validator::make(/* ... */);
 
     $validator->after(function ($validator) {
         if ($this->somethingElseIsInvalid()) {
@@ -913,7 +942,7 @@ The credit card number field is required when payment type is credit card.
     ];
 
     Validator::make($input, [
-        'user' => 'array:username,locale',
+        'user' => 'array:name,username',
     ]);
 
 一般に、配列に存在を許すキーは、常に指定する必要があります。
@@ -994,12 +1023,12 @@ The credit card number field is required when payment type is credit card.
 <a name="rule-digits"></a>
 #### digits:_値_
 
-フィールドが**数値**で、**値**の桁数であることをバリデートします。
+フィールドが整数で、**値**の桁数であることをバリデートします。
 
 <a name="rule-digits-between"></a>
 #### digits_between:_最小値_,_最大値_
 
-フィールドが**整数で**、桁数が**最小値**から**最大値**の間であることをバリデートします。
+フィールドが整数で、桁数が**最小値**から**最大値**の間であることをバリデートします。
 
 <a name="rule-dimensions"></a>
 #### dimensions
@@ -1219,8 +1248,8 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
         'airports' => [
             'required',
             'array',
-            Rule::in(['NYC', 'LIT']),
         ],
+        'airports.*' => Rule::in(['NYC', 'LIT']),
     ]);
 
 <a name="rule-in-array"></a>
@@ -1844,61 +1873,56 @@ public function boot()
 Laravelは有用な数多くのバリデーションルールを提供しています。ただし、独自のものを指定することもできます。カスタムバリデーションルールを登録する１つの方法は、ルールオブジェクトを使用することです。新しいルールオブジェクトを生成するには、`make:rule`Artisanコマンドを使用できます。このコマンドを使用して、文字列が大文字であることを確認するルールを生成してみましょう。Laravelは新しいルールを`app/Rules`ディレクトリに配置します。このディレクトリが存在しない場合、Artisanコマンドを実行してルールを作成すると、Laravelがそのディレクトリを作成します。
 
 ```shell
-php artisan make:rule Uppercase
+php artisan make:rule Uppercase --invokable
 ```
 
-ルールを生成したら、動作を定義する準備ができました。ルールオブジェクトは２つのメソッドを含みます。`passes`と`message`です。`passes`メソッドは属性の値と名前を受け取り、その属性値が有効であれば`true`、無効であれば`false`を返します。`message`メソッドは、バリデーション失敗時に使用する、バリデーションエラーメッセージを返します。
+ルールを作成したら、動作を定義する準備ができました。ルールオブジェクトには、`__invoke`という１つのメソッドを用意します。このメソッドは、属性名とその値、バリデーションエラーメッセージと、失敗時に呼び出すコールバックを指定します。
 
     <?php
 
     namespace App\Rules;
 
-    use Illuminate\Contracts\Validation\Rule;
+    use Illuminate\Contracts\Validation\InvokableRule;
 
-    class Uppercase implements Rule
+    class Uppercase implements InvokableRule
     {
         /**
-         * バリデーションの成功を判定
+         * バリデーションルールの実行
          *
          * @param  string  $attribute
          * @param  mixed  $value
-         * @return bool
+         * @param  \Closure  $fail
+         * @return void
          */
-        public function passes($attribute, $value)
+        public function __invoke($attribute, $value, $fail)
         {
-            return strtoupper($value) === $value;
-        }
-
-        /**
-         * バリデーションエラーメッセージの取得
-         *
-         * @return string
-         */
-        public function message()
-        {
-            return 'The :attribute must be uppercase.';
+            if (strtoupper($value) !== $value) {
+                $fail('The :attribute must be uppercase.');
+            }
         }
     }
 
-もちろん、翻訳ファイルのエラーメッセージを返したい場合は、`message`メソッドから`trans`ヘルパを呼び出せます。
-
-    /**
-     * バリデーションエラーメッセージの取得
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return trans('validation.uppercase');
-    }
-
-ルールが定義できたら、他のバリデーションルールと一緒に、ルールオブジェクトのインスタンスをバリデータへ渡し、指定します。
+ルールを定義したら、他のバリデーションルールと一緒に、ルールオブジェクトのインスタンスをバリデータへ渡し、指定します。
 
     use App\Rules\Uppercase;
 
     $request->validate([
         'name' => ['required', 'string', new Uppercase],
     ]);
+
+#### バリデーションメッセージの翻訳
+
+`$fail`クロージャへ文字列のエラーメッセージを指定する代わりに、[翻訳文字列キー](/docs/{{version}}/localization)を指定し、Laravelへエラーメッセージの翻訳を指示できます。
+
+    if (strtoupper($value) !== $value) {
+        $fail('validation.uppercase')->translate();
+    }
+
+必要に応じ、プレースホルダを置き換えたり、`translate`メソッドの第１引数と第２引数として使用する言語を指定することもできます。
+
+    $fail('validation.location')->translate([
+        'value' => $this->value,
+    ], 'fr')
 
 #### 追加データへのアクセス
 
@@ -1908,10 +1932,10 @@ php artisan make:rule Uppercase
 
     namespace App\Rules;
 
-    use Illuminate\Contracts\Validation\Rule;
     use Illuminate\Contracts\Validation\DataAwareRule;
+    use Illuminate\Contracts\Validation\InvokableRule;
 
-    class Uppercase implements Rule, DataAwareRule
+    class Uppercase implements DataAwareRule, InvokableRule
     {
         /**
          * バリデーション下の全データ
@@ -1942,10 +1966,10 @@ php artisan make:rule Uppercase
 
     namespace App\Rules;
 
-    use Illuminate\Contracts\Validation\Rule;
+    use Illuminate\Contracts\Validation\InvokableRule;
     use Illuminate\Contracts\Validation\ValidatorAwareRule;
 
-    class Uppercase implements Rule, ValidatorAwareRule
+    class Uppercase implements InvokableRule, ValidatorAwareRule
     {
         /**
          * バリデータインスタンス
@@ -2007,7 +2031,7 @@ php artisan make:rule Uppercase
 新しい暗黙のルールオブジェクトを生成するには、`make:rule` Artisanコマンドに`--implicit`オプションを付けて使用してください。
 
 ```shell
-php artisan make:rule Uppercase --implicit
+php artisan make:rule Uppercase --invokable --implicit
 ```
 
 > {note} 「暗黙の」ルールは、属性が必要であることを**暗黙的に**します。欠落している属性または空の属性を実際に無効にするかどうかは、あなた次第です。

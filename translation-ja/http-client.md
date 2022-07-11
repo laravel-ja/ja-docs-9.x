@@ -14,6 +14,7 @@
 - [テスト](#testing)
     - [レスポンスのfake](#faking-responses)
     - [レスポンスの検査](#inspecting-requests)
+    - [行き先がないリクエストの防止](#preventing-stray-requests)
 - [イベント](#events)
 
 <a name="introduction"></a>
@@ -147,43 +148,43 @@ composer require guzzlehttp/guzzle
 基本認証のログイン情報とダイジェスト認証ログイン情報は、それぞれ`withBasicAuth`メソッドと`withDigestAuth`メソッドを使用して指定します。
 
     // BASIC認証
-    $response = Http::withBasicAuth('taylor@laravel.com', 'secret')->post(...);
+    $response = Http::withBasicAuth('taylor@laravel.com', 'secret')->post(/* ... */);
 
     // ダイジェスト認証
-    $response = Http::withDigestAuth('taylor@laravel.com', 'secret')->post(...);
+    $response = Http::withDigestAuth('taylor@laravel.com', 'secret')->post(/* ... */);
 
 <a name="bearer-tokens"></a>
 #### Bearerトークン
 
 リクエストの`Authorization`ヘッダにBearerトークンをすばやく追加したい場合は、`withToken`メソッドを使用できます。
 
-    $response = Http::withToken('token')->post(...);
+    $response = Http::withToken('token')->post(/* ... */);
 
 <a name="timeout"></a>
 ### タイムアウト
 
 `timeout`メソッドを使用して、レスポンスを待機する最大秒数を指定できます。
 
-    $response = Http::timeout(3)->get(...);
+    $response = Http::timeout(3)->get(/* ... */);
 
 指定したタイムアウトを超えると、`Illuminate\Http\Client\ConnectionException`インスタンスを投げます。
 
 サーバへの接続を試みる最長待ち秒数を`connectTimeout`メソッドで指定できます。
 
-    $response = Http::connectTimeout(3)->get(...);
+    $response = Http::connectTimeout(3)->get(/* ... */);
 
 <a name="retries"></a>
 ### 再試行
 
 クライアントまたはサーバのエラーが発生した場合に、HTTPクライアントがリクエストを自動的に再試行するようにしたい場合は、`retry`メソッドを使用します。`retry`メソッドは、リクエストを試行する最大回数とLaravelが試行の間に待機するミリ秒数を引数に取ります。
 
-    $response = Http::retry(3, 100)->post(...);
+    $response = Http::retry(3, 100)->post(/* ... */);
 
 必要であれば、`retry`メソッドに第３引数を渡せます。第３引数には、実際に再試行を行うかどうかを決定するCallableを指定します。例えば、最初のリクエストで`ConnectionException`が発生した場合にのみ、リクエストを再試行したいとしましょう。
 
     $response = Http::retry(3, 100, function ($exception, $request) {
         return $exception instanceof ConnectionException;
-    })->post(...);
+    })->post(/* ... */);
 
 リクエストの試行に失敗した場合、新しく試みる前にリクエストへ変更を加えたい場合があります。これを実現するには、`retry`メソッドに渡すコールバックのrequest引数を変更します。例えば、最初の試行が認証エラーを返した場合、新しい認証トークンを使ってリクエストを再試行したいと思います。
 
@@ -195,11 +196,11 @@ composer require guzzlehttp/guzzle
         $request->withToken($this->getNewToken());
 
         return true;
-    })->post(...);
+    })->post(/* ... */);
 
 すべてのリクエストが失敗した場合、 `Illuminate\Http\Client\RequestException`インスタンスを投げます。この動作を無効にする場合は、`throw`引数へ`false`を指定してください。無効にすると、すべての再試行のあと、クライアントが最後に受信したレスポンスを返します。
 
-    $response = Http::retry(3, 100, throw: false)->post(...);
+    $response = Http::retry(3, 100, throw: false)->post(/* ... */);
 
 > {note} 接続の問題ですべてのリクエストが失敗した場合は、`throw`引数を`false`に設定していても`Illuminate\Http\Client\ConnectionException`が投げられます。
 
@@ -228,7 +229,7 @@ Guzzleのデフォルト動作とは異なり、LaravelのHTTPクライアント
 
 あるレスポンスインスタンスのレスポンスステータスコードがクライアントまたはサーバのエラーを示している場合に`Illuminate\Http\Client\RequestException`のインスタンスを投げたい場合場合は、`throw`か`throwIf`メソッドを使用します。
 
-    $response = Http::post(...);
+    $response = Http::post(/* ... */);
 
     // クライアントまたはサーバのエラーが発生した場合は、例外を投げる
     $response->throw();
@@ -242,11 +243,11 @@ Guzzleのデフォルト動作とは異なり、LaravelのHTTPクライアント
 
 `throw`メソッドは、エラーが発生しなかった場合にレスポンスインスタンスを返すので、他の操作を`throw`メソッドにチェーンできます。
 
-    return Http::post(...)->throw()->json();
+    return Http::post(/* ... */)->throw()->json();
 
 例外がなげられる前に追加のロジックを実行したい場合は、`throw`メソッドにクロージャを渡せます。クロージャを呼び出した後に、例外を自動的に投げるため、クロージャ内から例外を再発行する必要はありません。
 
-    return Http::post(...)->throw(function ($response, $e) {
+    return Http::post(/* ... */)->throw(function ($response, $e) {
         //
     })->json();
 
@@ -324,7 +325,7 @@ $response = Http::github()->get('/');
 <a name="testing"></a>
 ## テスト
 
-多くのLaravelサービスは、テストを簡単かつ表現力豊かに作成するのに役立つ機能を提供しています。LaravelのHTTPラッパーも例外ではありません。`Http`ファサードの`fake`メソッドを使用すると、リクエストが行われたときに、スタブ/ダミーレスポンスを返すようにHTTPクライアントに指示できます。
+Laravelの多くのサービスでは、テストを簡単かつ表現豊かに書くための機能を提供しており、HTTPクライアントも例外ではありません。`Http`ファサードの`fake`メソッドにより、リクエストが行われたときにスタブ/ダミーレスポンスを返すようにHTTPクライアントに指示できます。
 
 <a name="faking-responses"></a>
 ### レスポンスのfake
@@ -335,7 +336,7 @@ $response = Http::github()->get('/');
 
     Http::fake();
 
-    $response = Http::post(...);
+    $response = Http::post(/* ... */);
 
 <a name="faking-specific-urls"></a>
 #### 特定のURLのfake
@@ -399,6 +400,25 @@ $response = Http::github()->get('/');
     Http::fake(function (Request $request) {
         return Http::response('Hello World', 200);
     });
+
+<a name="preventing-stray-requests"></a>
+### 行き先がないリクエストの防止
+
+HTTPクライアントから送信したすべてのリクエストを個々のテスト、またはテストスイート全体で確実にフェイクにしたい場合は、`preventStrayRequests`メソッドをコールします。このメソッドを呼び出すと、対応するフェイクレスポンスがないリクエストは、実際にHTTPリクエストを行うのではなく、例外を投げるようになります。
+
+    use Illuminate\Support\Facades\Http;
+
+    Http::preventStrayRequests();
+
+    Http::fake([
+        'github.com/*' => Http::response('ok'),
+    ]);
+
+    // "ok"レスポンスが返される
+    Http::get('https://github.com/laravel/framework');
+
+    // 例外が投げられる
+    Http::get('https://laravel.com');
 
 <a name="inspecting-requests"></a>
 ### レスポンスの検査

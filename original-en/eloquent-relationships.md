@@ -1229,7 +1229,7 @@ If you need even more power, you may use the `whereHas` and `orWhereHas` methods
 <a name="inline-relationship-existence-queries"></a>
 #### Inline Relationship Existence Queries
 
-If you would like to query for a relationship's existence with a single, simple where condition attached to the relationship query, you may find it more convenient to use the `whereRelation` and `whereMorphRelation` methods. For example, we may query for all posts that have unapproved comments:
+If you would like to query for a relationship's existence with a single, simple where condition attached to the relationship query, you may find it more convenient to use the `whereRelation`, `orWhereRelation`, `whereMorphRelation`, and `orWhereMorphRelation` methods. For example, we may query for all posts that have unapproved comments:
 
     use App\Models\Post;
 
@@ -1511,6 +1511,15 @@ Sometimes you may need to eager load several different relationships. To do so, 
 To eager load a relationship's relationships, you may use "dot" syntax. For example, let's eager load all of the book's authors and all of the author's personal contacts:
 
     $books = Book::with('author.contacts')->get();
+
+Alternatively, you may specify nested eager loaded relationships by providing a nested array to the `with` method, which can be convenient when eager loading multiple nested relationships:
+
+    $books = Book::with([
+        'author' => [
+            'contacts',
+            'publisher',
+        ],
+    ])->get();
 
 <a name="nested-eager-loading-morphto-relationships"></a>
 #### Nested Eager Loading `morphTo` Relationships

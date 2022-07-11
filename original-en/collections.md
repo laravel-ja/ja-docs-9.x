@@ -178,11 +178,11 @@ For the majority of the remaining collection documentation, we'll discuss each m
 [search](#method-search)
 [shift](#method-shift)
 [shuffle](#method-shuffle)
-[sliding](#method-sliding)
 [skip](#method-skip)
 [skipUntil](#method-skipuntil)
 [skipWhile](#method-skipwhile)
 [slice](#method-slice)
+[sliding](#method-sliding)
 [sole](#method-sole)
 [some](#method-some)
 [sort](#method-sort)
@@ -212,6 +212,7 @@ For the majority of the remaining collection documentation, we'll discuss each m
 [unlessEmpty](#method-unlessempty)
 [unlessNotEmpty](#method-unlessnotempty)
 [unwrap](#method-unwrap)
+[value](#method-value)
 [values](#method-values)
 [when](#method-when)
 [whenEmpty](#method-whenempty)
@@ -1675,9 +1676,15 @@ The `pluck` method also supports retrieving nested values using "dot" notation:
 
     $collection = collect([
         [
+            'name' => 'Laracon',
             'speakers' => [
                 'first_day' => ['Rosa', 'Judith'],
-                'second_day' => ['Angela', 'Kathleen'],
+            ],
+        ],
+        [
+            'name' => 'VueConf',
+            'speakers' => [
+                'first_day' => ['Abigail', 'Joey'],
             ],
         ],
     ]);
@@ -1686,7 +1693,7 @@ The `pluck` method also supports retrieving nested values using "dot" notation:
 
     $plucked->all();
 
-    // ['Rosa', 'Judith']
+    // [['Rosa', 'Judith'], ['Abigail', 'Joey']]
 
 If duplicate keys exist, the last matching element will be inserted into the plucked collection:
 
@@ -2024,35 +2031,6 @@ The `shuffle` method randomly shuffles the items in the collection:
 
     // [3, 2, 5, 1, 4] - (generated randomly)
 
-<a name="method-sliding"></a>
-#### `sliding()` {.collection-method}
-
-The `sliding` method returns a new collection of chunks representing a "sliding window" view of the items in the collection:
-
-    $collection = collect([1, 2, 3, 4, 5]);
-
-    $chunks = $collection->sliding(2);
-
-    $chunks->toArray();
-
-    // [[1, 2], [2, 3], [3, 4], [4, 5]]
-
-This is especially useful in conjunction with the [`eachSpread`](#method-eachspread) method:
-
-    $transactions->sliding(2)->eachSpread(function ($previous, $current) {
-        $current->total = $previous->total + $current->amount;
-    });
-
-You may optionally pass a second "step" value, which determines the distance between the first item of every chunk:
-
-    $collection = collect([1, 2, 3, 4, 5]);
-
-    $chunks = $collection->sliding(3, step: 2);
-
-    $chunks->toArray();
-
-    // [[1, 2, 3], [3, 4, 5]]
-
 <a name="method-skip"></a>
 #### `skip()` {.collection-method}
 
@@ -2132,6 +2110,35 @@ If you would like to limit the size of the returned slice, pass the desired size
     // [5, 6]
 
 The returned slice will preserve keys by default. If you do not wish to preserve the original keys, you can use the [`values`](#method-values) method to reindex them.
+
+<a name="method-sliding"></a>
+#### `sliding()` {.collection-method}
+
+The `sliding` method returns a new collection of chunks representing a "sliding window" view of the items in the collection:
+
+    $collection = collect([1, 2, 3, 4, 5]);
+
+    $chunks = $collection->sliding(2);
+
+    $chunks->toArray();
+
+    // [[1, 2], [2, 3], [3, 4], [4, 5]]
+
+This is especially useful in conjunction with the [`eachSpread`](#method-eachspread) method:
+
+    $transactions->sliding(2)->eachSpread(function ($previous, $current) {
+        $current->total = $previous->total + $current->amount;
+    });
+
+You may optionally pass a second "step" value, which determines the distance between the first item of every chunk:
+
+    $collection = collect([1, 2, 3, 4, 5]);
+
+    $chunks = $collection->sliding(3, step: 2);
+
+    $chunks->toArray();
+
+    // [[1, 2, 3], [3, 4, 5]]
 
 <a name="method-sole"></a>
 #### `sole()` {.collection-method}
@@ -2634,7 +2641,7 @@ The `undot` method expands a single-dimensional collection that uses "dot" notat
         'address.suburb' => 'Detroit',
         'address.state' => 'MI',
         'address.postcode' => '48219'
-    ])
+    ]);
 
     $person = $person->undot();
 
@@ -2790,6 +2797,20 @@ The static `unwrap` method returns the collection's underlying items from the gi
     Collection::unwrap('John Doe');
 
     // 'John Doe'
+
+<a name="method-value"></a>
+#### `value()` {.collection-method}
+
+The `value` method retrieves a given value from the first element of the collection:
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Speaker', 'price' => 400],
+    ]);
+
+    $value = $collection->value('price');
+
+    // 200
 
 <a name="method-values"></a>
 #### `values()` {.collection-method}

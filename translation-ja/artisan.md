@@ -43,7 +43,7 @@ php artisan help migrate
 ローカル開発環境として[Laravel Sail](/docs/{{version}}/sale)を使用している場合は、必ず`sail`コマンドラインを使用してArtisanコマンドを呼び出してください。Sailは、アプリケーションのDockerコンテナ内でArtisanコマンドを実行します。
 
 ```shell
-./sail artisan list
+./vendor/bin/sail artisan list
 ```
 
 <a name="tinker"></a>
@@ -285,10 +285,10 @@ php artisan mail:send 1 -Q
 
     'mail:send {user*}'
 
-このメソッドを呼び出すとき、コマンドラインに順番に`user`引数を渡すことができます。たとえば、次のコマンドは、`user`の値を`foo`と`bar`を値として持つ配列に設定します。
+このメソッドを呼び出すときは、コマンドラインへ順番に、`user`引数を渡せます。たとえば、次のコマンドは、`user`の値に`1`と`2`の値を配列に設定します。
 
 ```shell
-php artisan mail:send foo bar
+php artisan mail:send 1 2
 ```
 
 この`*`文字をオプションの引数定義と組み合わせ、引数を０個以上許可することができます。
@@ -300,7 +300,7 @@ php artisan mail:send foo bar
 
 複数の入力値を期待するオプションを定義する場合、コマンドに渡たす各オプション値には、オプション名のプレフィックスを付ける必要があります。
 
-    'mail:send {user} {--id=*}'
+    'mail:send {--id=*}'
 
 このコマンドは、複数の`--id`引数を渡し、起動できます。
 

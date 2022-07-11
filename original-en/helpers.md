@@ -45,11 +45,14 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Arr::hasAny](#method-array-hasany)
 [Arr::isAssoc](#method-array-isassoc)
 [Arr::isList](#method-array-islist)
+[Arr::join](#method-array-join)
 [Arr::keyBy](#method-array-keyby)
 [Arr::last](#method-array-last)
+[Arr::map](#method-array-map)
 [Arr::only](#method-array-only)
 [Arr::pluck](#method-array-pluck)
 [Arr::prepend](#method-array-prepend)
+[Arr::prependKeysWith](#method-array-prependkeyswith)
 [Arr::pull](#method-array-pull)
 [Arr::query](#method-array-query)
 [Arr::random](#method-array-random)
@@ -111,6 +114,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::headline](#method-str-headline)
 [Str::is](#method-str-is)
 [Str::isAscii](#method-str-is-ascii)
+[Str::isJson](#method-str-is-json)
 [Str::isUuid](#method-str-is-uuid)
 [Str::kebab](#method-kebab-case)
 [Str::lcfirst](#method-str-lcfirst)
@@ -172,6 +176,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [between](#method-fluent-str-between)
 [betweenFirst](#method-fluent-str-between-first)
 [camel](#method-fluent-str-camel)
+[classBasename](#method-fluent-str-class-basename)
 [contains](#method-fluent-str-contains)
 [containsAll](#method-fluent-str-contains-all)
 [dirname](#method-fluent-str-dirname)
@@ -184,6 +189,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [isAscii](#method-fluent-str-is-ascii)
 [isEmpty](#method-fluent-str-is-empty)
 [isNotEmpty](#method-fluent-str-is-not-empty)
+[isJson](#method-fluent-str-is-json)
 [isUuid](#method-fluent-str-is-uuid)
 [kebab](#method-fluent-str-kebab)
 [lcfirst](#method-fluent-str-lcfirst)
@@ -288,6 +294,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [encrypt](#method-encrypt)
 [env](#method-env)
 [event](#method-event)
+[fake](#method-fake)
 [filled](#method-filled)
 [info](#method-info)
 [logger](#method-logger)
@@ -609,6 +616,23 @@ The `Arr::isList` method returns `true` if the given array's keys are sequential
 
     // false
 
+<a name="method-array-join"></a>
+#### `Arr::join()` {.collection-method}
+
+The `Arr::join` method joins array elements with a string. Using this method's second argument, you may also specify the joining string for the final element of the array:
+
+    use Illuminate\Support\Arr;
+
+    $array = ['Tailwind', 'Alpine', 'Laravel', 'Livewire'];
+
+    $joined = Arr::join($array, ', ');
+
+    // Tailwind, Alpine, Laravel, Livewire
+
+    $joined = Arr::join($array, ', ', ' and ');
+
+    // Tailwind, Alpine, Laravel and Livewire
+
 <a name="method-array-keyby"></a>
 #### `Arr::keyBy()` {.collection-method}
 
@@ -650,6 +674,21 @@ A default value may be passed as the third argument to the method. This value wi
     use Illuminate\Support\Arr;
 
     $last = Arr::last($array, $callback, $default);
+
+<a name="method-array-map"></a>
+#### `Arr::map()` {.collection-method}
+
+The `Arr::map` method iterates through the array and passes each value and key to the given callback. The array value is replaced by the value returned by the callback:
+
+    use Illuminate\Support\Arr;
+
+    $array = ['first' => 'james', 'last' => 'kirk'];
+
+    $mapped = Arr::map($array, function ($value, $key) {
+        return ucfirst($value);
+    });
+
+    // ['first' => 'James', 'last' => 'Kirk']
 
 <a name="method-array-only"></a>
 #### `Arr::only()` {.collection-method}
@@ -710,6 +749,27 @@ If needed, you may specify the key that should be used for the value:
     $array = Arr::prepend($array, 'Desk', 'name');
 
     // ['name' => 'Desk', 'price' => 100]
+
+<a name="method-array-prependkeyswith"></a>
+#### `Arr::prependKeysWith()` {.collection-method}
+
+The `Arr::prependKeysWith` prepends all key names of an associative array with the given prefix:
+
+    use Illuminate\Support\Arr;
+
+    $array = [
+        'name' => 'Desk',
+        'price' => 100,
+    ];
+
+    $keyed = Arr::prependKeysWith($array, 'product.');
+
+    /*
+        [
+            'product.name' => 'Desk',
+            'product.price' => 100,
+        ]
+    */
 
 <a name="method-array-pull"></a>
 #### `Arr::pull()` {.collection-method}
@@ -1416,6 +1476,25 @@ The `Str::isAscii` method determines if a given string is 7 bit ASCII:
 
     // false
 
+<a name="method-str-is-json"></a>
+#### `Str::isJson()` {.collection-method}
+
+The `Str::isJson` method determines if the given string is valid JSON:
+
+    use Illuminate\Support\Str;
+
+    $result = Str::isJson('[1,2,3]');
+
+    // true
+
+    $result = Str::isJson('{"first": "John", "last": "Doe"}');
+
+    // true
+
+    $result = Str::isJson('{first: "John", last: "Doe"}');
+
+    // false
+
 <a name="method-str-is-uuid"></a>
 #### `Str::isUuid()` {.collection-method}
 
@@ -2104,6 +2183,17 @@ The `camel` method converts the given string to `camelCase`:
 
     // fooBar
 
+<a name="method-fluent-str-class-basename"></a>
+#### `classBasename` {.collection-method}
+
+The `classBasename` method returns the class name of the given class with the class's namespace removed:
+
+    use Illuminate\Support\Str;
+
+    $class = Str::of('Foo\Bar\Baz')->classBasename();
+
+    // Baz
+
 <a name="method-fluent-str-contains"></a>
 #### `contains` {.collection-method}
 
@@ -2299,6 +2389,25 @@ The `isNotEmpty` method determines if the given string is not empty:
     $result = Str::of('Laravel')->trim()->isNotEmpty();
 
     // true
+
+<a name="method-fluent-str-is-json"></a>
+#### `isJson` {.collection-method}
+
+The `isJson` method determines if a given string is valid JSON:
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('[1,2,3]')->isJson();
+
+    // true
+
+    $result = Str::of('{"first": "John", "last": "Doe"}')->isJson();
+
+    // true
+
+    $result = Str::of('{first: "John", last: "Doe"}')->isJson();
+
+    // false
 
 <a name="method-fluent-str-is-uuid"></a>
 #### `isUuid` {.collection-method}
@@ -2833,7 +2942,7 @@ The `tap` method passes the string to the given closure, allowing you to examine
     $string = Str::of('Laravel')
         ->append(' Framework')
         ->tap(function ($string) {
-            dump('String after append: ' . $string);
+            dump('String after append: '.$string);
         })
         ->upper();
 
@@ -3418,6 +3527,27 @@ The `event` function dispatches the given [event](/docs/{{version}}/events) to i
 
     event(new UserRegistered($user));
 
+<a name="method-fake"></a>
+#### `fake()` {.collection-method}
+
+The `fake` function resolves a [Faker](https://github.com/FakerPHP/Faker) singleton from the container, which can be useful when creating fake data in model factories, database seeding, tests, and prototyping views:
+
+```blade
+@for($i = 0; $i < 10; $i++)
+    <dl>
+        <dt>Name</dt>
+        <dd>{{ fake()->name() }}</dd>
+
+        <dt>Email</dt>
+        <dd>{{ fake()->unique()->safeEmail() }}</dd>
+    </dl>
+@endfor
+```
+
+By default, the `fake` function will utilize the `app.faker_locale` configuration option in your `config/app.php` configuration file; however, you may also specify the locale by passing it to the `fake` function. Each locale will resolve an individual singleton:
+
+    fake('nl_NL')->name()
+
 <a name="method-filled"></a>
 #### `filled()` {.collection-method}
 
@@ -3600,13 +3730,13 @@ If you would like to manually calculate the number of milliseconds to sleep betw
 
     return retry(5, function () {
         // ...
-    }, function ($attempt) {
+    }, function ($attempt, $exception) {
         return $attempt * 100;
     });
 
 For convenience, you may provide an array as the first argument to the `retry` function. This array will be used to determine how many milliseconds to sleep between subsequent attempts:
 
-    return retry([100, 200] function () {
+    return retry([100, 200], function () {
         // Sleep for 100ms on first retry, 200ms on second retry...
     });
 

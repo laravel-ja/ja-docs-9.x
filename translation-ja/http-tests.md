@@ -634,6 +634,7 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 [assertJsonMissingExact](#assert-json-missing-exact)
 [assertJsonMissingValidationErrors](#assert-json-missing-validation-errors)
 [assertJsonPath](#assert-json-path)
+[assertJsonMissingPath](#assert-json-missing-path)
 [assertJsonStructure](#assert-json-structure)
 [assertJsonValidationErrors](#assert-json-validation-errors)
 [assertJsonValidationErrorFor](#assert-json-validation-error-for)
@@ -821,7 +822,7 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 
     $response->assertJsonPath($path, $expectedValue);
 
-たとえば、アプリケーションが返すJSONレスポンスに次のデータが含まれている場合:
+たとえば、アプリケーションが以下のJSONレスポンスを返す場合：
 
 ```js
 {
@@ -834,6 +835,27 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 `user`オブジェクトの`name`プロパティが次のように指定する値に一致すると宣言することができます。
 
     $response->assertJsonPath('user.name', 'Steve Schoger');
+
+<a name="assert-json-missing-path"></a>
+#### assertJsonMissingPath
+
+レスポンスに、指定するパスが含まれないことを宣言します。
+
+    $response->assertJsonMissingPath($path);
+
+たとえば、アプリケーションが以下のJSONレスポンスを返す場合：
+
+```js
+{
+    "user": {
+        "name": "Steve Schoger"
+    }
+}
+```
+
+`user`オブジェクトに`email`プロパティが含まれていないことを宣言できるでしょう。
+
+    $response->assertJsonMissingPath('user.email');
 
 <a name="assert-json-structure"></a>
 #### assertJsonStructure

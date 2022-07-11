@@ -258,7 +258,7 @@ DB::table('users')->where('active', false)
 <a name="selectraw"></a>
 #### `selectRaw`
 
-`addSelect(DB::raw(...))`の代わりに`selectRaw`メソッドを使用できます。このメソッドは、２番目の引数にバインディングのオプションの配列を取ります。
+`addSelect(DB::raw(/*...*/))`の代わりに`selectRaw`メソッドを使用できます。このメソッドは、２番目の引数にバインディングのオプションの配列を取ります。
 
     $orders = DB::table('orders')
                     ->selectRaw('price * ? as price_with_tax', [1.0825])
@@ -348,7 +348,7 @@ DB::table('users')->where('active', false)
 
     DB::table('users')
             ->join('contacts', function ($join) {
-                $join->on('users.id', '=', 'contacts.user_id')->orOn(...);
+                $join->on('users.id', '=', 'contacts.user_id')->orOn(/* ... */);
             })
             ->get();
 

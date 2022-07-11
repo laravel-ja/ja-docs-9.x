@@ -1325,6 +1325,16 @@ Cashierは、顧客が非課税であるかどうかを判断するために、`
 
     $user->subscription('default')->endTrial();
 
+既存のトライアル期間が切れているかを判断するには、`hasExpiredTrial`メソッドを使用します。
+
+    if ($user->hasExpiredTrial('default')) {
+        //
+    }
+
+    if ($user->subscription('default')->hasExpiredTrial()) {
+        //
+    }
+
 <a name="defining-trial-days-in-stripe-cashier"></a>
 #### ストライプ／Cashierでの無料トライアル日数の定義
 
@@ -1769,7 +1779,7 @@ Billableなモデル上の`checkout`メソッドを使用して、Stripeダッ�
 
     Route::get('/product-checkout', function (Request $request) {
         return $request->user()->checkout(['price_tshirt' => 1], [
-            'success_url' => route('checkout-success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => route('checkout-success').'?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('checkout-cancel'),
         ]);
     });

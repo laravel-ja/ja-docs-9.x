@@ -3,7 +3,7 @@
 - [イントロダクション](#introduction)
 - [リクエストの操作](#interacting-with-the-request)
     - [リクエストへのアクセス](#accessing-the-request)
-    - [リクエストパスとメソッド](#request-path-and-method)
+    - [リクエストパスとホスト、メソッド](#request-path-and-method)
     - [リクエストヘッダ](#request-headers)
     - [リクエストIPアドレス](#request-ip-address)
     - [コンテントネゴシエーション](#content-negotiation)
@@ -97,7 +97,7 @@ Laravelの`Illuminate\Http\Request`クラスは、アプリケーションが処
     }
 
 <a name="request-path-and-method"></a>
-### リクエストパスとメソッド
+### リクエストパスとホスト、メソッド
 
 `Illuminate\Http\Request`インスタンスは、`Symfony\Component\HttpFoundation\Request`クラスを拡張し、受信HTTPリクエストを調べるためのさまざまなメソッドを提供しています。以下では、もっとも重要なメソッドからいくつか説明します。
 
@@ -135,6 +135,15 @@ Laravelの`Illuminate\Http\Request`クラスは、アプリケーションが処
 現在のURLへクエリ文字列のデータを追加したい場合は、`fullUrlWithQuery`メソッドを呼び出します。このメソッドは、与えられたクエリ文字列変数の配列を現在のクエリ文字列にマージします。
 
     $request->fullUrlWithQuery(['type' => 'phone']);
+
+<a name="retrieving-the-request-host"></a>
+#### リクエストホストの取得
+
+`host`、`httpHost`、`schemeAndHttpHost`メソッドを使い、受信リクエストの「ホスト」を取得できます。
+
+    $request->host();
+    $request->httpHost();
+    $request->schemeAndHttpHost();
 
 <a name="retrieving-the-request-method"></a>
 #### リクエストメソッドの取得

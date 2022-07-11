@@ -1325,6 +1325,16 @@ You may use the `endTrial` method to immediately end a subscription trial:
 
     $user->subscription('default')->endTrial();
 
+To determine if an existing trial has expired, you may use the `hasExpiredTrial` methods:
+
+    if ($user->hasExpiredTrial('default')) {
+        //
+    }
+
+    if ($user->subscription('default')->hasExpiredTrial()) {
+        //
+    }
+
 <a name="defining-trial-days-in-stripe-cashier"></a>
 #### Defining Trial Days In Stripe / Cashier
 
@@ -1565,7 +1575,7 @@ Alternatively, you may use the `invoiceFor` method to make a "one-off" charge ag
 
     $user->invoiceFor('One Time Fee', 500);
 
-Although the `invoiceFor` method is available for you to use, it is recommendeded that you use the `invoicePrice` and `tabPrice` methods with pre-defined prices. By doing so, you will have access to better analytics and data within your Stripe dashboard regarding your sales on a per-product basis.
+Although the `invoiceFor` method is available for you to use, it is recommended that you use the `invoicePrice` and `tabPrice` methods with pre-defined prices. By doing so, you will have access to better analytics and data within your Stripe dashboard regarding your sales on a per-product basis.
 
 > {note} The `invoice`, `invoicePrice`, and `invoiceFor` methods will create a Stripe invoice which will retry failed billing attempts. If you do not want invoices to retry failed charges, you will need to close them using the Stripe API after the first failed charge.
 
@@ -1649,7 +1659,7 @@ To retrieve the upcoming invoice for a customer, you may use the `upcomingInvoic
 
     $invoice = $user->upcomingInvoice();
 
-Similary, if the customer has multiple subscriptions, you can also retrieve the upcoming invoice for a specific subscription:
+Similarly, if the customer has multiple subscriptions, you can also retrieve the upcoming invoice for a specific subscription:
 
     $invoice = $user->subscription('default')->upcomingInvoice();
 
@@ -1769,7 +1779,7 @@ When defining your `success_url` checkout option, you may instruct Stripe to add
 
     Route::get('/product-checkout', function (Request $request) {
         return $request->user()->checkout(['price_tshirt' => 1], [
-            'success_url' => route('checkout-success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => route('checkout-success').'?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('checkout-cancel'),
         ]);
     });

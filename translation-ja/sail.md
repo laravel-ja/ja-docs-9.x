@@ -187,7 +187,7 @@ Nodeコマンドは`npm`コマンドを使用して実行し、NPMコマンド�
 ```shell
 sail node --version
 
-sail npm run prod
+sail npm run dev
 ```
 
 ご希望であれば、NPMの代わりにYarnを使用できます。
@@ -239,6 +239,12 @@ AWS_DEFAULT_REGION=us-east-1
 AWS_BUCKET=local
 AWS_ENDPOINT=http://minio:9000
 AWS_USE_PATH_STYLE_ENDPOINT=true
+```
+
+LaravelのFlysystemインテグレーションで、MinIOを使用している場合、適切なURLを生成するには、`AWS_URL`環境変数を定義してアプリケーションのローカルURLと一致させ、URLパスにバケット名を含める必要があります:
+
+```ini
+AWS_URL=http://localhost:9000/local
 ```
 
 <a name="running-tests"></a>
@@ -419,7 +425,7 @@ sail share --subdomain=my-sail-site
 LaravelSailのDockerの設定には、PHP用の人気で強力なデバッガである[Xdebug](https://xdebug.org/)をサポートしています。XDebugを有効にするには、[Xdebugを設定](https://xdebug.org/docs/step_debug#mode)するために、アプリケーションの`.env`ファイルに変数を追加する必要があります。XDebugを有効にするには、Sailを開始する前に適切なモードを設定する必要があります。
 
 ```ini
-SAIL_XDEBUG_MODE=develop,debug
+SAIL_XDEBUG_MODE=develop,debug,coverage
 ```
 
 #### LinuxホストIP設定
