@@ -419,6 +419,10 @@ php artisan dusk --group=foo
 
     $browser->screenshot('filename');
 
+`responsiveScreenshots`メソッドは、様々なブレークポイントで一連のスクリーンショットを取得するために使用します。
+
+    $browser->responsiveScreenshots('filename');
+
 <a name="storing-console-output-to-disk"></a>
 ### コンソール出力をディスクへ保存
 

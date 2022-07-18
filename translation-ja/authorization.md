@@ -195,6 +195,33 @@ Laravelは、アクションを認可する2つの主要な方法を提供しま
 
     // アクションは認可されている
 
+<a name="customising-gate-response-status"></a>
+#### HTTPレスポンスステータスのカスタマイズ
+
+ゲートがアクションを拒否すると、`403` HTTPレスポンスを返します。しかし場合により、別のHTTPステータスコードを返すほうが、便利なことがあります。認可チェックに失敗したときに返すHTTPステータスコードは、`Illuminate\Auth\Access\Response`クラスの`denyWithStatus`静的コンストラクタを使用してカスタマイズできます。
+
+    use App\Models\User;
+    use Illuminate\Auth\Access\Response;
+    use Illuminate\Support\Facades\Gate;
+
+    Gate::define('edit-settings', function (User $user) {
+        return $user->isAdmin
+                    ? Response::allow()
+                    : Response::denyWithStatus(404);
+    });
+
+`404`レスポンスによるリソースの隠蔽はウェブアプリケーションでは常套手段なため、使いやすいように`denyAsNotFound`メソッドを提供しています。
+
+    use App\Models\User;
+    use Illuminate\Auth\Access\Response;
+    use Illuminate\Support\Facades\Gate;
+
+    Gate::define('edit-settings', function (User $user) {
+        return $user->isAdmin
+                    ? Response::allow()
+                    : Response::denyAsNotFound();
+    });
+
 <a name="intercepting-gate-checks"></a>
 ### ゲートチェックの割り込み
 
@@ -388,6 +415,49 @@ Artisanコンソールを介してポリシーを生成するときに`--model`�
     Gate::authorize('update', $post);
 
     // アクションは認可されている
+
+<a name="customising-policy-response-status"></a>
+#### HTTPレスポンスステータスのカスタマイズ
+
+ポリシーメソッドがアクションを拒否すると、`403` HTTPレスポンスを返します。しかし場合により、別のHTTPステータスコードを返すほうが、便利なことがあります。認可チェックに失敗したときに返すHTTPステータスコードは、`Illuminate\Auth\Access\Response`クラスの`denyWithStatus`静的コンストラクタを使用してカスタマイズできます。
+
+    use App\Models\Post;
+    use App\Models\User;
+    use Illuminate\Auth\Access\Response;
+
+    /**
+     * 指定ポストがユーザーにより更新可能であるか決定
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Auth\Access\Response
+     */
+    public function update(User $user, Post $post)
+    {
+        return $user->id === $post->user_id
+                    ? Response::allow()
+                    : Response::denyWithStatus(404);
+    }
+
+`404`レスポンスによるリソースの隠蔽はウェブアプリケーションでは常套手段なため、使いやすいように`denyAsNotFound`メソッドを提供しています。
+
+    use App\Models\Post;
+    use App\Models\User;
+    use Illuminate\Auth\Access\Response;
+
+    /**
+     * 指定ポストがユーザーにより更新可能であるか決定
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Auth\Access\Response
+     */
+    public function update(User $user, Post $post)
+    {
+        return $user->id === $post->user_id
+                    ? Response::allow()
+                    : Response::denyAsNotFound();
+    }
 
 <a name="methods-without-models"></a>
 ### モデルのないメソッド

@@ -112,6 +112,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Str::excerpt](#method-excerpt)
 [Str::finish](#method-str-finish)
 [Str::headline](#method-str-headline)
+[Str::inlineMarkdown](#method-str-inline-markdown)
 [Str::is](#method-str-is)
 [Str::isAscii](#method-str-is-ascii)
 [Str::isJson](#method-str-is-json)
@@ -185,6 +186,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [exactly](#method-fluent-str-exactly)
 [explode](#method-fluent-str-explode)
 [finish](#method-fluent-str-finish)
+[inlineMarkdown](#method-fluent-str-inline-markdown)
 [is](#method-fluent-str-is)
 [isAscii](#method-fluent-str-is-ascii)
 [isEmpty](#method-fluent-str-is-empty)
@@ -1446,6 +1448,17 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 
     // Email Notification Sent
 
+<a name="method-str-inline-markdown"></a>
+#### `Str::inlineMarkdown()` {.collection-method}
+
+`Str::inlineMarkdown`メソッドは、GitHub仕様のMarkdownを[CommonMark](https://commonmark.thephpleague.com/)により、インラインHTMLへ変換します。しかし、`markdown`メソッドとは異なり、生成したすべてのHTMLをブロックレベルの要素中へラップはできません。
+
+    use Illuminate\Support\Str;
+
+    $html = Str::inlineMarkdown('**Laravel**');
+
+    // <strong>Laravel</strong>
+
 <a name="method-str-is"></a>
 #### `Str::is()` {.collection-method}
 
@@ -2328,6 +2341,17 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
     $adjusted = Str::of('this/string/')->finish('/');
 
     // this/string/
+
+<a name="method-fluent-str-inline-markdown"></a>
+#### `inlineMarkdown` {.collection-method}
+
+`inlineMarkdown`メソッドは、GitHub仕様のMarkdownを[CommonMark](https://commonmark.thephpleague.com/)により、インラインHTMLへ変換します。しかし、`markdown`メソッドとは異なり、生成したすべてのHTMLをブロックレベルの要素中へラップはできません。
+
+    use Illuminate\Support\Str;
+
+    $html = Str::of('**Laravel**')->inlineMarkdown();
+
+    // <strong>Laravel</strong>
 
 <a name="method-fluent-str-is"></a>
 #### `is` {.collection-method}

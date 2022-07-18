@@ -467,6 +467,15 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 <button type="submit" @disabled($errors->isNotEmpty())>Submit</button>
 ```
 
+加えて、`@required`ディレクティブは、指定要素が"required"であることを表すために使用します。。
+
+```blade
+<input type="text"
+        name="title"
+        value="title"
+        @required($user->isAdmin()) />
+```
+
 <a name="including-subviews"></a>
 ### サブビューの読み込み
 

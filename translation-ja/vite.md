@@ -14,6 +14,7 @@
   - [Inertia](#inertia)
   - [URL処理](#url-processing)
 - [スタイルシートの操作](#working-with-stylesheets)
+- [Bladeとルートの操作](#working-with-blade-and-routes)
 - [ベースURLのカスタマイズ](#custom-base-urls)
 - [環境変数](#environment-variables)
 - [サーバサイドレンダリング(SSR)](#ssr)
@@ -324,6 +325,64 @@ module.exports = {
 };
 ```
 
+<a name="working-with-blade-and-routes"></a>
+## Bladeとルートの操作
+
+Bladeを用いる従来のサーバサイドレンダリングによりアプリケーションを構築している場合、アプリケーション内のビューファイルを変更したときに、自動でブラウザを再ロードすることにより、Viteは開発ワークフローを改善します。これを使用するには、`refresh`オプションを`true`へ指定するだけです。
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            // ...
+            refresh: true,
+        }),
+    ],
+});
+```
+
+`refresh`オプションが`true`の場合、`resources/views/**`、`app/View/Components/**`、`routes/**`のファイルを保存すると、`npm run dev`実行中に、ブラウザがページのフル再ロードを行うようになります。
+
+[Ziggy](https://github.com/tighten/ziggy)を利用して、アプリケーションのフロントエンドでルートリンクを生成する場合、`routes/**`ディレクトリを監視すると便利です。
+
+これらのデフォルトパスがニーズに合わない場合、監視するパスリストを独自に指定できます。
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            // ...
+            refresh: ['resources/views/**'],
+        }),
+    ],
+});
+```
+
+Laravel Viteプラグインの内部では、[`vite-plugin-full-reload`](https://github.com/ElMassimo/vite-plugin-full-reload)パッケージを使用しており、この機能の動作を微調整するために高度な設定オプションを用意しています。このレベルのカスタマイズが必要な場合は、`config`定義を指定してください。
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            // ...
+            refresh: [{
+                paths: ['path/to/watch/**'],
+                config: { delay: 300 }
+            }],
+        }),
+    ],
+});
+```
+
 <a name="custom-base-urls"></a>
 ## ベースURLのカスタマイズ
 
@@ -389,7 +448,7 @@ SSRエントリポイントの再構築を忘れないようにするために�
 
 ```sh
 npm run build
-node storage/ssr/ssr.js
+node bootstrap/ssr/ssr.js
 ```
 
 > {tip} Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでに適切なLaravel、Inertia SSR、Viteの構成が含まれています。Laravel、Inertia SSR、Viteを最速で使い始めるため、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) をチェックしてください。
