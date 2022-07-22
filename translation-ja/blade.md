@@ -10,7 +10,7 @@
     - [繰り返し](#loops)
     - [ループ変数](#the-loop-variable)
     - [条件クラス](#conditional-classes)
-    - [Checked／Selected／Disabled](#checked-and-selected)
+    - [その他の属性](#additional-attributes)
     - [サブビューの読み込み](#including-subviews)
     - [`@once`ディレクティブ](#the-once-directive)
     - [生PHP](#raw-php)
@@ -437,8 +437,8 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 <span class="p-4 text-gray-500 bg-red"></span>
 ```
 
-<a name="checked-and-selected"></a>
-### Checked／Selected／Disabled
+<a name="additional-attributes"></a>
+### その他の属性
 
 利便が良いよう、指定したHTMLのチェックボックス入力が"checked"であることを簡単に表すため、`@checked`ディレクティブを使用できます。このディレクティブは、指定条件が`true`と評価された場合、`checked`をechoします。
 
@@ -465,6 +465,15 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 
 ```blade
 <button type="submit" @disabled($errors->isNotEmpty())>Submit</button>
+```
+
+さらに、`@readonly` ディレクティブは、指定した要素が"readonly"であるべきかを示すために使用します。
+
+```blade
+<input type="email"
+        name="email"
+        value="email@laravel.com"
+        @readonly($user->isNotAdmin()) />
 ```
 
 加えて、`@required`ディレクティブは、指定要素が"required"であることを表すために使用します。。
@@ -1580,6 +1589,14 @@ Bladeを使用すると、別のビューまたはレイアウトのどこか別
 @push('scripts')
     <script src="/example.js"></script>
 @endpush
+```
+
+もし、指定した論理式が、`true`と評価された場合にコンテンツを`@push`したいのであれば、`@pushIf`ディレクティブを使用します。
+
+```blade
+@pushIf($shouldPush, 'scripts')
+    <script src="/example.js"></script>
+@endPushIf
 ```
 
 必要な回数だけスタックに入れ込めます。スタックしたコンテンツを完全にレンダするには、スタックの名前を`@stack`ディレクティブに渡します。

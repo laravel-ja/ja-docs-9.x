@@ -90,6 +90,15 @@ php artisan make:model Flight --all
 php artisan make:model Member --pivot
 ```
 
+<a name="inspecting-models"></a>
+#### Inspecting Models
+
+モデルのコードに目を通すだけでは、そのモデルで利用可能な全ての属性とリレーションを判断するのが難しい場合があります。そのような場合は、`model:show` Artisanコマンドを使用してください。モデルの全ての属性とリレーションを簡単に確認できます。
+
+```shell
+php artisan model:show Flight
+```
+
 <a name="eloquent-model-conventions"></a>
 ## Eloquentモデルの規約
 

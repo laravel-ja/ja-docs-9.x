@@ -152,7 +152,6 @@ protected function address(): Attribute
         /**
          * ユーザーの名を操作
          *
-         * @param  string  $value
          * @return \Illuminate\Database\Eloquent\Casts\Attribute
          */
         protected function firstName(): Attribute

@@ -587,6 +587,35 @@ Laravel ペジネータインスタンスをリソースの`collection`メソッ
 
 この例では、リレーションがロードされていない場合、`posts`キーはクライアントに送信される前に、リソースレスポンスから削除されます。
 
+<a name="conditional-relationship-counts"></a>
+#### 条件付きリレーションカウント
+
+条件付きでリレーションを含めることに加えて、リレーションのカウントがモデルにロード済みかどうかにもとづき、リソースレスポンスへリレーションの「カウント(count)」を条件付きで含められます。
+
+    new UserResource($user->loadCount('posts'));
+
+`whenCounted`メソッドを使用すると、リレーションシップのカウントを条件付きでリソースレスポンスに含めることができます。このメソッドは、リレーションシップのカウントが存在しない場合に、不必要に属性をインクルードする事態を避けます。
+
+    /**
+     * リソースを配列へ変換する
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function toArray($request)
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'posts_count' => $this->whenCounted('posts'),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
+
+この例では、`posts`リレーションのカウントがロードされていない場合、`posts_count`キーはクライアントへ送信される前に、リソースレスポンスから削除されます。
+
 <a name="conditional-pivot-information"></a>
 #### 条件付きピボット情報
 

@@ -318,6 +318,15 @@ JSONリクエストをアプリケーションに送信する場合、リクエ�
 
 入力値が存在するがフォーマットが無効な場合は、`InvalidArgumentException`を投げます。したがって、`date`メソッドを呼び出す前に入力値をバリデーションすることを推奨します。
 
+<a name="retrieving-enum-input-values"></a>
+#### Enum入力値の取得
+
+[PHPのenum](https://www.php.net/manual/ja/language.types.enumerations.php)に対応する入力値も、リクエストから取得することがあります。リクエストに指定した名前の入力値が含まれていない場合、あるいは入力値にマッチするenumバッキング値をそのenumが持たない場合、`null`を返します。`enum`メソッドは、入力値の名前とenumクラスを第１引数、第２引数に取ります。
+
+    use App\Enums\Status;
+
+    $status = $request->enum('status', Status::class);
+
 <a name="retrieving-input-via-dynamic-properties"></a>
 #### 動的プロパティを介した入力の取得
 

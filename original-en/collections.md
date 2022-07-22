@@ -103,6 +103,7 @@ For the majority of the remaining collection documentation, we'll discuss each m
 [combine](#method-combine)
 [concat](#method-concat)
 [contains](#method-contains)
+[containsOneItem](#method-containsoneitem)
 [containsStrict](#method-containsstrict)
 [count](#method-count)
 [countBy](#method-countBy)
@@ -131,6 +132,7 @@ For the majority of the remaining collection documentation, we'll discuss each m
 [get](#method-get)
 [groupBy](#method-groupby)
 [has](#method-has)
+[hasAny](#method-hasany)
 [implode](#method-implode)
 [intersect](#method-intersect)
 [intersectByKeys](#method-intersectbykeys)
@@ -435,6 +437,23 @@ You may also pass a key / value pair to the `contains` method, which will determ
 The `contains` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`containsStrict`](#method-containsstrict) method to filter using "strict" comparisons.
 
 For the inverse of `contains`, see the [doesntContain](#method-doesntcontain) method.
+
+<a name="method-containsoneitem"></a>
+#### `containsOneItem()` {.collection-method}
+
+The `containsOneItem` method determines whether the collection contains a single item:
+
+    collect([])->containsOneItem();
+
+    // false
+
+    collect(['1'])->containsOneItem();
+
+    // true
+
+    collect(['1', '2'])->containsOneItem();
+
+    // false
 
 <a name="method-containsstrict"></a>
 #### `containsStrict()` {.collection-method}
@@ -1080,6 +1099,21 @@ The `has` method determines if a given key exists in the collection:
     // true
 
     $collection->has(['amount', 'price']);
+
+    // false
+
+<a name="method-hasany"></a>
+#### `hasAny()` {.collection-method}
+
+The `hasAny` method determines whether any of the given keys exist in the collection:
+
+    $collection = collect(['account_id' => 1, 'product' => 'Desk', 'amount' => 5]);
+
+    $collection->hasAny(['product', 'price']);
+
+    // true
+
+    $collection->hasAny(['name', 'price']);
 
     // false
 

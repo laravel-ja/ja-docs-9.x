@@ -140,6 +140,12 @@ php artisan route:list
 php artisan route:list -v
 ```
 
+また、指定したURIで始まるルートのみを表示するように、Laravelへ指示することもできます。
+
+```shell
+php artisan route:list --path=api
+```
+
 さらに、`route:list`コマンドを実行するときに、`--except-vendor`オプションを指定すると、サードパーティーのパッケージが定義したルートを非表示にできます。
 
 ```shell

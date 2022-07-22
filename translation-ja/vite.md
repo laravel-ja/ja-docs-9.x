@@ -448,7 +448,7 @@ SSRエントリポイントの再構築を忘れないようにするために�
 
 ```sh
 npm run build
-node bootstrap/ssr/ssr.js
+node bootstrap/ssr/ssr.mjs
 ```
 
 > {tip} Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでに適切なLaravel、Inertia SSR、Viteの構成が含まれています。Laravel、Inertia SSR、Viteを最速で使い始めるため、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) をチェックしてください。

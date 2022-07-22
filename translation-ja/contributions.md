@@ -38,6 +38,7 @@ LaravelのソースコードはGitHubで管理され、各Laravelプロジェク
 - [Laravel Horizon](https://github.com/laravel/horizon)
 - [Laravel Jetstream](https://github.com/laravel/jetstream)
 - [Laravel Passport](https://github.com/laravel/passport)
+- [Laravel Pint](https://github.com/laravel/pint)
 - [Laravel Sail](https://github.com/laravel/sail)
 - [Laravel Sanctum](https://github.com/laravel/sanctum)
 - [Laravel Scout](https://github.com/laravel/scout)

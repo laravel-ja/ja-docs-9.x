@@ -17,6 +17,21 @@ Laravelフレームワークの全設定ファイルは、`config`ディレク�
 
 これら設定ファイルを使用すると、データベース接続情報、メールサーバ情報、およびアプリケーションのタイムゾーンや暗号化キーなどの他のさまざまなコア設定値などを設定できます。
 
+<a name="application-overview"></a>
+#### アプリケーションの概要
+
+お急ぎですか？`about` Artisanコマンドで、アプリケーションの設定、ドライバ、環境の概要を簡単に確認できます。
+
+```shell
+php artisan about
+```
+
+アプリケーション概要の出力のうち、特定のセクションのみ興味がある場合は、`--only`オプションを使用してそのセクションをフィルタリングすることができます。
+
+```shell
+php artisan about --only=environment
+```
+
 <a name="environment-configuration"></a>
 ## 環境設定
 

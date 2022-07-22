@@ -274,6 +274,17 @@ Laravelのリダイレクタが提供する`intended`メソッドは、認証ミ
 
 > {note} これらの例では、`email`は必須オプションではなく、単に例として使用しています。データベーステーブルの"username"に対応するカラム名を使用する必要があります。
 
+クロージャを第２引数として受ける、`attemptWhen`メソッドは、ユーザーを実際に認証する前に、潜在的なユーザーに対してより広範な審査を行うために使用します。クロージャは潜在的なユーザーを引数に取り、そのユーザーを認証するかを示すため、`true`または`false`を返さなければなりません。
+
+    if (Auth::attemptWhen([
+        'email' => $email,
+        'password' => $password,
+    ], function ($user) {
+        return $user->isNotBanned();
+    })) {
+        // 認証に成功
+    }
+
 <a name="accessing-specific-guard-instances"></a>
 #### 特定のガードインスタンスへのアクセス
 

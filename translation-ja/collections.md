@@ -103,6 +103,7 @@
 [combine](#method-combine)
 [concat](#method-concat)
 [contains](#method-contains)
+[containsOneItem](#method-containsoneitem)
 [containsStrict](#method-containsstrict)
 [count](#method-count)
 [countBy](#method-countBy)
@@ -131,6 +132,7 @@
 [get](#method-get)
 [groupBy](#method-groupby)
 [has](#method-has)
+[hasAny](#method-hasany)
 [implode](#method-implode)
 [intersect](#method-intersect)
 [intersectByKeys](#method-intersectbykeys)
@@ -435,6 +437,23 @@
 `contains`メソッドは、アイテムを「緩く」比較します。つまり、ある整数の文字列とその整数値は等値として扱います。「厳密」な比較を行いたい場合は、[`containsStrict`](#method-containsstrict)メソッドを使ってください。
 
 `contains`の逆は、[doesntContain](#method-doesntcontain)メソッドをご覧ください。
+
+<a name="method-containsoneitem"></a>
+#### `containsOneItem()` {.collection-method}
+
+`containsOneItem`メソッドは、コレクションに項目が１つ含まれているかを判断します。
+
+    collect([])->containsOneItem();
+
+    // false
+
+    collect(['1'])->containsOneItem();
+
+    // true
+
+    collect(['1', '2'])->containsOneItem();
+
+    // false
 
 <a name="method-containsstrict"></a>
 #### `containsStrict()` {.collection-method}
@@ -1080,6 +1099,21 @@
     // true
 
     $collection->has(['amount', 'price']);
+
+    // false
+
+<a name="method-hasany"></a>
+#### `hasAny()` {.collection-method}
+
+`hasAny`メソッドは、指定したキーのいずれが、コレクション内に存在するか判定します。
+
+    $collection = collect(['account_id' => 1, 'product' => 'Desk', 'amount' => 5]);
+
+    $collection->hasAny(['product', 'price']);
+
+    // true
+
+    $collection->hasAny(['name', 'price']);
 
     // false
 
