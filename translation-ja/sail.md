@@ -247,6 +247,8 @@ LaravelのFlysystemインテグレーションで、MinIOを使用している�
 AWS_URL=http://localhost:9000/local
 ```
 
+`http://localhost:8900`のMinIOコンソールからバケットを作成できます。MinIOコンソールのデフォルトユーザー名は`sail`、パスワードは`password`です。
+
 <a name="running-tests"></a>
 ## テスト実行
 

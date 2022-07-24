@@ -128,6 +128,12 @@ PHPでは、`offsetGet`や`offsetSet`などのPHPメソッドへ、戻り値の�
 public function ignore(string $class);
 ```
 
+#### 例外ハンドラ契約の依存結合
+
+**影響の可能性： かなり低い**
+
+以前、Laravelのデフォルト例外ハンドラをオーバーライドするには、`\App\Exceptions\Handler::class`タイプのカスタム実装を使い、サービスコンテナへ依存結合していました。しかし今後は、`\Illuminate\Contracts\Debug\ExceptionHandler::class`タイプを使用して依存結合する必要があります。
+
 ### Blade
 
 #### レイジーコレクションと`$loop`変数

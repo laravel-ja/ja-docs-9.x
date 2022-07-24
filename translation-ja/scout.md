@@ -112,6 +112,13 @@ MeiliSearchの詳細については、[MeiliSearchのドキュメント](https:/
 
 `queue`オプションを`false`に設定している場合でも、AlgoliaやMeilisearchなど、一部のScoutドライバは常に非同期でレコードをインデックスしていることを覚えておくことが重要です。つまり、Laravelアプリケーション内でインデックス操作が完了しても、検索エンジン自体には新しいレコードや更新されたレコードがすぐに反映されない可能性があります。
 
+Scoutジョブで利用する接続とキューを指定するには、`queue`設定オプションを配列として定義します。
+
+    'queue' => [
+        'connection' => 'redis',
+        'queue' => 'scout'
+    ],
+
 <a name="configuration"></a>
 ## 設定
 
