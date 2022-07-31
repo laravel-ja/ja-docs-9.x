@@ -494,7 +494,7 @@ Eloquentモデルへ変換する前に素の検索結果を取得したい場合
 
 検索クエリは通常、モデルの[`searchableAs`](#configuring-model-indexes)メソッドで指定するインデックスに対して実行されます。ただし、`within`メソッドを使用して、代わりに検索する必要があるカスタムインデックスを指定できます。
 
-    $orders = Order::search('Star Trek')->paginate();
+    $orders = Order::search('Star Trek')
         ->within('tv_shows_popularity_desc')
         ->get();
 
