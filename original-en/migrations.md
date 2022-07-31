@@ -141,6 +141,12 @@ If you would like to see which migrations have run thus far, you may use the `mi
 php artisan migrate:status
 ```
 
+If you would like to see the SQL statements that will be executed by the migrations without actually running them, you may provide the `--pretend` flag to the `migrate` command:
+
+```shell
+php artisan migrate --pretend
+```
+
 <a name="forcing-migrations-to-run-in-production"></a>
 #### Forcing Migrations To Run In Production
 
@@ -1202,4 +1208,3 @@ For convenience, each migration operation will dispatch an [event](/docs/{{versi
 | `Illuminate\Database\Events\MigrationEnded` | A single migration has finished executing. |
 | `Illuminate\Database\Events\SchemaDumped` | A database schema dump has completed. |
 | `Illuminate\Database\Events\SchemaLoaded` | An existing database schema dump has loaded. |
-

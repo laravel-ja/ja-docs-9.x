@@ -29,6 +29,7 @@
 - [配列のバリデーション](#validating-arrays)
     - [ネストした配列入力のバリデーション](#validating-nested-array-input)
     - [エラーメッセージインデックスとポジション](#error-message-indexes-and-positions)
+- [ファイルのバリデーション](#validating-files)
 - [パスワードのバリデーション](#validating-passwords)
 - [カスタムバリデーションルール](#custom-validation-rules)
     - [ルールオブジェクトの使用](#using-rule-objects)
@@ -1775,6 +1776,47 @@ Sometimes you may need to access the value for a given nested array element when
     ]);
 
 上記の例で、バリデーションは失敗し、*"Please describe photo #2"*がユーザーに表示されます。
+
+<a name="validating-files"></a>
+## ファイルのバリデーション
+
+Laravelでは、アップロードされたファイルを検証するため、`mimes`、`image`、`min`、`max`など様々なバリデーションルールを提供しています。ファイルのバリデーションを行う際に、これらのルールを個別に指定することも可能ですが、便利なようにファイルバリデーションルールビルダも提供しています。
+
+    use Illuminate\Support\Facades\Validator;
+    use Illuminate\Validation\Rules\File;
+
+    Validator::validate($input, [
+        'attachment' => [
+            'required',
+            File::types(['mp3', 'wav'])
+                ->min(1024)
+                ->max(12 * 1024),
+        ],
+    ]);
+
+アプリケーションがユーザーからアップロードされた画像を受け取る場合、`File`ルールの`image`コンストラクタメソッドを使用して、アップロードされるファイルが画像であることを指定することができます。さらに、`dimensions`ルールを使用して、画像の大きさを制限することもできます。
+
+    use Illuminate\Support\Facades\Validator;
+    use Illuminate\Validation\Rules\File;
+
+    Validator::validate($input, [
+        'photo' => [
+            'required',
+            File::image()
+                ->min(1024)
+                ->max(12 * 1024)
+                ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
+        ],
+    ]);
+
+> {tip} 画像サイズのバリデーションに関するより詳しい情報は、[dimensionsルールのドキュメント](#rule-dimensions)に記載しています。
+
+<a name="validating-files-file-types"></a>
+#### ファイルタイプ
+
+`types`メソッドを呼び出すときには拡張子を指定するだけですが、このメソッドは実際にファイルの内容を読み込んで、MIMEタイプを推測し、バリデーションします。MIME タイプとそれに対応する拡張子の完全なリストは、次の場所にあります。
+
+[https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
 <a name="validating-passwords"></a>
 ## パスワードのバリデーション

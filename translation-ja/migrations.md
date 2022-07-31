@@ -141,6 +141,12 @@ php artisan migrate
 php artisan migrate:status
 ```
 
+マイグレーションが実行するSQL文を実際に実行せずに確認したい場合は、`migrate`コマンドに`--pretend`フラグを指定してください。
+
+```shell
+php artisan migrate --pretend
+```
+
 <a name="forcing-migrations-to-run-in-production"></a>
 #### マイグレーションを強制的に本番環境で実行する
 
@@ -1202,4 +1208,3 @@ Laravelは、データベースレベルで参照整合性を強制するため�
 | `Illuminate\Database\Events\MigrationEnded` | 単一マイグレーションが実行終了した |
 | `Illuminate\Database\Events\SchemaDumped` | データベーススキマのダンプが終了した |
 | `Illuminate\Database\Events\SchemaLoaded` | 既存のデータベーススキマのダンプをロードした |
-

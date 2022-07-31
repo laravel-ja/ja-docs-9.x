@@ -238,6 +238,9 @@ Guzzleのデフォルト動作とは異なり、LaravelのHTTPクライアント
     // エラーが発生するか、指定条件が真の場合は、例外を投げる
     $response->throwIf($condition);
 
+    // エラーが発生するか、指定条件が偽の場合は、例外を投げる
+    $response->throwUnless($condition);
+
     return $response['user']['id'];
 
 `Illuminate\Http\Client\RequestException`インスタンスにはパブリック`$response`プロパティがあり、返ってきたレスポンスを検査できます。

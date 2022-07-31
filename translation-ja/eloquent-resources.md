@@ -344,7 +344,7 @@ php artisan make:resource UserCollection
         /**
          * 適用する「データ」ラッパー
          *
-         * @var string
+         * @var string|null
          */
         public static $wrap = 'user';
     }

@@ -132,7 +132,7 @@ php artisan passport:install
         }
     }
 
-最後に、アプリケーションの`config/auth.php`設定ファイルで、`api`認証ガードの`driver`オプションを`passport`に設定する必要があります。これにより、受信APIリクエストを認証するときにPassportの`TokenGuard`を使用するようにアプリケーションに指示します。
+最後に、アプリケーションの`config/auth.php`設定ファイルで、`api`認証ガードを定義して、`driver`オプションを`passport`に設定します。これにより、API リクエストを認証する際に Passportの`TokenGuard`を使用するようアプリケーションに指示します。
 
     'guards' => [
         'web' => [

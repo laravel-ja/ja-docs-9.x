@@ -868,10 +868,14 @@ havingBetween`メソッドを使うと、指定した範囲内の結果をフィ
 
 `upsert` (update+insert)メソッドは、存在しない場合はレコードを挿入し、指定した新しい値でレコードを更新します。メソッドの最初の引数は、挿入または更新する値で構成され、２番目の引数は、関連付けたテーブル内のレコードを一意に識別するカラムをリストします。第３引数は、一致するレコードがデータベースですでに存在する場合に、更新する必要があるカラムの配列です。
 
-    DB::table('flights')->upsert([
-        ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => 99],
-        ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]
-    ], ['departure', 'destination'], ['price']);
+    DB::table('flights')->upsert(
+        [
+            ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => 99],
+            ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]
+        ],
+        ['departure', 'destination'],
+        ['price']
+    );
 
 上記の例では、Laravelは２つのレコードを挿入しようとします。同じ`departure`カラムと`destination`カラムの値を持つレコードがすでに存在する場合、Laravelはそのレコードの`price`カラムを更新します。
 
