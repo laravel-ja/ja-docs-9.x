@@ -18,6 +18,10 @@
 - [ベースURLのカスタマイズ](#custom-base-urls)
 - [環境変数](#environment-variables)
 - [サーバサイドレンダリング(SSR)](#ssr)
+- [Scriptとstyleタグ属性](#script-and-style-attributes)
+  - [コンテンツセキュリティポリシー（CSP)ノンス](#content-security-policy-csp-nonce)
+  - [サブリソース完全性(SRI)](#subresource-integrity-sri)
+  - [任意の属性](#arbitrary-attributes)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -26,7 +30,8 @@
 
 Laravelは、開発および実働用アセットをロードするため、公式プラグインとBladeディレクティブを提供し、Viteをシームレスに統合しています。
 
-> {tip} Laravel Mixを実行していますか？新しいLaravelのインストールでは、Laravel MixをViteへ置き換えました。Mixのドキュメントは、[Laravel Mix](https://laravel-mix.com/)のウェブサイトをご覧ください。Viteに切り替えたい場合は、[移行ガイド](https://github.com/laravel/vite-plugin/blob/main/UPGRADE.md#migrating-from-laravel-mix-to-vite)を参照してください。
+> **Note**
+> Laravel Mixを実行していますか？新しいLaravelのインストールでは、Laravel MixをViteへ置き換えました。Mixのドキュメントは、[Laravel Mix](https://laravel-mix.com/)のウェブサイトをご覧ください。Viteに切り替えたい場合は、[移行ガイド](https://github.com/laravel/vite-plugin/blob/main/UPGRADE.md#migrating-from-laravel-mix-to-vite)を参照してください。
 
 <a name="vite-or-mix"></a>
 #### ViteとLaravel Mixの選択
@@ -43,12 +48,13 @@ Vite scaffoldingを使用して新しいLaravelアプリケーションを開始
 <a name="installation"></a>
 ## インストールと準備
 
-> {tip} 以下のドキュメントでは、Laravel Viteプラグインを手作業でインストールし、設定する方法について説明しています。しかし、Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでにこのスカフォールドがすべて含まれており、LaravelとViteを始める最速の方法を用意しています。
+> **Note**
+> 以下のドキュメントでは、Laravel Viteプラグインを手作業でインストールし、設定する方法について説明しています。しかし、Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでにこのスカフォールドがすべて含まれており、LaravelとViteを始める最速の方法を用意しています。
 
 <a name="installing-node"></a>
 ### Nodeのインストール
 
-ViteとLaravelプラグインを実行する前に、Node.jsとNPMを確実にインストールしてください。
+ViteとLaravelプラグインを実行する前に、Node.js（１６以上）とNPMを確実にインストールしてください。
 
 ```sh
 node -v
@@ -243,7 +249,8 @@ export default defineConfig({
 });
 ```
 
-> {tip} Laravelの[スターターキット](/docs/{{version}/starter-kits)には、すでに適切なLaravel、Vue、Viteの構成が含まれています。Laravel、Vue、Viteを最速で使い始めるには、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia)をチェックしてください。
+> **Note**
+> Laravelの[スターターキット](/docs/{{version}/starter-kits)には、すでに適切なLaravel、Vue、Viteの構成が含まれています。Laravel、Vue、Viteを最速で使い始めるには、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia)をチェックしてください。
 
 <a name="react"></a>
 ### React
@@ -257,7 +264,8 @@ ViteをReactで使用する場合、JSXを含むすべてのファイルに`.jsx
 
 `@viteReactRefresh`ディレクティブは、`@vite`ディレクティブの前に呼び出す必要があります。
 
-> {tip} Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでに適切なLaravel、React、Viteの設定が含まれています。Laravel、React、Viteを最速で始めるには、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) をチェックしてください。
+> **Note**
+> Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでに適切なLaravel、React、Viteの設定が含まれています。Laravel、React、Viteを最速で始めるには、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) をチェックしてください。
 
 <a name="inertia"></a>
 ### Inertia
@@ -279,7 +287,8 @@ createInertiaApp({
 });
 ```
 
-> {tip} Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでに適切なLaravel、Inertia、Viteの構成が含まれています。Laravel、Inertia、Viteを最速で始めるには、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) をチェックしてください。
+> **Note**
+> Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでに適切なLaravel、Inertia、Viteの構成が含まれています。Laravel、Inertia、Viteを最速で始めるには、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) をチェックしてください。
 
 <a name="url-processing"></a>
 ### URL処理
@@ -451,4 +460,131 @@ npm run build
 node bootstrap/ssr/ssr.mjs
 ```
 
-> {tip} Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでに適切なLaravel、Inertia SSR、Viteの構成が含まれています。Laravel、Inertia SSR、Viteを最速で使い始めるため、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) をチェックしてください。
+> **Note**
+> Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでに適切なLaravel、Inertia SSR、Viteの構成が含まれています。Laravel、Inertia SSR、Viteを最速で使い始めるため、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) をチェックしてください。
+
+<a name="script-and-style-attributes"></a>
+## Scriptとstyleタグ属性
+
+<a name="content-security-policy-csp-nonce"></a>
+### コンテンツセキュリティポリシー（CSP)ノンス
+
+コンテンツセキュリティポリシー](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)の一環として、スクリプトやスタイルタグに、[`nonce`属性](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce)を含めたい場合は、カスタム[ミドルウェア](/docs/{{version}}/middleware)の`useCspNonce`メソッドを使用して、ノンスを生成・指定できます。
+
+```php
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Support\Facades\Vite;
+
+class AddContentSecurityPolicyHeaders
+{
+    /**
+     * 受診リクエストの処理
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+        Vite::useCspNonce();
+
+        return $next($request)->withHeaders([
+            'Content-Security-Policy' => "script-src 'nonce-".Vite::cspNonce()."'",
+        ]);
+    }
+}
+```
+
+`useCspNonce`メソッドが呼び出だされると、Laravelは生成するすべてのscriptタグとstyleタグへ、`nonce`属性を自動的に含めます。
+
+Laravelの[スターターキット](/docs/{{version}}/starter-kits)に含まれる[Ziggy `@route` directive](https://github.com/tighten/ziggy#using-routes-with-a-content-security-policy)など、別の場所でノンスを指定する必要がある場合、`cspNonce`メソッドを使用して取得できます。
+
+```blade
+@routes(nonce: Vite::cspNonce())
+```
+
+Laravelに使わせたいノンスが既にある場合は、`useCspNonce`メソッドへ、そのノンスを渡してください。
+
+```php
+Vite::useCspNonce($nonce);
+```
+
+<a name="subresource-integrity-sri"></a>
+### サブリソース完全性(SRI)
+
+Viteマニフェストにアセット用の`integrity`ハッシュが含まれている場合、Laravelは自動的に`integrity`属性を生成するスクリプトとスタイルタグに追加し、[サブリソース完全性](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)を強要します。Viteはデフォルトでは、`integrity`ハッシュをマニフェストに含みませんが、 [`vite-plugin-manifest-uri`](https://www.npmjs.com/package/vite-plugin-manifest-sri) NPMプラグインをインストールすれば、これを有効にできます。
+
+```shell
+npm install -D vite-plugin-manifest-sri
+```
+
+このプラグインは、`vite.config.js`ファイルで有効にします。
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import manifestSRI from 'vite-plugin-manifest-sri';// [tl! add]
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            // ...
+        }),
+        manifestSRI(),// [tl! add]
+    ],
+});
+```
+
+必要であれば、完全性ハッシュを見つけることができるマニフェスト・キーもカスタマイズできます。
+
+```php
+use Illuminate\Support\Facades\Vite;
+
+Vite::useIntegrityKey('custom-integrity-key');
+```
+
+この自動検出を完全に無効にする場合は、`useIntegrityKey`メソッドへ`false`を渡します。
+
+```php
+Vite::useIntegrityKey(false);
+```
+
+<a name="arbitrary-attributes"></a>
+### 任意の属性
+
+もし、スクリプトタグやスタイルタグに追加の属性、例えば [`data-turbo-track`](https://turbo.hotwired.dev/handbook/drive#reloading-when-assets-change)属性を含める必要がある場合は、`useScriptTagAttributes`と`useStyleTagAttributes`メソッドで指定できます。通常、このメソッドは [サービスプロバイダ](/docs/{{version}}/providers)から呼び出す必要があります。
+
+```php
+use Illuminate\Support\Facades\Vite;
+
+Vite::useScriptTagAttributes([
+    'data-turbo-track' => 'reload', // 属性の値を指定
+    'async' => true, // 値を指定しない属性
+    'integrity' => false, // 本来含まれる属性を除外
+]);
+
+Vite::useStyleTagAttributes([
+    'data-turbo-track' => 'reload',
+]);
+```
+
+条件付きで属性を追加する必要がある場合、アセットのソースパスとそのURL、マニフェストのチャンク、およびマニフェスト全体を受け取るコールバックを渡してください。
+
+```php
+use Illuminate\Support\Facades\Vite;
+
+Vite::useScriptTagAttributes(fn (string $src, string $url, array|null $chunk, array|null $manifest) => [
+    'data-turbo-track' => $src === 'resources/js/app.js' ? 'reload' : false,
+]);
+
+Vite::useStyleTagAttributes(fn (string $src, string $url, array|null $chunk, array|null $manifest) => [
+    'data-turbo-track' => $chunk && $chunk['isEntry'] ? 'reload' : false,
+]);
+```
+
+> **Warning**
+> Vite開発サーバが起動している間は、`$chunk`と`$manifest`引数は、`null`になります。

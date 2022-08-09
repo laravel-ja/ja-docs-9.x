@@ -110,7 +110,8 @@ Laravelのデフォルトアプリケーション構造はアプリケーショ�
 
 クラス生成のための`make` Artisanコマンドを使用することで、さまざまなディレクトリが`app`ディレクトリ内に作成されます。たとえば、`app/Jobs`ディレクトリは、ジョブクラスを生成する`make:job` Artisanコマンドを実行するまで存在していません。
 
-> {tip} Artisanコマンドにより、`app`ディレクトリ下にたくさんのクラスが生成されます。使用可能なコマンドを確認するには、`php artisan list make`コマンドをターミナルで実行してください。
+> **Note**
+> Artisanコマンドにより、`app`ディレクトリ下にたくさんのクラスが生成されます。使用可能なコマンドを確認するには、`php artisan list make`コマンドをターミナルで実行してください。
 
 <a name="the-broadcasting-directory"></a>
 #### Broadcastingディレクトリ

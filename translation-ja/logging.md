@@ -59,7 +59,8 @@ Laravelはメッセージをログに記録するときに、デフォルトで`
 `stack` | 「マルチチャンネル」チャンネルの作成を容易にするラッパー
 `syslog` | `SyslogHandler`ベースのMonologドライバ
 
-> {tip} [高度なチャンネルのカスタマイズ](#monolog-channel-customization)のドキュメントをチェックして、`monolog`および`custom`ドライバの詳細を確認してください。
+> **Note**
+> [高度なチャンネルのカスタマイズ](#monolog-channel-customization)のドキュメントをチェックして、`monolog`および`custom`ドライバの詳細を確認してください。
 
 <a name="channel-prerequisites"></a>
 ### チャンネルの事前設定
@@ -336,7 +337,8 @@ PHPやLaravelなどのライブラリは、その機能の一部が非推奨と�
         }
     }
 
-> {tip} すべての「tap」クラスは[サービスコンテナ](/docs/{{version}}/container)によって解決されるため、必要なコンストラクターの依存関係は自動的に依存注入されます。
+> **Note**
+> すべての「tap」クラスは[サービスコンテナ](/docs/{{version}}/container)によって解決されるため、必要なコンストラクターの依存関係は自動的に依存注入されます。
 
 <a name="creating-monolog-handler-channels"></a>
 ### Monolog処理チャンネルの作成

@@ -60,7 +60,8 @@ Laravel Tinkerは、[PsySH](https://github.com/bobthecow/psysh)パッケージ�
 composer require laravel/tinker
 ```
 
-> {tip} Laravelアプリケーションを操作するグラフィカルＵＩをお探しですか？[Tinkerwell](https://tinkerwell.app)をチェックしてください！
+> **Note**
+>  Laravelアプリケーションを操作するグラフィカルＵＩをお探しですか？[Tinkerwell](https://tinkerwell.app)をチェックしてください！
 
 <a name="usage"></a>
 #### 使用法
@@ -77,7 +78,8 @@ php artisan tinker
 php artisan vendor:publish --provider="Laravel\Tinker\TinkerServiceProvider"
 ```
 
-> {note} `dispatch`ヘルパ関数と`Dispatchable`クラスの`dispatch`メソッドは、ジョブをキューに投入するのにガベージコレクションへ依存しています。したがって、Tinkerを使う場合は、`Bus::dispatch`または`Queue::push`を使用してジョブをディスパッチする必要があります。
+> **Warning**
+> `dispatch`ヘルパ関数と`Dispatchable`クラスの`dispatch`メソッドは、ジョブをキューに投入するのにガベージコレクションへ依存しています。したがって、Tinkerを使う場合は、`Bus::dispatch`または`Queue::push`を使用してジョブをディスパッチする必要があります。
 
 <a name="command-allow-list"></a>
 #### コマンド許可リスト
@@ -154,7 +156,8 @@ php artisan make:command SendEmails
         }
     }
 
-> {tip} コードの再利用を増やすには、コンソールコマンドを軽くし、アプリケーションサービスに任せてタスクを実行することをお勧めします。上記の例では、電子メールを送信する「手間のかかる作業」を行うためにサービスクラスを挿入していることに注意してください。
+> **Note**
+> コードの再利用性を上げるには、コンソールコマンドを軽くし、アプリケーションサービスに任せてタスクを実行することをお勧めします。上記の例では、電子メールを送信する「手間のかかる作業」を行うためにサービスクラスを挿入していることに注意してください。
 
 <a name="closure-commands"></a>
 ### クロージャコマンド
@@ -495,7 +498,8 @@ php artisan mail:send --id=1 --id=2
 
     $bar->finish();
 
-> {tip} より高度なオプションは、[Symfonyプログレスバーコンポーネントのドキュメント](https://symfony.com/doc/current/components/console/helpers/progressbar.html)で確認してください。
+> **Note**
+> より高度なオプションは、[Symfonyプログレスバーコンポーネントのドキュメント](https://symfony.com/doc/current/components/console/helpers/progressbar.html)で確認してください。
 
 <a name="registering-commands"></a>
 ## コマンド登録

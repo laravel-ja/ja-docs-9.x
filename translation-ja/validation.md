@@ -317,7 +317,8 @@ php artisan make:request StorePostRequest
         ];
     }
 
-> {tip} `rules`メソッドの引数で必要な依存関係をタイプヒントにより指定することができます。それらはLaravel[サービスコンテナ](/docs/{{version}}/container)を介して自動的に依存解決されます。
+> **Note**
+> `rules`メソッドの引数で必要な依存関係をタイプヒントにより指定することができます。それらはLaravel[サービスコンテナ](/docs/{{version}}/container)を介して自動的に依存解決されます。
 
 では、どのようにバリデーションルールを実行するのでしょうか？必要なのはコントローラのメソッドで、このリクエストをタイプヒントで指定することです。やって来たフォームリクエストはコントローラメソッドが呼び出される前にバリデーションを行います。つまり、コントローラでバリデーションロジックを取っ散らかす必要はありません。
 
@@ -436,7 +437,8 @@ php artisan make:request StorePostRequest
         return true;
     }
 
-> {tip} `authorize`メソッドの引数で、必要な依存をタイプヒントにより指定できます。それらはLaravelの[サービスコンテナ](/docs/{{version}}/container)により、自動的に依存解決されます。
+> **Note**
+> `authorize`メソッドの引数で、必要な依存をタイプヒントにより指定できます。それらはLaravelの[サービスコンテナ](/docs/{{version}}/container)により、自動的に依存解決されます。
 
 <a name="customizing-the-error-messages"></a>
 ### エラーメッセージのカスタマイズ
@@ -1092,7 +1094,8 @@ distinctはデフォルトで緩い比較を使用します。厳密な比較を
 
 PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに付属しており、Laravelバージョン5.8より前のLaravelのデフォルトの電子メールバリデーション動作でした。
 
-> {note} `dns`および`spoof`バリデータには、PHPの`intl`拡張が必要です。
+> **Warning**
+> `dns`および`spoof`バリデータには、PHPの`intl`拡張が必要です。
 
 <a name="rule-ends-with"></a>
 #### ends_with:_foo_,_bar_,...
@@ -1111,7 +1114,8 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
         'status' => [new Enum(ServerStatus::class)],
     ]);
 
-> {note} Enumsは、PHP8.1以上のバージョンで使用できます。
+> **Warning**
+> Enumsは、PHP8.1以上のバージョンで使用できます。
 
 <a name="rule-exclude"></a>
 #### exclude
@@ -1263,7 +1267,8 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 フィールドが整数値であることをバリデートします。
 
-> {note} このバリデーションルールは、入力が「整数」変数タイプであるか確認しません。入力がPHPの`FILTER_VALIDATE_INT`ルールで受け入れられるか検証するだけです。入力を数値として検証する必要がある場合は、このルールを[`numeric`バリデーションルール](#rule-numeric)と組み合わせて使用​​してください。
+> **Warning**
+> このバリデーションルールは、入力が「整数」変数タイプであるか確認しません。入力がPHPの`FILTER_VALIDATE_INT`ルールで受け入れられるか検証するだけです。入力を数値として検証する必要がある場合は、このルールを[`numeric`バリデーションルール](#rule-numeric)と組み合わせて使用​​してください。
 
 <a name="rule-ip"></a>
 #### ip
@@ -1338,7 +1343,8 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 フィールドが、**値**の倍数であることをバリデートします。
 
-> {note} `multiple_of` ルールを使用するには、[`bcmath` PHP 拡張機能](https://www.php.net/manual/ja/book.bc.php)が必要です。
+> **Warning**
+> `multiple_of` ルールを使用するには、[`bcmath` PHP 拡張機能](https://www.php.net/manual/ja/book.bc.php)が必要です。
 
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
@@ -1361,7 +1367,8 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 このルールは、内部でPHPの`preg_match`関数を使用します。指定するパターンは`preg_match`が要求するものと同じフォーマットと、有効なデリミタに従う必要があります。一例は、`'email' => 'not_regex:/^.+$/i'`です。
 
-> {note} `regex`／`not_regex`パターンを使用するとき、特に正規表現に`|`文字が含まれている場合は、`|`区切り文字を使用する代わりに配列を使用してバリデーションルールを指定する必要があります。
+> **Warning**
+> `regex`／`not_regex`パターンを使用するとき、特に正規表現に`|`文字が含まれている場合は、`|`区切り文字を使用する代わりに配列を使用してバリデーションルールを指定する必要があります。
 
 <a name="rule-nullable"></a>
 #### nullable
@@ -1378,7 +1385,8 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 フィールドは、認証済みユーザーのパスワードと一致する必要があります。
 
-> {note} このルールはLaravel9で削除するため、`current_password`へ名前を変更しました。代わりに[現在のパスワード](#rule-current-password)ルールを使用してください。
+> **Warning**
+> このルールはLaravel9で削除するため、`current_password`へ名前を変更しました。代わりに[現在のパスワード](#rule-current-password)ルールを使用してください。
 
 <a name="rule-present"></a>
 #### present
@@ -1425,7 +1433,8 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 このルールは、内部でPHPの`preg_match`関数を使用します。指定するパターンは`preg_match`が要求するものと同じフォーマットと、有効なデリミタに従う必要があります。一例は、`'email' => 'regex:/^.+@.+$/i'`です。
 
-> {note} `regex`／`not_regex`パターンを使用するとき、特に正規表現に`|`文字が含まれている場合は、`|`区切り文字を使用する代わりに、配列でルールを指定する必要があります。
+> **Warning**
+> `regex`／`not_regex`パターンを使用するとき、特に正規表現に`|`文字が含まれている場合は、`|`区切り文字を使用する代わりに、配列でルールを指定する必要があります。
 
 <a name="rule-required"></a>
 #### required
@@ -1563,7 +1572,8 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
         ],
     ]);
 
-> {note} ユーザーがコントロールするリクエストの入力を`ignore`メソッドへ、決して渡してはいけません。代わりに、Eloquentモデルインスタンスの自動増分IDやUUIDのような、生成されたユニークなIDだけを渡してください。そうしなければ、アプリケーションがSQLインジェクション攻撃に対し、脆弱になります。
+> **Warning**
+> ユーザーがコントロールするリクエストの入力を`ignore`メソッドへ、決して渡してはいけません。代わりに、Eloquentモデルインスタンスの自動増分IDやUUIDのような、生成されたユニークなIDだけを渡してください。そうしなければ、アプリケーションがSQLインジェクション攻撃に対し、脆弱になります。
 
 モデルキーの値を`ignore`メソッドに渡す代わりに、モデルインスタンス全体を渡すこともできます。Laravelはモデルからキーを自動的に抽出します:
 
@@ -1628,7 +1638,8 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 上の例では`email`フィールドが、`$data`配列の中に存在している場合のみバリデーションが実行されます。
 
-> {tip} フィールドが常に存在しているが、空であることをバリデートする場合は、[この追加フィールドに対する注意事項](#a-note-on-optional-fields)を確認してください。
+> **Note**
+> フィールドが常に存在しているが、空であることをバリデートする場合は、[この追加フィールドに対する注意事項](#a-note-on-optional-fields)を確認してください。
 
 <a name="complex-conditional-validation"></a>
 #### 複雑な条件のバリデーション
@@ -1654,7 +1665,8 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
         return $input->games >= 100;
     });
 
-> {tip} クロージャに渡される`$input`パラメーターは、`Illuminate\Support\Fluent`のインスタンスであり、バリデーション中の入力とファイルへアクセスするために使用できます。
+> **Note**
+> クロージャに渡される`$input`パラメーターは、`Illuminate\Support\Fluent`のインスタンスであり、バリデーション中の入力とファイルへアクセスするために使用できます。
 
 <a name="complex-conditional-array-validation"></a>
 #### 複雑な条件の配列バリデーション
@@ -1809,7 +1821,8 @@ Laravelでは、アップロードされたファイルを検証するため、`
         ],
     ]);
 
-> {tip} 画像サイズのバリデーションに関するより詳しい情報は、[dimensionsルールのドキュメント](#rule-dimensions)に記載しています。
+> **Note**
+> 画像サイズのバリデーションに関するより詳しい情報は、[dimensionsルールのドキュメント](#rule-dimensions)に記載しています。
 
 <a name="validating-files-file-types"></a>
 #### ファイルタイプ
@@ -2076,4 +2089,5 @@ php artisan make:rule Uppercase --invokable
 php artisan make:rule Uppercase --invokable --implicit
 ```
 
-> {note} 「暗黙の」ルールは、属性が必要であることを**暗黙的に**します。欠落している属性または空の属性を実際に無効にするかどうかは、あなた次第です。
+> **Warning**
+> 「暗黙の」ルールは、属性が必要であることを**暗黙的に**します。欠落している属性または空の属性を実際に無効にするかどうかは、あなた次第です。

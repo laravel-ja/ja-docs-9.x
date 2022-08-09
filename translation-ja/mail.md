@@ -172,7 +172,8 @@ php artisan make:mail OrderShipped
 
 Mailableクラスを生成したら、それを開いて、その内容を調べてください。まず、メール可能なクラスの設定はすべて`build`メソッドで行われることに注意してください。このメソッド内で`from`、`subject`、`view`、`attach`などのさまざまなメソッドを呼び出して、電子メールの表示と配信を設定できます。
 
-> {tip} Mailableの`build`メソッドではタイプヒントで依存を指定できます。Laravelの[サービスコンテナ](/docs/{{version}}/container)は、これらの依存を自動的に注入します。
+> **Note**
+> Mailableの`build`メソッドではタイプヒントで依存を指定できます。Laravelの[サービスコンテナ](/docs/{{version}}/container)は、これらの依存を自動的に注入します。
 
 <a name="configuring-the-sender"></a>
 ### Senderの設定
@@ -219,7 +220,8 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
         return $this->view('emails.orders.shipped');
     }
 
-> {tip} すべてのメールテンプレートを格納するために`resources/views/emails`ディレクトリを作成することを推奨します。ただし、`resources/views`ディレクトリ内ならば好きな場所へ自由に配置できます。
+> **Note**
+> すべてのメールテンプレートを格納するために`resources/views/emails`ディレクトリを作成することを推奨します。ただし、`resources/views`ディレクトリ内ならば好きな場所へ自由に配置できます。
 
 <a name="plain-text-emails"></a>
 #### 平文テキストの電子メール
@@ -457,7 +459,8 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
 </body>
 ```
 
-> {note} 平文ンテキストメッセージはインライン添付ファイルを利用しないため、`$message`変数は平文テキストメッセージテンプレートでは使用できません。
+> **Warning**
+> 平文ンテキストメッセージはインライン添付ファイルを利用しないため、`$message`変数は平文テキストメッセージテンプレートでは使用できません。
 
 <a name="embedding-raw-data-attachments"></a>
 #### 素のデータの添付ファイルへの埋め込み
@@ -490,7 +493,7 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
     class Photo extends Model implements Attachable
     {
         /**
-         * Get the attachable representation of the model.
+         * モデルの添付可能な表現を取得
          *
          * @return \Illuminate\Mail\Attachment
          */
@@ -500,10 +503,10 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
         }
     }
 
-Once you have defined your attachable object, you may simply pass an instance of that object to the `attach` method when building an email message:
+添付可能なオブジェクトを定義したら、メールメッセージを作成する際、`attach`メソッドへそのオブジェクトのインスタンスを渡すだけです。
 
     /**
-     * Build the message.
+     * メッセージの作成
      *
      * @return $this
      */
@@ -513,19 +516,19 @@ Once you have defined your attachable object, you may simply pass an instance of
                     ->attach($this->photo);
     }
 
-Of course, attachment data may be stored on a remote file storage service such as Amazon S3. So, Laravel also allows you to generate attachment instances from data that is stored on one of your application's [filesystem disks](/docs/{{version}}/filesystem):
+もちろん、添付ファイルデータは、Amazon S3などのリモートファイルストレージサービスに保存されている場合もあるでしょう。そのため、Laravelでは、アプリケーションの[ファイルシステム・ディスク](/docs/{{version}}/filesystem)のいずれかに保存しているデータから、添付ファイルのインスタンスを生成することも可能です。
 
-    // Create an attachment from a file on your default disk...
+    // デフォルトデスクから、添付ファイルを作成する
     return Attachment::fromStorage($this->path);
 
-    // Create an attachment from a file on a specific disk...
+    // 特定のディスクから、添付ファイルを作成する
     return Attachment::fromStorageDisk('backblaze', $this->path);
 
-In addition, you may create attachment instances via data that you have in memory. To accomplish this, provide a closure to the `fromData` method. The closure should return the raw data that represents the attachment:
+さらに、メモリ上にあるデータを介して添付ファイルインスタンスを作成することもできます。これを行うには、`fromData`メソッドへクロージャを指定します。クロージャは、添付ファイルを表す生データを返す必要があります。
 
-    return Attachment::fromData(fn () => $this->content);
+    return Attachment::fromData(fn () => $this->content, 'Photo Name');
 
-Laravel also provides additional methods that you may use to customize your attachments. For example, you may use the `as` and `withMime` methods to customize the file's name and MIME type:
+Laravelは、添付ファイルをカスタマイズするために使用できる追加メソッドも提供しています。例えば、`as`や`withMime`メソッドを使用して、ファイル名やMIMEタイプをカスタマイズできます。
 
     return Attachment::fromPath('/path/to/file')
             ->as('Photo Name')
@@ -626,7 +629,8 @@ Thanks,<br>
 @endcomponent
 ```
 
-> {tip} Markdownメールを書くときに余分なインデントを使用しないでください。Markdown標準に従って、Markdownパーサーはインデントされたコンテンツをコードブロックとしてレンダリングします。
+> **Note**
+> Markdownメールを書くときに余分なインデントを使用しないでください。Markdown標準に従って、Markdownパーサーはインデントされたコンテンツをコードブロックとしてレンダリングします。
 
 <a name="button-component"></a>
 #### ボタンコンポーネント
@@ -830,7 +834,8 @@ LaravelのMarkdownコンポーネント用にまったく新しいテーマを�
         }
     }
 
-> {tip} これらの問題の回避方法の詳細は、[キュー投入したジョブとデータベーストランザクション](/docs/{{version}}/queues#jobs-and-database-transactions)に関するドキュメントを確認してください。
+> **Note**
+> これらの問題の回避方法の詳細は、[キュー投入したジョブとデータベーストランザクション](/docs/{{version}}/queues#jobs-and-database-transactions)に関するドキュメントを確認してください。
 
 <a name="rendering-mailables"></a>
 ## Mailableのレンダ
@@ -855,7 +860,8 @@ Mailableのテンプレートを設計するときは、通常のBladeテンプ�
         return new App\Mail\InvoicePaid($invoice);
     });
 
-> {note} [インライン添付ファイル](#inline-attachments)は、Mailableファイルがブラウザでプレビューされたときにレンダリングされません。これらのメーラブルをプレビューするには、[MailHog](https://github.com/mailhog/MailHog)や[HELO](https://usehelo.com)などのメールテストアプリケーションに送信する必要があります。
+> **Warning**
+> [インライン添付ファイル](#inline-attachments)は、Mailableファイルがブラウザでプレビューされたときにレンダリングされません。これらのメーラブルをプレビューするには、[MailHog](https://github.com/mailhog/MailHog)や[HELO](https://usehelo.com)などのメールテストアプリケーションに送信する必要があります。
 
 <a name="localizing-mailables"></a>
 ## Mailableの多言語化

@@ -59,7 +59,8 @@
 
 受信リクエストが指定したルートURIに一致すると、`App\Http\Controllers\UserController`クラスの`show`メソッドが呼び出され、ルートパラメータがメソッドに渡されます。
 
-> {tip} コントローラは基本クラスを拡張する**必要**はありません。ただし、`middleware`や`authorize`メソッドなどの便利な機能にはアクセスできません。
+> **Note**
+> コントローラは基本クラスを拡張する**必要**はありません。ただし、`middleware`や`authorize`メソッドなどの便利な機能にはアクセスできません。
 
 <a name="single-action-controllers"></a>
 ### シングルアクションコントローラ
@@ -98,7 +99,8 @@
 php artisan make:controller ProvisionServer --invokable
 ```
 
-> {tip} [stubのリソース公開](/docs/{{version}}/artisan#stub-customization)を使用し、コントローラのスタブをカスタマイズできます。
+> **Note**
+> [stubのリソース公開](/docs/{{version}}/artisan#stub-customization)を使用し、コントローラのスタブをカスタマイズできます。
 
 <a name="controller-middleware"></a>
 ## コントローラミドルウェア
@@ -359,7 +361,8 @@ Laravelの複数形化機能は、[皆さんがニーズに基づいて設定し
     Route::get('/photos/popular', [PhotoController::class, 'popular']);
     Route::resource('photos', PhotoController::class);
 
-> {tip} コントローラの責務を限定することを思い出してください。典型的なリソースアクションから外れたメソッドが繰り返して必要になっているようであれば、コントローラを２つに分け、小さなコントローラにすることを考えましょう。
+> **Note**
+> コントローラの責務を限定することを思い出してください。典型的なリソースアクションから外れたメソッドが繰り返して必要になっているようであれば、コントローラを２つに分け、小さなコントローラにすることを考えましょう。
 
 <a name="dependency-injection-and-controllers"></a>
 ## 依存注入とコントローラ

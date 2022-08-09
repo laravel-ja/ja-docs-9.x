@@ -99,7 +99,8 @@ MeiliSearchの詳細については、[MeiliSearchのドキュメント](https:/
 
 さらに、[MeiliSearchのバイナリ互換のドキュメント](https://github.com/meilisearch/meilisearch-php#-compatibility-with-meilisearch)を見て、自分が使っているMeiliSearchのバイナリバージョンと互換性のあるバージョンの`meilisearch/meilisearch-php`をインストールしてください。
 
-> {note} MeiliSearchを利用しているアプリケーションのScoutをアップグレードする際には、常にMeiliSearchサービス自体に[追加の破壊的な変更](https://github.com/meilisearch/MeiliSearch/releases)がないか確認する必要があります。
+> **Warning**
+> MeiliSearchを利用しているアプリケーションのScoutをアップグレードする際には、常にMeiliSearchサービス自体に[追加の破壊的な変更](https://github.com/meilisearch/MeiliSearch/releases)がないか確認する必要があります。
 
 <a name="queueing"></a>
 ### キュー投入
@@ -262,7 +263,8 @@ SCOUT_IDENTIFY=true
 <a name="database-engine"></a>
 ### データベースエンジン
 
-> {note} 現在、データベースエンジンは、MySQLとPostgreSQLをサポートしています。
+> **Warning**
+> 現在、データベースエンジンは、MySQLとPostgreSQLをサポートしています。
 
 中規模のデータベースとやり取りするしたり、作業負荷が軽いアプリケーションでは、Scoutの「データベース」エンジンで始めるのが便利でしょう。データベースエンジンは、既存のデータベースから結果をフィルタリングする際に、「where like」句と全文インデックスを使用して、クエリの検索結果を決定します。
 
@@ -302,7 +304,8 @@ public function toSearchableArray()
 }
 ```
 
-> {note} あるカラムへ、フルテキストクエリ制約の使用を指定する前に、そのカラムに[フルテキストインデックス](/docs/{{version}}/migrations#available-index-types)を割り当て済みであることを確認してください。
+> **Warning**
+> あるカラムへ、フルテキストクエリ制約の使用を指定する前に、そのカラムに[フルテキストインデックス](/docs/{{version}}/migrations#available-index-types)を割り当て済みであることを確認してください。
 
 <a name="collection-engine"></a>
 ### コレクションエンジン
@@ -387,7 +390,8 @@ Eloquentリレーションインスタンスで `searchable`メソッドを呼�
 
     $orders->searchable();
 
-> {tip} `searchable`メソッドは、「アップサート（upsert）」操作と考えるられます。つまり、モデルレコードがすでにインデックスに含まれている場合は、更新され、検索インデックスに存在しない場合は追加されます。
+> **Note**
+> `searchable`メソッドは、「アップサート（upsert）」操作と考えるられます。つまり、モデルレコードがすでにインデックスに含まれている場合は、更新され、検索インデックスに存在しない場合は追加されます。
 
 <a name="updating-records"></a>
 ### レコード更新
@@ -465,7 +469,8 @@ Eloquentクエリインスタンスで`searchable`メソッドを呼び出して
 
 `shouldBeSearchable`メソッドは、`save`および`create`メソッド、クエリ、またはリレーションを通してモデルを操作する場合にのみ適用されます。`searchable`メソッドを使用してモデルまたはコレクションを直接検索可能にすると、`shouldBeSearchable`メソッドの結果が上書きされます。
 
-> {note} 検索可能なデータは常にデータベースへ保存されるため、`shouldBeSearchable`メソッドはScoutの「データベース」エンジンを使用する際には適用されません。データベースエンジン使用時に同様の動作をさせるには、代わりに[WHERE句](#where-clauses)を使用する必要があります。
+> **Warning**
+> 検索可能なデータは常にデータベースへ保存されるため、`shouldBeSearchable`メソッドはScoutの「データベース」エンジンを使用する際には適用されません。データベースエンジン使用時に同様の動作をさせるには、代わりに[WHERE句](#where-clauses)を使用する必要があります。
 
 <a name="searching"></a>
 ## 検索
@@ -566,7 +571,8 @@ Scoutを使用すると、検索クエリに単純な「where」節を追加で�
     // 結果の取得時に、削除済みレコードのみを対象とする
     $orders = Order::search('Star Trek')->onlyTrashed()->get();
 
-> {tip} ソフトデリートされたモデルが、`forceDelete`により完全に削除されると、Scoutは自動的に検索インデックスから削除します。
+> **Note**
+> ソフトデリートされたモデルが、`forceDelete`により完全に削除されると、Scoutは自動的に検索インデックスから削除します。
 
 <a name="customizing-engine-searches"></a>
 ### エンジンの検索のカスタマイズ

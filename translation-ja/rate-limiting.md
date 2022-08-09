@@ -11,7 +11,8 @@
 
 Laravelには、簡単に使用できるレート制限の抽象化機能があり、アプリケーションの[cache](/docs/{{version}}/cache)と連携して、指定した時間帯のアクションを制限する簡単な方法を提供します。
 
-> {tip} 受信HTTPリクエストのレートを制限したい場合は、[レート制限ミドルウェアのドキュメント](/docs/{{version}}/routing#rate-limiting)を参照してください。
+> **Note**
+> 受信HTTPリクエストのレートを制限したい場合は、[レート制限ミドルウェアのドキュメント](/docs/{{version}}/routing#rate-limiting)を参照してください。
 
 <a name="cache-configuration"></a>
 ### キャッシュ設定

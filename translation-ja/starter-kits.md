@@ -45,14 +45,15 @@ ComposerでLaravel Breezeパッケージをインストールしたら、`breeze
 ```shell
 php artisan breeze:install
 
+php artisan migrate
 npm install
 npm run dev
-php artisan migrate
 ```
 
 続いて、Webブラウザでアプリケーションの`/login`または`/register`のURLにアクセスしてください。Breezeのすべてのルートは、`routes/auth.php'ファイル内に定義しています。
 
-> {tip} アプリケーションのCSSとJavaScriptのコンパイルについて詳しく知りたい方は、Laravelの[Viteドキュメント](/docs/{{version}}/vite#running-vite)を参照してください。
+> **Note**
+> アプリケーションのCSSとJavaScriptのコンパイルについて詳しく知りたい方は、Laravelの[Viteドキュメント](/docs/{{version}}/vite#running-vite)を参照してください。
 
 <a name="breeze-and-inertia"></a>
 ### BreezeとReact／Vue
@@ -68,9 +69,9 @@ php artisan breeze:install vue
 
 php artisan breeze:install react
 
+php artisan migrate
 npm install
 npm run dev
-php artisan migrate
 ```
 
 続いて、Webブラウザでアプリケーションの`/login`または`/register`のURLにアクセスしてください。Breezeのすべてのルートは、`routes/auth.php'ファイル内に定義しています。

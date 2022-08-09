@@ -55,7 +55,8 @@ Laravelキューは異なったキューバックエンド間に統一したキ�
 
 Laravelのキュー設定オプションは、アプリケーションの`config/queue.php`設定ファイルへ保存します。このファイルには、データベース、[Amazon SQS](https://aws.amazon.com/sqs/), [Redis](https://redis.io), [Beanstalkd](https://beanstalkd.github.io/)ドライバを含む、フレームワークが用意しているキュードライバの各接続設定が含まれています。また、キューに投入されたジョブを破棄する `null` キュードライバも含まれています。
 
-> {tip} Laravelは、Redisを利用したキュー用の美しいダッシュボードと設定システムであるHorizo​​nも提供しています。詳細は、完全な[Horizo​​nドキュメント](/docs/{{version}}/horizo​​n)を確認してください。
+> **Note**
+> Laravelは、Redisを利用したキュー用の美しいダッシュボードと設定システムであるHorizo​​nも提供しています。詳細は、完全な[Horizo​​nドキュメント](/docs/{{version}}/horizo​​n)を確認してください。
 
 <a name="connections-vs-queues"></a>
 ### 接続 対 キュー
@@ -126,7 +127,8 @@ Redisキューを使用する場合は、`block_for`設定オプションを使�
         'block_for' => 5,
     ],
 
-> {note} `block_for`を`0`に設定すると、ジョブが使用可能になるまでキューワーカが無期限にブロックします。これにより、次のジョブが処理されるまで、`SIGTERM`などのシグナルが処理されなくなります。
+> **Warning**
+> `block_for`を`0`に設定すると、ジョブが使用可能になるまでキューワーカが無期限にブロックします。これにより、次のジョブが処理されるまで、`SIGTERM`などのシグナルが処理されなくなります。
 
 <a name="other-driver-prerequisites"></a>
 #### その他のドライバの事前要件
@@ -155,7 +157,8 @@ php artisan make:job ProcessPodcast
 
 生成されたクラスは`Illuminate\Contracts\Queue\ShouldQueue`インターフェイスを実装し、そのジョブをキューに投入する必要があり、非同期で実行することをLaravelに示します。
 
-> {tip} ジョブスタブは[スタブのリソース公開](/docs/{{version}}/artisan#stub-customization)を使用してカスタマイズできます
+> **Note**
+> ジョブスタブは[スタブのリソース公開](/docs/{{version}}/artisan#stub-customization)を使用してカスタマイズできます
 
 <a name="class-structure"></a>
 ### クラスの構造
@@ -226,7 +229,8 @@ php artisan make:job ProcessPodcast
         return $job->handle($app->make(AudioProcessor::class));
     });
 
-> {note} 素の画像の内容などのバイナリデータは、キュー投入するジョブへ渡す前に、`base64_encode`関数を介して渡す必要があります。そうしないと、ジョブがキューに配置されたときにJSONへ適切にシリアル化されない可能性があります。
+> **Warning**
+> 素の画像の内容などのバイナリデータは、キュー投入するジョブへ渡す前に、`base64_encode`関数を介して渡す必要があります。そうしないと、ジョブがキューに配置されたときにJSONへ適切にシリアル化されない可能性があります。
 
 <a name="handling-relationships"></a>
 #### リレーションのキュー投入
@@ -249,7 +253,8 @@ php artisan make:job ProcessPodcast
 <a name="unique-jobs"></a>
 ### 一意なジョブ
 
-> {note} 一意なジョブには、[ロック](/docs/{{version}}/cache#atomic-locks)をサポートするキャッシュドライバが必要です。現在、`memcached`、`redis`、`dynamodb`、`database`、`file`、`array`キャッシュドライバはアトミックロックをサポートしています。また、一意なジョブの制約は、バッチ内のジョブには適用されません。
+> **Warning**
+> 一意なジョブには、[ロック](/docs/{{version}}/cache#atomic-locks)をサポートするキャッシュドライバが必要です。現在、`memcached`、`redis`、`dynamodb`、`database`、`file`、`array`キャッシュドライバはアトミックロックをサポートしています。また、一意なジョブの制約は、バッチ内のジョブには適用されません。
 
 特定のジョブの１つのインスタンスのみを確実にキューで常に存在させたい場合があります。これを行うには、ジョブクラスに`ShouldBeUnique`インターフェイスを実装します。このインターフェイスでは、クラスへ追加のメソッドを定義する必要はありません。
 
@@ -302,7 +307,8 @@ php artisan make:job ProcessPodcast
 
 上記の例では、`UpdateSearchIndex`ジョブは製品IDによって一意になります。したがって、同じ製品IDを持つジョブの新しいディスパッチは、既存のジョブが処理を完了するまで無視されます。さらに、既存のジョブが１時間以内に処理されない場合、一意のロックが解放され、同じ一意のキーを持つ別のジョブをキューにディスパッチできます。
 
-> {note} アプリケーションで複数のウェブサーバやコンテナからジョブをディスパッチする場合、すべてのサーバが同じセントラルキャッシュサーバと通信していることを確認し、Laravelがジョブをユニークであるかを正確に判定できるようにする必要があります。
+> **Warning**
+> アプリケーションで複数のウェブサーバやコンテナからジョブをディスパッチする場合、すべてのサーバが同じセントラルキャッシュサーバと通信していることを確認し、Laravelがジョブをユニークであるかを正確に判定できるようにする必要があります。
 
 <a name="keeping-jobs-unique-until-processing-begins"></a>
 #### 処理が開始されるまでジョブを一意に保つ
@@ -342,7 +348,8 @@ php artisan make:job ProcessPodcast
         }
     }
 
-> {tip} ジョブの同時処理を制限するだけでよい場合は、代わりに[`WithoutOverlapping`](/docs/{{version}}/queues#preventing-job-overlaps)ジョブミドルウェアを使用してください。
+> **Note**
+> ジョブの同時処理を制限するだけでよい場合は、代わりに[`WithoutOverlapping`](/docs/{{version}}/queues#preventing-job-overlaps)ジョブミドルウェアを使用してください。
 
 <a name="job-middleware"></a>
 ## ジョブミドルウェア
@@ -420,7 +427,8 @@ handleメソッドでレート制限を行う代わりに、レート制限を�
         return [new RateLimited];
     }
 
-> {tip} Jobミドルウェアは、Queueableなイベントリスナ、Mailable、通知にも割り当てできます。
+> **Note**
+> Jobミドルウェアは、Queueableなイベントリスナ、Mailable、通知にも割り当てできます。
 
 <a name="rate-limiting"></a>
 ### レート制限
@@ -478,7 +486,8 @@ handleメソッドでレート制限を行う代わりに、レート制限を�
         return [(new RateLimited('backups'))->dontRelease()];
     }
 
-> {tip} Redisを使用している場合は、`Illuminate\Queue\Middleware\RateLimitedWithRedis`ミドルウェアを使用できます。これは、Redis用に微調整されており、基本的なレート制限ミドルウェアよりも効率的です。
+> **Note**
+> Redisを使用している場合は、`Illuminate\Queue\Middleware\RateLimitedWithRedis`ミドルウェアを使用できます。これは、Redis用に微調整されており、基本的なレート制限ミドルウェアよりも効率的です。
 
 <a name="preventing-job-overlaps"></a>
 ### ジョブのオーバーラップの防止
@@ -535,7 +544,8 @@ Laravelには、任意のキーに基づいてジョブの重複を防ぐこと�
         return [(new WithoutOverlapping($this->order->id))->expireAfter(180)];
     }
 
-> {note} `WithoutOverlapping`ミドルウェアには、[ロック](/docs/{{version}}/cache#atomic-locks)をサポートするキャッシュドライバが必要です。現在、`memcached`、`redis`、`dynamodb`、`database`、`file`、`array`キャッシュドライバはアトミックロックをサポートしています。
+> **Warning**
+> `WithoutOverlapping`ミドルウェアには、[ロック](/docs/{{version}}/cache#atomic-locks)をサポートするキャッシュドライバが必要です。現在、`memcached`、`redis`、`dynamodb`、`database`、`file`、`array`キャッシュドライバはアトミックロックをサポートしています。
 
 <a name="throttling-exceptions"></a>
 ### 例外による利用制限
@@ -596,7 +606,8 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
         return [(new ThrottlesExceptions(10, 10))->by('key')];
     }
 
-> {tip} Redisを使用している場合は、Redis用に細かく調整され、基本的な例外スロットリングミドルウェアよりも効率的な、`Illuminate\Queue\Middleware\ThrottlesExceptionsWithRedis`ミドルウェアを使用できます。
+> **Note**
+> Redisを使用している場合は、Redis用に細かく調整され、基本的な例外スロットリングミドルウェアよりも効率的な、`Illuminate\Queue\Middleware\ThrottlesExceptionsWithRedis`ミドルウェアを使用できます。
 
 <a name="dispatching-jobs"></a>
 ## ジョブのディスパッチ
@@ -669,7 +680,8 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
         }
     }
 
-> {note} Amazon SQSキューサービスの最大遅延時間は１５分です。
+> **Warning**
+> Amazon SQSキューサービスの最大遅延時間は１５分です。
 
 <a name="dispatching-after-the-response-is-sent-to-browser"></a>
 #### レスポンスがブラウザに送信された後のディスパッチ
@@ -738,7 +750,8 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
 
 トランザクション中に発生した例外によりロールバックされた場合、そのトランザクション中にディスパッチされたジョブは破棄されます。
 
-> {tip} `after_commit`設定オプションを`true`に設定すると、開いているすべてのデータベーストランザクションがコミットされた後、キュー投入したイベントリスナ、メーラブル、通知、およびブロードキャストイベントもディスパッチされます。
+> **Note**
+> `after_commit`設定オプションを`true`に設定すると、開いているすべてのデータベーストランザクションがコミットされた後、キュー投入したイベントリスナ、メーラブル、通知、およびブロードキャストイベントもディスパッチされます。
 
 <a name="specifying-commit-dispatch-behavior-inline"></a>
 #### コミットディスパッチ動作をインラインで指定
@@ -779,7 +792,8 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
         },
     ])->dispatch();
 
-> {note} ジョブ内で`$this->delete()`メソッドを使用してジョブを削除しても、チェーンしたジョブの処理が妨げられることはありません。チェーンは、チェーン内のジョブが失敗した場合にのみ実行を停止します。
+> **Warning**
+> ジョブ内で`$this->delete()`メソッドを使用してジョブを削除しても、チェーンしたジョブの処理が妨げられることはありません。チェーンは、チェーン内のジョブが失敗した場合にのみ実行を停止します。
 
 <a name="chain-connection-queue"></a>
 #### チェーン接続とキュー
@@ -982,7 +996,8 @@ php artisan queue:work --tries=3
         return now()->addMinutes(10);
     }
 
-> {tip} [キュー投入済みイベントリスナ](/docs/{{version}}/events#queued-event-listeners)で`tries`プロパティまたは`retryUntil`メソッドを定義することもできます。
+> **Note**
+> [キュー投入済みイベントリスナ](/docs/{{version}}/events#queued-event-listeners)で`tries`プロパティまたは`retryUntil`メソッドを定義することもできます。
 
 <a name="max-exceptions"></a>
 #### 最大例外数
@@ -1032,7 +1047,8 @@ php artisan queue:work --tries=3
 <a name="timeout"></a>
 #### タイムアウト
 
-> {note} ジョブのタイムアウトを指定するには、`pcntl` PHP拡張機能をインストールする必要があります。
+> **Warning**
+> ジョブのタイムアウトを指定するには、`pcntl` PHP拡張機能をインストールする必要があります。
 
 多くの場合、キュー投入したジョブにかかると予想されるおおよその時間をあなたは知っています。このため、Laravelでは「タイムアウト」値も指定できます。デフォルトのタイムアウト値は６０秒です。ジョブがタイムアウト値で指定する秒数より長く処理されている場合、ジョブを処理しているワーカはエラーで終了します。通常、ワーカは[サーバで設定したプロセスマネージャ](#supervisor-configuration)によって自動的に再起動されます。
 
@@ -1123,7 +1139,8 @@ public $failOnTimeout = true;
 
     $this->fail($exception);
 
-> {tip} 失敗したジョブの詳細は、[ジョブの失敗の処理に関するドキュメント](#dealing-with-failed-jobs)を確認してください。
+> **Note**
+> 失敗したジョブの詳細は、[ジョブの失敗の処理に関するドキュメント](#dealing-with-failed-jobs)を確認してください。
 
 <a name="job-batching"></a>
 ## ジョブバッチ
@@ -1201,7 +1218,8 @@ php artisan migrate
 
 バッチのIDは、`$batch->id`プロパティを介してアクセスでき、ディスパッチ後のバッチに関する情報を[Laravelコマンドバスに照会](#inspecting-batches)するために使用できます。
 
-> {note} バッチのコールバックはシリアライズされ、後にLaravelのキューにより実行されるため、このコールバック内では`$this`変数を使用してはいけません。
+> **Warning**
+> バッチのコールバックはシリアライズされ、後にLaravelのキューにより実行されるため、このコールバック内では`$this`変数を使用してはいけません。
 
 <a name="naming-batches"></a>
 #### 名前付きバッチ
@@ -1282,7 +1300,8 @@ LaravelHorizo​​nやLaravelTelescopeなどの一部のツールは、バッ�
         }));
     }
 
-> {note} 同じバッチに属するジョブ内からのみ、バッチにジョブを追加できます。
+> **Warning**
+> 同じバッチに属するジョブ内からのみ、バッチにジョブを追加できます。
 
 <a name="inspecting-batches"></a>
 ### バッチの検査
@@ -1443,7 +1462,8 @@ Laravelは、キューワーカを開始し、キューに投入された新し�
 php artisan queue:work
 ```
 
-> {tip} `queue:work`プロセスをバックグラウンドで永続的に実行し続けるには、[Supervisor](#supervisor-configuration)などのプロセスモニタを使用して、キューワーカの実行が停止しないようにする必要があります。
+> **Note**
+> `queue:work`プロセスをバックグラウンドで永続的に実行し続けるには、[Supervisor](#supervisor-configuration)などのプロセスモニタを使用して、キューワーカの実行が停止しないようにする必要があります。
 
 キューワーカは長期間有効なプロセスであり、起動した時点のアプリケーションの状態をメモリに保存することを忘れないでください。その結果、起動後にコードベースの変更に気付くことはありません。したがって、デプロイメントプロセス中で、必ず[キューワーカを再起動](#queue-workers-and-deployment)してください。さらに、アプリケーションによって作成または変更された静的状態は、ジョブ間で自動的にリセットされないことに注意してください。
 
@@ -1545,7 +1565,8 @@ php artisan queue:restart
 
 このコマンドは、既存のジョブが失われないように、現在のジョブの処理が終了した後、すべてのキューワーカに正常に終了するように指示します。`queue:restart`コマンドを実行するとキューワーカが終了するため、[Supervisor](#supervisor-configuration)などのプロセスマネージャを実行して、キューワーカを自動的に再起動する必要があります。
 
-> {tip} キューは[キャッシュ](/docs/{{version}}/cache)を使用して再起動シグナルを保存するため、この機能を使用する前に、アプリケーションに対してキャッシュドライバが適切に設定されていることを確認する必要があります。
+> **Note**
+> キューは[キャッシュ](/docs/{{version}}/cache)を使用して再起動シグナルを保存するため、この機能を使用する前に、アプリケーションに対してキャッシュドライバが適切に設定されていることを確認する必要があります。
 
 <a name="job-expirations-and-timeouts"></a>
 ### ジョブの有効期限とタイムアウト
@@ -1555,7 +1576,8 @@ php artisan queue:restart
 
 `config/queue.php`設定ファイルで、各キュー接続ごとに`retry_after`オプションが定義されています。このオプションは、処理中のジョブを再試行する前にキュー接続が待機する秒数を指定します。たとえば、`retry_after`の値が`90`に設定されている場合、ジョブが解放または削除されずに９０秒間処理されていれば、ジョブはキューに解放されます。通常、`retry_after`値は、ジョブが処理を完了するのに合理的にかかる最大秒数に設定する必要があります。
 
-> {note} `retry_after`値を含まない唯一のキュー接続はAmazon SQSです。SQSは、AWSコンソール内で管理している[Default Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/AboutVT.html)に基づいてジョブを再試行します。
+> **Warning**
+> `retry_after`値を含まない唯一のキュー接続はAmazon SQSです。SQSは、AWSコンソール内で管理している[Default Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/AboutVT.html)に基づいてジョブを再試行します。
 
 <a name="worker-timeouts"></a>
 #### ワーカタイムアウト
@@ -1568,7 +1590,8 @@ php artisan queue:work --timeout=60
 
 `retry_after`設定オプションと`--timeout` CLIオプションは異なりますが、ジョブが失われないように、またジョブが１回だけ正常に処理されるように連携して機能します。
 
-> {note} `--timeout`値は、常に`retry_after`設定値より少なくとも数秒短くする必要があります。これにより、フリーズしたジョブを処理しているワーカは、ジョブが再試行される前に常に終了します。`--timeout`オプションが`retry_after`設定値よりも長い場合、ジョブは２回処理される可能性があります。
+> **Warning**
+> `--timeout`値は、常に`retry_after`設定値より少なくとも数秒短くする必要があります。これにより、フリーズしたジョブを処理しているワーカは、ジョブが再試行される前に常に終了します。`--timeout`オプションが`retry_after`設定値よりも長い場合、ジョブは２回処理される可能性があります。
 
 <a name="supervisor-configuration"></a>
 ## Supervisor設定
@@ -1586,7 +1609,8 @@ SupervisorはLinuxオペレーティングシステムのプロセスモニタ�
 sudo apt-get install supervisor
 ```
 
-> {tip} 自分でSupervisorを設定および管理するのが難しいと思われる場合は、[Laravel Forge](https://forge.laravel.com)の使用を検討してください。これにより、本番LaravelプロジェクトのSupervisorが自動的にインストールおよび設定されます。
+> **Note**
+> 自分でSupervisorを設定および管理するのが難しいと思われる場合は、[Laravel Forge](https://forge.laravel.com)の使用を検討してください。これにより、本番LaravelプロジェクトのSupervisorが自動的にインストールおよび設定されます。
 
 <a name="configuring-supervisor"></a>
 #### Supervisorの設定
@@ -1610,7 +1634,8 @@ stopwaitsecs=3600
 
 この例中の`numprocs`ディレクティブは、スーパーバイザーへ８つの`queue:work`プロセスを実行し、それらすべてを監視し、失敗した場合は自動的に再起動するように指示します。必要なキュー接続とワーカオプションを反映するように、設定の`command`ディレクティブを変更する必要があります。
 
-> {note} `stopwaitsecs`の値が、最も長く実行されるジョブが消費する秒数よりも大きいことを確認する必要があります。そうしないと、Supervisorは処理が完了する前にジョブを強制終了する可能性があります。
+> **Warning**
+> `stopwaitsecs`の値が、最も長く実行されるジョブが消費する秒数よりも大きいことを確認する必要があります。そうしないと、Supervisorは処理が完了する前にジョブを強制終了する可能性があります。
 
 <a name="starting-supervisor"></a>
 #### Supervisorの起動
@@ -1747,7 +1772,8 @@ php artisan queue:work redis --tries=3 --backoff=3
         }
     }
 
-> {note} `failed`メソッドを呼び出す前に、ジョブが新しくインスタンス化されます。したがって、`handle`メソッド内で発生した可能性があるクラスプロパティの変更は失われます。
+> **Warning**
+> `failed`メソッドを呼び出す前に、ジョブが新しくインスタンス化されます。したがって、`handle`メソッド内で発生した可能性があるクラスプロパティの変更は失われます。
 
 <a name="retrying-failed-jobs"></a>
 ### 失敗したジョブの再試行
@@ -1788,7 +1814,8 @@ php artisan queue:retry all
 php artisan queue:forget 91401d2c-0784-4f43-824c-34f94a33c24d
 ```
 
-> {tip} [Horizo​​n](/docs/{{version}}/horizo​​n)を使用する場合は、`queue:forget`コマンドの代わりに`horizo​​n:forget`コマンドを使用して失敗したジョブを削除する必要があります。
+> **Note**
+> [Horizo​​n](/docs/{{version}}/horizo​​n)を使用する場合は、`queue:forget`コマンドの代わりに`horizo​​n:forget`コマンドを使用して失敗したジョブを削除する必要があります。
 
 失敗したすべてのジョブを`failed_jobs`テーブルから削除するには、`queue:flush`コマンドを使用します。
 
@@ -1902,7 +1929,8 @@ QUEUE_FAILED_DRIVER=null
 <a name="clearing-jobs-from-queues"></a>
 ## キューからのジョブクリア
 
-> {tip} [Horizo​​n](/docs/{{version}}/horizo​​n)を使用する場合は、`queue:clear`コマンドの代わりに`horizo​​n:clear`コマンドを使用してキューからジョブをクリアする必要があります。
+> **Note**
+> [Horizo​​n](/docs/{{version}}/horizo​​n)を使用する場合は、`queue:clear`コマンドの代わりに`horizo​​n:clear`コマンドを使用してキューからジョブをクリアする必要があります。
 
 デフォルト接続のデフォルトキューからすべてのジョブを削除する場合は、`queue:clear`Artisanコマンドを使用して削除します。
 
@@ -1916,7 +1944,8 @@ php artisan queue:clear
 php artisan queue:clear redis --queue=emails
 ```
 
-> {note} キューからのジョブのクリアは、SQS、Redis、およびデータベースキュードライバでのみ使用できます。さらに、SQSメッセージの削除プロセスには最長６０秒かかるため、キューをクリアしてから最長６０秒後にSQSキューに送信されたジョブも削除される可能性があります。
+> **Warning**
+> キューからのジョブのクリアは、SQS、Redis、およびデータベースキュードライバでのみ使用できます。さらに、SQSメッセージの削除プロセスには最長６０秒かかるため、キューをクリアしてから最長６０秒後にSQSキューに送信されたジョブも削除される可能性があります。
 
 <a name="monitoring-your-queues"></a>
 ## キューのモニタリング

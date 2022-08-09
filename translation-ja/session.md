@@ -39,7 +39,8 @@ Laravelには、表現力豊かで統一されたAPIを介してアクセスで�
 
 </div>
 
-> {tip} 配列(array)ドライバは主に[テスト](/docs/{{version}}/tests)中に使用し、セッションに保存したデータが永続化されるのを防ぎます。
+> **Note**
+> 配列(array)ドライバは主に[テスト](/docs/{{version}}/tests)中に使用し、セッションに保存したデータが永続化されるのを防ぎます。
 
 <a name="driver-prerequisites"></a>
 ### ドライバの動作要件
@@ -71,7 +72,8 @@ php artisan migrate
 
 LaravelでRedisセッションを使用する前に、PECLを介してPhpRedis PHP拡張機能をインストールするか、Composerを介して`predis/predis`パッケージ(〜1.0)をインストールする必要があります。Redisの設定の詳細は、Laravelの[Redisドキュメント](/docs/{{version}}/redis#configuration)を参照してください。
 
-> {tip} `session`設定ファイルで、`connection`オプションを使用し、セッションで使用するRedis接続を指定できます。
+> **Note**
+> `session`設定ファイルで、`connection`オプションを使用し、セッションで使用するRedis接続を指定できます。
 
 <a name="interacting-with-the-session"></a>
 ## セッションの操作
@@ -129,7 +131,8 @@ Laravelでセッションデータを操作する主な方法は、グローバ�
         session(['key' => 'value']);
     });
 
-> {tip} HTTPリクエストインスタンスを介してセッションを使用する場合と、グローバルな`session`ヘルパを使用する場合の、実践的な違いはほとんどありません。どちらのメソッドも、すべてのテストケースで使用できる`assertSessionHas`メソッドを使用し、[テスト可能](/docs/{{version}}/tests)です。
+> **Note**
+> HTTPリクエストインスタンスを介してセッションを使用する場合と、グローバルな`session`ヘルパを使用する場合の、実践的な違いはほとんどありません。どちらのメソッドも、すべてのテストケースで使用できる`assertSessionHas`メソッドを使用し、[テスト可能](/docs/{{version}}/tests)です。
 
 <a name="retrieving-all-session-data"></a>
 #### 全セッションデータの取得
@@ -243,7 +246,8 @@ Laravel[アプリケーションスターターキット](/docs/{{version}}/star
 <a name="session-blocking"></a>
 ## セッションブロッキング
 
-> {note} セッションブロッキングを利用するには、アプリケーションで[アトミックロック](/docs/{{version}}/cache#atomic-locks)をサポートするキャッシュドライバを使用している必要があります。現在、これらのキャッシュドライバには、`memcached`、`dynamodb`、`redis`、および`database`ドライバをサポートしています。また、`cookie`セッションドライバを使用することはできません。
+> **Warning**
+> セッションブロッキングを利用するには、アプリケーションで[アトミックロック](/docs/{{version}}/cache#atomic-locks)をサポートするキャッシュドライバを使用している必要があります。現在、これらのキャッシュドライバには、`memcached`、`dynamodb`、`redis`、および`database`ドライバをサポートしています。また、`cookie`セッションドライバを使用することはできません。
 
 デフォルトでは、Laravelは同じセッションを使用するリクエストを同時に実行することを許可します。したがって、たとえば、JavaScript HTTPライブラリを使用してアプリケーションへ２つのHTTPリクエストを作成すると、両方が同時に実行されます。多くのアプリケーションでは、これは問題ではありません。ただし、セッションデータの損失が、両方がセッションへデータを書き込む２つの異なるアプリケーションエンドポイントに同時にリクエストを行うアプリケーションの小さなサブセットで発生する可能性があります。
 
@@ -289,7 +293,8 @@ Laravel[アプリケーションスターターキット](/docs/{{version}}/star
         public function gc($lifetime) {}
     }
 
-> {tip} Laravelには、拡張機能を格納するためのディレクトリはありません。好きな場所に自由に配置できます。この例では、`MongoSessionHandler`を格納するために`Extensions`ディレクトリを作成しました。
+> **Note**
+> Laravelには、拡張機能を格納するためのディレクトリはありません。好きな場所に自由に配置できます。この例では、`MongoSessionHandler`を格納するために`Extensions`ディレクトリを作成しました。
 
 これらのメソッドの目的は簡単には理解しずらいため、各メソッドの機能について簡単に説明します。
 

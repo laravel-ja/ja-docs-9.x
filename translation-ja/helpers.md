@@ -3542,7 +3542,8 @@ Str::of('Hello, world!')->wordCount(); // 2
 
     $env = env('APP_ENV', 'production');
 
-> {note} 開発期間中に`config:cache`コマンドを実行する場合は、設定ファイルの中で必ず`env`関数だけを使用してください。設定ファイルがキャッシュされると、`.env`ファイルはロードされなくなり、`env`関数の呼び出しはすべて`null`を返します。
+> **Warning**
+> 開発期間中に`config:cache`コマンドを実行する場合は、設定ファイルの中で必ず`env`関数だけを使用してください。設定ファイルがキャッシュされると、`.env`ファイルはロードされなくなり、`env`関数の呼び出しはすべて`null`を返します。
 
 <a name="method-event"></a>
 #### `event()` {.collection-method}

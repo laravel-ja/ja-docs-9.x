@@ -62,7 +62,8 @@
 composer require --dev laravel/dusk
 ```
 
-> {note} 本番環境にDuskをインストールしてはいけません。インストールすると、アプリケーションに対する未認証でのアクセスを許すようになります。
+> **Warning**
+> 本番環境にDuskをインストールしてはいけません。インストールすると、アプリケーションに対する未認証でのアクセスを許すようになります。
 
 Duskパッケージをインストールし終えたら、`dusk:install` Artisanコマンドを実行します。`dusk:install`コマンドは、`tests/Browser`ディレクトリとサンプルのDuskテストを作成します。
 
@@ -72,7 +73,8 @@ php artisan dusk:install
 
 次に、アプリケーションの`.env`ファイルに`APP_URL`環境変数を設定します。この値は、ブラウザでアプリケーションにアクセスするために使用するURLと一致させる必要があります。
 
-> {tip} [Laravel Sail](/docs/{{version}}/sale)を使用してローカル開発環境を管理している場合は、[Duskテストの設定と実行](/docs/{{version}}/sail#laravel-dusk)に関するSailのドキュメントも参照してください。
+> **Note**
+> [Laravel Sail](/docs/{{version}}/sale)を使用してローカル開発環境を管理している場合は、[Duskテストの設定と実行](/docs/{{version}}/sail#laravel-dusk)に関するSailのドキュメントも参照してください。
 
 <a name="managing-chromedriver-installations"></a>
 ### ChromeDriverインストールの管理
@@ -93,7 +95,8 @@ php artisan dusk:chrome-driver --all
 php artisan dusk:chrome-driver --detect
 ```
 
-> {note} Dusk実行には、実行可能な`chromedriver`バイナリが必要です。Dusk実行時に問題がある場合は、このバイナリを実行可能に確実にするために、`chmod -R 0755 vendor/laravel/dusk/bin`コマンドを実行してみてください。
+> **Warning**
+> Dusk実行には、実行可能な`chromedriver`バイナリが必要です。Dusk実行時に問題がある場合は、このバイナリを実行可能に確実にするために、`chmod -R 0755 vendor/laravel/dusk/bin`コマンドを実行してみてください。
 
 <a name="using-other-browsers"></a>
 ### 他ブラウザの使用
@@ -158,7 +161,8 @@ php artisan dusk:make LoginTest
         use DatabaseMigrations;
     }
 
-> {note} Duskテストの実行時には、SQLiteインメモリデータベースを使用できません。ブラウザは独自のプロセス内で実行されるため、他のプロセスのメモリ内データベースにアクセスすることはできません。
+> **Warning**
+> Duskテストの実行時には、SQLiteインメモリデータベースを使用できません。ブラウザは独自のプロセス内で実行されるため、他のプロセスのメモリ内データベースにアクセスすることはできません。
 
 <a name="running-tests"></a>
 ### テストの実行
@@ -181,7 +185,8 @@ php artisan dusk:fails
 php artisan dusk --group=foo
 ```
 
-> {tip} [Laravel Sail](/docs/{{version}}/sale)を使用してローカル開発環境を管理している場合は、[Duskテストの設定と実行](/docs/{{version}}/sail#laravel-dusk)に関するSailのドキュメントを参照してください。
+> **Note**
+> [Laravel Sail](/docs/{{version}}/sale)を使用してローカル開発環境を管理している場合は、[Duskテストの設定と実行](/docs/{{version}}/sail#laravel-dusk)に関するSailのドキュメントを参照してください。
 
 <a name="manually-starting-chromedriver"></a>
 #### ChromeDriverの手作業起動
@@ -377,7 +382,8 @@ php artisan dusk --group=foo
               ->visit('/home');
     });
 
-> {note} `loginAs`メソッドを使用した後、ファイル内のすべてのテストでユーザーセッションを維持します。
+> **Warning**
+> `loginAs`メソッドを使用した後、ファイル内のすべてのテストでユーザーセッションを維持します。
 
 <a name="cookies"></a>
 ### クッキー
@@ -567,7 +573,8 @@ Duskはフォームと入力要素を操作する、さまざまなメソッド�
 
     $browser->attach('photo', __DIR__.'/photos/mountains.png');
 
-> {note} 添付機能を使用するには、サーバへ`Zip` PHP拡張機能をインストールし、有効にする必要があります。
+> **Warning**
+> 添付機能を使用するには、サーバへ`Zip` PHP拡張機能をインストールし、有効にする必要があります。
 
 <a name="pressing-buttons"></a>
 ### ボタンの押下
@@ -597,7 +604,8 @@ Duskはフォームと入力要素を操作する、さまざまなメソッド�
         // ...
     }
 
-> {note} これらのメソッドはjQueryを操作します。jQueryがページで利用できない場合、Duskは自動的にそれをページに挿入して、テストの期間中利用できるようにします。
+> **Warning**
+> これらのメソッドはjQueryを操作します。jQueryがページで利用できない場合、Duskは自動的にそれをページに挿入して、テストの期間中利用できるようにします。
 
 <a name="using-the-keyboard"></a>
 ### キーボードの使用
@@ -610,7 +618,8 @@ Duskはフォームと入力要素を操作する、さまざまなメソッド�
 
     $browser->keys('.app', ['{command}', 'j']);
 
-> {tip} `{command}`など、すべての修飾キーは`{}`文字でラップし、[GitHubで見つかる](https://github.com/php-webdriver/php-webdriver/blob/master/lib/WebDriverKeys.php)`Facebook\WebDriver\WebDriverKeys`クラスで定義された定数です。
+> **Note**
+> `{command}`など、すべての修飾キーは`{}`文字でラップし、[GitHubで見つかる](https://github.com/php-webdriver/php-webdriver/blob/master/lib/WebDriverKeys.php)`Facebook\WebDriver\WebDriverKeys`クラスで定義された定数です。
 
 <a name="using-the-mouse"></a>
 ### マウスの使用
@@ -1821,7 +1830,8 @@ Duskをインストールすると、ベース`Page`クラスが`tests/Browser/P
 <a name="continuous-integration"></a>
 ## 継続的インテグレーション
 
-> {note} ほとんどのDusk継続的インテグレーション設定では、Laravelアプリケーションがポート8000​​の組み込みPHP開発サーバを使用して提供されることを想定しています。したがって、続行する前に、継続的インテグレーション環境の`APP_URL`環境変数値を確実に`http://127.0.0.1:8000`に指定してください。
+> **Warning**
+> ほとんどのDusk継続的インテグレーション設定では、Laravelアプリケーションがポート8000​​の組み込みPHP開発サーバを使用して提供されることを想定しています。したがって、続行する前に、継続的インテグレーション環境の`APP_URL`環境変数値を確実に`http://127.0.0.1:8000`に指定してください。
 
 <a name="running-tests-on-heroku-ci"></a>
 ### Heroku CI

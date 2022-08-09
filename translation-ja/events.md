@@ -42,7 +42,8 @@ Laravelアプリケーションに含まれている`App\Providers\EventServiceP
         ],
     ];
 
-> {tip} `event:list`コマンドを使用して、アプリケーションによって登録されたすべてのイベントとリスナのリストを表示できます。
+> **Note**
+> `event:list`コマンドを使用して、アプリケーションによって登録されたすべてのイベントとリスナのリストを表示できます。
 
 <a name="generating-events-and-listeners"></a>
 ### イベントとリスナの生成
@@ -264,7 +265,8 @@ Laravelは、PHPのリフレクションサービスを使用してリスナク�
         }
     }
 
-> {tip} イベントリスナは、コンストラクタに必要な依存関係をタイプヒントすることもできます。すべてのイベントリスナはLaravel[サービスコンテナ](/docs/{{version}}/container)を介して依存解決されるため、依存関係は自動的に注入されます。
+> **Note**
+> イベントリスナは、コンストラクタに必要な依存関係をタイプヒントすることもできます。すべてのイベントリスナはLaravel[サービスコンテナ](/docs/{{version}}/container)を介して依存解決されるため、依存関係は自動的に注入されます。
 
 <a name="stopping-the-propagation-of-an-event"></a>
 #### イベント伝播の停止
@@ -439,7 +441,8 @@ Laravelは、PHPのリフレクションサービスを使用してリスナク�
         public $afterCommit = true;
     }
 
-> {tip} こうした問題の回避方法の詳細は、[キュー投入されるジョブとデータベーストランザクション](/docs/{{version}}/queues#jobs-and-database-transactions)に関するドキュメントを確認してください。
+> **Note**
+> こうした問題の回避方法の詳細は、[キュー投入されるジョブとデータベーストランザクション](/docs/{{version}}/queues#jobs-and-database-transactions)に関するドキュメントを確認してください。
 
 <a name="handling-failed-jobs"></a>
 ### 失敗したジョブの処理
@@ -559,7 +562,8 @@ Laravelは、PHPのリフレクションサービスを使用してリスナク�
 
     OrderShipped::dispatchUnless($condition, $order);
 
-> {tip} テスト時は、特定のイベントが実際にリスナを起動せずにディスパッチされたことを宣言できると役立つでしょう。Laravelの[組み込みのテストヘルパ](/docs/{{version}}/mocking#event-fake)で簡単にできます。
+> **Note**
+> テスト時は、特定のイベントが実際にリスナを起動せずにディスパッチされたことを宣言できると役立つでしょう。Laravelの[組み込みのテストヘルパ](/docs/{{version}}/mocking#event-fake)で簡単にできます。
 
 <a name="event-subscribers"></a>
 ## イベントサブスクライバ

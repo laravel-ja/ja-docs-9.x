@@ -67,7 +67,8 @@ php artisan serve
 
 Artisan開発サーバを起動すると、Webブラウザで`http://localhost:8000`からアプリケーションへアクセスできるようになります。次に、[Laravelエコシステムへの次のステップを開始](#next-steps)する準備が整いました。もちろん、[データベースの設定](#databases-and-migrations)も必要になります。
 
-> {tip} Laravelアプリケーションを開発する際に、有利なスタートダッシュを切りたければ、[スターターキット](/docs/{{version}}/starter-kits)の１つを使用することを検討してください。Laravelのスターターキットは、新しいLaravelアプリケーションのために、バックエンドとフロントエンド側の認証のスカフォールドを提供します。
+> **Note**
+> Laravelアプリケーションを開発する際に、有利なスタートダッシュを切りたければ、[スターターキット](/docs/{{version}}/starter-kits)の１つを使用することを検討してください。Laravelのスターターキットは、新しいLaravelアプリケーションのために、バックエンドとフロントエンド側の認証のスカフォールドを提供します。
 
 <a name="laravel-and-docker"></a>
 ## LaravelとDocker
@@ -78,7 +79,8 @@ Dockerは、ローカルマシンにインストールしているソフトウ�
 
 Laravel Sailは、LaravelのデフォルトのDocker構成と、操作するための軽量のコマンドラインインターフェイスです。 Sailは、Dockerの経験がなくても、PHP、MySQL、Redisを使用してLaravelアプリケーションを構築するために良い出発点を提供しています。
 
-> {tip} すでにDockerのエキスパートですか？ご心配なく！Laravelが提供する`docker-compose.yml`ファイルを使用して、Sailに関するすべてをカスタマイズできます。
+> **Note**
+> すでにDockerのエキスパートですか？ご心配なく！Laravelが提供する`docker-compose.yml`ファイルを使用して、Sailに関するすべてをカスタマイズできます。
 
 <a name="getting-started-on-macos"></a>
 ### macOSで始める
@@ -103,14 +105,16 @@ Sailの`up`コマンドをはじめて実行すると、Sailのアプリケー�
 
 アプリケーションのDockerコンテナを開始したら、Webブラウザでアプリケーションのhttp://localhostにアクセスできます。
 
-> {tip} Laravel Sailの詳細は、[完全なドキュメント](/docs/{{version}}/sail)で確認してください。
+> **Note**
+> Laravel Sailの詳細は、[完全なドキュメント](/docs/{{version}}/sail)で確認してください。
 
 <a name="getting-started-on-windows"></a>
 ### Windowsで始める
 
 Windowsマシンに新しいLaravelアプリケーションを作成する前に、必ず[Docker Desktop](https://www.docker.com/products/docker-desktop)をインストールしてください。次に、Windows Subsystem for Linux 2（WSL2）がインストールされ、有効になっていることを確認する必要があります。 WSLを使用すると、Linuxバイナリ実行可能ファイルをWindows 10でネイティブに実行できます。WSL2をインストールして有効にする方法については、Microsoftの[開発者環境ドキュメント](https://docs.microsoft.com/en-us/windows/wsl/install-win10)を参照してください。
 
-> {tip} WSL2をインストールして有効にした後、Dockerデスクトップが[WSL2バックエンドを使用するように構成されている](https://docs.docker.com/docker-for-windows/wsl/)ことを確認する必要があります。
+> **Note**
+> WSL2をインストールして有効にした後、Dockerデスクトップが[WSL2バックエンドを使用するように構成されている](https://docs.docker.com/docker-for-windows/wsl/)ことを確認する必要があります。
 
 これで、最初のLaravelプロジェクトを作成する準備が整いました。[Windowsターミナル](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?rtc=1&activetab=pivot:overviewtab)を起動し、WSL2 Linuxオペレーティングシステムの新しいターミナルセッションを開始します。次に、簡単なターミナルコマンドを使用して新しいLaravelプロジェクトを作成してみましょう。たとえば、"example-app"という名前のディレクトリに新しいLaravelアプリケーションを作成するには、ターミナルで以下のコマンドを実行します。
 
@@ -132,7 +136,8 @@ Sailの`up`コマンドをはじめて実行すると、Sailのアプリケー�
 
 アプリケーションのDockerコンテナを開始したら、Webブラウザでアプリケーションのhttp://localhostにアクセスできます。
 
-> {tip} Laravel Sailの詳細は、[完全なドキュメント](/docs/{{version}}/sail)で確認してください。
+> **Note**
+> Laravel Sailの詳細は、[完全なドキュメント](/docs/{{version}}/sail)で確認してください。
 
 #### WSL2内での開発
 
@@ -163,7 +168,8 @@ Sailの`up`コマンドをはじめて実行すると、Sailのアプリケー�
 
 アプリケーションのDockerコンテナを開始したら、Webブラウザでアプリケーションのhttp://localhostにアクセスできます。
 
-> {tip} Laravel Sailの詳細は、[完全なドキュメント](/docs/{{version}}/sail)で確認してください。
+> **Note**
+> Laravel Sailの詳細は、[完全なドキュメント](/docs/{{version}}/sail)で確認してください。
 
 <a name="choosing-your-sail-services"></a>
 ### Sailサービスの選択
@@ -196,7 +202,8 @@ Laravelの設定オプションの値の多くは、アプリケーションが�
 
 `.env`ファイルは、アプリケーションのソース管理へコミットしてはいけません。なぜなら、アプリケーションを使用する開発者やサーバごとに、異なる環境設定が必要になる可能性があるからです。さらに、侵入者がソースコントロールリポジトリへアクセスした場合、機密情報が漏洩してしまうため、セキュリティリスクにもなります。
 
-> {tip} `.env`ファイルと環境ベースの設定の詳細は、完全な[設定ドキュメント](/docs/{{version}}/configuration#environment-configuration)をチェックしてください。
+> **Note**
+> `.env`ファイルと環境ベースの設定の詳細は、完全な[設定ドキュメント](/docs/{{version}}/configuration#environment-configuration)をチェックしてください。
 
 <a name="directory-configuration"></a>
 ### ディレクトリ設定
@@ -259,7 +266,8 @@ Laravelは、フルスタックフレームワークとして機能させるこ�
 
 Laravelをフルスタックフレームワークとして使用している場合、[Vite](/docs/{{version}}/vite)を使用してアプリケーションのCSSとJavaScriptをコンパイルする方法を学ぶのも強く推奨します。
 
-> {tip} アプリケーションの構築をすぐに始めたい場合は、公式の[アプリケーションスターターキット](/docs/{{version}}/starter-kits)の１つをチェックしてください。
+> **Note**
+> アプリケーションの構築をすぐに始めたい場合は、公式の[アプリケーションスターターキット](/docs/{{version}}/starter-kits)の１つをチェックしてください。
 
 <a name="laravel-the-api-backend"></a>
 ### Laravel APIバックエンド
@@ -268,4 +276,5 @@ Laravelは、JavaScriptシングルページアプリケーションまたはモ
 
 この方法でLaravelの使用を計画している場合は、[ルーティング](/docs/{{version}}/routing)、[Laravel Sanctum](/docs/{{version}}/sanctum)、[Eloquent ORM](/docs/{{version}}/eloquent)に関するドキュメントを確認することをお勧めします。
 
-> {tip} LaravelのバックエンドとNext.jsのフロントエンドのスカフォールドから始める必要がありますか？Laravel Breezeは、[APIスタック](/docs/{{version}}/starter-kits#breeze-and-next)と[Next.jsフロントエンド実装](https://github.com/laravel/breeze-next)を提供しているため、すぐに開始できます。
+> **Note**
+> LaravelのバックエンドとNext.jsのフロントエンドのスカフォールドから始める必要がありますか？Laravel Breezeは、[APIスタック](/docs/{{version}}/starter-kits#breeze-and-next)と[Next.jsフロントエンド実装](https://github.com/laravel/breeze-next)を提供しているため、すぐに開始できます。

@@ -57,7 +57,8 @@
         return false;
     });
 
-> {tip} 特定の例外のレポートをカスタマイズするには、[レポート可能な例外](/docs/{{version}}/errors#renderable-exceptions)を利用することもできます。
+> **Note**
+> 特定の例外のレポートをカスタマイズするには、[レポート可能な例外](/docs/{{version}}/errors#renderable-exceptions)を利用することもできます。
 
 <a name="global-log-context"></a>
 #### グローバルログコンテキスト
@@ -155,7 +156,8 @@
         InvalidOrderException::class,
     ];
 
-> {tip} Laravelは、404 HTTP "not found"エラーや無効なCSRFトークンによって生成された419 HTTPレスポンスに起因する例外など、いくつかのタイプのエラーを皆さんのために裏でこっそり無視しています。
+> **Note**
+> Laravelは、404 HTTP "not found"エラーや無効なCSRFトークンによって生成された419 HTTPレスポンスに起因する例外など、いくつかのタイプのエラーを皆さんのために裏でこっそり無視しています。
 
 <a name="rendering-exceptions"></a>
 ### 例外のレンダ
@@ -262,7 +264,8 @@ LaravelやSymfonyの組み込み済み例外など、既存のレンダリング
         return false;
     }
 
-> {tip} `report`メソッドで必要な依存関係をタイプヒントすると、Laravelの[サービスコンテナ](/docs/{{version}}/container)がメソッドへ自動的に依存を注入します。
+> **Note**
+> `report`メソッドで必要な依存関係をタイプヒントすると、Laravelの[サービスコンテナ](/docs/{{version}}/container)がメソッドへ自動的に依存を注入します。
 
 <a name="http-exceptions"></a>
 ## HTTP例外

@@ -50,7 +50,8 @@
         $table->integer('expiration');
     });
 
-> {tip} `php artisan cache:table` Artisanコマンドを使用して、適切なスキーマのマイグレーションを生成することもできます。
+> **Note**
+> `php artisan cache:table` Artisanコマンドを使用して、適切なスキーマのマイグレーションを生成することもできます。
 
 <a name="memcached"></a>
 #### Memcached
@@ -216,7 +217,8 @@ Redisの設定の詳細については、[Laravelドキュメントページ](/d
 
     Cache::forever('key', 'value');
 
-> {tip} Memcachedドライバを使用している場合、「永久に」保存されているアイテムは、キャッシュがサイズ制限に達すると削除される可能性があります。
+> **Note**
+> Memcachedドライバを使用している場合、「永久に」保存されているアイテムは、キャッシュがサイズ制限に達すると削除される可能性があります。
 
 <a name="removing-items-from-the-cache"></a>
 ### キャッシュからのアイテム削除
@@ -235,7 +237,8 @@ Redisの設定の詳細については、[Laravelドキュメントページ](/d
 
     Cache::flush();
 
-> {note} キャッシュのフラッシュは、設定したキャッシュの「プレフィックス」を尊重せず、キャッシュからすべてのエントリを削除します。他のアプリケーションと共有するキャッシュをクリアするときは、これを慎重に検討してください。
+> **Warning**
+> キャッシュのフラッシュは、設定したキャッシュの「プレフィックス」を尊重せず、キャッシュからすべてのエントリを削除します。他のアプリケーションと共有するキャッシュをクリアするときは、これを慎重に検討してください。
 
 <a name="the-cache-helper"></a>
 ### キャッシュヘルパ
@@ -256,12 +259,14 @@ Redisの設定の詳細については、[Laravelドキュメントページ](/d
         return DB::table('users')->get();
     });
 
-> {tip} グローバルな`cache`関数の呼び出しをテストするときは、[ファサードをテストする](/docs/{{version}}/mocking#mocking-facades)のように`Cache::shouldReceive`メソッドを使用できます。
+> **Note**
+> グローバルな`cache`関数の呼び出しをテストするときは、[ファサードをテストする](/docs/{{version}}/mocking#mocking-facades)のように`Cache::shouldReceive`メソッドを使用できます。
 
 <a name="cache-tags"></a>
 ## キャッシュタグ
 
-> {note} `file`、`dynamodb`、`database`キャッシュドライバを使用する場合、キャッシュタグはサポート外です。また、「永久に」保存するキャッシュで複数のタグを使用する場合、古いレコードを自動的に削除する`memcached`などのドライバを使用するとパフォーマンスが最高になります。
+> **Warning**
+> `file`、`dynamodb`、`database`キャッシュドライバを使用する場合、キャッシュタグはサポート外です。また、「永久に」保存するキャッシュで複数のタグを使用する場合、古いレコードを自動的に削除する`memcached`などのドライバを使用するとパフォーマンスが最高になります。
 
 <a name="storing-tagged-cache-items"></a>
 ### タグ付きキャッシュアイテムの保存
@@ -295,7 +300,8 @@ Redisの設定の詳細については、[Laravelドキュメントページ](/d
 <a name="atomic-locks"></a>
 ## アトミックロック
 
-> {note} この機能を利用するには、アプリケーションのデフォルトのキャッシュドライバとして、`memcached`、`redis`、`dynamodb`、`database`、`file`、`array`キャッシュドライバを使用する必要があります。さらに、すべてのサーバが同じ中央キャッシュサーバと通信している必要があります。
+> **Warning**
+> この機能を利用するには、アプリケーションのデフォルトのキャッシュドライバとして、`memcached`、`redis`、`dynamodb`、`database`、`file`、`array`キャッシュドライバを使用する必要があります。さらに、すべてのサーバが同じ中央キャッシュサーバと通信している必要があります。
 
 <a name="lock-driver-prerequisites"></a>
 ### ドライバ要件
@@ -411,7 +417,8 @@ MongoDB接続を使用してこれらの各メソッドを実装する必要が�
         return Cache::repository(new MongoStore);
     });
 
-> {tip} カスタムキャッシュドライバコードをどこに置くか迷っている場合は、`app`ディレクトリ内に`Extensions`名前空間を作成できます。ただし、Laravelには厳密なアプリケーション構造がなく、好みに応じてアプリケーションを自由にオーガナイズできることに注意してください。
+> **Note**
+> カスタムキャッシュドライバコードをどこに置くか迷っている場合は、`app`ディレクトリ内に`Extensions`名前空間を作成できます。ただし、Laravelには厳密なアプリケーション構造がなく、好みに応じてアプリケーションを自由にオーガナイズできることに注意してください。
 
 <a name="registering-the-driver"></a>
 ### ドライバの登録

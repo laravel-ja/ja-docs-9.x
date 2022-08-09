@@ -123,7 +123,8 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
         }
     }
 
-> {note} `Request`ファサードをモックしないでください。代わりに、テストの実行時に、`get`や`post`などの[HTTPテストメソッド](/docs/{{version}}/http-tests)に必要な入力を渡します。同様に、`Config`ファサードをモックする代わりに、テストでは`Config::set`メソッドを呼び出してください。
+> **Warning**
+> `Request`ファサードをモックしないでください。代わりに、テストの実行時に、`get`や`post`などの[HTTPテストメソッド](/docs/{{version}}/http-tests)に必要な入力を渡します。同様に、`Config`ファサードをモックする代わりに、テストでは`Config::set`メソッドを呼び出してください。
 
 <a name="facade-spies"></a>
 ### ファサードのスパイ
@@ -288,7 +289,8 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
         SendShipmentNotification::class
     );
 
-> {note} `Event::fake()`を呼び出した後、イベントリスナはすべて実行されません。したがって、モデルの`creating`イベント中にUUIDを作成するなど、イベントに依存するモデルファクトリをテストで使用する場合は、ファクトリを使用した**後に**`Event::fake()`を呼び出す必要があります。
+> **Warning**
+> `Event::fake()`を呼び出した後、イベントリスナはすべて実行されません。したがって、モデルの`creating`イベント中にUUIDを作成するなど、イベントに依存するモデルファクトリをテストで使用する場合は、ファクトリを使用した**後に**`Event::fake()`を呼び出す必要があります。
 
 <a name="faking-a-subset-of-events"></a>
 #### イベントのサブセットのFake
@@ -618,7 +620,8 @@ Mailableの内容のテストと、Mailableが特定のユーザーへ「送信�
 
 `fake`メソッドはデフォルトで、一時ディレクトリにあるすべてのファイルを削除します。これらのファイルを残しておきたい場合は、代わりに`persistentFake`メソッドを使用してください。ファイルアップロードのテストの詳細は、[ファイルアップロードに関するHTTPテストドキュメントの情報](/docs/{{version}}/http-tests#testing-file-uploads)を参照してください。
 
-> {note} `image`メソッドには、[GD拡張](https://www.php.net/manual/en/book.image.php)が必要です。
+> **Warning**
+> `image`メソッドには、[GD拡張](https://www.php.net/manual/en/book.image.php)が必要です。
 
 <a name="interacting-with-time"></a>
 ## 時間操作

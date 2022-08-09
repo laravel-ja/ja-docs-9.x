@@ -264,7 +264,8 @@ phpredis拡張モジュールは、シリアライズや圧縮のアルゴリズ
         $redis->incr('total_visits', 1);
     });
 
-> {note} Redisトランザクションを定義する場合、Redis接続から値を取得できません。トランザクションは単一のアトミック操作として実行し、クロージャ全体がコマンドの実行を完了するまで、操作は実行されないことに注意してください。
+> **Warning**
+> Redisトランザクションを定義する場合、Redis接続から値を取得できません。トランザクションは単一のアトミック操作として実行し、クロージャ全体がコマンドの実行を完了するまで、操作は実行されないことに注意してください。
 
 #### Luaスクリプト
 
@@ -284,7 +285,8 @@ phpredis拡張モジュールは、シリアライズや圧縮のアルゴリズ
         return counter
     LUA, 2, 'first-counter', 'second-counter');
 
-> {note} Redisスクリプトの詳細には、[Redisドキュメント](https://redis.io/commands/eval)を参照してください。
+> **Warning**
+> Redisスクリプトの詳細には、[Redisドキュメント](https://redis.io/commands/eval)を参照してください。
 
 <a name="pipelining-commands"></a>
 ### パイプラインコマンド

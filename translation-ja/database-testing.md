@@ -97,7 +97,8 @@
 
 ファクトリは`fake`ヘルパを介して、[Faker](https://github.com/FakerPHP/Faker) PHPライブラリにアクセスできます。これにより、テスト用のさまざまな種類のランダムデータを簡単に生成できます。
 
-> {tip} `config/app.php`設定ファイルに`faker_locale`オプションを追加することで、アプリケーションのFakerロケールを設定できます。
+> **Note**
+> `config/app.php`設定ファイルに`faker_locale`オプションを追加することで、アプリケーションのFakerロケールを設定できます。
 
 <a name="generating-factories"></a>
 ### ファクトリの生成
@@ -246,7 +247,8 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
         'name' => 'Abigail Otwell',
     ])->make();
 
-> {tip} [複数代入保護](/docs/{{version}}/eloquent#mass-assignment)は、ファクトリを使用してのモデル作成時、自動的に無効になります。
+> **Note**
+> [複数代入保護](/docs/{{version}}/eloquent#mass-assignment)は、ファクトリを使用してのモデル作成時、自動的に無効になります。
 
 <a name="persisting-models"></a>
 ### モデルの永続化

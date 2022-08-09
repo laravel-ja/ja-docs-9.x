@@ -87,7 +87,8 @@ Laravelの「複数形化機能（Pluralizer）」は、Eloquentやフレーム�
         // ...
     }
 
-> {note} 言語の複数形化をカスタマイズする場合、Eloquentモデルの[テーブル名](/docs/{{version}}/eloquent#table-names)は、明示的に定義する必要があります。
+> **Warning**
+> 言語の複数形化をカスタマイズする場合、Eloquentモデルの[テーブル名](/docs/{{version}}/eloquent#table-names)は、明示的に定義する必要があります。
 
 <a name="defining-translation-strings"></a>
 ## 翻訳文字列の定義
@@ -113,7 +114,8 @@ Laravelの「複数形化機能（Pluralizer）」は、Eloquentやフレーム�
         'welcome' => 'Welcome to our application!',
     ];
 
-> {note} 地域によって異なる言語の場合、ISO15897に従って言語ディレクトリに名前を付ける必要があります。たとえば、「en-gb」ではなく「en_GB」をイギリス英語に使用する必要があります。
+> **Warning**
+> 地域によって異なる言語の場合、ISO15897に従って言語ディレクトリに名前を付ける必要があります。たとえば、「en-gb」ではなく「en_GB」をイギリス英語に使用する必要があります。
 
 <a name="using-translation-strings-as-keys"></a>
 ### 翻訳文字列をキーとして使用

@@ -34,7 +34,8 @@ Laravelのファイルシステム設定ファイルは`config/filesystems.php`�
 
 `local`ドライバは、Laravelアプリケーションを実行しているサーバでローカルに保存されているファイルを操作し、`s3`ドライバはAmazonのS3クラウドストレージサービスへの書き込みに使用します。
 
-> {tip} 必要な数のディスクを構成でき、同じドライバを使用する複数のディスクを使用することもできます。
+> **Note**
+> 必要な数のディスクを構成でき、同じドライバを使用する複数のディスクを使用することもできます。
 
 <a name="the-local-driver"></a>
 ### ローカルドライバ
@@ -146,7 +147,7 @@ LaravelのFlysystem統合はSFTPでも最適に機能します。ただし、サ
 
 アプリケーションの`filesystems`設定ファイルはデフォルトで、`s3`ディスクのディスク設定を含んでいます。このディスクはAmazon S3の操作に加え、[MinIO](https://github.com/minio/minio)や[DigitalOcean Spaces](https://www.digitalocean.com/products/spaces/)など、S3と互換性のあるファイルストレージサービスの操作にも使用できます。
 
-通常、ディスクの認証情報を使用予定のサービス認証情報へ合わせて更新した後に、`url`設定オプションの値を更新するだけで済みます。このオプションの値は通常、`AWS_ENDPOINT`環境変数で定義されています。
+通常、ディスクの認証情報を使用予定のサービス認証情報へ合わせて更新した後に、`endpoint`設定オプションの値を更新するだけで済みます。このオプションの値は通常、`AWS_ENDPOINT`環境変数で定義されています。
 
     'endpoint' => env('AWS_ENDPOINT', 'https://minio:9000'),
 
@@ -218,7 +219,8 @@ $disk->put('image.jpg', $content);
 
 `local`ドライバを使用する場合、パブリックにアクセス可能である必要があるすべてのファイルは、`storage/app/public`ディレクトリに配置する必要があります。さらに、`storage/app/public`ディレクトリを指す`public/storage`に[シンボリックリンクを作成](#the-public-disk)する必要があります。
 
-> {note} `local`ドライバを使用する場合、`url`の戻り値はURLエンコードされません。このため、常に有効なURLを作成する名前を使用してファイルを保存することをお勧めします。
+> **Warning**
+> `local`ドライバを使用する場合、`url`の戻り値はURLエンコードされません。このため、常に有効なURLを作成する名前を使用してファイルを保存することをお勧めします。
 
 <a name="temporary-urls"></a>
 #### 一時的なURL
@@ -420,7 +422,8 @@ Webアプリケーションでは、ファイルを保存するための最も�
         'avatars', $request->file('avatar'), $request->user()->id
     );
 
-> {note} 印刷できない無効なUnicode文字はファイルパスから自動的に削除されます。したがって、Laravelのファイルストレージメソッドに渡す前に、ファイルパスをサニタイズすることをお勧めします。ファイルパスは、`League\Flysystem\WhitespacePathNormalizer::normalizePath`メソッドを使用して正規化されます。
+> **Warning**
+> 印刷できない無効なUnicode文字はファイルパスから自動的に削除されます。したがって、Laravelのファイルストレージメソッドに渡す前に、ファイルパスをサニタイズすることをお勧めします。ファイルパスは、`League\Flysystem\WhitespacePathNormalizer::normalizePath`メソッドを使用して正規化されます。
 
 <a name="specifying-a-disk"></a>
 #### ディスクの指定

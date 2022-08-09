@@ -247,7 +247,8 @@ php artisan schedule:list
         return 'America/Chicago';
     }
 
-> {note} タイムゾーンの中には夏時間を取り入れているものがあることを忘れないでください。夏時間の切り替えにより、スケジュールしたタスクが２回実行されたり、まったくされないことがあります。そのため、可能であればタイムゾーンによるスケジュールは使用しないことを推奨します。
+> **Warning**
+> タイムゾーンの中には夏時間を取り入れているものがあることを忘れないでください。夏時間の切り替えにより、スケジュールしたタスクが２回実行されたり、まったくされないことがあります。そのため、可能であればタイムゾーンによるスケジュールは使用しないことを推奨します。
 
 <a name="preventing-task-overlaps"></a>
 ### タスク多重起動の防止
@@ -267,7 +268,8 @@ php artisan schedule:list
 <a name="running-tasks-on-one-server"></a>
 ### 単一サーバ上でのタスク実行
 
-> {note} この機能を利用するには、アプリケーションのデフォルトのキャッシュドライバとして`database`、`memcached`、`dynamodb`、`redis`キャッシュドライバを使用している必要があります。さらに、すべてのサーバが同じ中央キャッシュサーバと通信している必要があります。
+> **Warning**
+> この機能を利用するには、アプリケーションのデフォルトのキャッシュドライバとして`database`、`memcached`、`dynamodb`、`redis`キャッシュドライバを使用している必要があります。さらに、すべてのサーバが同じ中央キャッシュサーバと通信している必要があります。
 
 アプリケーションのスケジューラを複数のサーバで実行する場合は、スケジュールしたジョブを単一のサーバでのみ実行するように制限できます。たとえば、毎週金曜日の夜に新しいレポートを生成するスケジュールされたタスクがあるとします。タスクスケジューラが３つのワーカーサーバで実行されている場合、スケジュールされたタスクは３つのサーバすべてで実行され、レポートを３回生成してしまいます。これは良くありません！
 
@@ -278,6 +280,23 @@ php artisan schedule:list
                     ->at('17:00')
                     ->onOneServer();
 
+<a name="naming-unique-jobs"></a>
+#### サーバジョブに一意名を付ける
+
+Laravelに対して単一サーバ上でジョブの各順列を実行するように指示しながら、同じジョブを異なるパラメータでディスパッチするようにスケジュールする必要がある場合があります。これを実現するには、`name`メソッドを使用して各スケジュール定義に一意の名前を割り当てます。
+
+```php
+$schedule->job(new CheckUptime('https://laravel.com'))
+            ->name('check_uptime:laravel.com')
+            ->everyFiveMinutes()
+            ->onOneServer();
+
+$schedule->job(new CheckUptime('https://vapor.laravel.com'))
+            ->name('check_uptime:vapor.laravel.com')
+            ->everyFiveMinutes()
+            ->onOneServer();
+```
+
 <a name="background-tasks"></a>
 ### バックグランドタスク
 
@@ -287,7 +306,8 @@ php artisan schedule:list
              ->daily()
              ->runInBackground();
 
-> {note} `runInBackground`メソッドは`command`か`exec`メソッドにより、タスクをスケジュールするときにのみ使用してください。
+> **Warning**
+> `runInBackground`メソッドは`command`か`exec`メソッドにより、タスクをスケジュールするときにのみ使用してください。
 
 <a name="maintenance-mode"></a>
 ### メンテナンスモード
@@ -344,7 +364,8 @@ Laravelスケジューラはスケジュールしたタスクが生成する出�
              ->daily()
              ->emailOutputOnFailure('taylor@example.com');
 
-> {note} `emailOutputTo`、 `emailOutputOnFailure`、`sendOutputTo`、`appendOutputTo`メソッドは、`command`と`exec`メソッドに対してのみ指定できます。
+> **Warning**
+> `emailOutputTo`、 `emailOutputOnFailure`、`sendOutputTo`、`appendOutputTo`メソッドは、`command`と`exec`メソッドに対してのみ指定できます。
 
 <a name="task-hooks"></a>
 ## タスクフック

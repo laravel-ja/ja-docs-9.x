@@ -46,7 +46,8 @@ php artisan octane:install
 <a name="server-prerequisites"></a>
 ## サーバ要件
 
-> {note} Laravel Octaneは、[PHP8.0以上](https://php.net/releases/)が必要です。
+> **Warning**
+> Laravel Octaneは、[PHP8.0以上](https://php.net/releases/)が必要です。
 
 <a name="roadrunner"></a>
 ### RoadRunner
@@ -105,7 +106,8 @@ pecl install swoole
 <a name="swoole-via-laravel-sail"></a>
 #### Laravel SailによるSwoole
 
-> {note} Sailを介してOctaneアプリケーションを動作させる前に、最新バージョンのLaravel Sailであることを確認し、アプリケーションのルートディレクトリ内で`./vendor/bin/sail build --no-cache`を実行してください。
+> **Warning**
+> Sailを介してOctaneアプリケーションを動作させる前に、最新バージョンのLaravel Sailであることを確認し、アプリケーションのルートディレクトリ内で`./vendor/bin/sail build --no-cache`を実行してください。
 
 あるいは、Laravelの公式Dockerベースの開発環境である[Laravel Sail](/docs/{{version}}/sail)を使用して、SwooleベースのOctaneアプリケーションを開発できます。Laravel Sailは、デフォルトでSwoole拡張を含んでいます。ただし、アプリケーションを実行し続けるためにSailが使用する、`supervisor.conf`ファイルを調整する必要があります。手始めに、`sail:publish` Artisanコマンドを実行してください。
 
@@ -162,7 +164,8 @@ Octaneはデフォルトで、ポート8000​​のサーバを起動するの�
 <a name="serving-your-application-via-nginx"></a>
 ### Nginxを使用するアプリケーションの提供
 
-> {tip} あなた自身のサーバ設定を管理すること、または堅牢なLaravel Octaneアプリケーションを実行するのに必要なさまざまなサービスをすべて設定するのに慣れていない場合は、[Laravel Forge](https://forge.laravel.com)の使用を考慮してください。
+> **Note**
+> あなた自身のサーバ設定を管理すること、または堅牢なLaravel Octaneアプリケーションを実行するのに必要なさまざまなサービスをすべて設定するのに慣れていない場合は、[Laravel Forge](https://forge.laravel.com)の使用を考慮してください。
 
 本番環境では，NginxやApacheのような伝統的なWebサーバの背後で、Octaneアプリケーションを提供するべきです。そうすることでWebサーバは，画像やスタイルシートなどの静的資産を提供でき，またSSL証明書のターミネーションを管理できます。
 
@@ -382,7 +385,8 @@ $service->method($request->input('name'));
 
 グローバルな`request`ヘルパは、常にアプリケーションが現在処理しているリクエストを返すので、アプリケーション内で安全に使用できます。
 
-> {note} コントローラのメソッドやルートクロージャで、`Illuminate\Http\Request`インスタンスをタイプヒントしても構いません。
+> **Warning**
+> コントローラのメソッドやルートクロージャで、`Illuminate\Http\Request`インスタンスをタイプヒントしても構いません。
 
 <a name="configuration-repository-injection"></a>
 ### 設定リポジトリ注入
@@ -453,7 +457,8 @@ public function index(Request $request)
 <a name="concurrent-tasks"></a>
 ## 現在のタスク
 
-> {note} この機能は[Swoole](#swoole)が必要です。
+> **Warning**
+> この機能は[Swoole](#swoole)が必要です。
 
 Swooleを使用している場合，軽量のバックグラウンドタスクを介して，複数操作を同時に実行できます。これには，Octaneの`concurrently`メソッドを使用します。このメソッドとPHP配列のデストラクションを組み合わせて，各操作の結果を取得できます。
 
@@ -477,7 +482,8 @@ php artisan octane:start --workers=4 --task-workers=6
 <a name="ticks-and-intervals"></a>
 ## Tickと間隔
 
-> {note} この機能は[Swoole](#swoole)が必要です。
+> **Warning**
+> この機能は[Swoole](#swoole)が必要です。
 
 Swooleでは、指定した秒数ごとに実行される"tick"オペレーションが登録できます。"tick"コールバックの登録には、`tick`メソッドを使用します。`tick`メソッドの第１引数は、ティッカー(Ticker)の名前を表す文字列を指定します。２番目の引数は、指定した間隔で起動するコールバックを指定します。
 
@@ -499,7 +505,8 @@ Octane::tick('simple-ticker', fn () => ray('Ticking...'))
 <a name="the-octane-cache"></a>
 ## Octaneのキャッシュ
 
-> {note} この機能は[Swoole](#swoole)が必要です。
+> **Warning**
+> この機能は[Swoole](#swoole)が必要です。
 
 Swooleを使用する際には、最大２００万回／秒の読み取り／書き込み速度を実現するOctaneキャッシュドライバが活用できます。したがって、このキャッシュドライバは、キャッシング層からの極端なリード／ライト速度を必要とするアプリケーションに最適な選択肢です。
 
@@ -509,7 +516,8 @@ Swooleを使用する際には、最大２００万回／秒の読み取り／�
 Cache::store('octane')->put('framework', 'Laravel', 30);
 ```
 
-> {tip} Octaneキャッシュで許可するエントリの最大数は，アプリケーションの`octane`設定ファイルで定義できます。
+> **Note**
+> Octaneキャッシュで許可するエントリの最大数は，アプリケーションの`octane`設定ファイルで定義できます。
 
 <a name="cache-intervals"></a>
 ### キャッシュ間隔
@@ -527,7 +535,8 @@ Cache::store('octane')->interval('random', function () {
 <a name="tables"></a>
 ## テーブル
 
-> {note} この機能は[Swoole](#swoole)が必要です。
+> **Warning**
+> この機能は[Swoole](#swoole)が必要です。
 
 Swooleを使用する場合は、任意に独自の[Swooleテーブル](https://www.swoole.co.uk/docs/modules/swoole-table)を定義し、操作できます。Swooleテーブルは、非常に高いパフォーマンスのスループットを提供し、これらのテーブルのデータは、サーバ上のすべてのワーカーからアクセスできます。ただし、サーバを再起動するとテーブル内のデータは失われます。
 
@@ -555,4 +564,5 @@ Octane::table('example')->set('uuid', [
 return Octane::table('example')->get('uuid');
 ```
 
-> {note} Swooleのテーブルがサポートする、カラムの型は`string`、`int`、`float`です。
+> **Warning**
+> Swooleのテーブルがサポートする、カラムの型は`string`、`int`、`float`です。

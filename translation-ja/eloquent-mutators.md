@@ -64,7 +64,8 @@
 
     $firstName = $user->first_name;
 
-> {tip} こうした計算値をモデルの配列／JSON表現に追加したい場合は、[手作業で追加する必要があります](/docs/{{version}}/eloquent-serialization#appending-values-to-json)。
+> **Note**
+> こうした計算値をモデルの配列／JSON表現に追加したい場合は、[手作業で追加する必要があります](/docs/{{version}}/eloquent-serialization#appending-values-to-json)。
 
 <a name="building-value-objects-from-multiple-attributes"></a>
 #### 複数の属性からの値オブジェクト構築
@@ -269,7 +270,8 @@ protected function address(): Attribute
         'options' => 'object',
     ]);
 
-> {note} `null`である属性はキャストしません。また、リレーションと同じ名前のキャスト(または属性)を定義しないでください。
+> **Warning**
+> `null`である属性はキャストしません。また、リレーションと同じ名前のキャスト(または属性)を定義しないでください。
 
 <a name="stringable-casting"></a>
 #### Stringableのキャスト
@@ -423,7 +425,8 @@ JSON属性の単一のフィールドをより簡潔な構文で更新するに�
 <a name="enum-casting"></a>
 ### Enumキャスト
 
-> {note} Enumキャストは、PHP8.1以上で使用できます。
+> **Warning**
+> Enumキャストは、PHP8.1以上で使用できます。
 
 Eloquentは、属性値をPHPの[「値に依存した（backed）」 Enum](https://www.php.net/manual/ja/language.enumerations.backed.php) にキャストすることも可能です。これを実現するには、モデルの`$casts`プロパティ配列にキャストしたい属性と列挙型を指定します。
 
@@ -613,7 +616,8 @@ Laravelには、さまざまな組み込みの便利なキャストタイプが�
 
     $user->save();
 
-> {tip} 値オブジェクトを含むEloquentモデルをJSONまたは配列にシリアル化する場合は、値オブジェクトに`Illuminate\Contracts\Support\Arrayable`および`JsonSerializable`インターフェイスを実装する必要があります。
+> **Note**
+> 値オブジェクトを含むEloquentモデルをJSONまたは配列にシリアル化する場合は、値オブジェクトに`Illuminate\Contracts\Support\Arrayable`および`JsonSerializable`インターフェイスを実装する必要があります。
 
 <a name="array-json-serialization"></a>
 ### 配列／JSONのシリアル化

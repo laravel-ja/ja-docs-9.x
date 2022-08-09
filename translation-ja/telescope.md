@@ -142,7 +142,8 @@ Telescopeダッシュボードには、`/telescope`ルートでアクセスで�
         });
     }
 
-> {note} 実行環境では、`APP_ENV`環境変数を必ず`production`に変更してください。それ以外の値の場合、Telescopeインストールは一般公開されます。
+> **Warning**
+> 実行環境では、`APP_ENV`環境変数を必ず`production`に変更してください。それ以外の値の場合、Telescopeインストールは一般公開されます。
 
 <a name="upgrading-telescope"></a>
 ## Telescopeのアップグレード

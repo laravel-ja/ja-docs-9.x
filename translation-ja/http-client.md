@@ -203,7 +203,8 @@ composer require guzzlehttp/guzzle
 
     $response = Http::retry(3, 100, throw: false)->post(/* ... */);
 
-> {note} 接続の問題ですべてのリクエストが失敗した場合は、`throw`引数を`false`に設定していても`Illuminate\Http\Client\ConnectionException`が投げられます。
+> **Warning**
+> 接続の問題ですべてのリクエストが失敗した場合は、`throw`引数を`false`に設定していても`Illuminate\Http\Client\ConnectionException`が投げられます。
 
 <a name="error-handling"></a>
 ### エラー処理
@@ -267,6 +268,8 @@ LaravelのHTTPクライアントはGuzzleで動いているので、[Guzzleミ�
     $response = Http::withMiddleware(
         Middleware::mapRequest(function (RequestInterface $request) {
             $request->withHeader('X-Example', 'Value');
+
+            return $request;
         })
     ->get('http://example.com');
 
@@ -281,6 +284,8 @@ LaravelのHTTPクライアントはGuzzleで動いているので、[Guzzleミ�
             $header = $response->getHeader('X-Example');
 
             // ...
+
+            return $response;
         })
     )->get('http://example.com');
 
@@ -506,6 +511,45 @@ HTTPクライアントから送信したすべてのリクエストを個々の�
     Http::fake();
 
     Http::assertNothingSent();
+
+<a name="recording-requests-and-responses"></a>
+#### リクエスト／レスポンスの記録
+
+すべてのリクエストと、それに対応するレスポンスを収集するために、`recorded`メソッドが使用できます。`recorded`メソッドは、`Illuminate\Http\Client\Request`と`Illuminate\Http\Client\Response`インスタンスを含む配列のコレクションを返します。
+
+```php
+Http::fake([
+    'https://laravel.com' => Http::response(status: 500),
+    'https://nova.laravel.com/' => Http::response(),
+]);
+
+Http::get('https://laravel.com');
+Http::get('https://nova.laravel.com/');
+
+$recorded = Http::recorded();
+
+[$request, $response] = $recorded[0];
+```
+
+さらに、`recorded`メソッドは、`Illuminate\Http\Client\Request`と`Illuminate\Http\Client\Response`インスタンスを受け取るクロージャを引数に取り、エクスペクテーションに基づいてリクエストとレスポンスのペアをフィルターするために使用できます。
+
+```php
+use Illuminate\Http\Client\Request;
+use Illuminate\Http\Client\Response;
+
+Http::fake([
+    'https://laravel.com' => Http::response(status: 500),
+    'https://nova.laravel.com/' => Http::response(),
+]);
+
+Http::get('https://laravel.com');
+Http::get('https://nova.laravel.com/');
+
+$recorded = Http::recorded(function (Request $request, Response $response) {
+    return $request->url() !== 'https://laravel.com' &&
+           $response->successful();
+});
+```
 
 <a name="events"></a>
 ## イベント

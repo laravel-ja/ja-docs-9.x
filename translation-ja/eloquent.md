@@ -41,7 +41,8 @@
 
 Laravelには、データベースとの対話を楽しくするオブジェクトリレーショナルマッパー(ORM)であるEloquentが含まれています。Eloquentを使用する場合、各データベーステーブルには対応する「モデル」があり、そのテーブルとの対話に使用します。Eloquentモデルでは、データベーステーブルからレコードを取得するだけでなく、テーブルへのレコード挿入、更新、削除も可能です。
 
-> {tip} 使い始める前に、必ずアプリケーションの`config/database.php`設定ファイルで、データベース接続を設定してください。データベース設定の詳細は、[データベース設定のドキュメント](/docs/{{version}}/database#configuration)で確認してください。
+> **Note**
+> 使い始める前に、必ずアプリケーションの`config/database.php`設定ファイルで、データベース接続を設定してください。データベース設定の詳細は、[データベース設定のドキュメント](/docs/{{version}}/database#configuration)で確認してください。
 
 <a name="generating-model-classes"></a>
 ## モデルクラスの生成
@@ -306,7 +307,8 @@ Eloquentの`all`メソッドは、モデルのテーブルにあるすべての�
                    ->take(10)
                    ->get();
 
-> {tip} Eloquentモデルはクエリビルダであるため、Laravelの[クエリビルダ](/docs/{{version}}/queries)が提供するすべてのメソッドを確認する必要があります。Eloquentでクエリを作成するときは、それらすべてのメソッドを使用できます。
+> **Note**
+> Eloquentモデルはクエリビルダであるため、Laravelの[クエリビルダ](/docs/{{version}}/queries)が提供するすべてのメソッドを確認する必要があります。Eloquentでクエリを作成するときは、それらすべてのメソッドを使用できます。
 
 <a name="refreshing-models"></a>
 #### モデルのリフレッシュ
@@ -410,7 +412,8 @@ Flight::where('departed', true)
 
 `cursor`メソッドは単一のデータベースクエリのみを実行します。ただし、個々のEloquentモデルは、実際の繰り返し処理までハイドレートされません。したがって、カーソルを反復処理している間、常に１つのEloquentモデルのみがメモリに保持されます。
 
-> {note} `cursor`メソッドは一度に１つのEloquentモデルしかメモリに保持しないため、リレーションをEagerロードできません。リレーションシップをEagerロードする必要がある場合は、代わりに [`lazy`メソッド](#chunking-using-lazy-collections) の使用を検討してください。
+> **Warning**
+> `cursor`メソッドは一度に１つのEloquentモデルしかメモリに保持しないため、リレーションをEagerロードできません。リレーションシップをEagerロードする必要がある場合は、代わりに [`lazy`メソッド](#chunking-using-lazy-collections) の使用を検討してください。
 
 内部的には、`cursor`メソッドはPHPの[ジェネレータ](https://www.php.net/manual/ja/language.generators.overview.php)を使ってこの機能を実装しています。
 
@@ -624,7 +627,8 @@ Eloquentモデルを操作するときは、Laravel [クエリビルダ](/docs/{
 
 `update`メソッドは、更新する必要のあるカラムを表すカラム名と値のペアの配列を引数に取ります。`update`メソッドは、影響を受けた行数を返します。
 
-> {note} Eloquentを介して一括更新を発行する場合、更新されたモデルに対して、`saving`、`saved`、`updating`、`updated`モデルイベントは発生しません。これは一括更新を実行する場合に、モデルが実際には取得されないからです。
+> **Warning**
+> Eloquentを介して一括更新を発行する場合、更新されたモデルに対して、`saving`、`saved`、`updating`、`updated`モデルイベントは発生しません。これは一括更新を実行する場合に、モデルが実際には取得されないからです。
 
 <a name="examining-attribute-changes"></a>
 #### 属性の変更の判断
@@ -775,7 +779,8 @@ JSONカラムへ代入するときは、各カラムの複数代入可能キー�
         ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]
     ], ['departure', 'destination'], ['price']);
 
-> {note} SQL Server以外のすべてのデータベースでは、`upsert`メソッドの第２引数のカラムへ"primary"、または"unique"インデックスを指定する必要があります。さらに、MySQLデータベースドライバは、`upsert`メソッドの第２引数を無視し、常にテーブルの"primary"および"unique"インデックスを既存レコードの検出に使用します。
+> **Warning**
+> SQL Server以外のすべてのデータベースでは、`upsert`メソッドの第２引数のカラムへ"primary"、または"unique"インデックスを指定する必要があります。さらに、MySQLデータベースドライバは、`upsert`メソッドの第２引数を無視し、常にテーブルの"primary"および"unique"インデックスを既存レコードの検出に使用します。
 
 <a name="deleting-models"></a>
 ## モデルの削除
@@ -805,7 +810,8 @@ JSONカラムへ代入するときは、各カラムの複数代入可能キー�
 
     Flight::destroy(collect([1, 2, 3]));
 
-> {note} `destroy`メソッドは各モデルを個別にロードし、`delete`メソッドを呼び出して、`deleting`イベントと`deleted`イベントが各モデルに適切にディスパッチされるようにします。
+> **Warning**
+> `destroy`メソッドは各モデルを個別にロードし、`delete`メソッドを呼び出して、`deleting`イベントと`deleted`イベントが各モデルに適切にディスパッチされるようにします。
 
 <a name="deleting-models-using-queries"></a>
 #### クエリを使用したモデルの削除
@@ -814,7 +820,8 @@ JSONカラムへ代入するときは、各カラムの複数代入可能キー�
 
     $deleted = Flight::where('active', 0)->delete();
 
-> {note} Eloquentを介して一括削除ステートメントを実行すると、削除されたモデルに対して`deleting`および`deleted`モデルイベントがディスパッチされません。これは、deleteステートメントの実行時にモデルが実際には取得されないためです。
+> **Warning**
+> Eloquentを介して一括削除ステートメントを実行すると、削除されたモデルに対して`deleting`および`deleted`モデルイベントがディスパッチされません。これは、deleteステートメントの実行時にモデルが実際には取得されないためです。
 
 <a name="soft-deleting"></a>
 ### ソフトデリート
@@ -833,7 +840,8 @@ Eloquentは、データベースから実際にレコードを削除するだけ
         use SoftDeletes;
     }
 
-> {tip} `SoftDeletes`トレイトは、`deleted_at`属性を`DateTime`/`Carbon`インスタンスに自動的にキャストします。
+> **Note**
+> `SoftDeletes`トレイトは、`deleted_at`属性を`DateTime`/`Carbon`インスタンスに自動的にキャストします。
 
 データベーステーブルに`deleted_at`カラムを追加する必要があります。Laravel[スキーマビルダ](/docs/{{version}}/migrations)はこのカラムを作成するためのヘルパメソッドを用意しています。
 
@@ -981,7 +989,8 @@ Prunableモデルを設定した後は、アプリケーションの`App\Console
 php artisan model:prune --pretend
 ```
 
-> {note} Prunableクエリに一致した場合、ソフト削除するモデルでも、永久的に削除（`forceDelete`）します。
+> **Warning**
+> Prunableクエリに一致した場合、ソフト削除するモデルでも、永久的に削除（`forceDelete`）します。
 
 <a name="mass-pruning"></a>
 #### 複数整理
@@ -1083,7 +1092,8 @@ php artisan model:prune --pretend
         }
     }
 
-> {tip} グローバルスコープがクエリのSELECT句にカラムを追加する場合は、`select`の代わりに`addSelect`メソッドを使用する必要があります。これにより、クエリの既存のselect句が意図せず置き換えられるのを防ぐことができます。
+> **Note**
+> グローバルスコープがクエリのSELECT句にカラムを追加する場合は、`select`の代わりに`addSelect`メソッドを使用する必要があります。これにより、クエリの既存のselect句が意図せず置き換えられるのを防ぐことができます。
 
 <a name="applying-global-scopes"></a>
 #### グローバルスコープの適用
@@ -1273,7 +1283,8 @@ Eloquentはクロージャを使用してグローバルスコープを定義す
 <a name="events"></a>
 ## イベント
 
-> {tip} Eloquentのイベントをクライアントサイドのアプリケーションへ直接ブロードキャストしたいですか？Laravelの[モデル・イベント・ブロードキャスト](/docs/{{version}}/broadcasting#model-broadcasting)をチェックしてください。
+> **Note**
+> Eloquentのイベントをクライアントサイドのアプリケーションへ直接ブロードキャストしたいですか？Laravelの[モデル・イベント・ブロードキャスト](/docs/{{version}}/broadcasting#model-broadcasting)をチェックしてください。
 
 Eloquentモデルはいくつかのイベントをディスパッチし、モデルのライフサイクルの以下の瞬間をフックできるようにしています。：`retrieved`、`creating`、`created`、`updating`、`updated`、`saving`、`saved`、`deleting`、`deleted`、`trashed`、`forceDeleted`、`restoring`、`restored`、`replicating`。
 
@@ -1306,7 +1317,8 @@ Eloquentモデルはいくつかのイベントをディスパッチし、モデ
 
 Eloquentイベントを定義してマッピングした後は、そのイベントを処理するために[イベントリスナ](/docs/{{version}}/events#defining-listeners)を使用します。
 
-> {note} Eloquentを介して一括更新または削除クエリを発行する場合、影響を受けるモデルに対して、`saved`、`updated`、`deleting`、`deleted`モデルイベントをディスパッチしません。これは、一括更新または一括削除を実行するときにモデルを実際に取得しないためです。
+> **Warning**
+> Eloquentを介して一括更新または削除クエリを発行する場合、影響を受けるモデルに対して、`saved`、`updated`、`deleting`、`deleted`モデルイベントをディスパッチしません。これは、一括更新または一括削除を実行するときにモデルを実際に取得しないためです。
 
 <a name="events-using-closures"></a>
 ### クロージャの使用
@@ -1449,7 +1461,8 @@ php artisan make:observer UserObserver --model=User
         User::class => [UserObserver::class],
     ];
 
-> {tip} オブザーバーがリッスンできる他のイベントには、`saving`や`retrieved`などがあります。こうしたイベントについては、[イベント](#events)のドキュメントで説明しています。
+> **Note**
+> オブザーバーがリッスンできる他のイベントには、`saving`や`retrieved`などがあります。こうしたイベントについては、[イベント](#events)のドキュメントで説明しています。
 
 <a name="observers-and-database-transactions"></a>
 #### オブザーバとデータベーストランザクション

@@ -223,7 +223,8 @@ composer require nyholm/psr7
         //
     });
 
-> {tip} ルートまたはコントローラからPSR-7レスポンスインスタンスを返すと、自動的にLaravelレスポンスインスタンスに変換され、フレームワークによって表示されます。
+> **Note**
+> ルートまたはコントローラからPSR-7レスポンスインスタンスを返すと、自動的にLaravelレスポンスインスタンスに変換され、フレームワークによって表示されます。
 
 <a name="input"></a>
 ## 入力
@@ -349,7 +350,8 @@ JSONリクエストをアプリケーションに送信する場合、リクエ�
 
     $input = $request->except('credit_card');
 
-> {note} `only`メソッドは、指定したすべてのキー／値ペアを返します。ただし、リクエスト中に存在しないキー／値ペアは返しません。
+> **Warning**
+> `only`メソッドは、指定したすべてのキー／値ペアを返します。ただし、リクエスト中に存在しないキー／値ペアは返しません。
 
 <a name="determining-if-input-is-present"></a>
 ### 入力の存在の判定
@@ -567,7 +569,8 @@ public function boot()
 
     $path = $request->photo->storeAs('images', 'filename.jpg', 's3');
 
-> {tip} Laravelのファイルストレージの詳細は、完全な[ファイルストレージドキュメント](/docs/{{version}}/filesystem)を確認してください。
+> **Note**
+> Laravelのファイルストレージの詳細は、完全な[ファイルストレージドキュメント](/docs/{{version}}/filesystem)を確認してください。
 
 <a name="configuring-trusted-proxies"></a>
 ## 信頼するプロキシの設定
@@ -603,7 +606,8 @@ TLS/SSL証明書を末端とするロードバランサーの背後でアプリ�
         protected $headers = Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO;
     }
 
-> {tip} AWS Elasticロードバランシングを使用している場合、`$headers`の値は`Request::HEADER_X_FORWARDED_AWS_ELB`である必要があります。`$headers`プロパティで使用できる定数の詳細については、[信頼の置けるプロキシ](https://symfony.com/doc/current/deployment/proxies.html)に関するSymfonyのドキュメントを確認してください。
+> **Note**
+> AWS Elasticロードバランシングを使用している場合、`$headers`の値は`Request::HEADER_X_FORWARDED_AWS_ELB`である必要があります。`$headers`プロパティで使用できる定数の詳細については、[信頼の置けるプロキシ](https://symfony.com/doc/current/deployment/proxies.html)に関するSymfonyのドキュメントを確認してください。
 
 <a name="trusting-all-proxies"></a>
 #### すべてのプロキシを信頼する

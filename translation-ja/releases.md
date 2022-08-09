@@ -131,7 +131,8 @@ public function address(): Attribute
 <a name="enum-casting"></a>
 ### Enum Eloquent属性キャスト
 
-> {note} EnumキャストはPHP8.1以上で利用できます。
+> **Warning**
+> EnumキャストはPHP8.1以上で利用できます。
 
 _Enumキャストは、[Mohamed Said](https://github.com/themsaid)が貢献しました。_
 

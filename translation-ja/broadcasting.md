@@ -54,7 +54,8 @@
 
 Laravelはデフォルトで、[Pusherチャンネル](https://pusher.com/channels)と[Ably](https://ably.io)、２つのサーバ側ブロードキャストドライバを用意しています。ただし、[laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction)や[soketi](https://docs.soketi.app/)など、コミュニティ主導のパッケージでは、商用ブロードキャストプロバイダを必要としないドライバを提供しています。
 
-> {tip} イベントブロードキャストに取り掛かる前に、[イベントとリスナ](/docs/{{version}}/events)に関するLaravelのドキュメントをしっかりと読んでください。
+> **Note**
+> イベントブロードキャストに取り掛かる前に、[イベントとリスナ](/docs/{{version}}/events)に関するLaravelのドキュメントをしっかりと読んでください。
 
 <a name="server-side-installation"></a>
 ## サーバ側インストール
@@ -181,7 +182,8 @@ window.Echo = new Echo({
 npm run dev
 ```
 
-> {tip} アプリケーションで使用しているJavaScriptリソースのコンパイルについて詳しく知りたい場合は、[Vite](/docs/{{version}}/vite)ドキュメントを参照してください。
+> **Note**
+> アプリケーションで使用しているJavaScriptリソースのコンパイルについて詳しく知りたい場合は、[Vite](/docs/{{version}}/vite)ドキュメントを参照してください。
 
 <a name="using-an-existing-client-instance"></a>
 #### 既存のクライアントインスタンスの使用
@@ -242,7 +244,8 @@ Ably　Echo設定は`VITE_ABLY_PUBLIC_KEY`環境変数を参照しているこ�
 npm run dev
 ```
 
-> {tip} アプリケーションで使用しているJavaScriptリソースのコンパイルについて詳しく知りたい場合は、[Vite](/docs/{{version}}/vite)ドキュメントを参照してください。
+> **Note**
+> アプリケーションで使用しているJavaScriptリソースのコンパイルについて詳しく知りたい場合は、[Vite](/docs/{{version}}/vite)ドキュメントを参照してください。
 
 <a name="concept-overview"></a>
 ## 概論
@@ -251,7 +254,8 @@ Laravelのイベントブロードキャストを使用すると、WebSocketに�
 
 イベントは「チャンネル」を介してブロードキャストされます。チャンネルは、パブリックまたはプライベートとして指定できます。アプリケーションへの訪問者は全員、認証や認可なしにパブリックチャンネルをサブスクライブできます。ただし、プライベートチャンネルをサブスクライブするには、ユーザーが認証され、そのチャンネルをリッスンする認可を持っている必要があります。
 
-> {tip} Pusherの代わりにオープンソースを使いたい場合は、[オープンソースの代替](#open-source-alternatives)を読んでください。
+> **Note**
+> Pusherの代わりにオープンソースを使いたい場合は、[オープンソースの代替](#open-source-alternatives)を読んでください。
 
 <a name="using-example-application"></a>
 ### サンプルアプリケーションの使用
@@ -510,7 +514,8 @@ Echo.private(`orders.${orderId}`)
         public $afterCommit = true;
     }
 
-> {tip} こうした問題の回避方法の詳細は、[キュー投入済みジョブとデータベーストランザクション](/docs/{{version}}/queues#jobs-and-database-transactions)に関するドキュメントを確認してください。
+> **Note**
+> こうした問題の回避方法の詳細は、[キュー投入済みジョブとデータベーストランザクション](/docs/{{version}}/queues#jobs-and-database-transactions)に関するドキュメントを確認してください。
 
 <a name="authorizing-channels"></a>
 ## チャンネルの認可
@@ -592,7 +597,8 @@ HTTPルートと同様に、チャンネルルートも暗黙的および明示�
         return $user->id === $order->user_id;
     });
 
-> {note} HTTPルートモデルバインディングとは異なり、チャンネルモデルバインディングは自動[暗黙的モデルバインディングスコープ](/docs/{{version}}/routing#implicit-model-binding-scoping)をサポートしていません。ただし、ほとんどのチャンネルは単一のモデルの一意の主キーに基づいてスコープを設定できるため、これが問題になることはめったにありません。
+> **Warning**
+> HTTPルートモデルバインディングとは異なり、チャンネルモデルバインディングは自動[暗黙的モデルバインディングスコープ](/docs/{{version}}/routing#implicit-model-binding-scoping)をサポートしていません。ただし、ほとんどのチャンネルは単一のモデルの一意の主キーに基づいてスコープを設定できるため、これが問題になることはめったにありません。
 
 <a name="authorization-callback-authentication"></a>
 #### 認可コールバック認証
@@ -652,7 +658,8 @@ php artisan make:channel OrderChannel
         }
     }
 
-> {tip} Laravelの他の多くのクラスと同様に、チャンネルクラスは[サービスコンテナ](/docs/{{version}}/container)によって自動的に依存解決されます。そのため、コンストラクターでチャンネルに必要な依存関係をタイプヒントすることができます。
+> **Note**
+> Laravelの他の多くのクラスと同様に、チャンネルクラスは[サービスコンテナ](/docs/{{version}}/container)によって自動的に依存解決されます。そのため、コンストラクターでチャンネルに必要な依存関係をタイプヒントすることができます。
 
 <a name="broadcasting-events"></a>
 ## ブロードキャストイベント
@@ -683,7 +690,8 @@ axios.post('/task', task)
 
 ただし、タスクの作成もブロードキャストすることを忘れないでください。JavaScriptアプリケーションがタスクリストにタスクを追加するためにこのイベントもリッスンしている場合、リストには重複するタスクが発生します。１つはエンドポイントからのもので、もう１つはブロードキャストからのものです。これを解決するには、`toOthers`メソッドを使用して、現在のユーザーにはイベントをブロードキャストしないようにブロードキャスタへ指示します。
 
-> {note} `toOthers`メソッドを呼び出すには、イベントで`Illuminate\Broadcasting\InteractsWithSockets`トレイトをuseする必要があります。
+> **Warning**
+> `toOthers`メソッドを呼び出すには、イベントで`Illuminate\Broadcasting\InteractsWithSockets`トレイトをuseする必要があります。
 
 <a name="only-to-others-configuration"></a>
 #### 設定
@@ -881,7 +889,8 @@ Echo.join(`chat.${roomId}`)
 <a name="model-broadcasting"></a>
 ## モデルブロードキャスト
 
-> {note} モデルブロードキャストに関する以降のドキュメントを読む前に、Laravelのモデルブロードキャストサービスの一般的なコンセプトや、ブロードキャストイベントを手作業で作成したり、リッスンしたりする方法に精通しておくことをおすすめします。
+> **Warning**
+> モデルブロードキャストに関する以降のドキュメントを読む前に、Laravelのモデルブロードキャストサービスの一般的なコンセプトや、ブロードキャストイベントを手作業で作成したり、リッスンしたりする方法に精通しておくことをおすすめします。
 
 アプリケーションの[Eloquentモデル](/docs/{{version}}/eloquent)が作成、更新、または削除されたときにイベントをブロードキャストするのは一般的です。もちろん、これは自前で[Eloquentモデルの状態変化を表すカスタムイベントを定義](/docs/{{version}}/eloquent#events)し、それらのイベントを`ShouldBroadcast`インターフェイスでマークすることで簡単に実現できます。
 
@@ -1075,7 +1084,8 @@ Echo.private(`App.Models.User.${this.user.id}`)
 <a name="client-events"></a>
 ## クライアントイベント
 
-> {tip} [Pusherチャンネル](https://pusher.com/channels)を使用する場合は、クライアントイベントを送信するために[アプリケーションダッシュボード](https://dashboard.pusher.com/)の"App Settings"セクションの"Client Events"オプションを有効にする必要があります。
+> **Note**
+> [Pusherチャンネル](https://pusher.com/channels)を使用する場合は、クライアントイベントを送信するために[アプリケーションダッシュボード](https://dashboard.pusher.com/)の"App Settings"セクションの"Client Events"オプションを有効にする必要があります。
 
 Laravelアプリケーションにまったくアクセスせずに、接続済みの他のクライアントにイベントをブロードキャストしたい場合があります。これは、別のユーザーが特定の画面でメッセージを入力していることをアプリケーションのユーザーに警告する「入力」通知などに特に役立ちます。
 

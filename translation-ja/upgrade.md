@@ -37,7 +37,8 @@
 <a name="estimated-upgrade-time-10-minutes"></a>
 #### アップグレード時間の見積もり：３０分
 
-> {tip} 私たちは、互換性のない変更を可能な限りすべて文書化するよう努力しています。これらの互換性のない変更の一部はフレームワークの不明瞭な部分であり、こうした変更の一部が実際にあなたのアプリケーションに影響を与える可能性があります。時間を節約したいですか？[Laravel Shift](https://laravelshift.com/) を使用すると、アプリケーションのアップグレードを自動化できます。
+> **Note**
+> 私たちは、互換性のない変更を可能な限りすべて文書化するよう努力しています。これらの互換性のない変更の一部はフレームワークの不明瞭な部分であり、こうした変更の一部が実際にあなたのアプリケーションに影響を与える可能性があります。時間を節約したいですか？[Laravel Shift](https://laravelshift.com/) を使用すると、アプリケーションのアップグレードを自動化できます。
 
 <a name="updating-dependencies"></a>
 ### 依存パッケージのアップデート
@@ -514,7 +515,8 @@ composer require symfony/postmark-mailer symfony/http-client
         );
     });
 
-> {note} `Symfony\Component\Mime\Email`オブジェクトと関わるすべてに関して、[Symfony Mailerドキュメント](https://symfony.com/doc/6.0/mailer.html#creating-sending-messages)を徹底的に確認してください。
+> **Warning**
+> `Symfony\Component\Mime\Email`オブジェクトと関わるすべてに関して、[Symfony Mailerドキュメント](https://symfony.com/doc/6.0/mailer.html#creating-sending-messages)を徹底的に確認してください。
 
 以下のリストには、改名されたメソッドの概要がより詳細に記載されています。これらのメソッドの多くは SwiftMailer／Symfony Mailer と直接やりとりするための低レベルのメソッドなので、ほとんどの Laravel アプリケーションの中で一般的に使われることはないと思われます。
 
@@ -590,7 +592,8 @@ SMTPトランスポートのストリームオプションの定義をサポー�
 
 利用可能な設定オプションの詳細は、[Symfony Mailer documentation](https://symfony.com/doc/6.0/mailer.html#transport-setup)を確認してください。
 
-> {note} 上記に例として挙げましたが、SSL認証を無効にすることは、「中間者」攻撃の可能性をもたらすので、一般的にはおすすめできません。
+> **Warning**
+> 上記に例として挙げましたが、SSL認証を無効にすることは、「中間者」攻撃の可能性をもたらすので、一般的にはおすすめできません。
 
 #### SMTP `auth_mode`
 

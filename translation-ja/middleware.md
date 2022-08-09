@@ -57,7 +57,8 @@ php artisan make:middleware EnsureTokenIsValid
 
 ミドルウェアは、HTTPリクエストがアプリケーションに到達する前に通過しなければならない一連の「レイヤー」として考えるのがベストです。各レイヤーはリクエストを検査したり、完全に拒否したりすることができます。
 
-> {tip} すべてのミドルウェアは[サービスコンテナ](/docs/{{version}}/container)を介して依存解決されるため、ミドルウェアのコンストラクター内で必要な依存関係をタイプヒントで指定できます。
+> **Note**
+> すべてのミドルウェアは[サービスコンテナ](/docs/{{version}}/container)を介して依存解決されるため、ミドルウェアのコンストラクター内で必要な依存関係をタイプヒントで指定できます。
 
 <a name="before-after-middleware"></a>
 <a name="middleware-and-responses"></a>
@@ -215,7 +216,8 @@ php artisan make:middleware EnsureTokenIsValid
         //
     });
 
-> {tip} 最初から、`web`および`api`ミドルウェアグループは、`App\Providers\RouteServiceProvider`によってアプリケーションの対応する`routes/web.php`および`routes/api.php`ファイルへ自動的に適用されます。
+> **Note**
+> 最初から、`web`および`api`ミドルウェアグループは、`App\Providers\RouteServiceProvider`によってアプリケーションの対応する`routes/web.php`および`routes/api.php`ファイルへ自動的に適用されます。
 
 <a name="sorting-middleware"></a>
 ### ミドルウェアの順序

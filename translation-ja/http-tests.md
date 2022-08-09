@@ -78,7 +78,8 @@ Laravelは、アプリケーションにHTTPリクエストを送信し、レス
 
 通常、各テストはアプリケーションに対して 1 つのリクエストしか行わないようにしてください。１つのテストメソッドの中で複数のリクエストを実行すると、 予期せぬ動作が起きる可能性があります。
 
-> {tip} 利便性を良くするため、テストの実行時にCSRFミドルウェアを自動で無効にします。
+> **Note**
+> 利便性を良くするため、テストの実行時にCSRFミドルウェアを自動で無効にします。
 
 <a name="customizing-request-headers"></a>
 ### リクエストヘッダのカスタマイズ
@@ -278,7 +279,8 @@ Laravelは、JSON APIとそのレスポンスをテストするためのヘル�
 
     $this->assertTrue($response['created']);
 
-> {tip} `assertJson`メソッドはレスポンスを配列に変換し、`PHPUnit::assertArraySubset`を利用して、指定する配列がアプリケーションによって返されるJSONレスポンス内に存在することを確認しています。したがって、JSONレスポンスに他のプロパティがある場合でも、指定するフラグメントが存在する限り、このテストは合格します。
+> **Note**
+> `assertJson`メソッドはレスポンスを配列に変換し、`PHPUnit::assertArraySubset`を利用して、指定する配列がアプリケーションによって返されるJSONレスポンス内に存在することを確認しています。したがって、JSONレスポンスに他のプロパティがある場合でも、指定するフラグメントが存在する限り、このテストは合格します。
 
 <a name="verifying-exact-match"></a>
 #### 厳密なJSON一致のアサート
@@ -362,6 +364,7 @@ JSONレスポンスの指定パスに指定データが含まれていること�
             ->assertJson(fn (AssertableJson $json) =>
                 $json->where('id', 1)
                      ->where('name', 'Victoria Faith')
+                     ->whereNot('status', 'pending')
                      ->missing('password')
                      ->etc()
             );
@@ -813,7 +816,8 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 
     $response->assertJsonMissingValidationErrors($keys);
 
-> {tip} より一般的な[assertValid](#assert-valid)メソッドを使用して、JSONで返されたレスポンスにバリデーションエラーがなく、**かつ**セッションストレージにエラーが一時保存されていないことを宣言できます。
+> **Note**
+> より一般的な[assertValid](#assert-valid)メソッドを使用して、JSONで返されたレスポンスにバリデーションエラーがなく、**かつ**セッションストレージにエラーが一時保存されていないことを宣言できます。
 
 <a name="assert-json-path"></a>
 #### assertJsonPath
@@ -920,7 +924,8 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 
     $response->assertJsonValidationErrors(array $data, $responseKey = 'errors');
 
-> {tip} より一般的な[assertInvalid](#assert-invalid)メソッドを使用して、JSONで返されたレスポンスにバリデーションエラーが存在した、**もしくは**エラーがセッションストレージに一時保存されたことを宣言できます。
+> **Note**
+> より一般的な[assertInvalid](#assert-invalid)メソッドを使用して、JSONで返されたレスポンスにバリデーションエラーが存在した、**もしくは**エラーがセッションストレージに一時保存されたことを宣言できます。
 
 <a name="assert-json-validation-error-for"></a>
 #### assertJsonValidationErrorFor
@@ -1072,7 +1077,8 @@ Assert that the response is a redirect to the given [signed route](/docs/{{versi
         'name' => 'The given name was invalid.'
     ]);
 
-> {tip} より汎用的な[assertInvalid](#assert-invalid)メソッドは、レスポンスがJSONとして返されたバリデーションエラーを持つか、**または**エラーがセッションストレージに一時保存されたことを宣言するため使用できます。
+> **Note**
+> より汎用的な[assertInvalid](#assert-invalid)メソッドは、レスポンスがJSONとして返されたバリデーションエラーを持つか、**または**エラーがセッションストレージに一時保存されたことを宣言するため使用できます。
 
 <a name="assert-session-has-errors-in"></a>
 #### assertSessionHasErrorsIn
@@ -1095,7 +1101,8 @@ Assert that the response is a redirect to the given [signed route](/docs/{{versi
 
     $response->assertSessionDoesntHaveErrors($keys = [], $format = null, $errorBag = 'default');
 
-> {tip} より汎用的な[assertValid](#assert-valid)メソッドは、レスポンスにJSON形式で返された結果にバリデーションエラーがなく、**かつ**セッションストレージにエラーが保存されていないことを宣言するために使用できます。
+> **Note**
+> より汎用的な[assertValid](#assert-valid)メソッドは、レスポンスにJSON形式で返された結果にバリデーションエラーがなく、**かつ**セッションストレージにエラーが保存されていないことを宣言するために使用できます。
 
 <a name="assert-session-missing"></a>
 #### assertSessionMissing

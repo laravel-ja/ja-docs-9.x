@@ -38,7 +38,8 @@ Laravelは、アクションを認可する2つの主要な方法を提供しま
 <a name="writing-gates"></a>
 ### ゲートの作成
 
-> {note} ゲートは、Laravelの認可機能の基本を学ぶための優れた方法です。ただし、堅牢なLaravelアプリケーションを構築するときは、[ポリシー](#creating-policies)を使用して認可ルールを整理することを検討する必要があります。
+> **Warning**
+> ゲートは、Laravelの認可機能の基本を学ぶための優れた方法です。ただし、堅牢なLaravelアプリケーションを構築するときは、[ポリシー](#creating-policies)を使用して認可ルールを整理することを検討する必要があります。
 
 ゲートは、ユーザーが特定のアクションを実行することを許可されているかどうかを判断する単なるクロージャです。通常、ゲートは、`Gate`ファサードを使用して`App\Providers\AuthServiceProvider`クラスの`boot`メソッド内で定義されます。ゲートは常に最初の引数としてユーザーインスタンスを受け取り、オプションで関連するEloquentモデルなどの追加の引数を受け取る場合があります。
 
@@ -335,7 +336,8 @@ php artisan make:policy PostPolicy --model=Post
         // 指定されたモデルに対するポリシークラスの名前を返す…
     });
 
-> {note} `AuthServiceProvider`で明示的にマッピングされるポリシーは、自動検出される可能性のあるポリシーよりも優先されます。
+> **Warning**
+> `AuthServiceProvider`で明示的にマッピングされるポリシーは、自動検出される可能性のあるポリシーよりも優先されます。
 
 <a name="writing-policies"></a>
 ## ポリシーの作成
@@ -373,7 +375,8 @@ php artisan make:policy PostPolicy --model=Post
 
 Artisanコンソールを介してポリシーを生成するときに`--model`オプションを使用した場合、はじめから`viewAny`、`view`、`create`、`update`、`delete`、`restore`、`forceDelete`アクションのメソッドが用意されます。
 
-> {tip} すべてのポリシーはLaravel[サービスコンテナ](/docs/{{version}}/container)を介して解決されるため、ポリシーのコンストラクターで必要な依存関係をタイプヒントして、自動的に依存注入することができます。
+> **Note**
+> すべてのポリシーはLaravel[サービスコンテナ](/docs/{{version}}/container)を介して解決されるため、ポリシーのコンストラクターで必要な依存関係をタイプヒントして、自動的に依存注入することができます。
 
 <a name="policy-responses"></a>
 ### ポリシーのレスポンス
@@ -525,7 +528,8 @@ Artisanコンソールを介してポリシーを生成するときに`--model`�
 
 特定のタイプのユーザー全員の認可チェックを拒否したい場合は、`before`メソッドから`false`を返してください。`null`を返す場合は、認可チェックはポリシーメソッドへ委ねられます。
 
-> {note} ポリシークラスの`before`メソッドは、チェックしている機能の名前と一致する名前のメソッドがクラスに含まれていない場合は呼び出されません。
+> **Warning**
+> ポリシークラスの`before`メソッドは、チェックしている機能の名前と一致する名前のメソッドがクラスに含まれていない場合は呼び出されません。
 
 <a name="authorizing-actions-using-policies"></a>
 ## ポリシーを使用したアクションの認可
@@ -692,7 +696,8 @@ Laravelは、`App\Models\User`モデルが提供する便利なメソッドに�
 | update | update |
 | destroy | delete |
 
-> {tip} `make:policy`コマンドを`--model`オプションとともに使用し、特定のモデルのポリシークラスを手早く生成できます。`php artisan make:policy PostPolicy --model=Post`
+> **Note**
+> `make:policy`コマンドを`--model`オプションとともに使用し、特定のモデルのポリシークラスを手早く生成できます。`php artisan make:policy PostPolicy --model=Post`
 
 <a name="via-middleware"></a>
 ### ミドルウェア経由

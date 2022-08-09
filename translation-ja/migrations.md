@@ -43,7 +43,8 @@ Laravelは、マイグレーションの名前からテーブル名と新しい�
 
 生成するマイグレーションのカスタムパスを指定する場合は、`make:migration`コマンドを実行するときに`--path`オプションを使用します。指定したパスは、アプリケーションのベースパスを基準にする必要があります。
 
-> {tip} マイグレーションのスタブは[スタブのリソース公開](/docs/{{version}}/artisan#stub-customization)を使用してカスタマイズできます。
+> **Note**
+> マイグレーションのスタブは[スタブのリソース公開](/docs/{{version}}/artisan#stub-customization)を使用してカスタマイズできます。
 
 <a name="squashing-migrations"></a>
 ### マイグレーションの圧縮
@@ -61,7 +62,8 @@ php artisan schema:dump --prune
 
 チームの新しい開発者がアプリケーションの初期データベース構造をすばやく作成できるようにするため、データベーススキーマファイルはソース管理にコミットすべきでしょう。
 
-> {note} マイグレーションの圧縮は、MySQL、PostgreSQL、SQLiteデータベースでのみ利用可能で、データベースのコマンドラインクライアントを利用しています。スキーマダンプは、メモリ内SQLiteデータベースへ復元されない場合があります。
+> **Warning**
+> マイグレーションの圧縮は、MySQL、PostgreSQL、SQLiteデータベースでのみ利用可能で、データベースのコマンドラインクライアントを利用しています。スキーマダンプは、メモリ内SQLiteデータベースへ復元されない場合があります。
 
 <a name="migration-structure"></a>
 ## マイグレーションの構造
@@ -206,7 +208,8 @@ php artisan migrate:fresh
 php artisan migrate:fresh --seed
 ```
 
-> {note} `migrate:fresh`コマンドは、プレフィックスに関係なく、すべてのデータベーステーブルを削除します。このコマンドは、他のアプリケーションと共有されているデータベースで開発している場合は注意して使用する必要があります。
+> **Warning**
+> `migrate:fresh`コマンドは、プレフィックスに関係なく、すべてのデータベーステーブルを削除します。このコマンドは、他のアプリケーションと共有されているデータベースで開発している場合は注意して使用する必要があります。
 
 <a name="tables"></a>
 ## テーブル
@@ -941,7 +944,8 @@ php artisan migrate:fresh --seed
         }
     };
 
-> {note} デフォルト式のサポートは、データベースドライバ、データベースバージョン、およびフィールドタイプによって異なります。データベースのドキュメントを参照してください。また、`change`メソッドを用い、`DB::raw`を使う生の`default`表現とカラム変更を組み合わせることはできません。
+> **Warning**
+> デフォルト式のサポートは、データベースドライバ、データベースバージョン、およびフィールドタイプによって異なります。データベースのドキュメントを参照してください。また、`change`メソッドを用い、`DB::raw`を使う生の`default`表現とカラム変更を組み合わせることはできません。
 
 <a name="column-order"></a>
 #### カラム順序
@@ -976,7 +980,8 @@ use Illuminate\Database\DBAL\TimestampType;
 ],
 ```
 
-> {note} アプリケーションでMicrosoft SQL Serverを使用している場合は、`doctrine/dbal:^3.0`を確実にインストールしてください。
+> **Warning**
+> アプリケーションでMicrosoft SQL Serverを使用している場合は、`doctrine/dbal:^3.0`を確実にインストールしてください。
 
 <a name="updating-column-attributes"></a>
 #### カラム属性の更新
@@ -993,7 +998,8 @@ use Illuminate\Database\DBAL\TimestampType;
         $table->string('name', 50)->nullable()->change();
     });
 
-> {note} 以降のカラムタイプを変更できます。`bigInteger`、`binary`、`boolean`、`char`、`date`、`dateTime`、`dateTimeTz`、`decimal`、`integer`、`json`、`longText`、`mediumText`、`smallInteger`、`string`、`text`、`time`、`unsignedBigInteger`、`unsignedInteger`、`unsignedSmallInteger`、`uuid`。`timestamp`のカラムタイプを変更するには、[Doctrineタイプを登録する必要があります](#prerequisites)。
+> **Warning**
+> 以降のカラムタイプを変更できます。`bigInteger`、`binary`、`boolean`、`char`、`date`、`dateTime`、`dateTimeTz`、`decimal`、`integer`、`json`、`longText`、`mediumText`、`smallInteger`、`string`、`text`、`time`、`unsignedBigInteger`、`unsignedInteger`、`unsignedSmallInteger`、`uuid`。`timestamp`のカラムタイプを変更するには、[Doctrineタイプを登録する必要があります](#prerequisites)。
 
 <a name="renaming-columns"></a>
 #### カラムのリネーム
@@ -1004,7 +1010,8 @@ use Illuminate\Database\DBAL\TimestampType;
         $table->renameColumn('from', 'to');
     });
 
-> {note} `enum`カラムの名前変更は現在サポートしていません。
+> **Warning**
+> `enum`カラムの名前変更は現在サポートしていません。
 
 <a name="dropping-columns"></a>
 ### カラムの削除
@@ -1021,7 +1028,8 @@ use Illuminate\Database\DBAL\TimestampType;
         $table->dropColumn(['votes', 'avatar', 'location']);
     });
 
-> {note} SQLiteデータベースの使用時に、１回のマイグレーションで複数のカラムを削除または変更することはサポートしていません。
+> **Warning**
+> SQLiteデータベースの使用時に、１回のマイグレーションで複数のカラムを削除または変更することはサポートしていません。
 
 <a name="available-command-aliases"></a>
 #### 使用可能なコマンドエイリアス
@@ -1193,7 +1201,8 @@ Laravelは、データベースレベルで参照整合性を強制するため�
 
     Schema::disableForeignKeyConstraints();
 
-> {note} SQLiteは、デフォルトで外部キー制約を無効にします。SQLiteを使用する場合は、マイグレーションでデータベースを作成する前に、データベース設定の[外部キーサポートを有効にする](/docs/{{version}}/database#configuration)を確実に行ってください。さらに、SQLiteはテーブルの作成時にのみ外部キーをサポートし、[テーブルを変更する場合はサポートしません](https://www.sqlite.org/omitted.html)。
+> **Warning**
+> SQLiteは、デフォルトで外部キー制約を無効にします。SQLiteを使用する場合は、マイグレーションでデータベースを作成する前に、データベース設定の[外部キーサポートを有効にする](/docs/{{version}}/database#configuration)を確実に行ってください。さらに、SQLiteはテーブルの作成時にのみ外部キーをサポートし、[テーブルを変更する場合はサポートしません](https://www.sqlite.org/omitted.html)。
 
 <a name="events"></a>
 ## イベント

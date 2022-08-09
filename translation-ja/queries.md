@@ -41,7 +41,8 @@ Laravelのデータベースクエリビルダは、データベースクエリ�
 
 Laravelクエリビルダは、PDOパラメーターバインディングを使用して、SQLインジェクション攻撃からアプリケーションを保護します。クエリバインディングとしてクエリビルダに渡たす文字列をクリーンアップやサニタイズする必要はありません。
 
-> {note} PDOはカラム名のバインドをサポートしていません。したがって、"order by"カラムを含む、クエリが参照するカラム名をユーザー入力で指定できないようにする必要があります。
+> **Warning**
+> PDOはカラム名のバインドをサポートしていません。したがって、"order by"カラムを含む、クエリが参照するカラム名をユーザー入力で指定できないようにする必要があります。
 
 <a name="running-database-queries"></a>
 ## データベースクエリの実行
@@ -83,7 +84,8 @@ Laravelクエリビルダは、PDOパラメーターバインディングを使�
         echo $user->name;
     }
 
-> {tip} Laravelコレクションは、データをマッピングや削減するためのさまざまなとても強力な方法を提供しています。Laravelコレクションの詳細は、[コレクションのドキュメント](/docs/{{version}}/collections)をご覧ください。
+> **Note**
+> Laravelコレクションは、データをマッピングや削減するためのさまざまなとても強力な方法を提供しています。Laravelコレクションの詳細は、[コレクションのドキュメント](/docs/{{version}}/collections)をご覧ください。
 
 <a name="retrieving-a-single-row-column-from-a-table"></a>
 #### テーブルから単一の行/カラムを取得する
@@ -155,7 +157,8 @@ Laravelクエリビルダは、PDOパラメーターバインディングを使�
             }
         });
 
-> {note} チャンクコールバックの中でレコードを更新または削除する場合、主キーまたは外部キーの変更がチャンククエリに影響を与える可能性があります。これにより、レコードがチャンク化された結果に含まれない可能性が発生します。
+> **Warning**
+> チャンクコールバックの中でレコードを更新または削除する場合、主キーまたは外部キーの変更がチャンククエリに影響を与える可能性があります。これにより、レコードがチャンク化された結果に含まれない可能性が発生します。
 
 <a name="streaming-results-lazily"></a>
 ### ルーズなストリーミング結果
@@ -181,7 +184,8 @@ DB::table('users')->where('active', false)
     });
 ```
 
-> {note} レコードの反復処理中にレコードの更新や削除を行うと、主キーや外部キーの変更がチャンククエリへ影響を与える可能性があります。これにより、レコードが結果に含まれない可能性があります。
+> **Warning**
+> レコードの反復処理中にレコードの更新や削除を行うと、主キーや外部キーの変更がチャンククエリへ影響を与える可能性があります。これにより、レコードが結果に含まれない可能性があります。
 
 <a name="aggregates"></a>
 ### 集計
@@ -248,7 +252,8 @@ DB::table('users')->where('active', false)
                  ->groupBy('status')
                  ->get();
 
-> {note} 素のSQL文はそのまま文字列としてクエリへ挿入されるため、SQLインジェクションの脆弱性を含めぬように細心の注意を払う必要があります。
+> **Warning**
+> 素のSQL文はそのまま文字列としてクエリへ挿入されるため、SQLインジェクションの脆弱性を含めぬように細心の注意を払う必要があります。
 
 <a name="raw-methods"></a>
 ### rawメソッド
@@ -433,7 +438,8 @@ DB::table('users')->where('active', false)
         ['subscribed', '<>', '1'],
     ])->get();
 
-> {note} PDOはカラム名のバインドをサポートしていません。したがって、"order by"カラムを含む、クエリが参照するカラム名をユーザー入力で指定できないようにする必要があります。
+> **Warning**
+> PDOはカラム名のバインドをサポートしていません。したがって、"order by"カラムを含む、クエリが参照するカラム名をユーザー入力で指定できないようにする必要があります。
 
 <a name="or-where-clauses"></a>
 ### OR WHERE句
@@ -461,7 +467,8 @@ DB::table('users')->where('active', false)
 select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 ```
 
-> {note} グローバルスコープを適用する場合の予期しない動作を回避するために、常に`orWhere`呼び出しをグループ化する必要があります。
+> **Warning**
+> グローバルスコープを適用する場合の予期しない動作を回避するために、常に`orWhere`呼び出しをグループ化する必要があります。
 
 <a name="where-not-clauses"></a>
 ### WHERE NOT句
@@ -539,7 +546,8 @@ Laravelは、JSONカラム型のサポートを提供するデータベースで
                         ->whereNotIn('id', [1, 2, 3])
                         ->get();
 
-> {note} クエリに整数バインディングの大きな配列を追加する場合は、`whereIntegerInRaw`または`whereIntegerNotInRaw`メソッドを使用してメモリ使用量を大幅に削減できます。
+> **Warning**
+> クエリに整数バインディングの大きな配列を追加する場合は、`whereIntegerInRaw`または`whereIntegerNotInRaw`メソッドを使用してメモリ使用量を大幅に削減できます。
 
 **whereNull／whereNotNull／orWhereNull／orWhereNotNull**
 
@@ -628,7 +636,8 @@ Laravelは、JSONカラム型のサポートを提供するデータベースで
 select * from users where name = 'John' and (votes > 100 or title = 'Admin')
 ```
 
-> {note} グローバルスコープを適用する場合の予期しない動作を回避するために、常に`orWhere`呼び出しをグループ化する必要があります。
+> **Warning**
+> グローバルスコープを適用する場合の予期しない動作を回避するために、常に`orWhere`呼び出しをグループ化する必要があります。
 
 <a name="advanced-where-clauses"></a>
 ### 上級WHERE節
@@ -683,7 +692,8 @@ where exists (
 <a name="full-text-where-clauses"></a>
 ### フルテキストのWHERE句
 
-> {note} フルテキストのwhere句は現在、MySQLとPostgreSQLでサポートされています。
+> **Warning**
+> フルテキストのwhere句は現在、MySQLとPostgreSQLでサポートされています。
 
 `whereFullText`と`orWhereFullText`メソッドを使用すると、[フルテキストインデックス](/docs/{{version}}/migrations#available-index-types)を持つカラムヘのクエリに、フルテキストの"where"句を追加できます。これらのメソッドは、Laravelによって、利用するデータベースシステムに適したSQLへ変換されます。例えば、MySQLを利用するアプリケーションでは、`MATCH AGAINST`句を生成します。
 
@@ -861,7 +871,8 @@ havingBetween`メソッドを使うと、指定した範囲内の結果をフィ
         ['email' => 'john@example.com', 'votes' => 0]
     );
 
-> {note} PostgreSQLを使用する場合、`insertGetId`メソッドは自動増分カラムが`id`という名前であると想定します。別の「シーケンス」からIDを取得する場合は、`insertGetId`メソッドの第２パラメータとしてカラム名を渡してください。
+> **Warning**
+> PostgreSQLを使用する場合、`insertGetId`メソッドは自動増分カラムが`id`という名前であると想定します。別の「シーケンス」からIDを取得する場合は、`insertGetId`メソッドの第２パラメータとしてカラム名を渡してください。
 
 <a name="upserts"></a>
 ### UPSERTS
@@ -879,7 +890,8 @@ havingBetween`メソッドを使うと、指定した範囲内の結果をフィ
 
 上記の例では、Laravelは２つのレコードを挿入しようとします。同じ`departure`カラムと`destination`カラムの値を持つレコードがすでに存在する場合、Laravelはそのレコードの`price`カラムを更新します。
 
-> {note} SQL Serverを除くすべてのデータベースでは、`upsert`メソッドの２番目の引数のカラムに「プライマリ」または「ユニーク」インデックスが必要です。また、MySQLデータベースドライバは、`upert`メソッドの第２引数を無視し、常にテーブルの「プライマリ」および「ユニーク」インデックスを使用して既存のレコードを検出します。
+> **Warning**
+> SQL Serverを除くすべてのデータベースでは、`upsert`メソッドの２番目の引数のカラムに「プライマリ」または「ユニーク」インデックスが必要です。また、MySQLデータベースドライバは、`upert`メソッドの第２引数を無視し、常にテーブルの「プライマリ」および「ユニーク」インデックスを使用して既存のレコードを検出します。
 
 <a name="update-statements"></a>
 ## UPDATE文

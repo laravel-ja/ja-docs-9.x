@@ -68,7 +68,8 @@ Valetは以下をサポートしていますが、これらに限定されませ
 <a name="installation"></a>
 ## インストール
 
-> {note} ValetにはmacOSと[Homebrew](https://brew.sh/)が必要です。インストールする前に、ApacheやNginxなどの他のプログラムがローカルマシンのポート80をバインド指定なことを確認する必要があります。
+> **Warning**
+> ValetにはmacOSと[Homebrew](https://brew.sh/)が必要です。インストールする前に、ApacheやNginxなどの他のプログラムがローカルマシンのポート80をバインド指定なことを確認する必要があります。
 
 開始するには、最初に`update`コマンドを使用してHomebrewが最新であることを確認する必要があります。
 
@@ -117,7 +118,8 @@ php@7.2
 
 このファイルを作成したら、`valet use`コマンドを実行してください。コマンドはファイルを読み、サイトで優先するPHPバージョンを決めます。
 
-> {note} 複数のPHPバージョンをインストールしている場合でも、Valetは一度に一つのPHPバージョンのみを提供します。
+> **Warning**
+> 複数のPHPバージョンをインストールしている場合でも、Valetは一度に一つのPHPバージョンのみを提供します。
 
 <a name="database"></a>
 #### データベース
@@ -270,7 +272,8 @@ valet share
 
 サイトの共有を停止するには、`Control＋C`キーを押してください。Ngrokを使ってサイトを共有するには、[Ngrok アカウントの作成](https://dashboard.ngrok.com/signup)と[認証トークンの設定](https://dashboard.ngrok.com/get-started/your-authtoken)が必要です。
 
-> {tip} `valet share --region=eu`など、追加のNgrokパラメータをshareコマンドに渡すことができます。詳細は、[ngrokのドキュメント](https://ngrok.com/docs)を参照してください。
+> **Note**
+> `valet share --region=eu`など、追加のNgrokパラメータをshareコマンドに渡すことができます。詳細は、[ngrokのドキュメント](https://ngrok.com/docs)を参照してください。
 
 <a name="sharing-sites-via-expose"></a>
 ### Exposeによりサイトを共有する
@@ -395,7 +398,8 @@ valet proxies
         return false;
     }
 
-> {note} `isStaticFile`メソッドは、リクエストのURIが`/`ではなく、`serves`メソッドで`true`が返された場合のみ呼びだされます。
+> **Warning**
+> `isStaticFile`メソッドは、リクエストのURIが`/`ではなく、`serves`メソッドで`true`が返された場合のみ呼びだされます。
 
 <a name="the-frontcontrollerpath-method"></a>
 #### `frontControllerPath`メソッド

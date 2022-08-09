@@ -343,7 +343,8 @@ public function largestOrder()
 }
 ```
 
-> {note} PostgreSQLはUUID列に対する`MAX`関数の実行をサポートしていないため、今のところPostgreSQLのUUIDカラムと組み合わせて１対多の関係を使用できません。
+> **Warning**
+> PostgreSQLはUUID列に対する`MAX`関数の実行をサポートしていないため、今のところPostgreSQLのUUIDカラムと組み合わせて１対多の関係を使用できません。
 
 <a name="advanced-has-one-of-many-relationships"></a>
 #### 上級Has One Of Manyリレーション
@@ -609,7 +610,8 @@ public function currentPricing()
 
     return $this->belongsToMany(Role::class)->withTimestamps();
 
-> {note} Eloquentが自動で維持するタイムスタンプを利用する中間テーブルには、`created_at`と`updated_at`両方のタイムスタンプカラムが必要です。
+> **Warning**
+> Eloquentが自動で維持するタイムスタンプを利用する中間テーブルには、`created_at`と`updated_at`両方のタイムスタンプカラムが必要です。
 
 <a name="customizing-the-pivot-attribute-name"></a>
 #### `pivot`属性名のカスタマイズ
@@ -697,7 +699,8 @@ public function currentPricing()
         //
     }
 
-> {note} ピボットモデルは`SoftDeletes`トレイトを使用できません。ピボットレコードをソフト削除する必要がある場合は、ピボットモデルを実際のEloquentモデルに変換することを検討してください。
+> **Warning**
+> ピボットモデルは`SoftDeletes`トレイトを使用できません。ピボットレコードをソフト削除する必要がある場合は、ピボットモデルを実際のEloquentモデルに変換することを検討してください。
 
 <a name="custom-pivot-models-and-incrementing-ids"></a>
 #### カスタムピボットモデルと増分ID
@@ -950,7 +953,8 @@ public function bestImage()
 }
 ```
 
-> {tip} より高度な「一対多」リレーションを構築することも可能です。詳しくは、[has one of manyのドキュメント](#advanced-has-one-of-many-relationships)を参照してください。
+> **Note**
+> より高度な「一対多」リレーションを構築することも可能です。詳しくは、[has one of manyのドキュメント](#advanced-has-one-of-many-relationships)を参照してください。
 
 <a name="many-to-many-polymorphic-relations"></a>
 ### 多対多（ポリモーフィック）
@@ -977,7 +981,8 @@ public function bestImage()
         taggable_id - integer
         taggable_type - string
 
-> {tip} ポリモーフィックな多対多のリレーションへに飛び込む前に、典型的な[多対多の関係](#many-to-many)に関するドキュメントを読むとよいでしょう。
+> **Note**
+> ポリモーフィックな多対多のリレーションへに飛び込む前に、典型的な[多対多の関係](#many-to-many)に関するドキュメントを読むとよいでしょう。
 
 <a name="many-to-many-polymorphic-model-structure"></a>
 #### モデル構造
@@ -1086,7 +1091,8 @@ public function bestImage()
 
     $class = Relation::getMorphedModel($alias);
 
-> {note} 既存のアプリケーションに「ポリモーフィックのマップ」を適用する場合、ポリモーフィックリレーションで使用していたそれまでの、完全修飾クラスを含むデータベース内の`*_type`カラム値はすべて、「マップ」名に変換する必要が起きます。
+> **Warning**
+> 既存のアプリケーションに「ポリモーフィックのマップ」を適用する場合、ポリモーフィックリレーションで使用していたそれまでの、完全修飾クラスを含むデータベース内の`*_type`カラム値はすべて、「マップ」名に変換する必要が起きます。
 
 <a name="dynamic-relationships"></a>
 ### 動的リレーション
@@ -1102,7 +1108,8 @@ public function bestImage()
         return $orderModel->belongsTo(Customer::class, 'customer_id');
     });
 
-> {note} 動的リレーションを定義するときは、常に明示的にキー名引数をEloquentリレーションメソッドの引数に渡してください。
+> **Warning**
+> 動的リレーションを定義するときは、常に明示的にキー名引数をEloquentリレーションメソッドの引数に渡してください。
 
 <a name="querying-relations"></a>
 ## リレーションのクエリ
@@ -1224,7 +1231,8 @@ Eloquentリレーションクエリへ制約を追加する必要がない場合
         $query->where('content', 'like', 'code%');
     }, '>=', 10)->get();
 
-> {note} Eloquentは現在、データベース間をまたぐリレーションの存在のクエリをサポートしていません。リレーションは同じデータベース内に存在する必要があります。
+> **Warning**
+> Eloquentは現在、データベース間をまたぐリレーションの存在のクエリをサポートしていません。リレーションは同じデータベース内に存在する必要があります。
 
 <a name="inline-relationship-existence-queries"></a>
 #### インライン関係存在クエリ
@@ -1563,7 +1571,8 @@ select * from authors where id in (1, 2, 3, 4, 5, ...)
 
     $books = Book::with('author:id,name,book_id')->get();
 
-> {note} この機能を使用するときは、取得するカラムのリストで常に`id`カラムと関連する外部キーカラムを含める必要があります。
+> **Warning**
+> この機能を使用するときは、取得するカラムのリストで常に`id`カラムと関連する外部キーカラムを含める必要があります。
 
 <a name="eager-loading-by-default"></a>
 #### デフォルトのEagerロード
@@ -1627,7 +1636,8 @@ select * from authors where id in (1, 2, 3, 4, 5, ...)
         $query->orderBy('created_at', 'desc');
     }])->get();
 
-> {note} Eagerロードを制限する場合は、`limit`および`take`クエリビルダメソッドは使用できません。
+> **Warning**
+> Eagerロードを制限する場合は、`limit`および`take`クエリビルダメソッドは使用できません。
 
 <a name="constraining-eager-loading-of-morph-to-relationships"></a>
 #### `morphTo`リレーションのEagerロードの制約
@@ -1813,7 +1823,8 @@ Eloquentは、リレーションへ新しいモデルを追加する便利な手
 
 `findOrNew`、`firstOrNew`、`firstOrCreate`、`updateOrCreate`メソッドを使用して[関係のモデルを作成および更新](/docs/{{version}}/eloquent#upserts)することもできます。
 
-> {tip} `create`メソッドを使用する前に、必ず[複数代入](/docs/{{version}}/eloquent#mass-assignment)のドキュメントを確認してください。
+> **Note**
+> `create`メソッドを使用する前に、必ず[複数代入](/docs/{{version}}/eloquent#mass-assignment)のドキュメントを確認してください。
 
 <a name="updating-belongs-to-relationships"></a>
 ### Belongs Toリレーション
@@ -1939,4 +1950,5 @@ IDを使用して追加の中間テーブル値を渡すこともできます。
         }
     }
 
-> {note} 親モデルのタイムスタンプは、Eloquentの`save`メソッドを使用して子モデルを更新した場合にのみ更新されます。
+> **Warning**
+> 親モデルのタイムスタンプは、Eloquentの`save`メソッドを使用して子モデルを更新した場合にのみ更新されます。

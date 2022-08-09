@@ -57,7 +57,8 @@ php artisan make:test UserTest --pest
 php artisan make:test UserTest --unit --pest
 ```
 
-> {tip} [stubのリソース公開](/docs/{{version}}/artisan#stub-customization) を使って、Testスタブをカスタマイズできます。
+> **Note**
+> [stubのリソース公開](/docs/{{version}}/artisan#stub-customization) を使って、Testスタブをカスタマイズできます。
 
 テストを生成したら、[PHPUnit](https://phpunit.de)を使用する場合と同様にテストメソッドを定義します。テストを実行するには、ターミナルから`vendor/bin/phpunit`または`php artisan test`コマンドを実行します。
 
@@ -80,7 +81,8 @@ php artisan make:test UserTest --unit --pest
         }
     }
 
-> {note} テストクラスに独自の`setUp`メソッドを定義する場合は、親のクラスの`parent::setUp()`／`parent::tearDown()`を確実に呼び出してください。
+> **Warning**
+> テストクラスに独自の`setUp`メソッドを定義する場合は、親のクラスの`parent::setUp()`／`parent::tearDown()`を確実に呼び出してください。
 
 <a name="running-tests"></a>
 ## テストの実行
@@ -118,7 +120,8 @@ php artisan test --parallel
 php artisan test --parallel --processes=4
 ```
 
-> {note} テストをパラレル実行すると、PHPUnitのオプション(`-do-not-cafy-result`など)が利用できない場合があります。
+> **Warning**
+> テストをパラレル実行すると、PHPUnitのオプション(`-do-not-cafy-result`など)が利用できない場合があります。
 
 <a name="parallel-testing-and-databases"></a>
 #### 並列テストとデータベース
@@ -188,7 +191,8 @@ php artisan test --parallel --recreate-databases
 <a name="reporting-test-coverage"></a>
 ### テストカバレージのレポート
 
-> {note} この機能を使用するには、[Xdebug](https://xdebug.org)、または[PCOV](https://pecl.php.net/package/pcov)が必要です。
+> **Warning**
+> この機能を使用するには、[Xdebug](https://xdebug.org)、または[PCOV](https://pecl.php.net/package/pcov)が必要です。
 
 アプリケーションのテストを実行する際に、テストケースが実際にアプリケーションコードをどの程度カバーしているかどうか、また、テストを実行する際にどれだけのアプリケーションコードが使用されているかを確認したいと思うことでしょう。これを行うには、`test`コマンドを実行するときに、`--coverage`オプションを指定します。
 

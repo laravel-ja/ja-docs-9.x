@@ -32,7 +32,8 @@
         return view('greeting', ['name' => 'James']);
     });
 
-> {tip} Bladeテンプレートの作成方法の詳細をお探しですか？最初に完全な[Bladeドキュメント](/docs/{{version}}/blade)を確認してください。
+> **Note**
+> Bladeテンプレートの作成方法の詳細をお探しですか？最初に完全な[Bladeドキュメント](/docs/{{version}}/blade)を確認してください。
 
 <a name="creating-and-rendering-views"></a>
 ## ビューの作成とレンダ
@@ -60,7 +61,8 @@
 
     return view('admin.profile', $data);
 
-> {note} ビューのディレクトリ名には、`.`文字を含めてはいけません。
+> **Warning**
+> ビューのディレクトリ名には、`.`文字を含めてはいけません。
 
 <a name="creating-the-first-available-view"></a>
 ### 最初に利用可能なビュー
@@ -177,7 +179,8 @@
         }
     }
 
-> {note} 新しいサービスプロバイダをビューコンポーザ登録のために作成した場合は、`config/app.php`設定ファイルの`providers`配列へ追加する必要があるのを忘れないでください。
+> **Warning**
+> 新しいサービスプロバイダをビューコンポーザ登録のために作成した場合は、`config/app.php`設定ファイルの`providers`配列へ追加する必要があるのを忘れないでください。
 
 コンポーザを登録したので、`profile`ビューがレンダされるたびに`App\View\Composers\ProfileComposer`クラスの`compose`メソッドが実行されます。コンポーザクラスの例を見てみましょう。
 
@@ -266,4 +269,3 @@ php artisan view:cache
 ```shell
 php artisan view:clear
 ```
-

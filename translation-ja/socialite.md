@@ -16,7 +16,8 @@
 
 Laravelは、一般的なフォームベースの認証に加えて、[Laravel Socialite](https://github.com/laravel/socialite)(ソーシャライト：名士)を使用したOAuthプロバイダで認証するためのシンプルで便利な方法も提供します。Socialiteは現在、Facebook、Twitter、LinkedIn、Google、GitHub、GitLab、Bitbucketでの認証をサポートしています。
 
-> {tip} 他のプラットフォームのアダプタは、コミュニティにより管理されている[Socialiteプロバイダ](https://socialiteproviders.com/)Webサイトから利用できます。
+> **Note**
+> 他のプラットフォームのアダプタは、コミュニティにより管理されている[Socialiteプロバイダ](https://socialiteproviders.com/)Webサイトから利用できます。
 
 <a name="installation"></a>
 ## インストール
@@ -45,7 +46,8 @@ Socialiteを使用する前に、アプリケーションが利用するOAuthプ
         'redirect' => 'http://example.com/callback-url',
     ],
 
-> {tip} `redirect`オプションが相対パスである場合、自動的に完全なURLへ解決されます。
+> **Note**
+> `redirect`オプションが相対パスである場合、自動的に完全なURLへ解決されます。
 
 <a name="authentication"></a>
 ## 認証
@@ -95,7 +97,8 @@ OAuthプロバイダからユーザーを取得したら、そのユーザーが
         return redirect('/dashboard');
     });
 
-> {tip} 特定のOAuthプロバイダからどんなユーザー情報が得られるかについては、[ユーザー情報の取得](#retrieving-user-details)ドキュメントを参照してください。
+> **Note**
+> 特定のOAuthプロバイダからどんなユーザー情報が得られるかについては、[ユーザー情報の取得](#retrieving-user-details)ドキュメントを参照してください。
 
 <a name="access-scopes"></a>
 ### アクセススコープ
@@ -125,7 +128,8 @@ OAuthプロバイダからユーザーを取得したら、そのユーザーが
         ->with(['hd' => 'example.com'])
         ->redirect();
 
-> {note} `with`メソッド使用時は、`state`や`response_type`などの予約キーワードを渡さないように注意してください。
+> **Warning**
+> `with`メソッド使用時は、`state`や`response_type`などの予約キーワードを渡さないように注意してください。
 
 <a name="retrieving-user-details"></a>
 ## ユーザー詳細情報の取得
@@ -183,4 +187,5 @@ OAuthプロバイダからユーザーを取得したら、そのユーザーが
 
     return Socialite::driver('google')->stateless()->user();
 
-> {note} Twitter OAuth.0ドライバでは、ステートレス認証は利用できません。
+> **Warning**
+> Twitter OAuth.0ドライバでは、ステートレス認証は利用できません。

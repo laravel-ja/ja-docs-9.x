@@ -48,7 +48,8 @@
 
 [Laravel Passport](https://github.com/laravel/passport)は、Laravelアプリケーションに完全なOAuth2サーバ実装を数分で提供します。Passportは、Andy MillingtonとSimon Hampがメンテナンスしている[League OAuth2 server](https://github.com/thephpleague/oauth2-server)の上に構築されています。
 
-> {note} このドキュメントは、皆さんがOAuth2に慣れていることを前提にしています。OAuth2について知らなければ、この先を続けて読む前に、一般的な[用語](https://oauth2.thephpleague.com/terminology/)とOAuth2の機能について予習してください。
+> **Warning**
+> このドキュメントは、皆さんがOAuth2に慣れていることを前提にしています。OAuth2について知らなければ、この先を続けて読む前に、一般的な[用語](https://oauth2.thephpleague.com/terminology/)とOAuth2の機能について予習してください。
 
 <a name="passport-or-sanctum"></a>
 ### Passportか？Sanctumか？？
@@ -78,7 +79,8 @@ php artisan migrate
 php artisan passport:install
 ```
 
-> {tip} 自動増分整数の代わりに、Passportの`Client`モデルの主キー値としてUUIDを使用したい場合は、[`uuids`オプション](#client-uuids)を使いPassportをインストールしてください。
+> **Note**
+> 自動増分整数の代わりに、Passportの`Client`モデルの主キー値としてUUIDを使用したい場合は、[`uuids`オプション](#client-uuids)を使いPassportをインストールしてください。
 
 `passport:install`コマンドを実行し終えたら、`Laravel\Passport\HasApiTokens`トレイトを`App\Models\User`モデルへ追加してください。このトレイトは認証済みユーザーのトークンとスコープを調べられるように、モデルへ数個のヘルパメソッドを提供します。すでに`Laravel\Sanctum\HasApiTokens`トレイトを使用している場合は、それを削除してください。
 
@@ -250,7 +252,8 @@ Passportの新しいメジャーバージョンにアップグレードすると
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
     }
 
-> {note} Passportのデータベーステーブルの`expires_at`カラムは読み取り専用であり、表示のみを目的としています。トークンを発行するとき、Passportは署名および暗号化されたトークン内に有効期限情報を保存します。トークンを無効にする必要がある場合は、[取り消す](#revoking-tokens)必要があります。
+> **Warning**
+> Passportのデータベーステーブルの`expires_at`カラムは読み取り専用であり、表示のみを目的としています。トークンを発行するとき、Passportは署名および暗号化されたトークン内に有効期限情報を保存します。トークンを無効にする必要がある場合は、[取り消す](#revoking-tokens)必要があります。
 
 <a name="overriding-default-models"></a>
 ### デフォルトモデルのオーバーライド
@@ -415,7 +418,8 @@ axios.delete('/oauth/clients/' + clientId)
         return redirect('http://passport-app.test/oauth/authorize?'.$query);
     });
 
-> {tip} `/oauth/authorize`ルートは、すでに`Passport::routes`メソッドが定義づけていることを覚えておいてください。このルートを自分で定義する必要はありません。
+> **Note**
+> `/oauth/authorize`ルートは、すでに`Passport::routes`メソッドが定義づけていることを覚えておいてください。このルートを自分で定義する必要はありません。
 
 <a name="approving-the-request"></a>
 #### リクエストの承認
@@ -478,7 +482,8 @@ php artisan vendor:publish --tag=passport-views
 
 この`/oauth/token`ルートは、`access_token`、`refresh_token`、`expires_in`属性を含むJSONレスポンスを返します。`expires_in`属性は、アクセストークンが無効になるまでの秒数を含んでいます。
 
-> {tip} `/oauth/authorize`ルートと同様に、`/oauth/token`ルートは`Passport::routes`メソッドによって定義されます。このルートを手作業で定義する必要はありません。
+> **Note**
+> `/oauth/authorize`ルートと同様に、`/oauth/token`ルートは`Passport::routes`メソッドによって定義されます。このルートを手作業で定義する必要はありません。
 
 <a name="tokens-json-api"></a>
 #### JSON API
@@ -667,7 +672,8 @@ stateパラメータが一致したら、要求側はアクセストークンを
 <a name="password-grant-tokens"></a>
 ## パスワードグラントのトークン
 
-> {note} パスワードグラントトークンの使用は、現在推奨していません。代わりに、[OAuth2サーバが現在推奨しているグラントタイプ](https://oauth2.thephpleague.com/authorization-server/which-grant/) を選択する必要があります。
+> **Warning**
+> パスワードグラントトークンの使用は、現在推奨していません。代わりに、[OAuth2サーバが現在推奨しているグラントタイプ](https://oauth2.thephpleague.com/authorization-server/which-grant/) を選択する必要があります。
 
 OAuth2パスワードグラントにより、モバイルアプリケーションなどの他のファーストパーティクライアントは、電子メールアドレス／ユーザー名とパスワードを使用してアクセストークンを取得できます。これにより、ユーザーがOAuth2認証コードのリダイレクトフロー全体を実行しなくても、ファーストパーティクライアントにアクセストークンを安全に発行できます。
 
@@ -698,7 +704,8 @@ php artisan passport:client --password
 
     return $response->json();
 
-> {tip} アクセストークンはデフォルトで、長期間有効であることを記憶しておきましょう。ただし、必要であれば自由に、[アクセストークンの最長持続時間を設定](#configuration)できます。
+> **Note**
+> アクセストークンはデフォルトで、長期間有効であることを記憶しておきましょう。ただし、必要であれば自由に、[アクセストークンの最長持続時間を設定](#configuration)できます。
 
 <a name="requesting-all-scopes"></a>
 ### 全スコープの要求
@@ -783,7 +790,8 @@ php artisan passport:client --password
 <a name="implicit-grant-tokens"></a>
 ## 暗黙のグラントトークン
 
-> {note} 暗黙的のグラント・トークンの使用は、現在推奨していません。代わりに、[OAuth2サーバが現在推奨しているグラントタイプ](https://oauth2.thephpleague.com/authorization-server/which-grant/) を選択する必要があります。
+> **Warning**
+> 暗黙的のグラント・トークンの使用は、現在推奨していません。代わりに、[OAuth2サーバが現在推奨しているグラントタイプ](https://oauth2.thephpleague.com/authorization-server/which-grant/) を選択する必要があります。
 
 暗黙的なグラントは、認証コードグラントに似ています。ただし、トークンは認証コードを交換せずにクライアントへ返します。このグラントは、クライアントの利用資格情報を安全に保存できないJavaScriptまたはモバイルアプリケーションで最も一般的に使用します。このグラントを有効にするには、アプリケーションの`App\Providers\AuthServiceProvider`クラスの`boot`メソッドで`enableImplicitGrant`メソッドを呼び出します。
 
@@ -819,7 +827,8 @@ php artisan passport:client --password
         return redirect('http://passport-app.test/oauth/authorize?'.$query);
     });
 
-> {tip} `/oauth/authorize`ルートは、すでに`Passport::routes`メソッドが定義づけていることを覚えておいてください。このルートを自分で定義する必要はありません。
+> **Note**
+> `/oauth/authorize`ルートは、すでに`Passport::routes`メソッドが定義づけていることを覚えておいてください。このルートを自分で定義する必要はありません。
 
 <a name="client-credentials-grant-tokens"></a>
 ## クライアント認証情報グラントトークン
@@ -873,7 +882,8 @@ php artisan passport:client --client
 
 ときどき、あなたのユーザーが典型的なコードリダイレクションフローに従うのではなく、自分たち自身でアクセストークンを発行したがることもあるでしょう。あなたのアプリケーションのUIを通じて、ユーザー自身のトークンを発行を許可することにより、あなたのAPIをユーザーに経験してもらう事ができますし、全般的なアクセストークン発行するシンプルなアプローチとしても役立つでしょう。
 
-> {tip} あなたのアプリケーションが主にPassportを使用して個人アクセストークンを発行している場合、APIアクセストークンを発行するためのLaravelの軽量なファーストパーティーライブラリ、[Laravel Sanctum](/docs/{{version}}/sanctum)の使用を検討してください。
+> **Note**
+> あなたのアプリケーションが主にPassportを使用して個人アクセストークンを発行している場合、APIアクセストークンを発行するためのLaravelの軽量なファーストパーティーライブラリ、[Laravel Sanctum](/docs/{{version}}/sanctum)の使用を検討してください。
 
 <a name="creating-a-personal-access-client"></a>
 ### パーソナルアクセスクライアントの作成
@@ -978,7 +988,8 @@ Passportは、受信リクエストのアクセストークンを検証する[�
         //
     })->middleware('auth:api');
 
-> {note} [クライアント認証情報グラント](#client-credentials-grant-tokens)を使用している場合、`auth:api`ミドルウェアではなく、[`client`ミドルウェア](#client-credentials-grant-tokens)でルートを保護する必要があります。
+> **Warning**
+> [クライアント認証情報グラント](#client-credentials-grant-tokens)を使用している場合、`auth:api`ミドルウェアではなく、[`client`ミドルウェア](#client-credentials-grant-tokens)でルートを保護する必要があります。
 
 <a name="multiple-authentication-guards"></a>
 #### 複数認証ガード
@@ -1001,7 +1012,8 @@ Passportは、受信リクエストのアクセストークンを検証する[�
         //
     })->middleware('auth:api-customers');
 
-> {tip} Passportを使用する複数ユーザープロバイダ利用の詳細は、[パスワードグラントのドキュメント](#customizing-the-user-provider)を調べてください。
+> **Note**
+> Passportを使用する複数ユーザープロバイダ利用の詳細は、[パスワードグラントのドキュメント](#customizing-the-user-provider)を調べてください。
 
 <a name="passing-the-access-token"></a>
 ### アクセストークンの受け渡し
@@ -1159,7 +1171,8 @@ API構築時にJavaScriptアプリケーションから、自分のAPIを利用�
         \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
     ],
 
-> {note} ミドルウェアの指定の中で、`CreateFreshApiToken`ミドルウェアは確実に最後へリストしてください。
+> **Warning**
+> ミドルウェアの指定の中で、`CreateFreshApiToken`ミドルウェアは確実に最後へリストしてください。
 
 このミドルウェアは、送信レスポンスに`laravel_token`クッキーを添付します。このクッキーには、PassportがJavaScriptアプリケーションからのAPIリクエストを認証するために使用する暗号化されたJWTが含まれています。JWTの有効期間は、`session.lifetime`設定値と同じです。これで、ブラウザは後続のすべてのリクエストでクッキーを自動的に送信するため、アクセストークンを明示的に渡さなくても、アプリケーションのAPIにリクエストを送信できます。
 
@@ -1192,7 +1205,8 @@ API構築時にJavaScriptアプリケーションから、自分のAPIを利用�
 
 この認証方法を使用する場合、リクエストのヘッダに有効なCSRFトークンを確実に含める必要があります。デフォルトのLaravel JavaScriptスカフォールドはAxiosインスタンスを含み、同一オリジンリクエスト上に`X-XSRF-TOKEN`ヘッダを送るために、暗号化された`XSRF-TOKEN`クッキーを自動的に使用します。
 
-> {tip} `X-XSRF-TOKEN`の代わりに`X-CSRF-TOKEN`ヘッダを送る方法を取る場合は、`csrf_token()`により提供される復元したトークンを使用する必要があります。
+> **Note**
+> `X-XSRF-TOKEN`の代わりに`X-CSRF-TOKEN`ヘッダを送る方法を取る場合は、`csrf_token()`により提供される復元したトークンを使用する必要があります。
 
 <a name="events"></a>
 ## イベント
