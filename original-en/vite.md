@@ -17,6 +17,7 @@
 - [Working With Blade & Routes](#working-with-blade-and-routes)
 - [Custom Base URLs](#custom-base-urls)
 - [Environment Variables](#environment-variables)
+- [Disabling Vite In Tests](#disabling-vite-in-tests)
 - [Server-Side Rendering (SSR)](#ssr)
 - [Script & Style Tag Attributes](#script-and-style-attributes)
   - [Content Security Policy (CSP) Nonce](#content-security-policy-csp-nonce)
@@ -30,7 +31,7 @@
 
 Laravel integrates seamlessly with Vite by providing an official plugin and Blade directive to load your assets for development and production.
 
-> **Note**
+> **Note**  
 > Are you running Laravel Mix? Vite has replaced Laravel Mix in new Laravel installations. For Mix documentation, please visit the [Laravel Mix](https://laravel-mix.com/) website. If you would like to switch to Vite, please see our [migration guide](https://github.com/laravel/vite-plugin/blob/main/UPGRADE.md#migrating-from-laravel-mix-to-vite).
 
 <a name="vite-or-mix"></a>
@@ -48,7 +49,7 @@ Have you started a new Laravel application using our Vite scaffolding but need t
 <a name="installation"></a>
 ## Installation & Setup
 
-> **Note**
+> **Note**  
 > The following documentation discusses how to manually install and configure the Laravel Vite plugin. However, Laravel's [starter kits](/docs/{{version}}/starter-kits) already include all of this scaffolding and are the fastest way to get started with Laravel and Vite.
 
 <a name="installing-node"></a>
@@ -249,7 +250,7 @@ export default defineConfig({
 });
 ```
 
-> **Note**
+> **Note**  
 > Laravel's [starter kits](/docs/{{version}}/starter-kits) already include the proper Laravel, Vue, and Vite configuration. Check out [Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) for the fastest way to get started with Laravel, Vue, and Vite.
 
 <a name="react"></a>
@@ -264,7 +265,7 @@ When using Vite with React, you will need to ensure that any files containing JS
 
 The `@viteReactRefresh` directive must be called before the `@vite` directive.
 
-> **Note**
+> **Note**  
 > Laravel's [starter kits](/docs/{{version}}/starter-kits) already include the proper Laravel, React, and Vite configuration. Check out [Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) for the fastest way to get started with Laravel, React, and Vite.
 
 <a name="inertia"></a>
@@ -287,7 +288,7 @@ createInertiaApp({
 });
 ```
 
-> **Note**
+> **Note**  
 > Laravel's [starter kits](/docs/{{version}}/starter-kits) already include the proper Laravel, Inertia, and Vite configuration. Check out [Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) for the fastest way to get started with Laravel, Inertia, and Vite.
 
 <a name="url-processing"></a>
@@ -424,6 +425,49 @@ You may access injected environment variables via the `import.meta.env` object:
 import.meta.env.VITE_SENTRY_DSN_PUBLIC
 ```
 
+<a name="disabling-vite-in-tests"></a>
+## Disabling Vite In Tests
+
+Laravel's Vite integration will attempt to resolve your assets while running your tests, which requires you to either run the Vite development server or build your assets.
+
+If you would prefer to mock Vite during testing, you may call the `withoutVite` method, which is is available for any tests that extend Laravel's `TestCase` class:
+
+```php
+use Tests\TestCase;
+
+class ExampleTest extends TestCase
+{
+    public function test_without_vite_example()
+    {
+        $this->withoutVite();
+
+        // ...
+    }
+}
+```
+
+If you would like to disable Vite for all tests, you may call the `withoutVite` method from the `setUp` method on your base `TestCase` class:
+
+```php
+<?php
+
+namespace Tests;
+
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+
+abstract class TestCase extends BaseTestCase
+{
+    use CreatesApplication;
+
+    public function setUp(): void// [tl! add:start]
+    {
+        parent::setUp();
+
+        $this->withoutVite();
+    }// [tl! add:end]
+}
+```
+
 <a name="ssr"></a>
 ## Server-Side Rendering (SSR)
 
@@ -460,7 +504,7 @@ npm run build
 node bootstrap/ssr/ssr.mjs
 ```
 
-> **Note**
+> **Note**  
 > Laravel's [starter kits](/docs/{{version}}/starter-kits) already include the proper Laravel, Inertia SSR, and Vite configuration. Check out [Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) for the fastest way to get started with Laravel, Inertia SSR, and Vite.
 
 <a name="script-and-style-attributes"></a>
@@ -586,5 +630,5 @@ Vite::useStyleTagAttributes(fn (string $src, string $url, array|null $chunk, arr
 ]);
 ```
 
-> **Warning**
+> **Warning**  
 > The `$chunk` and `$manifest` arguments will be `null` while the Vite development server is running.

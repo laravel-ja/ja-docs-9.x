@@ -74,6 +74,7 @@ Homesteadは、Windows、macOS、Linuxシステムで実行でき、Nginx、PHP�
 - Sqlite3
 - PostgreSQL 13
 - Composer
+- Docker
 - Node (Yarn、Bower、Bower、Grunt、Gulpを含む)
 - Redis
 - Memcached
@@ -106,7 +107,6 @@ Homesteadは、Windows、macOS、Linuxシステムで実行でき、Nginx、PHP�
 - Chronograf
 - CouchDB
 - CrystalとLuckyフレームワーク
-- Docker
 - Elasticsearch
 - EventStoreDB
 - Gearman
@@ -330,7 +330,6 @@ features:
     - chronograf: true
     - couchdb: true
     - crystal: true
-    - docker: true
     - elasticsearch:
         version: 7.9.0
     - eventstore: true

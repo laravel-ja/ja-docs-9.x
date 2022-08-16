@@ -823,6 +823,8 @@ The credit card number field is required when payment type is credit card.
 [桁範囲指定数値](#rule-digits-between)
 [寸法(画像ファイル)](#rule-dimensions)
 [別々](#rule-distinct)
+[文字列非開始](#rule-doesnt-start-with)
+[文字列非終了](#rule-doesnt-end-with)
 [メールアドレス](#rule-email)
 [文字列終了](#rule-ends-with)
 [列挙型](#rule-enum)
@@ -1072,6 +1074,16 @@ distinctはデフォルトで緩い比較を使用します。厳密な比較を
 バリデーションルールの引数に`ignore_case`を追加して、大文字と小文字の違いを無視するルールを加えられます。
 
     'foo.*.id' => 'distinct:ignore_case'
+
+<a name="rule-doesnt-start-with"></a>
+#### doesnt_start_with:_foo_,_bar_,...
+
+フィールドの値が指定した値で開始しないことをバリデートします。
+
+<a name="rule-doesnt-end-with"></a>
+#### doesnt_end_with:_foo_,_bar_,...
+
+フィールドの値が指定した値で終了しないことをバリデートします。
 
 <a name="rule-email"></a>
 #### email

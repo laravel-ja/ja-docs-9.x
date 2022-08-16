@@ -9,6 +9,8 @@
     - [累積クエリ時間の監視](#monitoring-cumulative-query-time)
 - [データベーストランザクション](#database-transactions)
 - [データベースCLIへの接続](#connecting-to-the-database-cli)
+- [データベースの調査](#inspecting-your-databases)
+- [データベースの監視](#monitoring-your-databases)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -17,7 +19,7 @@
 
 <div class="content-list" markdown="1">
 
-- MariaDB10.2以上 ([バージョンポリシー](https://mariadb.org/about/#maintenance-policy))
+- MariaDB 10.3+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
 - MySQL5.7以上 ([バージョンポリシー](https://en.wikipedia.org/wiki/MySQL#Release_history))
 - PostgreSQL10.0以上 ([バージョンポリシー](https://www.postgresql.org/support/versioning/))
 - SQLite3.8.8以上
@@ -375,4 +377,70 @@ php artisan db
 
 ```shell
 php artisan db mysql
+```
+
+<a name="inspecting-your-databases"></a>
+## データベースの調査
+
+Artisanの`db:show`コマンドと、`db:table`コマンドを使用すると、データベースのサイズや種類、開いている接続の数、テーブルの概要など、データベースと関連するテーブルの貴重な情報を取得できます。データベースの概要を確認するには、`db:show`コマンドを使用します。
+
+```shell
+php artisan db:show
+```
+
+このコマンドで、どのデータベース接続を検査するかを`--database`オプションを使い接続名で指定できます。
+
+```shell
+php artisan db:show --database=pgsql
+```
+
+もし、このコマンドの出力にテーブルの行数とデータベースのビューの詳細を含めたい場合は、それぞれ`--counts`と`--views`オプションを指定します。大きなデータベースでは、行数やビューの詳細の取得に時間がかかることがあります。
+
+```shell
+php artisan db:show --counts --views
+```
+
+<a name="table-overview"></a>
+#### テーブルの概要
+
+データベース内の個々のテーブルの概要を知りたい場合には、`db:table` Artisanコマンドを実行してください。このコマンドは、カラム、タイプ、属性、キー、インデックスを含む、データベーステーブルの一般的な概要を表示します。
+
+```shell
+php artisan db:table users
+```
+
+<a name="monitoring-your-databases"></a>
+## データベースの監視
+
+`DB:monitor` Artisanコマンドを使用すると、データベースが指定した数以上の接続を開いて管理している場合、Laravelに`Illuminate\Database\Events\DatabaseBusy`イベントを発行するように指示できます。
+
+利用するには、`db:monitor`コマンドを[毎分実行](/docs/{{version}}/scheduling)するようにタスクスケジュールしてください。このコマンドは、監視したいデータベース接続設定の名前と、イベントを発行するまで許容するオープン中の最大接続数を引数に取ります。
+
+```shell
+php artisan db:monitor --databases=mysql,pgsql --max=100
+```
+
+このコマンドをスケジューリングするだけでは、オープン中接続数の警告通知を発行するには足りません。このコマンドは閾値を超えるオープン中接続数を持つデータベースと遭遇したとき、`DatabaseBusy`イベントを発行します。あなたや開発チームに通知を送るために、アプリケーションの`EventServiceProvider`内で、このイベントをリッスンする必要があります。
+
+```php
+use App\Notifications\DatabaseApproachingMaxConnections;
+use Illuminate\Database\Events\DatabaseBusy;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
+
+/**
+ * アプリケーションのその他の全イベントの登録
+ *
+ * @return void
+ */
+public function boot()
+{
+    Event::listen(function (DatabaseBusy $event) {
+        Notification::route('mail', 'dev@example.com')
+                ->notify(new DatabaseApproachingMaxConnections(
+                    $event->connectionName,
+                    $event->connections
+                ));
+    });
+}
 ```

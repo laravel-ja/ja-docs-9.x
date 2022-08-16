@@ -1519,3 +1519,9 @@ php artisan make:observer UserObserver --model=User
     $user->name = 'Victoria Faith';
 
     $user->saveQuietly();
+
+また、イベントをディスパッチせずに、与えられたモデルを「更新（update）」、「削除（delete）」、「ソフト削除（soft delete）」、「復元（restore）」、「複製（replicate）」できます。
+
+    $user->deleteQuietly();
+
+    $user->restoreQuietly();

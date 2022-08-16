@@ -553,6 +553,20 @@ Mailableの内容のテストと、Mailableが特定のユーザーへ「送信�
         return $job->order->id === $order->id;
     });
 
+もし、特定のジョブだけをfakeし、他のジョブは通常通り実行させたい場合は、`fake`メソッドにfakeするジョブのクラス名を渡します。
+
+    public function test_orders_can_be_shipped()
+    {
+        Queue::fake([
+            ShipOrder::class,
+        ]);
+
+        // 注文の発送処理の実行…
+
+        // ジョブが２回キュー投入されることをアサート
+        Queue::assertPushed(ShipOrder::class, 2);
+    }
+
 <a name="job-chains"></a>
 ### ジョブチェーン
 

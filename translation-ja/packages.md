@@ -314,26 +314,19 @@ Bladeは、コンポーネント名をパスカルケース化し、このコン
 <a name="about-artisan-command"></a>
 ### "About" Artisanコマンド
 
-Laravelの組み込み`about` Artisanコマンドは、アプリケーションの環境と設定の概要を表示します。パッケージでは`AboutCommand`クラスを使用して、このコマンドの出力に追加情報を追加できます。一般的に、この情報はパッケージサービスプロバイダの`register`メソッドで、追加します。
+Laravelの組み込み`about` Artisanコマンドは、アプリケーションの環境と設定の概要を表示します。パッケージでは`AboutCommand`クラスを使用して、このコマンドの出力に追加情報を追加できます。一般的に、この情報はパッケージサービスプロバイダの`boot`メソッドに追加します。
 
     use Illuminate\Foundation\Console\AboutCommand;
 
     /**
-     * 全アプリケーションサービスの追加
+     * アプリケーションの全サービスの初期起動処理
      *
      * @return void
      */
-    public function register()
+    public function boot()
     {
-        AboutCommand::add('My Package', 'Version', '1.0.0');
+        AboutCommand::add('My Package', fn () => ['Version' => '1.0.0']);
     }
-
-遅延実行が望ましい場合、`about`コマンドの値をクロージャとして提供することもできます。
-
-    AboutCommand::add('My Package', [
-        'Version' => '1.0.0',
-        'Driver' => fn () => config('my-package.driver'),
-    ]);
 
 <a name="commands"></a>
 ## コマンド

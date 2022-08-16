@@ -554,6 +554,9 @@ Scoutを使用すると、検索クエリに単純な「where」節を追加で�
         return Order::search($request->input('query'))->paginate(15);
     });
 
+> **Warning**
+> 検索エンジンはEloquentモデルのグローバルスコープ定義を認識しないため、Scoutのペジネーションを利用するアプリケーションではグローバルスコープを使うべきでありません。それでも、Scoutにより検索する場合は、グローバルスコープの制約を再作成する必要があります。
+
 <a name="soft-deleting"></a>
 ### ソフトデリート
 

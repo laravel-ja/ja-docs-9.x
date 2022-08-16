@@ -60,7 +60,7 @@
 
 </div>
 
-さらに、アプリケーションの`composer.json`ファイルの中の`facade/ignition`は、`"spatie/laravel-ignition": "^1.0"`へ置き換えてください。
+さらに、アプリケーションの`composer.json`ファイル中の、`facade/ignition`を`"spatie/laravel-ignition": "^1.0"`へ置き換え、（該当する場合は）`pusher/pusher-php-server`を`"pusher/pusher-php-server": "^5.0"`へ置き換えてください。
 
 さらに、以下のファーストパーティパッケージは、Laravel9.x をサポートするために新しくメジャーリリースしました。当てはまる場合、Laravelをアップグレードする前に、それぞれのアップグレードガイドを読んでください。
 

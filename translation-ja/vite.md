@@ -17,6 +17,7 @@
 - [Bladeとルートの操作](#working-with-blade-and-routes)
 - [ベースURLのカスタマイズ](#custom-base-urls)
 - [環境変数](#environment-variables)
+- [テスト時のVite無効](#disabling-vite-in-tests)
 - [サーバサイドレンダリング(SSR)](#ssr)
 - [Scriptとstyleタグ属性](#script-and-style-attributes)
   - [コンテンツセキュリティポリシー（CSP)ノンス](#content-security-policy-csp-nonce)
@@ -422,6 +423,49 @@ VITE_SENTRY_DSN_PUBLIC=http://example.com
 
 ```js
 import.meta.env.VITE_SENTRY_DSN_PUBLIC
+```
+
+<a name="disabling-vite-in-tests"></a>
+## テスト時のVite無効
+
+LaravelのVite統合は、テストの実行中にアセットを解決しようとするので、Vite開発サーバを実行するか、アセットをビルドする必要があります。
+
+テスト中にViteをモックしたい場合は、Laravelの`TestCase`クラスを拡張するすべてのテストで利用できる、`withoutVite`メソッドを呼び出してください。
+
+```php
+use Tests\TestCase;
+
+class ExampleTest extends TestCase
+{
+    public function test_without_vite_example()
+    {
+        $this->withoutVite();
+
+        // ...
+    }
+}
+```
+
+すべてのテストで Vite を無効にしたい場合は、ベースとなる`TestCase`クラスの`setUp`メソッドから、`withoutVite`メソッドを呼び出すとよいでしょう。
+
+```php
+<?php
+
+namespace Tests;
+
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+
+abstract class TestCase extends BaseTestCase
+{
+    use CreatesApplication;
+
+    public function setUp(): void// [tl! add:start]
+    {
+        parent::setUp();
+
+        $this->withoutVite();
+    }// [tl! add:end]
+}
 ```
 
 <a name="ssr"></a>

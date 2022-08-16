@@ -1143,6 +1143,14 @@
 
     // '1-2-3-4-5'
 
+結合する値をフォーマットしたい場合は、`implode`メソッドへクロージャを渡してください。
+
+    $collection->implode(function ($item, $key) {
+        return strtoupper($item['product']);
+    }, ', ');
+
+    // DESK, CHAIR
+
 <a name="method-intersect"></a>
 #### `intersect()` {.collection-method}
 
@@ -1228,7 +1236,7 @@
 
 もしくは、コールバックをメソッドへ渡すこともできます。コールバックからコレクションのキーの値を返してください。
 
-    $keyed = $collection->keyBy(function ($item) {
+    $keyed = $collection->keyBy(function ($item, $key) {
         return strtoupper($item['product_id']);
     });
 
@@ -3036,7 +3044,7 @@ staticの`unwrap`メソッドは適用可能な場合、指定値からコレク
 
 `where`メソッドはアイテム値の確認を「緩く」比較します。つまり、同じ値の文字列と整数値は、同値と判断します。「厳格」な比較でフィルタリングしたい場合は、[`whereStrict`](#method-wherestrict)メソッドを使ってください。
 
-第２引数に比較演算子をオプションとして渡すこともできます。
+第２引数に比較演算子をオプションとして渡すこともできます。サポートしている演算子は、'==='、'!=='、'!='、'=='、'='、'<>'、'>'、'<'、'>='、'<='です。
 
     $collection = collect([
         ['name' => 'Jim', 'deleted_at' => '2019-01-01 00:00:00'],

@@ -3,7 +3,7 @@
 - [イントロダクション](#introduction)
 - [インストールと準備](#installation)
     - [既存アプリケーションへのSailインストール](#installing-sail-into-existing-applications)
-    - [Bashエイリアスの設定](#configuring-a-bash-alias)
+    - [シェルエイリアスの設定](#configuring-a-shell-alias)
 - [Sailの開始と停止](#starting-and-stopping-sail)
 - [コマンドの実行](#executing-sail-commands)
     - [PHPコマンドの実行](#executing-php-commands)
@@ -71,8 +71,8 @@ php artisan sail:install
 php artisan sail:install --devcontainer
 ```
 
-<a name="configuring-a-bash-alias"></a>
-### Bashエイリアスの設定
+<a name="configuring-a-shell-alias"></a>
+### シェルエイリアスの設定
 
 デフォルトでSailコマンドは、すべての新しいLaravelアプリケーションに含まれている`vendor/bin/sail`スクリプトを使用して起動します。
 
@@ -80,13 +80,15 @@ php artisan sail:install --devcontainer
 ./vendor/bin/sail up
 ```
 
-`vendor/bin/sail`を実行するため繰り返し入力する代わりに、Sailコマンドをより簡単に実行できるようにするBashエイリアスを設定することをおすすめします。
+しかし、Sailコマンドを実行するため、`vendor/bin/sail`、と繰り返しタイプする代わりに、Sailのコマンドをより簡単に実行できるようなシェルエイリアスを設定したいと思うでしょう。
 
 ```shell
-alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 ```
 
-Bashエイリアスを設定したら、`sail`と入力するだけでSailコマンドを実行できます。このドキュメントの残りの部分の例は、このエイリアスが設定済みであることを前提としています。
+これを常に利用できるようにするには、ホームディレクトリにあるシェルの設定ファイル、例えば `~/.zshrc` や `~/.bashrc` へ追加後、シェルを再起動するとよいでしょう。
+
+シェルエイリアスを設定すると、`sail`と入力するだけで、Sailコマンドを実行できます。このドキュメントの残りの例では、このエイリアスを設定済みであることを前提にしています。
 
 ```shell
 sail up
@@ -248,6 +250,9 @@ AWS_URL=http://localhost:9000/local
 ```
 
 `http://localhost:8900`のMinIOコンソールからバケットを作成できます。MinIOコンソールのデフォルトユーザー名は`sail`、パスワードは`password`です。
+
+> **Warning**
+> MinIOを使用している場合の、`temporaryUrl`メソッドによる一時保存用URL生成はサポートしていません。
 
 <a name="running-tests"></a>
 ## テスト実行

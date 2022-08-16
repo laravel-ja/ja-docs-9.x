@@ -16,7 +16,7 @@
 
 多くのWebアプリケーションでは、ユーザーがアプリケーションを使用開始する前に電子メールアドレスを確認する必要があります。Laravelでは、作成するアプリケーションごとにこの機能を手作業で再実装する必要はなく、電子メール確認リクエストを送信および検証するための便利な組み込みサービスを提供しています。
 
-> **Note**
+> **Note**  
 > てっとり早く始めたいですか？[Laravelアプリケーションスターターキット](/docs/{{version}}/starter-kits)の１つを新しいLaravelアプリケーションにインストールしてください。スターターキットは、電子メール確認サポートを含む、認証システム全体のスカフォールドを処理します。
 
 <a name="model-preparation"></a>
@@ -76,7 +76,7 @@ php artisan migrate
 
 メール確認通知を返すルートの名前は `verification.notice`にする必要があります。[Laravelが用意している](#protecting-routes)`verified`ミドルウェアは、ユーザーがメールアドレスを確認していない場合、このルート名に自動的にリダイレクトするため、ルートへ正確にこの名前を割り当てることが重要です。
 
-> **Note**
+> **Note**  
 > 電子メール検証を手作業で実装する場合は、検証通知ビューの内容を自分で定義する必要があります。必要なすべての認証ビューと検証ビューを含むスカフォールドが必要な場合は、[Laravelアプリケーションスターターキット](/docs/{{version}}/starter-kits)をチェックしてください。
 
 <a name="the-email-verification-handler"></a>
@@ -150,7 +150,7 @@ php artisan migrate
         });
     }
 
-> **Note**
+> **Note**  
 > メール通知の詳細は、[メール通知ドキュメント](/docs/{{version}}/notifications#mail-notifications)を参照してください。
 
 <a name="events"></a>

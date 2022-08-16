@@ -1660,6 +1660,17 @@ select * from authors where id in (1, 2, 3, 4, 5, ...)
 
 この例でEloquentは、非表示にされていない投稿と`type`値が"educational"な動画のみをEagerロードします。
 
+<a name="constraining-eager-loads-with-relationship-existence"></a>
+#### リレーションの存在時のEagerロードの制約
+
+リレーションが存在するかどうかをチェックすると同時に、同じ条件に基づいてそのリレーションをロードする必要がある場合があります。例えば、与えられたクエリ条件と一致する`Post`モデルの子を持つ`User`モデルのみを取得し、同時に一致する投稿をEagerロードしたいことがあります。このような場合は、`withWhereHas`メソッドを使用します。
+
+    use App\Models\User;
+
+    $users = User::withWhereHas('posts', function ($query) {
+        $query->where('featured', true);
+    )->get();
+
 <a name="lazy-eager-loading"></a>
 ### 遅延Eagerロード
 
