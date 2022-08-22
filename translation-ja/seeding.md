@@ -24,7 +24,7 @@ Laravelは、シードクラスを使用してデータベースにデータを�
 php artisan make:seeder UserSeeder
 ```
 
-シーダクラスには、デフォルトで１つのメソッド、`run`のみ存在します。このメソッドは、`db:seed` [Artisanコマンド](/docs/{{version}}/artisan)が実行されるときに呼び出されます。`run`メソッド内で、データベースにデータを好きなように挿入できます。[クエリビルダ](/docs/{{version}}/queries)を使用してデータを手作業で挿入するか、[Eloquentモデルファクトリ](/docs/{{version}}/database-testing#defining-model-factories)を使用できます。
+シーダクラスには、デフォルトで１つのメソッド、`run`のみ存在します。このメソッドは、`db:seed` [Artisanコマンド](/docs/{{version}}/artisan)が実行されるときに呼び出されます。`run`メソッド内で、データベースにデータを好きなように挿入できます。[クエリビルダ](/docs/{{version}}/queries)を使用してデータを手作業で挿入するか、[Eloquentモデルファクトリ](/docs/{{version}}/eloquent-factories)を使用できます。
 
 例として、デフォルトの`DatabaseSeeder`クラスを変更し、データベース挿入文を`run`メソッドに追加しましょう。
 
@@ -60,7 +60,7 @@ php artisan make:seeder UserSeeder
 <a name="using-model-factories"></a>
 ### モデルファクトリの利用
 
-当然それぞれのモデルシーダで属性をいちいち指定するのは面倒です。代わりに大量のデータベースレコードを生成するのに便利な[モデルファクトリ](/docs/{{version}}/database-testing#defining-model-factories)が使用できます。最初に[モデルファクトリのドキュメント](/docs/{{version}}/database-testing#defining-model-factories)を読んで、どのように定義するのかを学んでください。
+当然それぞれのモデルシーダで属性をいちいち指定するのは面倒です。代わりに大量のデータベースレコードを生成するのに便利な[モデルファクトリ](/docs/{{version}}/eloquent-factories)が使用できます。最初に[モデルファクトリのドキュメント](/docs/{{version}}/eloquent-factories)を読んで、どのように定義するのかを学んでください。
 
 例として、それぞれに１つの関連する投稿がある５０人のユーザーを作成しましょう。
 

@@ -15,6 +15,8 @@
   - [URL処理](#url-processing)
 - [スタイルシートの操作](#working-with-stylesheets)
 - [Bladeとルートの操作](#working-with-blade-and-routes)
+  - [Viteによる静的アセットの処理](#blade-processing-static-assets)
+  - [保存時の再描写](#blade-refreshing-on-save)
 - [ベースURLのカスタマイズ](#custom-base-urls)
 - [環境変数](#environment-variables)
 - [テスト時のVite無効](#disabling-vite-in-tests)
@@ -337,6 +339,29 @@ module.exports = {
 
 <a name="working-with-blade-and-routes"></a>
 ## Bladeとルートの操作
+
+<a name="blade-processing-static-assets"></a>
+### Viteによる静的アセットの処理
+
+JavaScriptやCSSのアセットを参照する場合、Viteは自動的に処理し、バージョン付けを行います。また、Bladeベースのアプリケーションを構築する場合、Bladeのテンプレート内だけで参照する静的なアセットもViteで処理し、バージョン付け可能です。
+
+これを実現するには、アプリケーションのエントリポイントで静的アセットをインポートすることにより、Viteにあなたの資産を認識させる必要があります。例えば、`resources/images`に格納しているすべての画像と、`resources/fonts`に保存しているすべてのフォントを処理してバージョン付けする場合、アプリケーションの`resources/js/app.js`エントリーポイントへ以下を追加してください。
+
+```js
+import.meta.glob([
+  '../images/**',
+  '../fonts/**',
+]);
+```
+
+これで`npm run build`の実行時、Viteはこれらのアセットを処理するようになります。そして、Bladeテンプレートでは`Vite::asset`メソッドを使用してこれらのアセットを参照でき、指定したアセットのバージョン付けを含むURLを返します。
+
+```blade
+<img src="{{ Vite::asset('resources/images/logo.png') }}">
+```
+
+<a name="blade-refreshing-on-save"></a>
+### 保存時の再描写
 
 Bladeを用いる従来のサーバサイドレンダリングによりアプリケーションを構築している場合、アプリケーション内のビューファイルを変更したときに、自動でブラウザを再ロードすることにより、Viteは開発ワークフローを改善します。これを使用するには、`refresh`オプションを`true`へ指定するだけです。
 

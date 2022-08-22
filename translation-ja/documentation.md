@@ -67,6 +67,7 @@
     - [ミューテタ／キャスタ](/docs/{{version}}/eloquent-mutators)
     - [APIリソース](/docs/{{version}}/eloquent-resources)
     - [シリアライズ](/docs/{{version}}/eloquent-serialization)
+    - [ファクトリ](/docs/{{version}}/eloquent-factories)
 - ## テスト
     - [テストの準備](/docs/{{version}}/testing)
     - [HTTPテスト](/docs/{{version}}/http-tests)

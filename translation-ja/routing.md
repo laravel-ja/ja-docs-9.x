@@ -305,6 +305,8 @@ Laravelルーティングコンポーネントでは、`/`を除くすべての�
     // リダイレクトの生成
     return redirect()->route('profile');
 
+    return to_route('profile');
+
 名前付きルートがパラメータを定義している場合は、パラメータを２番目の引数として`route`関数に渡してください。指定したパラメータは、生成するURLの正しい位置に自動的に挿入されます。
 
     Route::get('/user/{id}/profile', function ($id) {

@@ -244,6 +244,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [whenStartsWith](#method-fluent-str-when-starts-with)
 [whenEndsWith](#method-fluent-str-when-ends-with)
 [whenExactly](#method-fluent-str-when-exactly)
+[whenNotExactly](#method-fluent-str-when-not-exactly)
 [whenIs](#method-fluent-str-when-is)
 [whenIsAscii](#method-fluent-str-when-is-ascii)
 [whenIsUuid](#method-fluent-str-when-is-uuid)
@@ -3156,7 +3157,7 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
 <a name="method-fluent-str-when-exactly"></a>
 #### `whenExactly` {.collection-method}
 
-`whenExactly`メソッドは、文字列が指定文字列と正確に一致する場合に、指定クロージャを呼び出します。クロージャは、Fluent文字列インスタンスを受け取ります。
+`whenExactly`メソッドは、文字列が指定文字列と厳密に一致する場合に、指定クロージャを呼び出します。クロージャは、Fluent文字列インスタンスを受け取ります。
 
     use Illuminate\Support\Str;
 
@@ -3165,6 +3166,19 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     });
 
     // 'Laravel'
+
+<a name="method-fluent-str-when-not-exactly"></a>
+#### `whenNotExactly` {.collection-method}
+
+`whenNotExactly`メソッドは、文字列が指定文字列と厳密に一致しない場合に、指定クロージャを呼び出します。クロージャは、Fluent文字列インスタンスを受け取ります。
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('framework')->whenNotExactly('laravel', function ($string) {
+        return $string->title();
+    });
+
+    // 'Framework'
 
 <a name="method-fluent-str-when-is"></a>
 #### `whenIs` {.collection-method}

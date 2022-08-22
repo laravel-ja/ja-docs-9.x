@@ -336,6 +336,25 @@ php artisan make:notification InvoicePaid
 > **Note**
 > メール通知を送信するときは、必ず`config/app.php`設定ファイルで`name`設定オプションを設定してください。この値は、メール通知メッセージのヘッダとフッターに使用されます。
 
+<a name="error-messages"></a>
+#### エラーメッセージ
+
+通知の中には、請求書の支払いに失敗したなどのエラーをユーザーへ知らせるものがあります。メッセージを作成時に、`error`メソッドを呼び出せば、メールメッセージがエラーに関するものであることを示せます。メールメッセージで`error`メソッドを使用すると、アクションの呼び出しボタンが黒ではなく、赤になります。
+
+    /**
+     * 通知のメールプレゼンテーションを取得
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->error()
+                    ->subject('Invoice Payment Failed')
+                    ->line('...');
+    }
+
 <a name="other-mail-notification-formatting-options"></a>
 #### その他のメール通知フォーマットオプション
 
@@ -368,25 +387,6 @@ php artisan make:notification InvoicePaid
             ['emails.name.html', 'emails.name.plain'],
             ['invoice' => $this->invoice]
         );
-    }
-
-<a name="error-messages"></a>
-#### エラーメッセージ
-
-一部の通知は、請求書の支払いの失敗などのエラーをユーザーに通知します。メッセージを作成するときに`error`メソッドを呼び出すことにより、メールメッセージがエラーに関するものであることを示すことができます。メールメッセージで`error`メソッドを使用すると、行動を促すフレーズのボタンが黒ではなく赤になります。
-
-    /**
-     * 通知のメールプレゼンテーションを取得
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->error()
-                    ->subject('Notification Subject')
-                    ->line('...');
     }
 
 <a name="customizing-the-sender"></a>
@@ -603,7 +603,6 @@ MailgunやPostmarkなどのサードパーティのメールプロバイダは�
 Mailgunドライバを使用しているアプリケーションの場合は、[タグ](https://documentation.mailgun.com/en/latest/user_manual.html#tagging-1)と[メタデータ](https://documentation.mailgun.com/en/latest/user_manual.html#attaching-data-to-messages)の詳細は、Mailgunのドキュメントを参照してください。同様に、Postmarkのドキュメントの[タグ](https://postmarkapp.com/blog/tags-support-for-smtp)と[メタデータ](https://postmarkapp.com/support/article/1125-custom-metadata-faq)で、サポートに関するより詳しい情報を得られます。
 
 アプリケーションでAmazon SESを使用してメール送信する場合、`metadata`メソッドを使用して、メッセージへ[SESのタグ](https://docs.aws.amazon.com/ses/latest/APIReference/API_MessageTag.html)を添付する必要があります。
-タグやメタデータを`MailMessage`に追加できます。これらは、メールサービスがフィルタリングや処理を行う際に使用されます。
 
 <a name="customizing-the-symfony-message"></a>
 ### Symfonyメッセージのカスタマイズ
