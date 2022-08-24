@@ -479,7 +479,7 @@ Laravl9.xの最大の変更点は、２０２１年１２月をもってメン�
 
 #### ドライバ要求
 
-Mailgunランスポートを引き続き使用するには、`symfony/mailgun-mailer`と`symfony/http-client` Composerパッケージがアプリケーションに必要です。
+Mailgunトランスポートを引き続き使用するには、`symfony/mailgun-mailer`と`symfony/http-client` Composerパッケージがアプリケーションに必要です。
 
 ```shell
 composer require symfony/mailgun-mailer symfony/http-client
