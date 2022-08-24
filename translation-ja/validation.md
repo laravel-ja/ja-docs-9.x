@@ -1042,7 +1042,7 @@ The credit card number field is required when payment type is credit card.
 
     'avatar' => 'dimensions:min_width=100,min_height=200'
 
-使用可能なパラメータは、**min\_width**、**max\_width**、**min\_height**、**max\_height**、**width_**、**_height**、**ratio**です。
+使用可能なパラメータは、**min\_width**、**max\_width**、**min\_height**、**max\_height**、**width**、**height**、**ratio**です。
 
 **_ratio_**制約は、幅を高さで割ったものとして表す必要があります。これは、`3/2`のような分数または`1.5`のようなfloatのいずれかで指定します。
 
