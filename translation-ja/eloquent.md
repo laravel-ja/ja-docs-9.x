@@ -877,7 +877,7 @@ Eloquentは、データベースから実際にレコードを削除するだけ
             ->where('airline_id', 1)
             ->restore();
 
-`restore`メソッドは、[リレーション]](/docs/{{version}}/eloquent-relationships)のクエリを作成するときにも使用できます。
+`restore`メソッドは、[リレーション](/docs/{{version}}/eloquent-relationships)のクエリを作成するときにも使用できます。
 
     $flight->history()->restore();
 
