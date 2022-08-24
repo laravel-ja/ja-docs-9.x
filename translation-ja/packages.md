@@ -98,7 +98,7 @@ Laravelアプリケーションの`config/app.php`設定ファイルには、Lar
      * @return void
      */
     public function boot()
-            __DIR__.'/../config/courier.php', 'courier'
+    {
         $this->publishes([
             __DIR__.'/../config/courier.php' => config_path('courier.php'),
         ]);
@@ -124,7 +124,7 @@ Laravelアプリケーションの`config/app.php`設定ファイルには、Lar
      * @return void
      */
     public function register()
-            __DIR__.'/../config/courier.php', 'courier'
+    {
         $this->mergeConfigFrom(
             __DIR__.'/../config/courier.php', 'courier'
         );
@@ -144,7 +144,7 @@ Laravelアプリケーションの`config/app.php`設定ファイルには、Lar
      * @return void
      */
     public function boot()
-            __DIR__.'/../config/courier.php', 'courier'
+    {
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
     }
 
@@ -159,7 +159,7 @@ Laravelアプリケーションの`config/app.php`設定ファイルには、Lar
      * @return void
      */
     public function boot()
-            __DIR__.'/../config/courier.php', 'courier'
+    {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
 
@@ -176,7 +176,7 @@ Laravelアプリケーションの`config/app.php`設定ファイルには、Lar
      * @return void
      */
     public function boot()
-            __DIR__.'/../config/courier.php', 'courier'
+    {
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'courier');
     }
 
@@ -195,7 +195,7 @@ Laravelアプリケーションの`config/app.php`設定ファイルには、Lar
      * @return void
      */
     public function boot()
-            __DIR__.'/../config/courier.php', 'courier'
+    {
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'courier');
 
         $this->publishes([
@@ -216,14 +216,14 @@ Laravelアプリケーションの`config/app.php`設定ファイルには、Lar
      * @return void
      */
     public function boot()
-            __DIR__.'/../config/courier.php', 'courier'
+    {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'courier');
     }
 
 パッケージのビューは、`package::view`記法を使い参照します。そのため、ビューのパスを登録し終えたあとで、`courier`パッケージの`dashboard`ビューをロードする場合は、次のようになります。
 
-    Route::get('admin', function () {
-        return view('courier::admin');
+    Route::get('/dashboard', function () {
+        return view('courier::dashboard');
     });
 
 <a name="overriding-package-views"></a>
@@ -242,7 +242,7 @@ Laravelアプリケーションの`config/app.php`設定ファイルには、Lar
      * @return void
      */
     public function boot()
-            __DIR__.'/../config/courier.php', 'courier'
+    {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'courier');
 
         $this->publishes([
@@ -266,7 +266,7 @@ Bladeコンポーネントを利用するパッケージを構築する場合、
      * @return void
      */
     public function boot()
-            __DIR__.'/../config/courier.php', 'courier'
+    {
         Blade::component('package-alert', AlertComponent::class);
     }
 
@@ -342,7 +342,7 @@ Laravelの組み込み`about` Artisanコマンドは、アプリケーション�
      * @return void
      */
     public function boot()
-            __DIR__.'/../config/courier.php', 'courier'
+    {
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallCommand::class,
@@ -362,7 +362,7 @@ Laravelの組み込み`about` Artisanコマンドは、アプリケーション�
      * @return void
      */
     public function boot()
-            __DIR__.'/../config/courier.php', 'courier'
+    {
         $this->publishes([
             __DIR__.'/../public' => public_path('vendor/courier'),
         ], 'public');
@@ -385,7 +385,7 @@ php artisan vendor:publish --tag=public --force
      * @return void
      */
     public function boot()
-            __DIR__.'/../config/courier.php', 'courier'
+    {
         $this->publishes([
             __DIR__.'/../config/package.php' => config_path('package.php')
         ], 'courier-config');
