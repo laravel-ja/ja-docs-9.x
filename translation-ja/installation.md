@@ -249,7 +249,7 @@ Laravelプロジェクトを設定し終えて、次に何を学ぶべきか迷�
 - [リクエストのライフサイクル](/docs/{{version}}/lifecycle)
 - [設定](/docs/{{version}}/configuration)
 - [ディレクトリ構成](/docs/{{version}}/structure)
-- [Frontend](/docs/{{version}}/frontend)
+- [フロントエンド](/docs/{{version}}/frontend)
 - [サービスコンテナ](/docs/{{version}}/container)
 - [ファサード](/docs/{{version}}/facades)
 
