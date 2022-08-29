@@ -98,42 +98,6 @@ php artisan passport:install
         use HasApiTokens, HasFactory, Notifiable;
     }
 
-次に、`App\Providers\AuthServiceProvider`の`boot`メソッド内で`Passport::routes`メソッドを呼び出す必要があります。このメソッドは、アクセストークンを発行し、アクセストークン、クライアント、およびパーソナルアクセストークンを取り消すために必要なルートを登録します。
-
-    <?php
-
-    namespace App\Providers;
-
-    use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-    use Illuminate\Support\Facades\Gate;
-    use Laravel\Passport\Passport;
-
-    class AuthServiceProvider extends ServiceProvider
-    {
-        /**
-         * アプリケーションのポリシーのマップ
-         *
-         * @var array
-         */
-        protected $policies = [
-            'App\Models\Model' => 'App\Policies\ModelPolicy',
-        ];
-
-        /**
-         * 全認証／認可サービスの登録
-         *
-         * @return void
-         */
-        public function boot()
-        {
-            $this->registerPolicies();
-
-            if (! $this->app->routesAreCached()) {
-                Passport::routes();
-            }
-        }
-    }
-
 最後に、アプリケーションの`config/auth.php`設定ファイルで、`api`認証ガードを定義して、`driver`オプションを`passport`に設定します。これにより、API リクエストを認証する際に Passportの`TokenGuard`を使用するようアプリケーションに指示します。
 
     'guards' => [
@@ -176,8 +140,6 @@ php artisan passport:keys
     public function boot()
     {
         $this->registerPolicies();
-
-        Passport::routes();
 
         Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');
     }
@@ -245,8 +207,6 @@ Passportの新しいメジャーバージョンにアップグレードすると
     {
         $this->registerPolicies();
 
-        Passport::routes();
-
         Passport::tokensExpireIn(now()->addDays(15));
         Passport::refreshTokensExpireIn(now()->addDays(30));
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
@@ -282,8 +242,6 @@ Passportの新しいメジャーバージョンにアップグレードすると
     public function boot()
     {
         $this->registerPolicies();
-
-        Passport::routes();
 
         Passport::useTokenModel(Token::class);
         Passport::useClientModel(Client::class);
@@ -419,7 +377,7 @@ axios.delete('/oauth/clients/' + clientId)
     });
 
 > **Note**
-> `/oauth/authorize`ルートは、すでに`Passport::routes`メソッドが定義づけていることを覚えておいてください。このルートを自分で定義する必要はありません。
+> `/oauth/authorize`ルートは、すでにPassportが定義づけていることを覚えておいてください。このルートを自分で定義する必要はありません。
 
 <a name="approving-the-request"></a>
 #### リクエストの承認
@@ -483,7 +441,7 @@ php artisan vendor:publish --tag=passport-views
 この`/oauth/token`ルートは、`access_token`、`refresh_token`、`expires_in`属性を含むJSONレスポンスを返します。`expires_in`属性は、アクセストークンが無効になるまでの秒数を含んでいます。
 
 > **Note**
-> `/oauth/authorize`ルートと同様に、`/oauth/token`ルートは`Passport::routes`メソッドによって定義されます。このルートを手作業で定義する必要はありません。
+> `/oauth/authorize`ルートと同様に、`/oauth/token`ルートはPassportによって定義されます。このルートを手作業で定義する必要はありません。
 
 <a name="tokens-json-api"></a>
 #### JSON API
@@ -689,7 +647,7 @@ php artisan passport:client --password
 <a name="requesting-password-grant-tokens"></a>
 ### トークンのリクエスト
 
-パスワードグラントクライアントを作成したら、ユーザーのメールアドレスとパスワードを指定し、`/oauth/token`ルートへ`POST`リクエストを発行することで、アクセストークンをリクエストできます。このルートは、`Passport::routes`メソッドが登録しているため、自分で定義する必要がないことを覚えておきましょう。リクエストに成功すると、サーバから`access_token`と`refresh_token`のJSONレスポンスを受け取ります。
+パスワードグラントクライアントを作成したら、ユーザーのメールアドレスとパスワードを指定し、`/oauth/token`ルートへ`POST`リクエストを発行することで、アクセストークンをリクエストできます。このルートは、Passportが登録しているため、自分で定義する必要がないことを覚えておきましょう。リクエストに成功すると、サーバから`access_token`と`refresh_token`のJSONレスポンスを受け取ります。
 
     use Illuminate\Support\Facades\Http;
 
@@ -804,8 +762,6 @@ php artisan passport:client --password
     {
         $this->registerPolicies();
 
-        Passport::routes();
-
         Passport::enableImplicitGrant();
     }
 
@@ -828,7 +784,7 @@ php artisan passport:client --password
     });
 
 > **Note**
-> `/oauth/authorize`ルートは、すでに`Passport::routes`メソッドが定義づけていることを覚えておいてください。このルートを自分で定義する必要はありません。
+> `/oauth/authorize`ルートは、すでにPassportが定義づけていることを覚えておいてください。このルートを自分で定義する必要はありません。
 
 <a name="client-credentials-grant-tokens"></a>
 ## クライアント認証情報グラントトークン
@@ -1048,8 +1004,6 @@ APIのスコープは、アプリケーションの`App\Providers\AuthServicePro
     {
         $this->registerPolicies();
 
-        Passport::routes();
-
         Passport::tokensCan([
             'place-orders' => 'Place orders',
             'check-status' => 'Check order status',
@@ -1194,8 +1148,6 @@ API構築時にJavaScriptアプリケーションから、自分のAPIを利用�
     public function boot()
     {
         $this->registerPolicies();
-
-        Passport::routes();
 
         Passport::cookie('custom_name');
     }

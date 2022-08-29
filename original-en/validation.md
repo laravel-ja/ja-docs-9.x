@@ -197,7 +197,7 @@ So, in our example, the user will be redirected to our controller's `create` met
 <a name="quick-customizing-the-error-messages"></a>
 #### Customizing The Error Messages
 
-Laravel's built-in validation rules each has an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
+Laravel's built-in validation rules each have an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
 
 In addition, you may copy this file to another translation language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
 
@@ -723,7 +723,7 @@ The `has` method may be used to determine if any error messages exist for a give
 <a name="specifying-custom-messages-in-language-files"></a>
 ### Specifying Custom Messages In Language Files
 
-Laravel's built-in validation rules each has an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
+Laravel's built-in validation rules each have an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
 
 In addition, you may copy this file to another translation language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
 
@@ -848,9 +848,11 @@ Below is a list of all available validation rules and their function:
 [Less Than Or Equal](#rule-lte)
 [MAC Address](#rule-mac)
 [Max](#rule-max)
+[Max Digits](#rule-max-digits)
 [MIME Types](#rule-mimetypes)
 [MIME Type By File Extension](#rule-mimes)
 [Min](#rule-min)
+[Min Digits](#rule-min-digits)
 [Multiple Of](#multiple-of)
 [Not In](#rule-not-in)
 [Not Regex](#rule-not-regex)
@@ -1322,6 +1324,11 @@ The field under validation must be a MAC address.
 
 The field under validation must be less than or equal to a maximum _value_. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
 
+<a name="rule-max-digits"></a>
+#### max_digits:_value_
+
+The integer under validation must have a maximum length of _value_.
+
 <a name="rule-mimetypes"></a>
 #### mimetypes:_text/plain_,...
 
@@ -1349,6 +1356,11 @@ Even though you only need to specify the extensions, this rule actually validate
 #### min:_value_
 
 The field under validation must have a minimum _value_. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
+
+<a name="rule-min-digits"></a>
+#### min_digits:_value_
+
+The integer under validation must have a minimum length of _value_.
 
 <a name="multiple-of"></a>
 #### multiple_of:_value_
@@ -1408,12 +1420,12 @@ The field under validation must be present in the input data but can be empty.
 <a name="rule-prohibited"></a>
 #### prohibited
 
-The field under validation must be empty or not present.
+The field under validation must be an empty string or not present.
 
 <a name="rule-prohibited-if"></a>
 #### prohibited_if:_anotherfield_,_value_,...
 
-The field under validation must be empty or not present if the _anotherfield_ field is equal to any _value_.
+The field under validation must be an empty string or not present if the _anotherfield_ field is equal to any _value_.
 
 If complex conditional prohibition logic is required, you may utilize the `Rule::prohibitedIf` method. This method accepts a boolean or a closure. When given a closure, the closure should return `true` or `false` to indicate if the field under validation should be prohibited:
 
@@ -1431,7 +1443,7 @@ If complex conditional prohibition logic is required, you may utilize the `Rule:
 <a name="rule-prohibited-unless"></a>
 #### prohibited_unless:_anotherfield_,_value_,...
 
-The field under validation must be empty or not present unless the _anotherfield_ field is equal to any _value_.
+The field under validation must be an empty string or not present unless the _anotherfield_ field is equal to any _value_.
 
 <a name="rule-prohibits"></a>
 #### prohibits:_anotherfield_,...
@@ -2093,9 +2105,7 @@ By default, when an attribute being validated is not present or contains an empt
 
     Validator::make($input, $rules)->passes(); // true
 
-For a custom rule to run even when an attribute is empty, the rule must imply that the attribute is required. To create an "implicit" rule, implement the `Illuminate\Contracts\Validation\ImplicitRule` interface. This interface serves as a "marker interface" for the validator; therefore, it does not contain any additional methods you need to implement beyond the methods required by the typical `Rule` interface.
-
-To generate a new implicit rule object, you may use the `make:rule` Artisan command with the `--implicit` option :
+For a custom rule to run even when an attribute is empty, the rule must imply that the attribute is required. To quickly generate a new implicit rule object, you may use the `make:rule` Artisan command with the `--implicit` option:
 
 ```shell
 php artisan make:rule Uppercase --invokable --implicit

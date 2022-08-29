@@ -10,7 +10,6 @@
     - [Choosing Your Sail Services](#choosing-your-sail-services)
 - [Initial Configuration](#initial-configuration)
     - [Environment Based Configuration](#environment-based-configuration)
-    - [Directory Configuration](#directory-configuration)
     - [Databases & Migrations](#databases-and-migrations)
 - [Next Steps](#next-steps)
     - [Laravel The Full Stack Framework](#laravel-the-fullstack-framework)
@@ -55,6 +54,14 @@ After you have installed PHP and Composer, you may create a new Laravel project 
 
 ```nothing
 composer create-project laravel/laravel example-app
+```
+
+Or, you may create new Laravel projects by globally installing the Laravel installer via Composer:
+
+```nothing
+composer global require laravel/installer
+
+laravel new example-app
 ```
 
 After the project has been created, start Laravel's local development server using the Laravel's Artisan CLI `serve` command:
@@ -204,11 +211,6 @@ Your `.env` file should not be committed to your application's source control, s
 
 > **Note**  
 > For more information about the `.env` file and environment based configuration, check out the full [configuration documentation](/docs/{{version}}/configuration#environment-configuration).
-
-<a name="directory-configuration"></a>
-### Directory Configuration
-
-Laravel should always be served out of the root of the "web directory" configured for your web server. You should not attempt to serve a Laravel application out of a subdirectory of the "web directory". Attempting to do so could expose sensitive files that exist within your application.
 
 <a name="databases-and-migrations"></a>
 ### Databases & Migrations

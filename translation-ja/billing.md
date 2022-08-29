@@ -77,7 +77,7 @@
 キャッシャーの新しいバージョンにアップグレードするときは、[アップグレードガイド](https://github.com/laravel/cashier-stripe/blob/master/UPGRADE.md)を注意深く確認することが重要です。
 
 > **Warning**
-> 重大な変更を防ぐために、Cashierは固定のStripe APIバージョンを使用します。Cashier13はStripe APIバージョン`2020-08-27`を利用しています。Stripe APIバージョンは、新しいStripe機能と改善点を利用するために、マイナーリリースで更新されます。
+> 重大な変更を防ぐために、Cashierは固定のStripe APIバージョンを使用します。Cashier14はStripe APIバージョン`2022-08-01`を利用しています。Stripe APIバージョンは、新しいStripe機能と改善点を利用するために、マイナーリリースで更新されます。
 
 <a name="installation"></a>
 ## インストール
@@ -296,13 +296,13 @@ Stripeでは、顧客の「残高」に入金または引き落としができ�
 
     $balance = $user->balance();
 
-顧客の残高から引き落とすには、`applyBalance`メソッドに負の値を指定します。また、必要に応じて、説明を指定することもできます。
+顧客の残高から引き落とすには、`creditBalance`メソッドに値を指定します。また、必要に応じて、説明を指定することもできます。
 
-    $user->applyBalance(-500, 'プレミアムメンバー・チャージ');
+    $user->creditBalance(500, 'Premium customer top-up.');
 
-`applyBalance`メソッドに正の値を渡すと、顧客の残高へ入金されます。
+`debitBalance`メソッドへ値を渡すと、顧客の残高へ入金します。
 
-    $user->applyBalance(300, '誤使用の補償');
+    $user->debitBalance(300, 'Bad usage penalty.');
 
 `applyBalance`メソッドは、その顧客に対する新しい顧客残高トランザクションを作成します。これらのトランザクションレコードは`balanceTransactions`メソッドを使って取得でき、顧客に確認してもらうため入金と引き落としのログを提供するのに便利です。
 
@@ -375,7 +375,7 @@ Cashierが提供する様々なメソッドをオーバーライドすること�
         return $this->company_name;
     }
 
-同様に、`stripeEmail`、`stripePhone`、`stripeAddress`メソッドをオーバーライドできます。これらのメソッドは、[Stripe顧客オブジェクトの更新](https://stripe.com/docs/api/customers/update)の際に、対応する顧客パラメータへ情報を同期します。顧客情報の同期プロセスを完全にコントロールしたい場合は、`syncStripeCustomerDetails`メソッドをオーバーライドできます。
+同様に、`stripeEmail`、`stripePhone`、`stripeAddress`、`stripePreferredLocales`メソッドをオーバーライドできます。これらのメソッドは、[Stripe顧客オブジェクトの更新](https://stripe.com/docs/api/customers/update)の際に、対応する顧客パラメータへ情報を同期します。顧客情報の同期プロセスを完全にコントロールしたい場合は、`syncStripeCustomerDetails`メソッドをオーバーライドできます。
 
 <a name="billing-portal"></a>
 ### 請求ポータル
@@ -1704,18 +1704,21 @@ Stripeの料金を払い戻す必要がある場合は、`refund`メソッドを
 <a name="generating-invoice-pdfs"></a>
 ### インボイスＰＤＦの生成
 
+インボイスPDFを生成する前にComposerを使い、CashierのデフォルトインボイスレンダラであるDompdfライブラリをインストールする必要があります。
+
+```php
+composer require dompdf/dompdf
+```
+
 ルートまたはコントローラ内から、`downloadInvoice`メソッドを使用して、特定のインボイスのＰＤＦダウンロードを生成できます。このメソッドは、インボイスのダウンロードに必要なHTTP応答を適切かつ自動的に生成します。
 
     use Illuminate\Http\Request;
 
     Route::get('/user/invoice/{invoice}', function (Request $request, $invoiceId) {
-        return $request->user()->downloadInvoice($invoiceId, [
-            'vendor' => 'Your Company',
-            'product' => 'Your Product',
-        ]);
+        return $request->user()->downloadInvoice($invoiceId);
     });
 
-インボイスのすべてのデータはデフォルトで、Stripeに保存されている顧客と請求書のデータから作成します。しかし、`downloadInvoice`メソッドの第２引数に配列を指定することで、データの一部をカスタマイズ可能です。この配列で、会社や製品の詳細などの情報がカスタマイズできます。
+インボイスのすべてのデータはデフォルトで、Stripeに保存されている顧客と請求書のデータから作成します。ファイル名は`app.name`設定値に基づきます。しかし、`downloadInvoice`メソッドの第２引数に配列を指定することで、データの一部をカスタマイズ可能です。この配列で、会社や製品の詳細などの情報がカスタマイズできます。
 
     return $request->user()->downloadInvoice($invoiceId, [
         'vendor' => 'Your Company',
@@ -1726,7 +1729,7 @@ Stripeの料金を払い戻す必要がある場合は、`refund`メソッドを
         'email' => 'info@example.com',
         'url' => 'https://example.com',
         'vendorVat' => 'BE123456789',
-    ], 'my-invoice');
+    ]);
 
 `downloadInvoice`メソッドの第３引数でカスタムファイル名の指定もできます。このファイル名には自動的に`.pdf`というサフィックスが付きます。
 

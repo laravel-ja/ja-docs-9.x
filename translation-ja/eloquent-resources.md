@@ -323,12 +323,12 @@ php artisan make:resource UserCollection
         {
             "id": 1,
             "name": "Eladio Schroeder Sr.",
-            "email": "therese28@example.com",
+            "email": "therese28@example.com"
         },
         {
             "id": 2,
             "name": "Liliana Mayert",
-            "email": "evandervort@example.com",
+            "email": "evandervort@example.com"
         }
     ]
 }
@@ -425,12 +425,12 @@ php artisan make:resource UserCollection
         {
             "id": 1,
             "name": "Eladio Schroeder Sr.",
-            "email": "therese28@example.com",
+            "email": "therese28@example.com"
         },
         {
             "id": 2,
             "name": "Liliana Mayert",
-            "email": "evandervort@example.com",
+            "email": "evandervort@example.com"
         }
     ],
     "links":{
@@ -471,12 +471,12 @@ Laravel ペジネータインスタンスをリソースの`collection`メソッ
         {
             "id": 1,
             "name": "Eladio Schroeder Sr.",
-            "email": "therese28@example.com",
+            "email": "therese28@example.com"
         },
         {
             "id": 2,
             "name": "Liliana Mayert",
-            "email": "evandervort@example.com",
+            "email": "evandervort@example.com"
         }
     ],
     "links":{

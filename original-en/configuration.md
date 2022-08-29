@@ -54,7 +54,7 @@ Your `.env` file should not be committed to your application's source control, s
 <a name="additional-environment-files"></a>
 #### Additional Environment Files
 
-Before loading your application's environment variables, Laravel determines if either the `APP_ENV` environment variable has been externally provided or if the `--env` CLI argument has been specified. If so, Laravel will attempt to load an `.env.[APP_ENV]` file if it exists. If it does not exist, the default `.env` file will be loaded.
+Before loading your application's environment variables, Laravel determines if an `APP_ENV` environment variable has been externally provided or if the `--env` CLI argument has been specified. If so, Laravel will attempt to load an `.env.[APP_ENV]` file if it exists. If it does not exist, the default `.env` file will be loaded.
 
 <a name="environment-variable-types"></a>
 ### Environment Variable Types
@@ -81,7 +81,7 @@ APP_NAME="My Application"
 <a name="retrieving-environment-configuration"></a>
 ### Retrieving Environment Configuration
 
-All of the variables listed in this file will be loaded into the `$_ENV` PHP super-global when your application receives a request. However, you may use the `env` helper to retrieve values from these variables in your configuration files. In fact, if you review the Laravel configuration files, you will notice many of the options are already using this helper:
+All of the variables listed in the `.env` file will be loaded into the `$_ENV` PHP super-global when your application receives a request. However, you may use the `env` function to retrieve values from these variables in your configuration files. In fact, if you review the Laravel configuration files, you will notice many of the options are already using this function:
 
     'debug' => env('APP_DEBUG', false),
 
@@ -112,14 +112,14 @@ You may also pass arguments to the `environment` method to determine if the envi
 <a name="accessing-configuration-values"></a>
 ## Accessing Configuration Values
 
-You may easily access your configuration values using the global `config` helper function from anywhere in your application. The configuration values may be accessed using "dot" syntax, which includes the name of the file and option you wish to access. A default value may also be specified and will be returned if the configuration option does not exist:
+You may easily access your configuration values using the global `config` function from anywhere in your application. The configuration values may be accessed using "dot" syntax, which includes the name of the file and option you wish to access. A default value may also be specified and will be returned if the configuration option does not exist:
 
     $value = config('app.timezone');
 
     // Retrieve a default value if the configuration value does not exist...
     $value = config('app.timezone', 'Asia/Seoul');
 
-To set configuration values at runtime, pass an array to the `config` helper:
+To set configuration values at runtime, pass an array to the `config` function:
 
     config(['app.timezone' => 'America/Chicago']);
 
@@ -166,7 +166,7 @@ php artisan down --retry=60
 <a name="bypassing-maintenance-mode"></a>
 #### Bypassing Maintenance Mode
 
-Even while in maintenance mode, you may use the `secret` option to specify a maintenance mode bypass token:
+To allow maintenance mode to be bypassed using a secret token, you may use the `secret` option to specify a maintenance mode bypass token:
 
 ```shell
 php artisan down --secret="1630542a-246b-4b66-afa1-dd72a4c43515"

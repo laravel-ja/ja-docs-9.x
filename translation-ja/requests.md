@@ -288,7 +288,7 @@ composer require nyholm/psr7
 <a name="retrieving-json-input-values"></a>
 #### JSON入力値の取得
 
-JSONリクエストをアプリケーションに送信する場合、リクエストの`Content-Type`ヘッダが適切に`application/json`へ設定されている限り、`input`メソッドを介してJSONデータにアクセスできます。「ドット」構文を使用して、JSON配列内にネストされている値を取得することもできます。
+JSONリクエストをアプリケーションに送信する場合、リクエストの`Content-Type`ヘッダが適切に`application/json`へ設定されている限り、`input`メソッドを介してJSONデータにアクセスできます。「ドット」構文を使用して、JSON配列／オブジェクト内にネストされている値を取得することもできます。
 
     $name = $request->input('user.name');
 

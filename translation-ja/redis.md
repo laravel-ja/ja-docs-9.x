@@ -183,7 +183,7 @@ Laravelの`config/app.php`設定ファイルには`aliases`配列があり、フ
 <a name="phpredis-serialization"></a>
 #### phpredisのシリアライズと圧縮
 
-phpredis拡張モジュールは、シリアライズや圧縮のアルゴリズムも設定できます。これらのアルゴリズムは、Redis設定の`options`配列で指定します。
+phpredis拡張モジュールは、様々なシリアライズや圧縮アルゴリズムも設定できます。これらのアルゴリズムは、Redis設定の`options`配列で指定します。
 
     'redis' => [
 

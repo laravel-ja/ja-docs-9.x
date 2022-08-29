@@ -647,6 +647,8 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
 
     ProcessPodcast::dispatchUnless($accountSuspended, $podcast);
 
+新しいLaravelアプリケーションでは、`sync`ドライバがデフォルトのキュードライバです。このドライバは現在のリクエストをフォアグラウンドで同期的にジョブを実行し、たいていのローカル開発時では便利です。もし、バックグラウンド処理のために実際にキューを開始したい場合は、アプリケーションの`config/queue.php`設定ファイル内で、別のキュードライバを指定してください。
+
 <a name="delayed-dispatching"></a>
 ### ディスパッチの遅延
 

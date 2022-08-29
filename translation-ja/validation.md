@@ -848,9 +848,11 @@ The credit card number field is required when payment type is credit card.
 [以下](#rule-lte)
 [MACアドレス](#rule-mac)
 [最大値](#rule-max)
+[最大桁数](#rule-max-digits)
 [MIMEタイプ](#rule-mimetypes)
 [MIMEタイプ(ファイル拡張子)](#rule-mimes)
 [最小値](#rule-min)
+[最小桁数](#rule-min-digits)
 [倍数値](#multiple-of)
 [非内包](#rule-not-in)
 [正規表現不一致](#rule-not-regex)
@@ -1322,6 +1324,11 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 フィールドが最大値として指定された**値**以下であることをバリデートします。[`size`](#rule-size)ルールと同様の判定方法で、文字列、数値、配列、ファイルが評価されます。
 
+<a name="rule-max-digits"></a>
+#### max_digits:_value_
+
+整数フィールドが、最大**値**桁数以下であることをバリデートします。
+
 <a name="rule-mimetypes"></a>
 #### mimetypes:*text/plain*,...
 
@@ -1349,6 +1356,11 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 #### min:_値_
 
 フィールドが最小値として指定された**値**以上であることをバリデートします。[`size`](#rule-size)ルールと同様の判定方法で、文字列、数値、配列、ファイルが評価されます。
+
+<a name="rule-min-digits"></a>
+#### min_digits:_value_
+
+整数フィールドが、最小**値**桁数以上であることをバリデートします。
 
 <a name="multiple-of"></a>
 #### multiple_of:_値_
@@ -1408,12 +1420,12 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 <a name="rule-prohibited"></a>
 #### prohibited
 
-フィールドが空であるか、存在していないことをバリデートします。
+フィールドが空文字列であるか、存在していないことをバリデートします。
 
 <a name="rule-prohibited-if"></a>
 #### prohibited_if:_anotherfield_,_value_,...
 
-**anotherfield**フィールドが任意の**value**と等しい場合、対象のフィールドは空であるか、存在しないことをバリデートします。
+**anotherfield**フィールドが任意の**value**と等しい場合、対象のフィールドは空文字列であるか、存在しないことをバリデートします。
 
 複雑な条件付き禁止（空か存在してない）ロジックが必要な場合は、`Rule::prohibitedIf`メソッドを利用してください。このメソッドは、論理値かクロージャを引数に取ります。クロージャを指定する場合、そのクロージャは`true`または`false`を返し、バリデーション中のフィールドを禁止するかしないかを示す必要があります。
 
@@ -1431,7 +1443,7 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 <a name="rule-prohibited-unless"></a>
 #### prohibited_unless:_anotherfield_,_value_,...
 
-**anotherfiel**フィールドが任意の**value**と等しくない場合、対象のフィールドは空であるか、存在していないことをバリデートします。
+**anotherfiel**フィールドが任意の**value**と等しくない場合、対象のフィールドは空文字列であるか、存在していないことをバリデートします。
 
 <a name="rule-prohibits"></a>
 #### prohibits:_anotherfield_,...
@@ -2093,9 +2105,7 @@ php artisan make:rule Uppercase --invokable
 
     Validator::make($input, $rules)->passes(); // true
 
-属性が空の場合でもカスタムルールを実行するには、ルールは属性が必須であることを意味する必要があります。「暗黙の」ルールを作成するには、`Illuminate\Contracts\Validation\ImplicitRule`インターフェイスを実装します。このインターフェイスは、バリデータの「マーカーインターフェイス」として機能します。したがって、通常の`Rule`インターフェイスで必要なメソッド以外に実装する必要のある追加のメソッドは含まれていません。
-
-新しい暗黙のルールオブジェクトを生成するには、`make:rule` Artisanコマンドに`--implicit`オプションを付けて使用してください。
+属性が空の場合でもカスタムルールを実行するには、ルールがその属性を必要とすることを示す必要があります。簡単に新しい暗黙のルールオブジェクトを生成するには、`make:rule` Artisanコマンドに、`--implicit`オプションを付けて使用します。
 
 ```shell
 php artisan make:rule Uppercase --invokable --implicit

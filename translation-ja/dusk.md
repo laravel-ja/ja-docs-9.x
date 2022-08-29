@@ -65,7 +65,7 @@ composer require --dev laravel/dusk
 > **Warning**
 > 本番環境にDuskをインストールしてはいけません。インストールすると、アプリケーションに対する未認証でのアクセスを許すようになります。
 
-Duskパッケージをインストールし終えたら、`dusk:install` Artisanコマンドを実行します。`dusk:install`コマンドは、`tests/Browser`ディレクトリとサンプルのDuskテストを作成します。
+Duskパッケージをインストールし終えたら、`dusk:install` Artisanコマンドを実行します。`dusk:install`コマンドは、`tests/Browser`ディレクトリとサンプルのDuskテスト、およびオペレーティングシステムに合わせたChromeドライバのバイナリを作成します。
 
 ```shell
 php artisan dusk:install
@@ -77,21 +77,21 @@ php artisan dusk:install
 > [Laravel Sail](/docs/{{version}}/sale)を使用してローカル開発環境を管理している場合は、[Duskテストの設定と実行](/docs/{{version}}/sail#laravel-dusk)に関するSailのドキュメントも参照してください。
 
 <a name="managing-chromedriver-installations"></a>
-### ChromeDriverインストールの管理
+### Chromeドライバインストールの管理
 
-Laravel Duskにデフォルトで含まれるChromeDriverとは別のバージョンをインストールしたい場合は、`dusk:chrome-driver`コマンドが使用できます。
+`dusk:install`コマンドにより、Laravel Duskに含まれるChromeドライバとは別のバージョンをインストールしたい場合は、`dusk:chrome-driver`コマンドが使用できます。
 
 ```shell
-# Install the latest version of ChromeDriver for your OS...
+# OSに合った最新バージョンのChromeドライバのインストール
 php artisan dusk:chrome-driver
 
-# Install a given version of ChromeDriver for your OS...
+# OSに合った指定バージョンのChromeドライバのインストール
 php artisan dusk:chrome-driver 86
 
-# Install a given version of ChromeDriver for all supported OSs...
+# 全てのOSに合ったChromeドライバのインストール
 php artisan dusk:chrome-driver --all
 
-# Install the version of ChromeDriver that matches the detected version of Chrome / Chromium for your OS...
+# Chrome／Chromiumのバージョンを調べ、OSに合ったChromeドライバのバージョンをインストール
 php artisan dusk:chrome-driver --detect
 ```
 
@@ -1884,7 +1884,7 @@ script:
 <a name="running-tests-on-github-actions"></a>
 ### GitHubアクション
 
-[Github Actions](https://github.com/features/actions)を使用してDuskテストを実行する場合は、次の設定ファイルを開始点として使用できます。TravisCIと同様に、`php artisan serve`コマンドを使用してPHPの組み込みWebサーバを起動します。
+[GitHub Actions](https://github.com/features/actions)を使用してDuskテストを実行する場合は、次の設定ファイルを開始点として使用できます。TravisCIと同様に、`php artisan serve`コマンドを使用してPHPの組み込みWebサーバを起動します。
 
 ```yaml
 name: CI

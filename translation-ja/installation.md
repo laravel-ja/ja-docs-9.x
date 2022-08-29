@@ -10,7 +10,6 @@
     - [Sailサービスの選択](#choosing-your-sail-services)
 - [初期設定](#initial-configuration)
     - [環境ベースの設定](#environment-based-configuration)
-    - [ディレクトリ設定](#directory-configuration)
     - [データベースとマイグレーション](#databases-and-migrations)
 - [次のステップ](#next-steps)
     - [Laravelフルスタックフレームワーク](#laravel-the-fullstack-framework)
@@ -55,6 +54,14 @@ PHPとComposerをインストールしたら、Composerの`create-project`コマ
 
 ```nothing
 composer create-project laravel/laravel example-app
+```
+
+または、Composer経由でLaravelインストーラをグローバルインストールすることで、新しいLaravelプロジェクトを作成することもできます。
+
+```nothing
+composer global require laravel/installer
+
+laravel new example-app
 ```
 
 プロジェクト作成後、LaravelのArtisan `serve` CLIコマンドを使用して、Laravelローカル開発サーバを起動します。
@@ -204,11 +211,6 @@ Laravelの設定オプションの値の多くは、アプリケーションが�
 
 > **Note**
 > `.env`ファイルと環境ベースの設定の詳細は、完全な[設定ドキュメント](/docs/{{version}}/configuration#environment-configuration)をチェックしてください。
-
-<a name="directory-configuration"></a>
-### ディレクトリ設定
-
-Laravelは、常にWebサーバ用に設定した「Webディレクトリ」のルート上から提供する必要があります。「Webディレクトリ」のサブディレクトリからLaravelアプリケーションを提供しようとしないでください。提供してしまうと、アプリケーション内に存在する機密ファイルを公開してしまう可能性があります。
 
 <a name="databases-and-migrations"></a>
 ### データベースとマイグレーション

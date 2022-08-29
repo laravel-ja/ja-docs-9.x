@@ -172,7 +172,7 @@ The mutator closure will receive the value that is being set on the attribute, a
 
     $user->first_name = 'Sally';
 
-In this example, the `set` callback will be called with the value `Sally`. The mutator will then apply the `strtolower` function to the name and set its resulting value in model's the internal `$attributes` array.
+In this example, the `set` callback will be called with the value `Sally`. The mutator will then apply the `strtolower` function to the name and set its resulting value in the model's internal `$attributes` array.
 
 <a name="mutating-multiple-attributes"></a>
 #### Mutating Multiple Attributes
@@ -428,7 +428,7 @@ If a custom format is applied to the `date` or `datetime` cast, such as `datetim
 > **Warning**  
 > Enum casting is only available for PHP 8.1+.
 
-Eloquent also allows you to cast your attribute values to PHP ["backed" Enums](https://www.php.net/manual/en/language.enumerations.backed.php). To accomplish this, you may specify the attribute and enum you wish to cast in your model's `$casts` property array:
+Eloquent also allows you to cast your attribute values to PHP [Enums](https://www.php.net/manual/en/language.enumerations.backed.php). To accomplish this, you may specify the attribute and enum you wish to cast in your model's `$casts` property array:
 
     use App\Enums\ServerStatus;
 

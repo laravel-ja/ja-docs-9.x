@@ -611,11 +611,11 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 
     use Illuminate\Support\Arr;
 
-    $isAssoc = Arr::isList(['foo', 'bar', 'baz']);
+    $isList = Arr::isList(['foo', 'bar', 'baz']);
 
     // true
 
-    $isAssoc = Arr::isList(['product' => ['name' => 'Desk', 'price' => 100]]);
+    $isList = Arr::isList(['product' => ['name' => 'Desk', 'price' => 100]]);
 
     // false
 

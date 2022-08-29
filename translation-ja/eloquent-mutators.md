@@ -428,7 +428,7 @@ JSON属性の単一のフィールドをより簡潔な構文で更新するに�
 > **Warning**
 > Enumキャストは、PHP8.1以上で使用できます。
 
-Eloquentは、属性値をPHPの[「値に依存した（backed）」 Enum](https://www.php.net/manual/ja/language.enumerations.backed.php) にキャストすることも可能です。これを実現するには、モデルの`$casts`プロパティ配列にキャストしたい属性と列挙型を指定します。
+Eloquentは、属性値をPHPの[Enum](https://www.php.net/manual/ja/language.enumerations.backed.php) にキャストすることも可能です。これを実現するには、モデルの`$casts`プロパティ配列にキャストしたい属性と列挙型を指定します。
 
     use App\Enums\ServerStatus;
 

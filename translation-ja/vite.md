@@ -25,6 +25,7 @@
   - [コンテンツセキュリティポリシー（CSP)ノンス](#content-security-policy-csp-nonce)
   - [サブリソース完全性(SRI)](#subresource-integrity-sri)
   - [任意の属性](#arbitrary-attributes)
+- [高度なカスタマイズ](#advanced-customization)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -169,6 +170,17 @@ JavaScriptでCSSをインポートする場合は、JavaScriptのエントリー
 ```
 
 `@vite` ディレクティブは、Vite開発サーバを自動的に検出し、Viteクライアントを注入してホットモジュール置換を有効にします。ビルドモードでは、このディレクティブはインポートしたCSSを含む、コンパイル済みのバージョン管理しているアセットを読み込みます。
+
+必要であれば、`@vite`ディレクティブを呼び出す際に、コンパイル済みアセットのビルドパスを指定することもできます。
+
+```blade
+<!doctype html>
+<head>
+    {{-- 指定するビルドパスは、publicパスからの相対パス --}}
+
+    @vite('resources/js/app.js', 'vendor/courier/build')
+</head>
+```
 
 <a name="running-vite"></a>
 ## Viteの実行
@@ -657,3 +669,38 @@ Vite::useStyleTagAttributes(fn (string $src, string $url, array|null $chunk, arr
 
 > **Warning**
 > Vite開発サーバが起動している間は、`$chunk`と`$manifest`引数は、`null`になります。
+
+<a name="advanced-customization"></a>
+## 高度なカスタマイズ
+
+LaravelのViteプラグインは、ほとんどのアプリケーションで動作するように、合理的な規約をはじめから使用しています。しかし、時にはViteの動作をカスタマイズする必要が起きるかもしれません。追加のカスタマイズオプションを有効にするための、`@vite` Bladeディレクティブの代わりに使用可能な、以下のメソッドとオプションを提供しています。
+
+```blade
+<!doctype html>
+<head>
+    {{-- ... --}}
+
+    {{
+        Vite::useHotFile(storage_path('vite.hot')) // 「ホット」なファイルのカスタマイズ
+            ->useBuildDirectory('bundle') // ビルドディレクトリのカスタマイズ
+            ->withEntryPoints(['resources/js/app.js']) // エントリポイントの指定
+    }}
+</head>
+```
+
+そして、`vite.config.js`ファイル内でも、同じ設定を指定する必要があります。
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            hotFile: 'storage/vite.hot', // 「ホット」なファイルのカスタマイズ
+            buildDirectory: 'bundle', // ビルドディレクトリのカスタマイズ
+            input: ['resources/js/app.js'], // エントリポイントの指定
+        }),
+    ],
+});
+```
