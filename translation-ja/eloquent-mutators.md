@@ -220,7 +220,7 @@ protected function address(): Attribute
 - `datetime`
 - `immutable_date`
 - `immutable_datetime`
-- `decimal:`<code>&lt;digits&gt;</code>
+- <code>decimal:&lt;precision&gt;</code>
 - `double`
 - `encrypted`
 - `encrypted:array`
@@ -561,7 +561,7 @@ Laravelには、さまざまな組み込みの便利なキャストタイプが�
 
     namespace App\Casts;
 
-    use App\Models\Address as AddressModel;
+    use App\ValueObjects\Address as AddressValueObject;
     use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
     use InvalidArgumentException;
 
@@ -574,11 +574,11 @@ Laravelには、さまざまな組み込みの便利なキャストタイプが�
          * @param  string  $key
          * @param  mixed  $value
          * @param  array  $attributes
-         * @return \App\Models\Address
+         * @return \App\ValueObjects\Address
          */
         public function get($model, $key, $value, $attributes)
         {
-            return new AddressModel(
+            return new AddressValueObject(
                 $attributes['address_line_one'],
                 $attributes['address_line_two']
             );
@@ -589,13 +589,13 @@ Laravelには、さまざまな組み込みの便利なキャストタイプが�
          *
          * @param  \Illuminate\Database\Eloquent\Model  $model
          * @param  string  $key
-         * @param  \App\Models\Address  $value
+         * @param  \App\ValueObjects\Address  $value
          * @param  array  $attributes
          * @return array
          */
         public function set($model, $key, $value, $attributes)
         {
-            if (! $value instanceof AddressModel) {
+            if (! $value instanceof AddressValueObject) {
                 throw new InvalidArgumentException('The given value is not an Address instance.');
             }
 

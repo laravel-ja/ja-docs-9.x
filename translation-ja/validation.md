@@ -978,7 +978,7 @@ The credit card number field is required when payment type is credit card.
 <a name="rule-between"></a>
 #### between:_min_,_max_
 
-フィールドが指定された**最小値**と**最大値**の間のサイズであることをバリデートします。[`size`](#rule-size)ルールと同様の判定方法で、文字列、数値、配列、ファイルが評価されます。
+フィールドが指定した**最小値**以上で、**最大値**以下のサイズであることをバリデートします。[`size`](#rule-size)ルールと同様の判定方法で、文字列、数値、配列、ファイルが評価されます。
 
 <a name="rule-boolean"></a>
 #### boolean

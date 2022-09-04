@@ -287,9 +287,12 @@ php artisan make:notification InvoicePaid
 
 アプリケーションの「ユーザー」として保存されていない人に通知を送信する必要がある場合があります。`Notification`ファサードの`route`メソッドを使用して、通知を送信する前にアドホックな通知ルーティング情報を指定します。
 
+    use Illuminate\Broadcasting\Channel;
+
     Notification::route('mail', 'taylor@example.com')
                 ->route('vonage', '5555555555')
                 ->route('slack', 'https://hooks.slack.com/services/...')
+                ->route('broadcast', [new Channel('channel-name')])
                 ->notify(new InvoicePaid($invoice));
 
 オンデマンド通知を`mail`ルートへ送信するとき、受信者名を指定したい場合は、メールアドレスをキーとし、名前を配列の最初の要素の値として含む配列を渡してください。

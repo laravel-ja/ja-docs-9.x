@@ -491,7 +491,7 @@ Laravelは、JSONカラム型のサポートを提供するデータベースで
                     ->where('preferences->dining->meal', 'salad')
                     ->get();
 
-`whereJsonContains`を使用してJSON配列をクエリできます。この機能はSQLiteデータベースではサポートされていません。
+`whereJsonContains`を使用してJSON配列をクエリできます。この機能は、バージョン3.38.0以下のSQLiteデータベースではサポートしていません。
 
     $users = DB::table('users')
                     ->whereJsonContains('options->languages', 'en')
