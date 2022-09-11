@@ -819,7 +819,7 @@ Bladeにより、以下のHTMLとしてレンダされます。
 メソッドの名前に一致する変数を呼び出すことにより、コンポーネントテンプレートでこのメソッドを実行できます。
 
 ```blade
-<option {{ $isSelected($value) ? 'selected="selected"' : '' }} value="{{ $value }}">
+<option {{ $isSelected($value) ? 'selected' : '' }} value="{{ $value }}">
     {{ $label }}
 </option>
 ```

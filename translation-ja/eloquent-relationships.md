@@ -1669,7 +1669,7 @@ select * from authors where id in (1, 2, 3, 4, 5, ...)
 
     $users = User::withWhereHas('posts', function ($query) {
         $query->where('featured', true);
-    )->get();
+    })->get();
 
 <a name="lazy-eager-loading"></a>
 ### 遅延Eagerロード

@@ -468,26 +468,35 @@ MongoDB接続を使用してこれらの各メソッドを実装する必要が�
 ## イベント
 
 キャッシュ操作のどこででもコードを実行するには、キャッシュが発生させる[イベント](/docs/{{version}}/events)をリッスンしてください。通常、これらのイベントリスナはアプリケーションの`App\Providers\EventServiceProvider`クラス内に配置する必要があります。
-
+    
+    use App\Listeners\LogCacheHit;
+    use App\Listeners\LogCacheMissed;
+    use App\Listeners\LogKeyForgotten;
+    use App\Listeners\LogKeyWritten;
+    use Illuminate\Cache\Events\CacheHit;
+    use Illuminate\Cache\Events\CacheMissed;
+    use Illuminate\Cache\Events\KeyForgotten;
+    use Illuminate\Cache\Events\KeyWritten;
+    
     /**
      * アプリケーションのイベントリスナマップ
      *
      * @var array
      */
     protected $listen = [
-        'Illuminate\Cache\Events\CacheHit' => [
-            'App\Listeners\LogCacheHit',
+        CacheHit::class => [
+            LogCacheHit::class,
         ],
 
-        'Illuminate\Cache\Events\CacheMissed' => [
-            'App\Listeners\LogCacheMissed',
+        CacheMissed::class => [
+            LogCacheMissed::class,
         ],
 
-        'Illuminate\Cache\Events\KeyForgotten' => [
-            'App\Listeners\LogKeyForgotten',
+        KeyForgotten::class => [
+            LogKeyForgotten::class,
         ],
 
-        'Illuminate\Cache\Events\KeyWritten' => [
-            'App\Listeners\LogKeyWritten',
+        KeyWritten::class => [
+            LogKeyWritten::class,
         ],
     ];

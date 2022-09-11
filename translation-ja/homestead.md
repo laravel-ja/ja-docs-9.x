@@ -733,8 +733,9 @@ Webサーバにリクエストを送る機能テストをデバッグする場�
 
 ```ini
 ; Homestead.yamlでIPアドレスの異なるサブネットを指定している場合、このアドレスは異なるでしょう
-xdebug.remote_host = 192.168.10.1
-xdebug.remote_autostart = 1
+xdebug.client_host = 192.168.10.1
+xdebug.mode = debug
+xdebug.start_with_request = yes
 ```
 
 <a name="debugging-cli-applications"></a>

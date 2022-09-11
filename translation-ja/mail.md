@@ -191,6 +191,7 @@ Mailableクラスを生成したら、それを開いて、その内容を調べ
     public function build()
     {
         return $this->from('example@example.com', 'Example')
+                    ->subject('Order Shipped')
                     ->view('emails.orders.shipped');
     }
 
