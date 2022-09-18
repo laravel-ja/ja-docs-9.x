@@ -1368,7 +1368,7 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 フィールドが、**値**の倍数であることをバリデートします。
 
 > **Warning**
-> `multiple_of` ルールを使用するには、[`bcmath` PHP 拡張機能](https://www.php.net/manual/ja/book.bc.php)が必要です。
+> `multiple_of`ルールを使用するには、[`bcmath` PHP 拡張機能](https://www.php.net/manual/ja/book.bc.php)が必要です。
 
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
