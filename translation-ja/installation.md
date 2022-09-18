@@ -24,6 +24,9 @@ Laravelは、すばらしい開発者エクスペリエンスの提供に努め�
 
 PHP Webフレームワークをはじめて使用する場合も、長年の経験を持っている場合でも、Laravelは一緒に成長できるフレームワークです。私たちは皆さんがWeb開発者として最初の一歩を踏み出すのを支援したり、専門知識を次のレベルに引き上げる後押しをしたりしています。あなたが何を作り上げるのか楽しみにしています。
 
+> **Note**
+> Laravelは初めてですか？[Laravel Bootcamp](https://bootcamp.laravel.com)では、Laravelのフレームワークを実際に体験しながら、Laravelアプリケーションを構築できます。
+
 <a name="why-laravel"></a>
 ### なぜLaravelなのか？
 
@@ -258,6 +261,9 @@ Laravelプロジェクトを設定し終えて、次に何を学ぶべきか迷�
 </div>
 
 Laravelをどのように使用するかにより、旅の次の行き先も決まります。Laravelを使用するにはさまざまな方法があります。以下では、フレームワークの２つの主要なユースケースについて説明します。
+
+> **Note**
+> Laravelは初めてですか？[Laravel Bootcamp](https://bootcamp.laravel.com)では、Laravelのフレームワークを実際に体験しながら、Laravelアプリケーションを構築できます。
 
 <a name="laravel-the-fullstack-framework"></a>
 ### Laravelフルスタックフレームワーク

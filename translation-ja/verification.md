@@ -158,13 +158,16 @@ php artisan migrate
 
 [Laravelアプリケーションスターターキット](/docs/{{version}}/starter-kits)を使用する場合、Laravelはメール確認プロセス中に[イベント](/docs/{{version}}/events)を発行します。アプリケーションの電子メール確認を手作業で処理する場合は、確認の完了後にこれらのイベントを手作業で発行することを推奨します。アプリケーションの`EventServiceProvider`でこれらのイベントへリスナをアタッチできます。
 
+    use App\Listeners\LogVerifiedUser;
+    use Illuminate\Auth\Events\Verified;
+    
     /**
      * アプリケーションにマップするイベントリスナ
      *
      * @var array
      */
     protected $listen = [
-        'Illuminate\Auth\Events\Verified' => [
-            'App\Listeners\LogVerifiedUser',
+        Verified::class => [
+            LogVerifiedUser::class,
         ],
     ];

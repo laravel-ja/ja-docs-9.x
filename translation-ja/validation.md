@@ -853,7 +853,7 @@ The credit card number field is required when payment type is credit card.
 [MIMEタイプ(ファイル拡張子)](#rule-mimes)
 [最小値](#rule-min)
 [最小桁数](#rule-min-digits)
-[倍数値](#multiple-of)
+[倍数値](#rule-multiple-of)
 [非内包](#rule-not-in)
 [正規表現不一致](#rule-not-regex)
 [NULL許可](#rule-nullable)
@@ -1362,7 +1362,7 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 整数フィールドが、最小**値**桁数以上であることをバリデートします。
 
-<a name="multiple-of"></a>
+<a name="rule-multiple-of"></a>
 #### multiple_of:_値_
 
 フィールドが、**値**の倍数であることをバリデートします。

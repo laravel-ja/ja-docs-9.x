@@ -1285,14 +1285,17 @@ Laravelを使用すると、HTTPリクエストの現在のロケール以外の
 
 通知を送信するときは、通知システムが `Illuminate\Notifications\Events\NotificationSending`[イベント](/docs/{{version}}/events)を発行します。このイベントは、"notifiable "エンティティと通知インスタンス自体を含んでいます。アプリケーションの`EventServiceProvider`でこのイベントのリスナを登録できます。
 
+    use App\Listeners\CheckNotificationStatus;
+    use Illuminate\Notifications\Events\NotificationSending;
+    
     /**
      * アプリケーションにマップするイベントリスナの登録
      *
      * @var array
      */
     protected $listen = [
-        'Illuminate\Notifications\Events\NotificationSending' => [
-            'App\Listeners\CheckNotificationStatus',
+        NotificationSending::class => [
+            CheckNotificationStatus::class,
         ],
     ];
 
@@ -1331,14 +1334,17 @@ Laravelを使用すると、HTTPリクエストの現在のロケール以外の
 
 通知が送信されると通知システムが、`Illuminate\Notifications\Events\NotificationSent`[イベント](/docs/{{version}}/events)を発行します。このイベントは、"notifiable"エンティティと通知インスタンス自体を含んでいます。このイベントのリスナは`EventServiceProvider`で登録できます。
 
+    use App\Listeners\LogNotification;
+    use Illuminate\Notifications\Events\NotificationSent;
+    
     /**
      * アプリケーションにマップするイベントリスナの登録
      *
      * @var array
      */
     protected $listen = [
-        'Illuminate\Notifications\Events\NotificationSent' => [
-            'App\Listeners\LogNotification',
+        NotificationSent::class => [
+            LogNotification::class,
         ],
     ];
 

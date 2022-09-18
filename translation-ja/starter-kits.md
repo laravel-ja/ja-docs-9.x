@@ -24,6 +24,10 @@ Breezeは、新しいLaravelアプリケーションを始めるための素晴�
 
 <img src="https://laravel.com/img/docs/breeze-register.png">
 
+#### Laravel Bootcamp
+
+Laravelが初めての方は、気軽に【Laravel Bootcamp】(https://bootcamp.laravel.com)に飛び込んでみてください。Laravel Bootcampでは、Breezeを使用して最初のLaravelアプリケーションを構築する手順が説明されています。LaravelとBreezeのすべてを知るには最適な方法です。
+
 <a name="laravel-breeze-installation"></a>
 ### インストール
 

@@ -153,6 +153,9 @@ config/app.php設定ファイルのデバッグオプションは、エラーに
 
 Laravel ForgeはDigitalOcean、Linode、AWSなど数多くのインフラプロバイダ上に、サーバを作成できます。それに加え、ForgeはNginx、MySQL、Redis、Memcached、Beanstalkなどのような、堅牢なLaravelアプリケーションを構築するために必要なツールを全部インストールし、管理します。
 
+> **Note**
+> Laravel Forgeでデプロイするための完全なガイドが必要ですか？[Laravel Bootcamp](https://bootcamp.laravel.com/deploying)と[Laracastsで視聴できるForgeのビデオシリーズ](https://laracasts.com/series/learn-laravel-forge-2022-edition)をご覧ください。
+
 <a name="laravel-vapor"></a>
 #### Laravel Vapor
 

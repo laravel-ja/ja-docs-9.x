@@ -643,13 +643,15 @@ Billableなモデルのアカウントにデフォルトの支払い方法が関
 > 支払い方法識別子を`create`サブスクリプションメソッドへ直接渡すと、ユーザーの保存済み支払い方法にも自動的に追加されます。
 
 <a name="collecting-recurring-payments-via-invoice-emails"></a>
-#### インボイスメールによる定期支払いの収集
+#### インボイスメールによる定期払いの集金
 
-顧客の定期支払いを自動で収集する代わりに、定期支払いの期日ごとに請求書を顧客にメールで送信するように、Stripeへ指示できます。顧客は請求書を受け取った後に、手作業で支払います。請求書を使い、定期の支払いを集める場合に、顧客は前もって支払い方法を指定する必要はありません。
+顧客の定期払いを自動集金する代わりに、期日ごとに請求書（インボイス）を顧客にメールで送信するように、Stripeへ指示できます。顧客にはインボイスを受け取った後、手作業で支払ってもらいます。インボイスを使い定期払いを集金する場合、顧客は前もって支払い方法を指定する必要はありません。
 
-    $user->newSubscription('default', 'price_monthly')->createAndSendInvoice();
+    $user->newSubscription('default', 'price_monthly')->createAndSendInvoice([], [
+        'days_until_due' => 30
+    ]);
 
-サブスクリプションがキャンセルされたと判断するまでの顧客の支払い猶予期間は、[Stripeダッシュボード](https://dashboard.stripe.com/settings/billing/automatic)内のサブスクリプションとインボイスの設定により決まります。
+顧客がサブスクリプションをキャンセルする前に、インボイスを支払わなければならない期間は、`days_until_due`オプションで決まります。
 
 <a name="subscription-quantities"></a>
 #### サブスクリプション数量

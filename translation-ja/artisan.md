@@ -615,47 +615,29 @@ Artisanコマンドから他のコマンドを呼び出したい場合があり�
 <a name="signal-handling"></a>
 ## シグナルの処理
 
-Artisanコンソールのベースとして動作しているSymfonyコンソールコンポーネントを使用すると、コマンドで処理したいプロセスのシグナルを指定できます。たとえば、コマンドが`SIGINT`信号と`SIGTERM`信号を処理することを指示するとします。
-
-処理するには、Artisanコマンドクラスの`Symfony\Component\Console\Command\SignalableCommandInterface`インタフェースを実装する必要があります。このインタフェースは、`getSubscribedSignals`と`handleSignal`、２つのメソッドを定義する必要があります。
-
-```php
-<?php
-
-use Symfony\Component\Console\Command\SignalableCommandInterface;
-
-class StartServer extends Command implements SignalableCommandInterface
-{
-    // ...
+ご存知のように、オペレーティングシステムでは、実行中のプロセスにシグナルを送ることができます。例えば、`SIGTERM`シグナルはオペレーティングシステムがプログラムを終了するように要求する方法です。もし、Artisanコンソールコマンドでシグナルをリッスンし、発生時にコードを実行したい場合は、`trap`メソッドを使用してください。
 
     /**
-     * コマンドにより処理するシグナルのリストを取得
+     * コンソールコマンドの実行
      *
-     * @return array
+     * @return mixed
      */
-    public function getSubscribedSignals(): array
+    public function handle()
     {
-        return [SIGINT, SIGTERM];
-    }
+        $this->trap(SIGTERM, fn () => $this->shouldKeepRunning = false);
 
-    /**
-     * 受け取ったシグナルの処理
-     *
-     * @param  int  $signal
-     * @return void
-     */
-    public function handleSignal(int $signal): void
-    {
-        if ($signal === SIGINT) {
-            $this->stopServer();
-
-            return;
+        while ($this->shouldKeepRunning) {
+            // ...
         }
     }
-}
-```
 
-ご期待のとおり、`getSubscribedSignals`メソッドはコマンドが扱えるシグナルの配列を返し、`handleSignal`メソッドはシグナルを受け取り、それに応答できるようにします。
+一度に複数のシグナルをリッスンするには、`trap`メソッドへシグナルの配列を指定してください。
+
+    $this->trap([SIGTERM, SIGQUIT], function ($signal) {
+        $this->shouldKeepRunning = false;
+
+        dump($signal); // SIGTERM / SIGQUIT
+    });
 
 <a name="stub-customization"></a>
 ## スタブのカスタマイズ

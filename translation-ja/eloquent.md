@@ -39,10 +39,14 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-Laravelには、データベースとの対話を楽しくするオブジェクトリレーショナルマッパー(ORM)であるEloquentが含まれています。Eloquentを使用する場合、各データベーステーブルには対応する「モデル」があり、そのテーブルとの対話に使用します。Eloquentモデルでは、データベーステーブルからレコードを取得するだけでなく、テーブルへのレコード挿入、更新、削除も可能です。
+Laravelは、データベース操作を楽しくする、オブジェクトリレーショナルマッパー(ORM)であるEloquentを用意しています。Eloquentを使用する場合、各データベーステーブルに対応する「モデル」があり、そのテーブル操作に使用します。Eloquentモデルは、データベーステーブルからレコードを取得するだけでなく、テーブルへのレコード挿入、更新、削除も可能です。
 
 > **Note**
-> 使い始める前に、必ずアプリケーションの`config/database.php`設定ファイルで、データベース接続を設定してください。データベース設定の詳細は、[データベース設定のドキュメント](/docs/{{version}}/database#configuration)で確認してください。
+> 使用開始前に、必ずアプリケーションの`config/database.php`設定ファイルで、データベース接続を設定してください。データベース設定の詳細は、[データベース設定のドキュメント](/docs/{{version}}/database#configuration)で確認してください。
+
+#### Laravel Bootcamp
+
+Laravelが初めての方は、[Laravel Bootcamp](https://bootcamp.laravel.com)に気軽に飛び込んでみてください。Laravel Bootcampは、Eloquentを使って初めてのLaravelアプリケーションを構築する方法を説明します。LaravelとEloquentが提供するすべてを知るには最適な方法です。
 
 <a name="generating-model-classes"></a>
 ## モデルクラスの生成
@@ -1299,6 +1303,7 @@ Eloquentモデルはいくつかのイベントをディスパッチし、モデ
     use App\Events\UserDeleted;
     use App\Events\UserSaved;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable
     {

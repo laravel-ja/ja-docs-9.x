@@ -902,7 +902,7 @@ Laravelを使用すると、リクエストの現在のロケール以外のロ�
 <a name="testing-mailables"></a>
 ## Mailableのテスト
 
-Laravelでは、Mailableに期待した内容が含まれているかをテストするため、便利なメソッドを提供しています。こうしたメソッドに次のものがあります。`assertSeeInHtml`、`assertDontSeeInHtml`、`assertSeeInOrderInHtml`、`assertSeeInText`、`assertDontSeeInText`、`assertSeeInOrderInText`。
+Laravelは、Mailableに期待するコンテンツが含まれているかどうかをテストするために、便利なメソッドをいくらか用意しています。これらのメソッドは以下の通りです。`assertSeeInHtml`、`assertDontSeeInHtml`、`assertSeeInOrderInHtml`、`assertSeeInText`、`assertDontSeeInText`、`assertSeeInOrderInText`、`assertHasAttachment`、`assertHasAttachedData`、`assertHasAttachmentFromStorage`、`assertHasAttachmentFromStorageDisk`
 
 ご想像のとおり、"HTML"アサートは、MailableのHTMLバージョンに特定の文字列が含まれていることを宣言し、"text"アサートは、Mailableの平文テキストバージョンに特定の文字列が含まれていることを宣言します。
 
@@ -921,6 +921,12 @@ Laravelでは、Mailableに期待した内容が含まれているかをテス�
 
         $mailable->assertSeeInText($user->email);
         $mailable->assertSeeInOrderInText(['Invoice Paid', 'Thanks']);
+
+        $mailable->assertHasAttachment('/path/to/file');
+        $mailable->assertHasAttachment(Attachment::fromPath('/path/to/file'));
+        $mailable->assertHasAttachedData($pdfData, 'name.pdf', ['mime' => 'application/pdf']);
+        $mailable->assertHasAttachementFromStorage('/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
+        $mailable->assertHasAttachementFromStorageDisk('s3', '/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
     }
 
 <a name="testing-mailable-sending"></a>
@@ -969,17 +975,23 @@ Laravelでは、Mailableに期待した内容が含まれているかをテス�
 
 Laravelは、メールメッセージの送信プロセス中に２つのイベントを発行します。`MessageSending`イベントはメッセージが送信される前に発生し、`MessageSent`イベントはメッセージが送信された後に発生します。これらのイベントは、メールをキューへ投入したときではなく、メールが**送信されている**ときに発生することを忘れないでください。このイベントのイベントリスナは、`App\Providers\EventServiceProvider`サービスプロバイダで登録できます。
 
+    use App\Listeners\LogSendingMessage;
+    use App\Listeners\LogSentMessage;
+    use Illuminate\Mail\Events\MessageSending;
+    use Illuminate\Mail\Events\MessageSent;
+
     /**
      * アプリケーションのイベントリスナマッピング
      *
      * @var array
      */
     protected $listen = [
-        'Illuminate\Mail\Events\MessageSending' => [
-            'App\Listeners\LogSendingMessage',
+        MessageSending::class => [
+            LogSendingMessage::class,
         ],
-        'Illuminate\Mail\Events\MessageSent' => [
-            'App\Listeners\LogSentMessage',
+
+        MessageSent::class => [
+            LogSentMessage::class,
         ],
     ];
 

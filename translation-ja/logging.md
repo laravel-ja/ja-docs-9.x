@@ -144,7 +144,7 @@ PHPやLaravelなどのライブラリは、その機能の一部が非推奨と�
 <a name="log-levels"></a>
 #### ログレベル
 
-上記の例の`syslog`および`slack`チャンネル設定に存在する`level`設定オプションに注意してください。このオプションは、チャンネルによってログに記録されるためにメッセージが必要とする最小の「レベル」を決定します。Laravelのログサービスを強化するMonologは、[RFC5424仕様](https://tools.ietf.org/html/rfc5424)で定義されているすべてのログレベルを提供しています。（**emergency**、**alert**、**critical**、**error**、**warning**、**notice**、**info**、**debug**）
+上記の例の`syslog`および`slack`チャンネル設定に存在する`level`設定オプションに注意してください。このオプションは、チャンネルによってログに記録されるためにメッセージが必要とする最小の「レベル」を決定します。Laravelのログサービスを強化するMonologは、[RFC5424仕様](https://tools.ietf.org/html/rfc5424)で定義されているすべてのログレベルを提供しています。これらのログレベルは、重要度の高い順に、**emergency**、**alert**、**critical**、**error**、**warning**、**notice**、**info**、**debug**です。
 
 では、`debug`メソッドを使用してメッセージをログに記録してみましょう。
 
