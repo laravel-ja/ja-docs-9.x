@@ -11,7 +11,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-[Laravel Pint](https://github.com/laravel/pint)（パイント：体積の単位）は、ミニマリストのための主張を持ったPHPコードスタイルフィクサです。PintはPHP-CS-Fixer上に構築されており、あなたのコードスタイルがクリーンで一貫したものになるよう、シンプルにします。
+[Laravel Pint](https://github.com/laravel/pint)（ピント：PHP+lint）は、ミニマリストのための主張を持ったPHPコードスタイルフィクサです。PintはPHP-CS-Fixer上に構築されており、あなたのコードスタイルがクリーンで一貫したものになるよう、シンプルにします。
 
 Pintは、すべての新しいLaravelアプリケーションに自動的にインストールされますので、すぐに使い始めることができます。デフォルトで、Pintは設定を必要とせず、Laravelの主張を取り入れたコーディングスタイルに従い、コードスタイルの問題を修正します。
 
