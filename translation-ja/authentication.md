@@ -276,6 +276,16 @@ Laravelのリダイレクタが提供する`intended`メソッドは、認証ミ
         // 認証に成功した
     }
 
+For complex query conditions, you may provide a closure in your array of credentials. This closure will be invoked with the query instance, allowing you to customize the query based on your application's needs:
+
+    if (Auth::attempt([
+        'email' => $email, 
+        'password' => $password, 
+        fn ($query) => $query->has('activeSubscription'),
+    ]) {
+        // Authentication was successful...
+    }
+
 > **Warning**
 > これらの例では、`email`は必須オプションではなく、単に例として使用しています。データベーステーブルの"username"に対応するカラム名を使用する必要があります。
 

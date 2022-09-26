@@ -5,6 +5,7 @@
 - [Eloquentモデルの規約](#eloquent-model-conventions)
     - [テーブル名](#table-names)
     - [主キー](#primary-keys)
+    - [UUIDとULIDキー](#uuid-and-ulid-keys)
     - [主キータイムスタンプ](#timestamps)
     - [データベース接続](#database-connections)
     - [デフォルト属性値](#default-attribute-values)
@@ -197,6 +198,69 @@ Eloquentは、各モデルの対応するデータベーステーブルに`id`�
 
 Eloquentは、それぞれのモデルがその主キーとして役立つことができる、少なくとも１つの一意に識別される「ID」を持つ必要があります。Eloquentモデルは「コンポジット」主キーをサポートしていません。しかし、テーブルの一意に識別される主キーに加えて、データベーステーブルに追加のマルチカラム、ユニークなインデックスを追加することができます。
 
+<a name="uuid-and-ulid-keys"></a>
+### UUIDとULIDキー
+
+Eloquentモデルの主キーへ、自動増分整数を使用する代わりに、UUIDが使用できます。UUIDは36文字の英数字で構成される一意な識別子です。
+
+モデルで自動インクリメントの整数キーの代わりにUUIDキーを使用したい場合は、そのモデルで`Illuminate\Database\Eloquent\Concerns\HasUuids`トレイトを使用します。もちろん、モデルへ[UUIDの主キーカラム](/docs/{{version}}/migrations#column-method-uuid)を確実に持たせてください。
+
+    use Illuminate\Database\Eloquent\Concerns\HasUuids;
+    use Illuminate\Database\Eloquent\Model;
+
+    class Article extends Model
+    {
+        use HasUuids;
+
+        // ...
+    }
+
+    $article = Article::create(['title' => 'Traveling to Europe']);
+
+    $article->id; // "8f8e8478-9035-4d23-b9a7-62f4d2612ce5"
+
+`HasUuids`トレイトはデフォルトで、モデルに対し[順序付き(ordered)UUID](/docs/{{version}}/helpers#method-str-ordered-uuid)を生成します。これらのUUIDは辞書式にソートすることができるため、インデックス付きデータベースの保存が効率的です。
+
+モデルへ`newUniqueId`メソッドを定義すれば、指定モデルのUUID生成処理をオーバーライドできます。さらに、モデルに`uniqueIds`メソッドを定義すれば、UUIDをどのカラムで受け取るのかを指定できます。
+
+    use Ramsey\Uuid\Uuid;
+
+    /**
+     * モデルの新しいUUIDの生成
+     *
+     * @return string
+     */
+    public function newUniqueId()
+    {
+        return (string) Uuid::uuid4();
+    }
+
+    /**
+     * 一意の識別子を受け取るカラムの取得
+     *
+     * @return array
+     */
+    public function uniqueIds()
+    {
+        return ['id', 'discount_code'];
+    }
+
+ご希望であれば、UUIDの代わりに"ULID"を使用することもできます。ULIDはUUIDに似ていますが、長さは２６文字です。順序付きUUIDのように、ULIDは効率的なデータベースインデックス作成のため、辞書的にソート可能です。ULIDを使用するには、モデルで `Illuminate\Database\Eloquent\Concerns\HasUlids`トレイトを使用してください。
+
+    use Illuminate\Database\Eloquent\Concerns\HasUlids;
+    use Illuminate\Database\Eloquent\Model;
+
+    class Article extends Model
+    {
+        use HasUlids;
+
+        // ...
+    }
+
+    $article = Article::create(['title' => 'Traveling to Asia']);
+
+    $article->id; // "01gd4d3tgrrfqeda94gdbtdk5c"
+
 <a name="timestamps"></a>
 ### 主キータイムスタンプ
 
@@ -245,6 +309,10 @@ Eloquentは、それぞれのモデルがその主キーとして役立つこと
         const CREATED_AT = 'creation_date';
         const UPDATED_AT = 'updated_date';
     }
+
+モデルの`updated_at`タイムスタンプを変更せずに、モデル操作を行いたい場合は、`withoutTimestamps`メソッドへ指定するクロージャ内で、そのモデルを操作できます。
+
+    Model::withoutTimestamps(fn () => $post->incrememt(['reads']));
 
 <a name="database-connections"></a>
 ### データベース接続
@@ -763,6 +831,25 @@ JSONカラムへ代入するときは、各カラムの複数代入可能キー�
      * @var array
      */
     protected $guarded = [];
+
+<a name="mass-assignment-exceptions"></a>
+#### 複数代入例外
+
+複数代入操作を行うときデフォルトで、`$fillable`配列に含まれない属性は黙って破棄されます。実稼働環境でこれは期待されている動作です。しかし、ローカル開発時では、なぜモデルの変更が反映されないのか混乱させる可能性があります。
+
+もし必要であれば、`preventSilentlyDiscardingAttributes`メソッドを呼び出し、複数代入不可な属性を埋めようとしたときに例外を投げるよう、Laravelへ指示できます。通常、このメソッドはアプリケーションのサービスプロバイダの`boot`メソッド内で呼び出します。
+
+    use Illuminate\Database\Eloquent\Model;
+
+    /**
+     * 全アプリケーションサービスの初期起動処理
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Model::preventSilentlyDiscardingAttributes($this->app->isLocal());
+    }
 
 <a name="upserts"></a>
 ### 更新／挿入

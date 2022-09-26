@@ -480,7 +480,7 @@ Laravelフレームワークが作成する、すべてのクッキーは暗号�
 <a name="input-trimming-and-normalization"></a>
 ## 入力のトリムと正規化
 
-デフォルトでは、Laravelはアプリケーションのグローバルミドルウェアスタックに`App\Http\Middleware\TrimStrings`と`App\Http\Middleware\ConvertEmptyStringsToNull`ミドルウェアを含めています。これらのミドルウェアは、`App\Http\Kernel`クラスによってグローバルミドルウェアスタックにリストされています。これらのミドルウェアは、リクエストに応じてすべての受信文字列フィールドを自動的にトリミングし、空の文字列フィールドを`null`に変換します。これにより、ルートとコントローラでのこれらの正規化について心配する必要がなくなります。
+デフォルトでは、Laravelはアプリケーションのグローバルミドルウェアスタックに`App\Http\Middleware\TrimStrings`と`Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull`ミドルウェアを含めています。これらのミドルウェアは、`App\Http\Kernel`クラスによってグローバルミドルウェアスタックにリストされています。これらのミドルウェアは、リクエストに応じてすべての受信文字列フィールドを自動的にトリミングし、空の文字列フィールドを`null`に変換します。これにより、ルートとコントローラでのこれらの正規化について心配する必要がなくなります。
 
 #### 入力ノーマライズの無効化
 
@@ -489,8 +489,8 @@ Laravelフレームワークが作成する、すべてのクッキーは暗号�
 もし、アプリケーションへのリクエストのサブセットに対して、文字列のトリミングと空文字列の変換を無効にしたい場合は、両方のミドルウェアで提供している`skipWhen`メソッドを使用してください。このメソッドは、入力のノーマライゼーションをスキップするかを`true`か`false`で返すクロージャを受け取ります。通常、`skipWhen`メソッドは、アプリケーションの`AppServiceProvider`の`boot`メソッドで呼び出します。
 
 ```php
-use App\Http\Middleware\ConvertEmptyStringsToNull;
 use App\Http\Middleware\TrimStrings;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 
 /**
  * 全アプリケーションサービスの初期起動処理

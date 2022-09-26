@@ -11,6 +11,7 @@
 - [多対多リレーション](#many-to-many)
     - [中間テーブルカラムの取得](#retrieving-intermediate-table-columns)
     - [中間テーブルのカラムを使った関係のフィルタリング](#filtering-queries-via-intermediate-table-columns)
+    - [中間テーブルカラムによるクエリの並び替え](#ordering-queries-via-intermediate-table-columns)
     - [カスタム中間テーブルモデルの定義](#defining-custom-intermediate-table-models)
 - [ポリモーフィックリレーション](#polymorphic-relationships)
     - [１対１](#one-to-one-polymorphic-relations)
@@ -661,6 +662,15 @@ public function currentPricing()
     return $this->belongsToMany(Podcast::class)
                     ->as('subscriptions')
                     ->wherePivotNotNull('expired_at');
+
+<a name="ordering-queries-via-intermediate-table-columns"></a>
+### 中間テーブルカラムによるクエリの並び替え
+
+ `belongsToMany` リレーションクエリが返す結果は、`orderByPivot`メソッドを使用して並び替えできます。以下の例では、そのユーザーの最新バッジをすべて取得します。
+
+    return $this->belongsToMany(Badge::class)
+                    ->where('rank', 'gold')
+                    ->orderByPivot('created_at', 'desc');
 
 <a name="defining-custom-intermediate-table-models"></a>
 ### カスタム中間テーブルモデルの定義

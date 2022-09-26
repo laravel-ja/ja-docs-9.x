@@ -5,6 +5,7 @@
     - [ローカルドライバ](#the-local-driver)
     - [公開ディスク](#the-public-disk)
     - [ドライバの動作要件](#driver-prerequisites)
+    - [スコープ付きと読み取り専用ファイルシステム](#scoped-and-read-only-filesystems)
     - [Amazon S3コンパチファイルシステム](#amazon-s3-compatible-filesystems)
 - [ディスクインスタンスの取得](#obtaining-disk-instances)
     - [オンデマンドディスク](#on-demand-disks)
@@ -141,6 +142,29 @@ LaravelのFlysystem統合はSFTPでも最適に機能します。ただし、サ
         // 'timeout' => 30,
         // 'useAgent' => true,
     ],
+
+<a name="scoped-and-read-only-filesystems"></a>
+### スコープ付きと読み取り専用ファイルシステム
+
+`scoped`ドライバを利用したディスクを定義することで、既存のファイルシステムディスクのパススコープ付きインスタンスを作成できます。Scopedディスクにより、自動的にすべてのパスへ、指定したプレフィックスが付くファイルシステムを定義できます。例えば、既存の`s3`ディスクを特定のパスプレフィックスへスコープするディスクを作成すれば、スコープしたディスクを使用するすべてのファイル操作で、指定されたプレフィックスが使用されます。
+
+```php
+'s3-videos' => [
+    'driver' => 'scoped',
+    'disk' => 's3',
+    'prefix' => 'path/to/videos',
+],
+```
+
+ファイルシステムのディスクを「読み取り専用」にしたい場合は、ディスクの設定配列へ`read-only`オプションを指定してください。
+
+```php
+'s3-videos' => [
+    'driver' => 's3',
+    // ...
+    'read-only' => true,
+],
+```
 
 <a name="amazon-s3-compatible-filesystems"></a>
 ### Amazon S3コンパチファイルシステム

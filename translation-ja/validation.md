@@ -1103,6 +1103,7 @@ distinctはデフォルトで緩い比較を使用します。厳密な比較を
 - `dns`: `DNSCheckValidation`
 - `spoof`: `SpoofCheckValidation`
 - `filter`: `FilterEmailValidation`
+- `filter_unicode`: `FilterEmailValidation::unicode()`
 
 </div>
 

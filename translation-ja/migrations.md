@@ -375,6 +375,7 @@ php artisan migrate:fresh --seed
 [float](#column-method-float)
 [foreignId](#column-method-foreignId)
 [foreignIdFor](#column-method-foreignIdFor)
+[foreignUlid](#column-method-foreignUlid)
 [foreignUuid](#column-method-foreignUuid)
 [geometryCollection](#column-method-geometryCollection)
 [geometry](#column-method-geometry)
@@ -423,6 +424,7 @@ php artisan migrate:fresh --seed
 [unsignedSmallInteger](#column-method-unsignedSmallInteger)
 [unsignedTinyInteger](#column-method-unsignedTinyInteger)
 [uuidMorphs](#column-method-uuidMorphs)
+[ulid](#column-method-ulid)
 [uuid](#column-method-uuid)
 [year](#column-method-year)
 
@@ -525,6 +527,13 @@ php artisan migrate:fresh --seed
 `foreignIdFor`メソッドは、指定モデルクラスへ`{column}_id UNSIGNED BIGINT`を追加します。
 
     $table->foreignIdFor(User::class);
+
+<a name="column-method-foreignUlid"></a>
+#### `foreignUlid()` {.collection-method}
+
+`foreignUlid`メソッドは`ULID`カラムを作成します。
+
+    $table->foreignUlid('user_id');
 
 <a name="column-method-foreignUuid"></a>
 #### `foreignUuid()` {.collection-method}
@@ -866,6 +875,13 @@ php artisan migrate:fresh --seed
 
     $table->uuidMorphs('taggable');
 
+<a name="column-method-ulid"></a>
+#### `ulid()` {.collection-method}
+
+`ulid`メソッドは`ULID`カラムを作成します。
+
+    $table->ulid('id');
+
 <a name="column-method-uuid"></a>
 #### `uuid()` {.collection-method}
 
@@ -999,7 +1015,7 @@ use Illuminate\Database\DBAL\TimestampType;
     });
 
 > **Warning**
-> 以降のカラムタイプを変更できます。`bigInteger`、`binary`、`boolean`、`char`、`date`、`dateTime`、`dateTimeTz`、`decimal`、`integer`、`json`、`longText`、`mediumText`、`smallInteger`、`string`、`text`、`time`、`unsignedBigInteger`、`unsignedInteger`、`unsignedSmallInteger`、`uuid`。`timestamp`のカラムタイプを変更するには、[Doctrineタイプを登録する必要があります](#prerequisites)。
+> 以降のカラムタイプを変更できます。`bigInteger`、`binary`、`boolean`、`char`、`date`、`dateTime`、`dateTimeTz`、`decimal`、`double`、`integer`、`json`、`longText`、`mediumText`、`smallInteger`、`string`、`text`、`time`、`tinyText`、`unsignedBigInteger`、`unsignedInteger`、`unsignedSmallInteger`、`uuid`。`timestamp`のカラムタイプを変更するには、[Doctrineタイプを登録する必要があります](#prerequisites)。
 
 <a name="renaming-columns"></a>
 #### カラムのリネーム

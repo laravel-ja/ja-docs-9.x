@@ -198,6 +198,29 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
         return $job->order->id === $order->id;
     });
 
+<a name="faking-a-subset-of-jobs"></a>
+#### ジョブのサブセットのFake
+
+もし、特定のジョブだけをディスパッチさせないようにしたい場合は、`fake`メソッドへFakeするそのジョブを渡してください。
+
+    /**
+     * 注文処理のテスト
+     */
+    public function test_orders_can_be_shipped()
+    {
+        Bus::fake([
+            ShipOrder::class,
+        ]);
+
+        // ...
+    }
+
+`except`メソッドを使うと、指定したジョブ以外を全てFakeにできます。
+
+    Bus::fake()->except([
+        ShipOrder::class,
+    ]);
+
 <a name="bus-job-chains"></a>
 ### ジョブチェーン
 
@@ -234,6 +257,18 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
         return $batch->name == 'import-csv' &&
                $batch->jobs->count() === 10;
     });
+
+<a name="testing-job-batch-interaction"></a>
+#### ジョブ／バッチ間テスト
+
+さらに、個々のジョブとその裏で動作しているバッチ間の相互作用をテストする必要がある場合があります。例えば、あるジョブがそのバッチの処理をキャンセルしたかどうかをテストする必要があるかもしれません。これを行うには、`withFakeBatch`メソッドでFakeバッチをジョブへ割り当てる必要があります。`withFakeBatch`メソッドは、ジョブのインスタンスとFakeバッチを含むタプルを返します。
+
+    [$job, $batch] = (new ShipOrder)->withFakeBatch();
+
+    $job->handle();
+
+    $this->assertTrue($batch->cancelled());
+    $this->assertEmpty($batch->added);
 
 <a name="event-fake"></a>
 ## Event Fake
@@ -295,7 +330,7 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
 <a name="faking-a-subset-of-events"></a>
 #### イベントのサブセットのFake
 
-特定のイベントに対してだけ、イベントリスナをフェイクしたい場合は、`fake`か`fakeFor`メソッドに指定してください。
+特定のイベントに対してだけ、イベントリスナをFakeしたい場合は、`fake`か`fakeFor`メソッドに指定してください。
 
     /**
      * 受注処理のテスト
@@ -314,16 +349,16 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
         $order->update([...]);
     }
 
-`fakeExcept`メソッドを使用すると、指定したイベントセット以外の全イベントをフェイクできます。
+`except`メソッドを使用すると、指定するイベントセットを除外した、残りのイベントをFakeできます。
 
-    Event::fakeExcept([
+    Event::fake()->except([
         OrderCreated::class,
     ]);
 
 <a name="scoped-event-fakes"></a>
 ### 限定的なEvent Fake
 
-テストの一部分だけでイベントをフェイクしたい場合は、`fakeFor`メソッドを使用します。
+テストの一部分だけでイベントをFakeしたい場合は、`fakeFor`メソッドを使用します。
 
     <?php
 

@@ -647,11 +647,13 @@ Billableなモデルのアカウントにデフォルトの支払い方法が関
 
 顧客の定期払いを自動集金する代わりに、期日ごとに請求書（インボイス）を顧客にメールで送信するように、Stripeへ指示できます。顧客にはインボイスを受け取った後、手作業で支払ってもらいます。インボイスを使い定期払いを集金する場合、顧客は前もって支払い方法を指定する必要はありません。
 
+    $user->newSubscription('default', 'price_monthly')->createAndSendInvoice();
+
+顧客が請求書を支払わなければ、サブスクリプションがキャンセルされる期間は、`days_until_due`オプションで決まります。デフォルトは３０日間ですが、必要に応じ、日数をこのオプションへ指定してください。
+
     $user->newSubscription('default', 'price_monthly')->createAndSendInvoice([], [
         'days_until_due' => 30
     ]);
-
-顧客がサブスクリプションをキャンセルする前に、インボイスを支払わなければならない期間は、`days_until_due`オプションで決まります。
 
 <a name="subscription-quantities"></a>
 #### サブスクリプション数量

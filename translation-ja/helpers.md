@@ -153,6 +153,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Str::ucfirst](#method-str-ucfirst)
 [Str::ucsplit](#method-str-ucsplit)
 [Str::upper](#method-str-upper)
+[Str::ulid](#method-str-ulid)
 [Str::uuid](#method-str-uuid)
 [Str::wordCount](#method-str-word-count)
 [Str::words](#method-str-words)
@@ -2009,6 +2010,17 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
     $string = Str::upper('laravel');
 
     // LARAVEL
+
+<a name="method-str-ulid"></a>
+#### `Str::ulid()` {.collection-method}
+
+`Str::ulid`メソッドは、ULIDを生成します。
+
+    use Illuminate\Support\Str;
+
+    return (string) Str::ulid();
+
+    // 01gd6r360bp37zj17nxb55yv40
 
 <a name="method-str-uuid"></a>
 #### `Str::uuid()` {.collection-method}

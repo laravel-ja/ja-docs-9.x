@@ -17,6 +17,7 @@
 - [Bladeとルートの操作](#working-with-blade-and-routes)
   - [Viteによる静的アセットの処理](#blade-processing-static-assets)
   - [保存時の再描写](#blade-refreshing-on-save)
+  - [エイリアス](#blade-aliases)
 - [ベースURLのカスタマイズ](#custom-base-urls)
 - [環境変数](#environment-variables)
 - [テスト時のVite無効](#disabling-vite-in-tests)
@@ -130,19 +131,46 @@ import '../css/app.css'; // [tl! 追加]
 <a name="working-with-a-secure-development-server"></a>
 #### セキュアな開発サーバの取り扱い
 
-Valetの[セキュアコマンド](/docs/{{version}}/valet#securing-sites)を含め、開発用WebサーバがHTTPSで動作している場合、Vite開発サーバへの接続に問題が発生する可能性があります。Vite設定ファイルの`vite.config.js`へ以下を追加すれば、ViteをHTTPSでも動作するように設定できます。
+ローカル開発用Webサーバが、HTTPSでアプリケーションを提供している場合、Vite開発用サーバの接続に問題が発生することがあります。
+
+[Laravel Valet](/docs/{{version}}/valet)をローカル開発に使用しており、アプリケーションで[secureコマンド](/docs/{{version}}/valet#securing-sites)を実行した場合に、Valetの生成したTLS証明書をVita開発サーバで自動的に使用するように設定できます。
 
 ```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
 export default defineConfig({
-    // ...
-    server: { // [tl! 追加]
-        https: true, // [tl! 追加]
-        host: 'localhost', // [tl! 追加]
-    }, // [tl! 追加]
+    plugins: [
+        laravel({
+            // ...
+            valetTls: 'my-app.test', // [!tl add]
+        }),
+    ],
 });
 ```
 
-また、`npm run dev`コマンドを実行する際に、コンソールの「Local」リンクをたどり、ブラウザでViteの開発サーバの証明書の警告を受け入れる必要があります。
+When using another web server, you should generate a trusted certificate and manually configure Vite to use the generated certificates:
+
+```js
+// ...
+import fs from 'fs'; // [tl! add]
+
+const host = 'my-app.test'; // [tl! add]
+
+export default defineConfig({
+    // ...
+    server: { // [!tl add]
+        host, // [!tl add]
+        hmr: { host }, // [!tl add]
+        https: { // [!tl add]
+            key: fs.readFileSync(`/path/to/${host}.key`), // [!tl add]
+            cert: fs.readFileSync(`/path/to/${host}.crt`), // [!tl add]
+        }, // [!tl add]
+    }, // [!tl add]
+});
+```
+
+If you are unable to generate a trusted certificate for your system, you may install and configure the [`@vitejs/plugin-basic-ssl` plugin](https://github.com/vitejs/vite-plugin-basic-ssl). When using untrusted certificates, you will need to accept the certificate warning for Vite's development server in your browser by following the "Local" link in your console when running the `npm run dev` command.
 
 <a name="loading-your-scripts-and-styles"></a>
 ### スクリプトとスタイルの読み込み
@@ -391,7 +419,13 @@ export default defineConfig({
 });
 ```
 
-`refresh`オプションが`true`の場合、`resources/views/**`、`app/View/Components/**`、`routes/**`のファイルを保存すると、`npm run dev`実行中に、ブラウザがページのフル再ロードを行うようになります。
+`refresh`オプションが`true`の場合、`npm run dev`実行時に以下のディレクトリへファイルを保存すると、ブラウザでページがフルリフレッシュされます。
+
+- `app/View/Components/**`
+- `lang/**`
+- `resources/lang/**`
+- `resources/views/**`
+- `routes/**`
 
 [Ziggy](https://github.com/tighten/ziggy)を利用して、アプリケーションのフロントエンドでルートリンクを生成する場合、`routes/**`ディレクトリを監視すると便利です。
 
@@ -428,6 +462,27 @@ export default defineConfig({
         }),
     ],
 });
+```
+
+<a name="blade-aliases"></a>
+### エイリアス
+
+JavaScriptアプリケーションでは、定期的に参照するディレクトリに[エイリアス](#aliases)を作成することが一般的です。しかし、`Illuminate\Support\Vite`クラスの`macro`メソッドを使用して、Bladeで使用するエイリアスを作成することもできます。通常、「マクロ」は、[サービスプロバイダ](/docs/{{version}}/providers)の`boot`メソッド内で定義する必要があります。
+
+    /**
+     * 全アプリケーションサービスの初期起動処理
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Vite::macro('image', fn ($asset) => $this->asset("/resources/images/{$asset}"));
+    }
+
+一度マクロを定義したら、テンプレート内で呼び出せます。例えば、上で定義した`image`マクロを使用して、`resources/images/logo.png`にあるアセットを参照してみましょう。
+
+```blade
+<img src="{{ Vite::image('logo.png') }}" alt="Laravel Logo">
 ```
 
 <a name="custom-base-urls"></a>

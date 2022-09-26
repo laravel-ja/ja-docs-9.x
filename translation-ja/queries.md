@@ -532,6 +532,20 @@ Laravelは、JSONカラム型のサポートを提供するデータベースで
                         ->whereNotBetween('votes', [1, 100])
                         ->get();
 
+**whereBetweenColumns / whereNotBetweenColumns / orWhereBetweenColumns / orWhereNotBetweenColumns**
+
+`whereBetweenColumns`メソッドはあるカラムの値が、同じテーブル行の2カラムの値の間にあることを確認します。
+
+    $patients = DB::table('patients')
+                           ->whereBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
+                           ->get();
+
+`whereNotBetweenColumns`メソッドはあるカラムの値が、同じテーブル行の2カラムの値の間にないことを確認します。
+
+    $patients = DB::table('patients')
+                           ->whereNotBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
+                           ->get();
+
 **whereIn／whereNotIn／orWhereIn／orWhereNotIn**
 
 `whereIn`メソッドは、特定のカラム値が指定した配列内に含まれる条件を加えます。

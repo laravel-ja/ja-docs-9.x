@@ -15,6 +15,7 @@
     - [Many To Manyリレーション](#many-to-many-relationships)
     - [ポリモーフィックリレーション](#polymorphic-relationships)
     - [ファクトリ内でのリレーション定義](#defining-relationships-within-factories)
+    - [リレーションでの既存モデルの再利用](#recycling-an-existing-model-for-relationships)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -487,3 +488,16 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
             'content' => fake()->paragraph(),
         ];
     }
+
+<a name="recycling-an-existing-model-for-relationships"></a>
+### リレーションでの既存モデルの再利用
+
+あるモデルが、他のモデルと共通のリレーションを持っている場合、関連するすべてのリレーションでモデルの単一インスタンスが再利用されるように、`recycle`メソッドを使用してください。
+
+例えば、`Airline`、`Flight`、`Ticket`モデルがあり、チケット(Ticket)は航空会社(Airline)とフライト(Flight)に所属し、フライトも航空会社に所属しているとします。チケットを作成する際には、チケットとフライトの両方に同じ航空会社を使いたいでしょうから、`recycle`メソッドへ航空会社のインスタンスを渡します。
+
+    Ticket::factory()
+        ->recycle(Airline::factory()->create())
+        ->create();
+
+共通のユーザーやチームに所属するモデルがある場合、`recycle`メソッドが特に便利だと感じるでしょう。
