@@ -1595,7 +1595,7 @@ php artisan make:observer UserObserver --model=User
 
     use App\Models\User;
 
-    $user = User::withoutEvents(function () use () {
+    $user = User::withoutEvents(function () {
         User::findOrFail(1)->delete();
 
         return User::find(2);

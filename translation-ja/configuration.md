@@ -5,6 +5,7 @@
     - [環境変数タイプ](#environment-variable-types)
     - [環境設定の取得](#retrieving-environment-configuration)
     - [現在環境の決定](#determining-the-current-environment)
+    - [環境ファイルの暗号化](#encrypting-environment-files)
 - [設定値へのアクセス](#accessing-configuration-values)
 - [設定キャッシュ](#configuration-caching)
 - [デバッグモード](#debug-mode)
@@ -50,6 +51,8 @@ Laravelのデフォルトの`.env`ファイルには、アプリケーション�
 #### 環境ファイルのセキュリティ
 
 アプリケーションを使用する開発者/サーバごとに異なる環境設定が必要になる可能性があるため、`.env`ファイルをアプリケーションのソース管理にコミットしないでください。さらに、機密性の高い資格情報が公開されるため、侵入者がソース管理リポジトリにアクセスした場合のセキュリティリスクになります。
+
+しかしながら、Laravelの組み込みの[環境の暗号化](#encrypting-environment-files)を使用して、環境ファイルを暗号化することも可能です。暗号化した環境ファイルは、安全にソース管理下に置けます。
 
 <a name="additional-environment-files"></a>
 #### 追加の環境ファイル
@@ -108,6 +111,70 @@ APP_NAME="My Application"
 
 > **Note**
 > 現在のアプリケーション環境の検出は、サーバレベルの`APP_ENV`環境変数を定義することで上書きできます。
+
+<a name="encrypting-environment-files"></a>
+### 環境ファイルの暗号化
+
+暗号化してない環境ファイルは、絶対にソースコントロールで保存してはいけません。しかし、Laravelでは環境ファイルを暗号化でき、アプリケーションの他の部分と一緒にソースコントロールへ安全に追加できます。
+
+<a name="encryption"></a>
+#### 暗号化
+
+環境ファイルを暗号化するには、`env:encrypt`コマンドを使用します。
+
+```shell
+php artisan env:encrypt
+```
+
+`env:encrypt`コマンドを実行すると、`.env`ファイルが暗号化され、暗号化した内容を`.env.encrypted`ファイルへ格納します。復号化キーはコマンドの出力として表示されますので、安全なパスワードマネージャで保存しておく必要があります。もし、自分自身で暗号化キーを指定する場合はコマンド実行時に、`--key`オプションを使用してください。
+
+```shell
+php artisan env:encrypt --key=3UVsEgGVK36XN82KKeyLFMhvosbZN1aF
+```
+
+> **Note**
+> 指定するキーの長さは、使用する暗号化方式で要求される鍵の長さと合わせる必要があります。デフォルトでLaravelは、３２文字のキーを必要とする`AES-256-CBC`暗号を使用します。コマンド起動時に、`--cipher`オプションを指定すれば、Laravelの [暗号化](/docs/{{version}}/encryption)でサポートする暗号を自由に指定できます。
+
+アプリケーションで`.env`や`.env.staging`など、複数の環境ファイルを使用している場合は、`--env`オプションで環境名を指定することで、暗号化する環境ファイルを指定します。
+
+```shell
+php artisan env:encrypt --env=staging
+```
+
+<a name="decryption"></a>
+#### 復号化
+
+環境ファイルを復号化するには、`env:decrypt`コマンドを使用します。このコマンドは復号化キーを必要とし、Laravelは`LARAVEL_ENV_ENCRYPTION_KEY`環境変数からこれを取得します。
+
+```shell
+php artisan env:decrypt
+```
+
+もしくは、`--key`オプションで、キーを直接コマンドへ指定することもできます。
+
+```shell
+php artisan env:decrypt --key=3UVsEgGVK36XN82KKeyLFMhvosbZN1aF
+```
+
+`env:decrypt`コマンドを実行すると、Laravelは`.env.encrypted`ファイルの内容を復号化し、復号化した内容を`.env`ファイルへ格納します。
+
+`env:decrypt`コマンドへ、`--cipher`オプションを指定すると、カスタム暗号を使用できます。
+
+```shell
+php artisan env:decrypt --key=qUWuNRdfuImXcKxZ --cipher=AES-128-CBC
+```
+
+アプリケーションが`.env`や`.env.staging`など、複数の環境ファイルを使用している場合は、`--env`オプションで環境名を指定することにより、復号化する環境ファイルを指定できます。
+
+```shell
+php artisan env:decrypt --env=staging
+```
+
+既存の環境ファイルを上書きするには、`env:decrypt`コマンドへ`--force`オプションを指定します。
+
+```shell
+php artisan env:decrypt --force
+```
 
 <a name="accessing-configuration-values"></a>
 ## 設定値へのアクセス

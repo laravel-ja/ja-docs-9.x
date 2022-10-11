@@ -117,6 +117,7 @@ php artisan schedule:list
 `->everyThirtyMinutes();`  |  ３０分毎にタスク実行
 `->hourly();`  |  毎時タスク実行
 `->hourlyAt(17);`  |  １時間ごと、毎時１７分にタスク実行
+`->everyOddHour();`  |  奇数時間ごとにタスク実行
 `->everyTwoHours();`  |  ２時間毎にタスク実行
 `->everyThreeHours();`  |  ３時間毎にタスク実行
 `->everyFourHours();`  |  ４時間毎にタスク実行

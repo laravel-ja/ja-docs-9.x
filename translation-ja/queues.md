@@ -508,7 +508,7 @@ Laravelには、任意のキーに基づいてジョブの重複を防ぐこと�
         return [new WithoutOverlapping($this->user->id)];
     }
 
-重複するジョブはすべてキューに戻されます。リリースしたジョブが再試行するまでに経過する必要のある秒数を指定することもできます。
+同じタイプの重複するジョブはすべてキューに戻されます。リリースしたジョブが再試行するまでに経過する必要のある秒数を指定することもできます。
 
     /**
      * このジョブを通過させるミドルウェアを取得
@@ -546,6 +546,41 @@ Laravelには、任意のキーに基づいてジョブの重複を防ぐこと�
 
 > **Warning**
 > `WithoutOverlapping`ミドルウェアには、[ロック](/docs/{{version}}/cache#atomic-locks)をサポートするキャッシュドライバが必要です。現在、`memcached`、`redis`、`dynamodb`、`database`、`file`、`array`キャッシュドライバはアトミックロックをサポートしています。
+
+<a name="sharing-lock-keys"></a>
+#### Sharing Lock Keys Across Job Classes
+
+デフォルトの`WithoutOverlapping`ミドルウェアは、同じクラスのジョブの重複を防ぐだけです。そのため、２つの異なるジョブクラスが同じロックキーを使用しても、重なり合うことは防げません。しかし、`shared`メソッドを使用することで、ジョブクラス間でキーを共有するように、Laravelへ指示できます。
+
+```php
+use Illuminate\Queue\Middleware\WithoutOverlapping;
+
+class ProviderIsDown
+{
+    // ...
+
+
+    public function middleware()
+    {
+        return [
+            (new WithoutOverlapping("status:{$this->provider}"))->shared(),
+        ];
+    }
+}
+
+class ProviderIsUp
+{
+    // ...
+
+
+    public function middleware()
+    {
+        return [
+            (new WithoutOverlapping("status:{$this->provider}"))->shared(),
+        ];
+    }
+}
+```
 
 <a name="throttling-exceptions"></a>
 ### 例外による利用制限

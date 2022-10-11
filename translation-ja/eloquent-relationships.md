@@ -1929,6 +1929,13 @@ IDを使用して追加の中間テーブル値を渡すこともできます。
 
     $user->roles()->toggle([1, 2, 3]);
 
+また、IDとともに中間テーブルの値を追加で渡すこともできます。
+
+    $user->roles()->toggle([
+        1 => ['expires' => true],
+        2 => ['expires' => true],
+    ]);
+
 <a name="updating-a-record-on-the-intermediate-table"></a>
 #### 中間テーブルのレコード更新
 

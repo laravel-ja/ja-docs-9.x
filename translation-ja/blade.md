@@ -593,6 +593,12 @@ Bladeの`@include`ディレクティブを使用すると、別のビュー内�
 @endphp
 ```
 
+PHP文を１つ書くだけなら、`@php`ディレクティブ内に含められます。
+
+```blade
+@php($counter = 1)
+```
+
 <a name="comments"></a>
 ### コメント
 
@@ -779,6 +785,19 @@ HTML属性を使用してBladeコンポーネントへデータを渡せます�
 
 ```blade
 <x-alert alert-type="danger" />
+```
+
+<a name="short-attribute-syntax"></a>
+#### Short Attribute Syntax
+
+コンポーネントに属性を渡す場合、「短縮」構文も使用できます。属性名と対応する変数名が一致することが多いため、これは便利な方法です。
+
+```blade
+{{-- 短縮形 --}}
+<x-profile :$userId :$name />
+
+{{-- 同じ動作をする記法 --}}
+<x-profile :user-id="$userId" :name="$name" />
 ```
 
 <a name="escaping-attribute-rendering"></a>

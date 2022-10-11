@@ -179,7 +179,7 @@ php artisan dusk
 php artisan dusk:fails
 ```
 
-`dusk`コマンドは、特定の[グループ](https://phpunit.de/manual/current/en/appendixes.annotations.html#appendixes.annotations.group)のテストのみを実行できるようにするなど、PHPUnitテストランナーが通常受け付ける引数を全て受け入れます。
+`dusk`コマンドは、特定の[グループ](https://phpunit.readthedocs.io/en/9.5/annotations.html#group)のテストのみを実行できるようにするなど、PHPUnitテストランナが通常受け付ける引数を全て受け入れます。
 
 ```shell
 php artisan dusk --group=foo
@@ -741,6 +741,14 @@ JavaScriptダイアログにプロンプ​​トが含​​まれている場�
 
     $browser->pause(1000);
 
+もし、指定した条件が`true`のときだけテストを一時停止したい場合は、`pauseIf`メソッドを使用してください。
+
+    $browser->pauseIf(App::environment('production'), 1000);
+
+同様に、指定した条件が`true`でないときにテストを一時停止する必要がある場合は、`pauseUnless`メソッドを使用します。
+
+    $browser->pauseUnless(App::environment('testing'), 1000);
+
 <a name="waiting-for-selectors"></a>
 #### セレクタの待機
 
@@ -821,6 +829,17 @@ JavaScriptダイアログにプロンプ​​トが含​​まれている場�
 
     // リンクを最大１秒間待つ
     $browser->waitForLink('Create', 1);
+
+<a name="waiting-for-inputs"></a>
+#### 入力待ち
+
+`waitForInput`メソッドは、指定した入力フィールドがページ上に表示されるまで、待つために使用します。
+
+    // 最大５秒間、入力を待つ
+    $browser->waitForInput($field);
+
+    // 最大１秒間、入力を待つ
+    $browser->waitForInput($field, 1);
 
 <a name="waiting-on-the-page-location"></a>
 #### ページロケーションの待機
@@ -978,6 +997,7 @@ Duskはアプリケーションに対する数多くのアサートを提供し�
 [assertInputValueIsNot](#assert-input-value-is-not)
 [assertChecked](#assert-checked)
 [assertNotChecked](#assert-not-checked)
+[assertIndeterminate](#assert-indeterminate)
 [assertRadioSelected](#assert-radio-selected)
 [assertRadioNotSelected](#assert-radio-not-selected)
 [assertSelected](#assert-selected)
@@ -1292,6 +1312,12 @@ URLの現在のハッシュフラグメントが指定するフラグメント�
 指定したチェックボックスが、チェックされていないことを宣言します。
 
     $browser->assertNotChecked($field);
+
+<a name="assert-indeterminate"></a>
+#### assertIndeterminate
+
+指定したチェックボックスが、不定状態であることを宣言します。
+    $browser->assertIndeterminate($field);
 
 <a name="assert-radio-selected"></a>
 #### assertRadioSelected
@@ -1893,6 +1919,11 @@ jobs:
 
   dusk-php:
     runs-on: ubuntu-latest
+    env:
+      APP_URL: "http://127.0.0.1:8000"
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      MAIL_MAILER: log
     steps:
       - uses: actions/checkout@v3
       - name: Prepare The Environment
@@ -1906,14 +1937,12 @@ jobs:
       - name: Generate Application Key
         run: php artisan key:generate
       - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+        run: php artisan dusk:chrome-driver --detect
       - name: Start Chrome Driver
         run: ./vendor/laravel/dusk/bin/chromedriver-linux &
       - name: Run Laravel Server
         run: php artisan serve --no-reload &
       - name: Run Dusk Tests
-        env:
-          APP_URL: "http://127.0.0.1:8000"
         run: php artisan dusk
       - name: Upload Screenshots
         if: failure()

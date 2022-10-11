@@ -2,6 +2,8 @@
 
 - [イントロダクション](#introduction)
 - [使用可能なメソッド](#available-methods)
+- [その他のユーティリティ](#other-utilities)
+    - [ベンチマーク](#benchmarking)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -3948,3 +3950,29 @@ Str::of('Hello, world!')->wordCount(); // 2
     $result = with(5, null);
 
     // 5
+
+<a name="other-utilities"></a>
+## その他のユーティリティ
+
+<a name="benchmarking"></a>
+### ベンチマーク
+
+時には、アプリケーションの特定の部分のパフォーマンスを素早くテストしたいと思うこともあるでしょう。そのような場合は、`Benchmark`サポートクラスを利用して、指定するコールバックが完了するまでにかかるミリ秒を測定できます。
+
+    <?php
+
+    use App\Models\User;
+    use Illuminate\Support\Benchmark;
+
+    Benchmark::dd(fn () => User::find(1)); // 0.1 ms
+
+    Benchmark::dd([
+        'Scenario 1' => fn () => User::count(), // 0.5 ms
+        'Scenario 2' => fn () => User::all()->count(), // 20.0 ms
+    ]);
+
+デフォルトでは、指定したコールバックは、１回（１繰り返し）実行され、その期間はブラウザ／コンソールに表示されます。
+
+コールバックを複数回呼び出すには、メソッドの第２引数でコールバックを呼び出す反復回数を指定してください。コールバックを複数回実行する場合、`Benchmark`クラスはコールバックの実行にかかった平均ミリ秒を返します。
+
+    Benchmark::dd(fn () => User::count(), iterations: 10); // 0.5 ms

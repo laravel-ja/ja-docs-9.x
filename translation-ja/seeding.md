@@ -138,10 +138,12 @@ php artisan db:seed
 php artisan db:seed --class=UserSeeder
 ```
 
-`migrate:fresh`コマンドを`--seed`オプションと組み合わせて使用​​してデータベースをシードすることもできます。これにより、すべてのテーブルが削除され、すべてのマイグレーションが再実行されます。このコマンドは、データベースを完全に再構築するのに役立ちます。
+`migrate:fresh`コマンドを`--seed`オプションと組み合わせて使用​​してデータベースをシードすることもできます。これにより、すべてのテーブルが削除され、すべてのマイグレーションが再実行されます。このコマンドは、データベースを完全に再構築するのに役立ちます。特定のシーダーの実行を指定するには、`--seeder`オプションを使用します。
 
 ```shell
 php artisan migrate:fresh --seed
+
+php artisan migrate:fresh --seed --seeder=UserSeeder
 ```
 
 <a name="forcing-seeding-production"></a>
