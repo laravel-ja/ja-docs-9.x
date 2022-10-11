@@ -371,10 +371,18 @@ axios.delete('/oauth/clients/' + clientId)
             'response_type' => 'code',
             'scope' => '',
             'state' => $state,
+            // 'prompt' => '', // "none", "consent", or "login"
         ]);
 
         return redirect('http://passport-app.test/oauth/authorize?'.$query);
     });
+
+The `prompt` parameter may be used to specify the authentication behavior of the Passport application.
+`prompt`パラメータは、Passportアプリケーションの認証動作を指定するために使用します。
+
+`prompt`の値が`none`の場合、ユーザがPassportアプリケーションで認証されていないとき、Passportは認証エラーを常時スローします。値が`consent`の場合、すべてのスコープが事前に利用者側アプリケーションへ許可されていても、Passportは常に承認承認スクリーンを表示します。値が`login`である場合、Passportアプリケーションは、ユーザーが既にセッションを持っていても、アプリケーションへ再ログインするように常に促します。
+
+`prompt`値を指定しない場合、要求されたスコープに対する消費者側アプリケーションへのアクセスをそのユーザーへ以前に許可していない場合のみ、認可のためのプロンプトを表示します。
 
 > **Note**
 > `/oauth/authorize`ルートは、すでにPassportが定義づけていることを覚えておいてください。このルートを自分で定義する必要はありません。
@@ -382,7 +390,7 @@ axios.delete('/oauth/clients/' + clientId)
 <a name="approving-the-request"></a>
 #### リクエストの承認
 
-許可のリクエストを受け取ると、Passportはユーザーがその許可のリクエストを承認するか、拒絶するかのテンプレートを自動的に表示します。ユーザーが許可した場合、API利用側アプリケーションが指定した`redirect_uri`へリダイレクトします。`redirect_uri`は、クライアントを作成した時に指定した`redirect`のURLと一致する必要があります。
+認証リクエストを受け取ると、Passportは`prompt`パラメータが指定されている場合は、その値に基づいて自動的に応答し、認証リクエストを承認または拒否するためのテンプレートをユーザーに表示します。ユーザーがリクエストを承認した場合、消費者側アプリケーションにより指定された、`redirect_uri`へリダイレクトします。この`redirect_uri`は、クライアントが作成されたときに指定した、`redirect` URLと一致しなければなりません。
 
 承認画面をカスタマイズする場合は、`vendor:publish` Artisanコマンドを使用してPassportのビューをリソース公開します。公開したビューは、`resources/views/vendor/passport`ディレクトリに配置されます。
 
@@ -390,7 +398,7 @@ axios.delete('/oauth/clients/' + clientId)
 php artisan vendor:publish --tag=passport-views
 ```
 
-ファーストパーティ製クライアントにより認可中のような場合、認可プロンプトをとばしたい場合もあり得ます。[`Client`モデルを拡張し](#overriding-default-models)、`skipsAuthorization`メソッドを定義することで実現できます。`skipsAuthorization`がクライアントは認証済みとして`true`を返すと、そのユーザーをすぐに`redirect_uri`へリダイレクトで戻します。
+ファーストパーティクライアントを認証するときなど、認証プロンプトを飛ばしたいことも起きるでしょう。このような場合は、[`Client`モデルを拡張し](#overriding-default-models)、`skipsAuthorization`メソッドを定義すれば実現できます。`skipsAuthorization`が、`true`を返したら、クライアントは承認され、ユーザーはすぐに`redirect_uri`へリダイレクトされます。ただし、消費者側アプリケーションが承認のためのリダイレクト時に、明示的に`prompt`パラメータを設定した場合はこの限りではありません。
 
     <?php
 
@@ -591,6 +599,7 @@ php artisan passport:client --public
             'state' => $state,
             'code_challenge' => $codeChallenge,
             'code_challenge_method' => 'S256',
+            // 'prompt' => '', // "none", "consent", or "login"
         ]);
 
         return redirect('http://passport-app.test/oauth/authorize?'.$query);
@@ -778,6 +787,7 @@ php artisan passport:client --password
             'response_type' => 'token',
             'scope' => '',
             'state' => $state,
+            // 'prompt' => '', // "none", "consent", or "login"
         ]);
 
         return redirect('http://passport-app.test/oauth/authorize?'.$query);

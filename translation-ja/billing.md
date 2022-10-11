@@ -54,6 +54,7 @@
     - [一回限りの支払い](#single-charge-checkouts)
     - [サブスクリプションの支払い](#subscription-checkouts)
     - [課税IDの収集](#collecting-tax-ids)
+    - [ゲストの支払い](#guest-checkouts)
 - [インボイス](#invoices)
     - [インボイスの取得](#retrieving-invoices)
     - [将来のインボイス](#upcoming-invoices)
@@ -746,7 +747,7 @@ Stripeがサポートしている[顧客](https://stripe.com/docs/api/customers/
 <a name="creating-subscriptions-from-the-stripe-dashboard"></a>
 #### Stripeダッシュボードからのサブスクリプション作成
 
-Stripeダッシュボード自体からも、サブスクリプションを作成できます。その際、Cashierは新しく追加したサブスクリプションを同期し、それらに`default`の名前を割り当てます。ダッシュボードから作成するサブスクリプションに割り当てるサブスクリプション名をカスタマイズするには、[`WebhookController`を拡張](/docs/{{version}}/billing#defining-webhook-event-handlers)し、`newSubscriptionName`メソッドを上書きします。
+Stripeダッシュボード自体からも、サブスクリプションを作成できます。その際、Cashierは新しく追加したサブスクリプションを同期し、それらに`default`の名前を割り当てます。ダッシュボードから作成するサブスクリプションに割り当てるサブスクリプション名をカスタマイズするには、[`WebhookController`を拡張](#defining-webhook-event-handlers)し、`newSubscriptionName`メソッドを上書きします。
 
 また、Stripeダッシュボードから作成できるサブスクリプションのタイプは１つだけです。アプリケーションが異なる名前を使用する複数のサブスクリプションを提供している場合でも、Stripeダッシュボードから追加できるサブスクリプションのタイプは１つのみです。
 
@@ -1921,6 +1922,37 @@ Checkoutは、顧客の課税IDの収集もサポートしています。チェ�
 
 > **Warning**
 > アプリケーションのサービスプロバイダで[自動徴税](#tax-configuration)を設定済みであれば、この機能は自動的に有効になり、`collectTaxIds`メソッドを呼び出す必要はありません。
+
+<a name="guest-checkouts"></a>
+### ゲストの支払い
+
+`Checkout::guest`メソッドを使用すると、アプリケーションの「アカウント」を持っていないゲストに対して、チェックアウトセッションを開始できます。
+
+    use Illuminate\Http\Request;
+    use Laravel\Cashier\Checkout;
+
+    Route::get('/product-checkout', function (Request $request) {
+        return Checkout::guest()->create('price_tshirt', [
+            'success_url' => route('your-success-route'),
+            'cancel_url' => route('your-cancel-route'),
+        ]);
+    });
+
+既存のユーザーのチェックアウトセッションを作成するときと同様に、`Laravel\Cashier\CheckoutBuilder`インスタンスで利用可能な拡張メソッドを利用して、ゲストのチェックアウトセッションをカスタマイズできます。
+
+    use Illuminate\Http\Request;
+    use Laravel\Cashier\Checkout;
+
+    Route::get('/product-checkout', function (Request $request) {
+        return Checkout::guest()
+            ->withPromotionCode('promo-code')
+            ->create('price_tshirt', [
+                'success_url' => route('your-success-route'),
+                'cancel_url' => route('your-cancel-route'),
+            ]);
+    });
+
+ゲストのチェックアウトが完了すると、Stripeは`checkout.session.completed` Webフックイベントをディスパッチします。ですから、このイベントを確実にアプリケーションへ送信するため、[StripeのWebフックを設定](https://dashboard.stripe.com/webhooks)してください。StripeのダッシュボードでWebフックを有効にしたら、[Cashierを使ってwebフックを処理](#handling-stripe-webhooks)できます。Webフックのペイロードに含まれるオブジェクトは[`checkout`オブジェクト](https://stripe.com/docs/api/checkout/sessions/object)であり、顧客の注文を処理するため確認できます。
 
 <a name="handling-failed-payments"></a>
 ## 支払い失敗の処理

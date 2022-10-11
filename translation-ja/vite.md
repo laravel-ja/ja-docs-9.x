@@ -476,7 +476,7 @@ JavaScriptアプリケーションでは、定期的に参照するディレク�
      */
     public function boot()
     {
-        Vite::macro('image', fn ($asset) => $this->asset("/resources/images/{$asset}"));
+        Vite::macro('image', fn ($asset) => $this->asset("resources/images/{$asset}"));
     }
 
 一度マクロを定義したら、テンプレート内で呼び出せます。例えば、上で定義した`image`マクロを使用して、`resources/images/logo.png`にあるアセットを参照してみましょう。
