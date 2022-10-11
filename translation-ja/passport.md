@@ -377,10 +377,9 @@ axios.delete('/oauth/clients/' + clientId)
         return redirect('http://passport-app.test/oauth/authorize?'.$query);
     });
 
-The `prompt` parameter may be used to specify the authentication behavior of the Passport application.
 `prompt`パラメータは、Passportアプリケーションの認証動作を指定するために使用します。
 
-`prompt`の値が`none`の場合、ユーザがPassportアプリケーションで認証されていないとき、Passportは認証エラーを常時スローします。値が`consent`の場合、すべてのスコープが事前に利用者側アプリケーションへ許可されていても、Passportは常に承認承認スクリーンを表示します。値が`login`である場合、Passportアプリケーションは、ユーザーが既にセッションを持っていても、アプリケーションへ再ログインするように常に促します。
+`prompt`の値が`none`の場合、ユーザーがPassportアプリケーションで認証されていないとき、Passportは認証エラーを常時スローします。値が`consent`の場合、すべてのスコープが事前に利用者側アプリケーションへ許可されていても、Passportは常に承認承認スクリーンを表示します。値が`login`である場合、Passportアプリケーションは、ユーザーが既にセッションを持っていても、アプリケーションへ再ログインするように常に促します。
 
 `prompt`値を指定しない場合、要求されたスコープに対する消費者側アプリケーションへのアクセスをそのユーザーへ以前に許可していない場合のみ、認可のためのプロンプトを表示します。
 
