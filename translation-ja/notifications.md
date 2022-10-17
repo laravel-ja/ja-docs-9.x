@@ -725,18 +725,18 @@ php artisan make:notification InvoicePaid --markdown=mail.invoice.paid
 Markdownメール通知ではBladeコンポーネントとMarkdown記法が利用でき、メールメッセージを簡単に構築できると同時に、Laravelが用意している通知コンポーネントも活用できます。
 
 ```blade
-@component('mail::message')
+<x-mail::message>
 # 領収書
 
 領収いたしました。
 
-@component('mail::button', ['url' => $url])
+<x-mail::button :url="$url">
 明細を確認
-@endcomponent
+</x-mail::button>
 
 Thanks,<br>
 {{ config('app.name') }}
-@endcomponent
+</x-mail::message>
 ```
 
 <a name="button-component"></a>
@@ -745,9 +745,9 @@ Thanks,<br>
 ボタンコンポーネントは、中央寄せに配置したボタンリンクをレンダリングします。コンポーネントは、`url`とオプションの`color`の２つの引数を取ります。サポートしている色は、`primary`、`green`、`red`です。通知には、必要なだけボタンコンポーネントを追加できます。
 
 ```blade
-@component('mail::button', ['url' => $url, 'color' => 'green'])
+<x-mail::button :url="$url" color="green">
 View Invoice
-@endcomponent
+</x-mail::button>
 ```
 
 <a name="panel-component"></a>
@@ -756,9 +756,9 @@ View Invoice
 パネルコンポーネントは、メッセージの他の部分とは少し異なった背景色のパネルの中に、指定されたテキストブロックをレンダします。これにより、指定するテキストに注目を集められます。
 
 ```blade
-@component('mail::panel')
+<x-mail::panel>
 This is the panel content.
-@endcomponent
+</x-mail::panel>
 ```
 
 <a name="table-component"></a>
@@ -767,12 +767,12 @@ This is the panel content.
 テーブルコンポーネントは、MarkdownテーブルをHTMLテーブルへ変換します。このコンポーネントはMarkdownテーブルを内容として受け入れます。デフォルトのMarkdownテーブルの記法を使った、文字寄せをサポートしています。
 
 ```blade
-@component('mail::table')
+<x-mail::table>
 | Laravel       | テーブル         | 例  |
 | ------------- |:-------------:| --------:|
 | Col 2 is      | Centered      | $10      |
 | Col 3 is      | Right-Aligned | $20      |
-@endcomponent
+</x-mail::table>
 ```
 
 <a name="customizing-the-components"></a>

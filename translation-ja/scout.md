@@ -421,7 +421,7 @@ Eloquentクエリインスタンスで`searchable`メソッドを呼び出して
 <a name="removing-records"></a>
 ### レコード削除
 
-インデックスからレコードを削除するには、データベースからモデルを`delete`するだけです。これは、[ソフト削除](/docs/{{version}}/eloquent#soft-deleting)モデルを使用している場合でも実行できます。
+インデックスからレコードを削除するには、データベースからモデルを`delete`するだけです。これは、[ソフトデリート](/docs/{{version}}/eloquent#soft-deleting)モデルを使用している場合でも実行できます。
 
     use App\Models\Order;
 

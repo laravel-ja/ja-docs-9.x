@@ -12,6 +12,7 @@
     - [添付](#attachments)
     - [インライン添付](#inline-attachments)
     - [Attachableオブジェクト](#attachable-objects)
+    - [ヘッダ](#headers)
     - [タグとメタデータ](#tags-and-metadata)
     - [Symfonyメッセージのカスタマイズ](#customizing-the-symfony-message)
 - [Markdown Mailable](#markdown-mailables)
@@ -170,29 +171,32 @@ php artisan make:mail OrderShipped
 <a name="writing-mailables"></a>
 ## Mailableの記述
 
-Mailableクラスを生成したら、それを開いて、その内容を調べてください。まず、メール可能なクラスの設定はすべて`build`メソッドで行われることに注意してください。このメソッド内で`from`、`subject`、`view`、`attach`などのさまざまなメソッドを呼び出して、電子メールの表示と配信を設定できます。
+Mailableクラスを生成したら、その中身を調べるために開いてみましょう。Mailableクラスの設定は、`envelope`、`content`、`attachments`などのメソッドで行います。
 
-> **Note**
-> Mailableの`build`メソッドではタイプヒントで依存を指定できます。Laravelの[サービスコンテナ](/docs/{{version}}/container)は、これらの依存を自動的に注入します。
+`envelope`メソッドは、メッセージのサブジェクトと、時折り受信者を定義する、`Illuminate\Mail\Mailables\Envelope`オブジェクトを返します。`content`メソッドは、メッセージの内容を生成するために使用する[Bladeテンプレート](/docs/{{version}}/blade)を定義する、`Illuminate\Mail\Mailables\Content`オブジェクトを返します。
 
 <a name="configuring-the-sender"></a>
 ### Senderの設定
 
-<a name="using-the-from-method"></a>
-#### `from`メソッドの使用
+<a name="using-the-envelope"></a>
+#### Envelopeの使用
 
-まず、メールの送信者の設定について見ていきましょう。言い換えると、電子メールを送信したのは誰かです。送信者を設定するには２つの方法があります。まず、Mailableクラスの`build`メソッド内で`from`メソッドを使用する方法です。
+まず、メール送信者の設定を調べてみましょう。つまり、「誰から送られた」メールかということです。送信者の設定は、２つの方法があります。まず、メッセージのEnvelope（封筒）に"from"アドレスを指定する方法です。
+
+    use Illuminate\Mail\Mailables\Address;
+    use Illuminate\Mail\Mailables\Envelope;
 
     /**
-     * メッセージの作成
+     * メッセージEnvelopeを取得
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function build()
+    public function envelope()
     {
-        return $this->from('example@example.com', 'Example')
-                    ->subject('Order Shipped')
-                    ->view('emails.orders.shipped');
+        return new Envelope(
+            from: new Address('jeffrey@example.com', 'Jeffrey Way'),
+            subject: 'Order Shipped',
+        );
     }
 
 <a name="using-a-global-from-address"></a>
@@ -209,16 +213,18 @@ Mailableクラスを生成したら、それを開いて、その内容を調べ
 <a name="configuring-the-view"></a>
 ### ビューの設定
 
-Mailableクラスの`build`メソッド内で、`view`メソッドを使用して、電子メールのコンテンツをレンダするときに使用するテンプレートを指定できます。通常、各メールは[Bladeテンプレート](/docs/{{version}}/Blade)を使用してコンテンツをレンダするため、メールのHTMLを作成するときにBladeテンプレートエンジンの能力と利便性を最大限に活用できます。
+Mailableクラスの`content`メソッド内で`view`、つまりメールのコンテンツをレンダリングするときどのテンプレートを使用するかを定義します。各メールは通常、[Bladeテンプレート](/docs/{{version}}/blade)を使用してコンテンツをレンダするので、メールのHTML構築にBladeテンプレート・エンジンのパワーと利便性をフル活用できます。
 
     /**
-     * メッセージの作成
+     * メッセージ内容の定義を取得
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Content
      */
-    public function build()
+    public function content()
     {
-        return $this->view('emails.orders.shipped');
+        return new Content(
+            view: 'emails.orders.shipped',
+        );
     }
 
 > **Note**
@@ -227,18 +233,27 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
 <a name="plain-text-emails"></a>
 #### 平文テキストの電子メール
 
-電子メールの平文テキストバージョンを定義する場合は、`text`メソッドを使用します。`view`メソッドと同様に、`text`メソッドは電子メールの内容をレンダするために使用するテンプレート名を引数に取ります。メッセージのHTMLバージョンと平文テキストバージョンの両方を自由に定義できます。
+平文テキスト版のメールを定義したい場合は、メッセージの`Content`定義を作成するときに、平文テキストのテンプレートを指定してください。`view`パラメータと同様、`text`パラメータにはメールの内容をレンダするために使用するテンプレートの名前を指定します。HTMLバージョンと平文テキストバージョンの両方を自由に定義できます。
 
     /**
-     * メッセージの作成
+     * メッセージ内容の定義を取得
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Content
      */
-    public function build()
+    public function content()
     {
-        return $this->view('emails.orders.shipped')
-                    ->text('emails.orders.shipped_plain');
+        return new Content(
+            view: 'emails.orders.shipped',
+            text: 'emails.orders.shipped-text'
+        );
     }
+
+明確にするために、`html`パラメータを`view`パラメータの別名として使用できます。
+
+    return new Content(
+        html: 'emails.orders.shipped',
+        text: 'emails.orders.shipped-text'
+    );
 
 <a name="view-data"></a>
 ### ビューデータ
@@ -255,6 +270,7 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
     use App\Models\Order;
     use Illuminate\Bus\Queueable;
     use Illuminate\Mail\Mailable;
+    use Illuminate\Mail\Mailables\Content;
     use Illuminate\Queue\SerializesModels;
 
     class OrderShipped extends Mailable
@@ -280,13 +296,15 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
         }
 
         /**
-         * メッセージを作成
+         * メッセージ内容の定義を取得
          *
-         * @return $this
+         * @return \Illuminate\Mail\Mailables\Content
          */
-        public function build()
+        public function content()
         {
-            return $this->view('emails.orders.shipped');
+            return new Content(
+                view: 'emails.orders.shipped',
+            );
         }
     }
 
@@ -296,10 +314,10 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
         Price: {{ $order->price }}
     </div>
 
-<a name="via-the-with-method"></a>
-#### `with`メソッド経由
+<a name="via-the-with-parameter"></a>
+#### `with`パラメータ経由
 
-テンプレートへ送信する前にメールのデータの形式をカスタマイズしたい場合は、`with`メソッドを使用して手作業でデータをビューへ渡せます。通常、Mailableクラスのコンストラクターを介してデータを渡します。ただし、このデータを`protected`または`private`プロパティに設定して、データがテンプレートで自動的に使用可能にならないようにする必要があります。次に、`with`メソッドを呼び出すときに、テンプレートで使用できるようにするデータの配列を渡します。
+もし、テンプレートへ送る前にメールのデータフォーマットをカスタマイズしたい場合は、`Content`定義の`with`パラメータを使用して、手作業でデータをビューに渡すこともできます。しかし、このデータを`protected`または`private`プロパティにセットすることで、データが自動的にテンプレートで利用されないようにする必要があります。
 
     <?php
 
@@ -308,6 +326,7 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
     use App\Models\Order;
     use Illuminate\Bus\Queueable;
     use Illuminate\Mail\Mailable;
+    use Illuminate\Mail\Mailables\Content;
     use Illuminate\Queue\SerializesModels;
 
     class OrderShipped extends Mailable
@@ -333,17 +352,19 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
         }
 
         /**
-         * メッセージを作成
+         * メッセージ内容の定義を取得
          *
-         * @return $this
+         * @return \Illuminate\Mail\Mailables\Content
          */
-        public function build()
+        public function content()
         {
-            return $this->view('emails.orders.shipped')
-                        ->with([
-                            'orderName' => $this->order->name,
-                            'orderPrice' => $this->order->price,
-                        ]);
+            return new Content(
+                view: 'emails.orders.shipped',
+                with: [
+                    'orderName' => $this->order->name,
+                    'orderPrice' => $this->order->price,
+                ],
+            );
         }
     }
 
@@ -356,95 +377,103 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
 <a name="attachments"></a>
 ### 添付
 
-電子メールに添付ファイルを追加するには、Mailableクラスの`build`メソッド内で`attach`メソッドを使用します。`attach`メソッドは、ファイルへのフルパスを最初の引数に受けます。
+メールに添付ファイルを追加するには、メッセージの`attachments`メソッドから返す配列に添付ファイルを追加します。最初に、`Attachment`クラスが提供する、`fromPath`メソッドでファイルパスを指定して、添付ファイルを追加します。
+
+    use Illuminate\Mail\Mailables\Attachment;
 
     /**
-     * メッセージの作成
+     * メッセージの添付を取得
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Attachment[]
      */
-    public function build()
+    public function attachments()
     {
-        return $this->view('emails.orders.shipped')
-                    ->attach('/path/to/file');
+        return [
+            Attachment::fromPath('/path/to/file'),
+        ];
     }
 
-メッセージにファイルを添付する場合、`array`を`attach`メソッドの２番目の引数に渡すことにより、表示名やMIMEタイプを指定することもできます。
+メッセージへファイルを添付するときに、`as`と`withMime`メソッドを使い、添付ファイルの表示名とMIMEタイプを指定することもできます。
 
     /**
-     * メッセージの作成
+     * メッセージの添付を取得
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Attachment[]
      */
-    public function build()
+    public function attachments()
     {
-        return $this->view('emails.orders.shipped')
-                    ->attach('/path/to/file', [
-                        'as' => 'name.pdf',
-                        'mime' => 'application/pdf',
-                    ]);
+        return [
+            Attachment::fromPath('/path/to/file')
+                    ->as('name.pdf')
+                    ->withMime('application/pdf'),
+        ];
     }
 
 <a name="attaching-files-from-disk"></a>
 #### ディスクからファイルを添付
 
-[ファイルシステムディスク](/docs/{{version}}/filesystem)のいずれかにファイルを保存している場合は、`attachFromStorage`メソッドを使用してファイルを電子メールに添付できます。
+[ファイルシステムディスク](/docs/{{version}}/filesystem)のいずれかにファイルを保存している場合、`fromStorage`添付メソッドを使用してメールへ添付できます。
 
     /**
-     * メッセージの作成
+     * メッセージの添付を取得
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Attachment[]
      */
-    public function build()
+    public function attachments()
     {
-       return $this->view('emails.orders.shipped')
-                   ->attachFromStorage('/path/to/file');
+        return [
+            Attachment::fromStorage('/path/to/file'),
+        ];
     }
 
-必要に応じて、`attachFromStorage`メソッドの２番目と３番目の引数を使用して、ファイルの添付ファイル名と追加オプションを指定できます。
+もちろん、添付ファイル名とMIMEタイプも指定できます。
 
     /**
-     * メッセージの作成
+     * メッセージの添付を取得
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Attachment[]
      */
-    public function build()
+    public function attachments()
     {
-       return $this->view('emails.orders.shipped')
-                   ->attachFromStorage('/path/to/file', 'name.pdf', [
-                       'mime' => 'application/pdf'
-                   ]);
+        return [
+            Attachment::fromStorage('/path/to/file')
+                    ->as('name.pdf')
+                    ->withMime('application/pdf'),
+        ];
     }
 
-デフォルトのディスク以外のストレージディスクを指定する必要がある場合は、`attachFromStorageDisk`メソッドを使用します。
+デフォルトディスク以外のストレージディスクを指定する必要がある場合は、`fromStorageDisk`メソッドを使用してください。
 
     /**
-     * メッセージの作成
+     * メッセージの添付を取得
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Attachment[]
      */
-    public function build()
+    public function attachments()
     {
-       return $this->view('emails.orders.shipped')
-                   ->attachFromStorageDisk('s3', '/path/to/file');
+        return [
+            Attachment::fromStorageDisk('s3', '/path/to/file')
+                    ->as('name.pdf')
+                    ->withMime('application/pdf'),
+        ];
     }
 
 <a name="raw-data-attachments"></a>
 #### 素のデータの添付ファイル
 
-`attachData`メソッドを使用して、素のバイト文字列を添付ファイルとして添付できます。たとえば、メモリ内にPDFを生成し、ディスクに書き込まずに電子メールに添付する場合は、この方法を使用できます。`attachData`メソッドは、最初の引数に素のデータバイトを取り、２番目の引数にファイルの名前、３番目の引数にオプションの配列を取ります。
+`fromData`添付メソッドを使用すると、生のバイト列を添付ファイルにできます。例えば、メモリ上でPDFを生成し、それをディスクへ一旦書き込まずにメールへ添付したい場合は、このメソッドを使用します。`fromData`メソッドは、添付ファイルに割り当てるべき名前と同時に、生のデータバイトを解決するクロージャを受け取ります。
 
     /**
-     * メッセージの作成
+     * メッセージの添付を取得
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Attachment[]
      */
-    public function build()
+    public function attachments()
     {
-        return $this->view('emails.orders.shipped')
-                    ->attachData($this->pdf, 'name.pdf', [
-                        'mime' => 'application/pdf',
-                    ]);
+        return [
+            Attachment::fromData(fn () => $this->pdf, 'Report.pdf')
+                    ->withMime('application/pdf'),
+        ];
     }
 
 <a name="inline-attachments"></a>
@@ -479,7 +508,7 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
 <a name="attachable-objects"></a>
 ### Attachableオブジェクト
 
-単純な文字列のパスを介してメッセージへファイルを添付すれば十分なことがある一方で、多くの場合、アプリケーション内の添付可能なエンティティはクラスによって表されます。例えば、アプリケーションがメッセージに写真を添付している場合、アプリケーションはその写真を表す`Photo`モデルを用意することもできます。その場合、`Photo`モデルを`attach`メソッドに渡せれば、便利ですよね？添付可能なAttachableオブジェクトを使用すれば、それが実行できます。
+単純な文字列のパスを介してメッセージへファイルを添付すれば十分なことがある一方で、多くの場合、アプリケーション内の添付可能(Attachable)なエンティティはクラスによって表されます。例えば、アプリケーションがメッセージに写真を添付している場合、アプリケーションはその写真を表す`Photo`モデルを用意することもできます。その場合、`Photo`モデルを`attach`メソッドに渡せれば、便利ですよね？添付可能なAttachableオブジェクトを使用すれば、それが実行できます。
 
 この機能を利用するには、メッセージへ添付できるオブジェクトに、`Illuminate\Contracts\Mail\Attachable`インターフェイスを実装します。このインターフェイスは、そのクラスが`Illuminate\Mail\Attachment`インスタンスを返す`toMailAttachment`メソッドを定義するよう指示します:
 
@@ -494,7 +523,7 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
     class Photo extends Model implements Attachable
     {
         /**
-         * モデルの添付可能な表現を取得
+         * モデルの添付可能な形式を取得
          *
          * @return \Illuminate\Mail\Attachment
          */
@@ -504,17 +533,16 @@ Mailableクラスの`build`メソッド内で、`view`メソッドを使用し�
         }
     }
 
-添付可能なオブジェクトを定義したら、メールメッセージを作成する際、`attach`メソッドへそのオブジェクトのインスタンスを渡すだけです。
+ 添付可能なオブジェクトを定義したら、メールメッセージを作成する際に`attachments`メソッドにより、そのオブジェクトのインスタンスを返してください。
 
     /**
-     * メッセージの作成
+     * メッセージの添付の取得
      *
-     * @return $this
+     * @return array
      */
-    public function build()
+    public function attachments()
     {
-        return $this->view('photos.resized')
-                    ->attach($this->photo);
+        return [$this->photo];
     }
 
 もちろん、添付ファイルデータは、Amazon S3などのリモートファイルストレージサービスに保存されている場合もあるでしょう。そのため、Laravelでは、アプリケーションの[ファイルシステム・ディスク](/docs/{{version}}/filesystem)のいずれかに保存しているデータから、添付ファイルのインスタンスを生成することも可能です。
@@ -535,21 +563,52 @@ Laravelは、添付ファイルをカスタマイズするために使用でき�
             ->as('Photo Name')
             ->withMime('image/jpeg');
 
+<a name="headers"></a>
+### ヘッダ
+
+時には、送信するメッセージへ追加のヘッダを付ける必要が起きるかもしれません。例えば、カスタム`Message-Id`や、その他の任意のテキストヘッダを設定する必要があるかもしれません。
+
+これを行うには、Mailableで`headers`メソッドを定義します。`headers`メソッドは、`Illuminate\Mail\Mailables\Headers`インスタンスを返す必要があります。このクラスは `messageId`、`references`、`text`を引数に取ります。もちろん、特定のメッセージに必要なパラメータだけを渡すこともできます。
+
+    use Illuminate\Mail\Mailables\Headers;
+
+    /**
+     * メッセージヘッダの取得
+     *
+     * @return \Illuminate\Mail\Mailables\Headers
+     */
+    public function headers()
+    {
+        return new Headers(
+            messageId: 'custom-message-id@example.com',
+            references: ['previous-message@example.com'],
+            text: [
+                'X-Custom-Header' => 'Custom Value',
+            ],
+        );
+    }
+
 <a name="tags-and-metadata"></a>
 ### タグとメタデータ
 
-MailgunやPostmarkなどのサードパーティのメールプロバイダーは、メッセージの「タグ」や「メタデータ」をサポートしており、アプリケーションから送信されたメールをグループ化して追跡するために使用することができます。タグやメタデータは、`tag`メソッドや`metadata`メソッドにより、メールメッセージへ追加できます。
+MailgunやPostmarkなどのサードパーティのメールプロバイダーは、メッセージの「タグ」や「メタデータ」をサポートしており、アプリケーションが送信したメールをグループ化し、追跡しするために使用できます。タグやメタデータは、`Envelope`定義により、メールメッセージへ追加します。
+
+    use Illuminate\Mail\Mailables\Envelope;
 
     /**
-     * メッセージの構築
+     * メッセージEnvelopeの取得
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function build()
+    public function envelope()
     {
-        return $this->view('emails.orders.shipped')
-                    ->tag('shipment')
-                    ->metadata('order_id', $this->order->id);
+        return new Envelope(
+            subject: 'Order Shipped',
+            tags: ['shipment'],
+            metadata: [
+                'order_id' => $this->order->id,
+            ],
+        );
     }
 
 アプリケーションでMailgunドライバを使用している場合、[タグ](https://documentation.mailgun.com/en/latest/user_manual.html#tagging-1)と[メタデータ](https://documentation.mailgun.com/en/latest/user_manual.html#attaching-data-to-messages)の詳細は、Mailgunのドキュメントを参照してください。同様に、Postmarkのドキュメントも、[タグ](https://postmarkapp.com/blog/tags-support-for-smtp)と[メタデータ](https://postmarkapp.com/support/article/1125-custom-metadata-faq)のサポートについて、詳しい情報を得るために参照できます。
@@ -559,26 +618,26 @@ MailgunやPostmarkなどのサードパーティのメールプロバイダー�
 <a name="customizing-the-symfony-message"></a>
 ### Symfonyメッセージのカスタマイズ
 
-`Mailable`ベースクラスの`withSymfonyMessage`メソッドは、メッセージ送信前にSymfonyのメッセージインスタンスで呼び出されるクロージャを登録可能です。これにより、メッセージが配信される前に、メッセージを詳細にカスタマイズする機会が得られます。
+Laravelのメール機能は、Symfony Mailerによって提供されています。Laravelでは、メッセージを送信する前に、Symfonyのメッセージインスタンスで呼び出されるカスタムコールバックを登録できます。これにより、メッセージ送信前に、そのメッセージを深くカスタマイズするチャンスが得られます。これを利用するには、`Envelope`定義で`using`パラメータを定義します。
 
+    use Illuminate\Mail\Mailables\Envelope;
     use Symfony\Component\Mime\Email;
 
     /**
-     * メッセージの作成
+     * メッセージEnvelopeの取得
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function build()
+    public function envelope()
     {
-        $this->view('emails.orders.shipped');
-
-        $this->withSymfonyMessage(function (Email $message) {
-            $message->getHeaders()->addTextHeader(
-                'Custom-Header', 'Header Value'
-            );
-        });
-
-        return $this;
+        return new Envelope(
+            subject: 'Order Shipped',
+            using: [
+                function (Email $message) {
+                    // ...
+                },
+            ]
+        );
     }
 
 <a name="markdown-mailables"></a>
@@ -595,19 +654,23 @@ Markdown Mailableメッセージを使用すると、Mailableで[メール通知
 php artisan make:mail OrderShipped --markdown=emails.orders.shipped
 ```
 
-次に、Mailableオブジェクトをその`build`メソッド内で設定するときに、`view`メソッドの代わりに`markdown`メソッドを呼び出します。`markdown`メソッドは、Markdownテンプレートの名前と、テンプレートで使用するデータ配列をオプションとして引数に取ります。
+次に、Mailableの`Content`定義をその`content`メソッド内で設定するときに、`view`パラメータの代わりに、`markdown`パラメータを使用します。
+
+    use Illuminate\Mail\Mailables\Content;
 
     /**
-     * メッセージの作成
+     * メッセージ内容の定義を取得
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Content
      */
-    public function build()
+    public function content()
     {
-        return $this->from('example@example.com')
-                    ->markdown('emails.orders.shipped', [
-                        'url' => $this->orderUrl,
-                    ]);
+        return new Content(
+            markdown: 'emails.orders.shipped',
+            with: [
+                'url' => $this->orderUrl,
+            ],
+        );
     }
 
 <a name="writing-markdown-messages"></a>
@@ -616,18 +679,18 @@ php artisan make:mail OrderShipped --markdown=emails.orders.shipped
 Markdown Mailableは、BladeコンポーネントとMarkdown構文の組み合わせを使用して、Laravelに組み込まれた電子メールUIコンポーネントを活用しながら、メールメッセージを簡単に作成できるようにします。
 
 ```blade
-@component('mail::message')
+<x-mail::message>
 # 発送
 
 注文を発送しました。
 
-@component('mail::button', ['url' => $url])
+<x-mail::button :url="$url">
 注文の確認
-@endcomponent
+</x-mail::button>
 
 Thanks,<br>
 {{ config('app.name') }}
-@endcomponent
+</x-mail::message>
 ```
 
 > **Note**
@@ -639,9 +702,9 @@ Thanks,<br>
 ボタンコンポーネントは、中央に配置されたボタンリンクをレンダします。コンポーネントは、`url`とオプションの`color`の２つの引数を取ります。サポートしている色は、`primary`、`success`、`error`です。メッセージには、必要なだけのボタンコンポーネントを追加できます。
 
 ```blade
-@component('mail::button', ['url' => $url, 'color' => 'success'])
+<x-mail::button :url="$url" color="success">
 注文の確認
-@endcomponent
+</x-mail::button>
 ```
 
 <a name="panel-component"></a>
@@ -650,9 +713,9 @@ Thanks,<br>
 パネルコンポーネントは、メッセージの残りの部分とはわずかに異なる背景色を持つパネルで、指定するテキストのブロックをレンダします。これにより、特定のテキストブロックに注意を引くことができます。
 
 ```blade
-@component('mail::panel')
+<x-mail::panel>
 ここはパネルの本文。
-@endcomponent
+</x-mail::panel>
 ```
 
 <a name="table-component"></a>
@@ -661,12 +724,12 @@ Thanks,<br>
 テーブルコンポーネントを使用すると、MarkdownテーブルをHTMLテーブルに変換できます。コンポーネントは、そのコンテンツとしてMarkdownテーブルを受け入れます。テーブルの列の配置は、デフォルトのMarkdownテーブルの配置構文をサポートします。
 
 ```blade
-@component('mail::table')
+<x-mail::table>
 | Laravel       | テーブル         | 例  |
 | ------------- |:-------------:| --------:|
 | Col 2 is      | Centered      | $10      |
 | Col 3 is      | Right-Aligned | $20      |
-@endcomponent
+</x-mail::table>
 ```
 
 <a name="customizing-the-components"></a>

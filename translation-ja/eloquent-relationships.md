@@ -710,7 +710,7 @@ public function currentPricing()
     }
 
 > **Warning**
-> ピボットモデルは`SoftDeletes`トレイトを使用できません。ピボットレコードをソフト削除する必要がある場合は、ピボットモデルを実際のEloquentモデルに変換することを検討してください。
+> ピボットモデルは`SoftDeletes`トレイトを使用できません。ピボットレコードをソフトデリートする必要がある場合は、ピボットモデルを実際のEloquentモデルに変換することを検討してください。
 
 <a name="custom-pivot-models-and-incrementing-ids"></a>
 #### カスタムピボットモデルと増分ID

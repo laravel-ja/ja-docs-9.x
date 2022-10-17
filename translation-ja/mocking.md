@@ -462,25 +462,26 @@ Laravelの[サービスコンテナ](/docs/{{version}}/container)を介してア
 
 Mailableインスタンスは、添付ファイルを調べるために便利なメソッドもいくつか持っています。
 
+    use Illuminate\Mail\Mailables\Attachment;
+
     Mail::assertSent(OrderShipped::class, function ($mail) {
-        return $mail->hasAttachment('/path/to/file');
+        return $mail->hasAttachment(
+            Attachment::fromPath('/path/to/file')
+                    ->as('name.pdf')
+                    ->withMime('application/pdf')
+        );
     });
 
     Mail::assertSent(OrderShipped::class, function ($mail) {
-        return $mail->hasAttachment('/path/to/file', [
-            'as' => 'name.pdf',
-            'mime' => 'application/pdf',
-        ]);
-    });
-
-    Mail::assertSent(OrderShipped::class, function ($mail) {
-        return $mail->hasAttachmentFromStorageDisk('s3', '/path/to/file');
+        return $mail->hasAttachment(
+            Attachment::fromStorageDisk('s3', '/path/to/file')
+        );
     });
 
     Mail::assertSent(OrderShipped::class, function ($mail) use ($pdfData) {
-        return $mail->hasAttachedData($pdfData, 'name.pdf', [
-            'mime' => 'application/pdf'
-        ]);
+        return $mail->hasAttachment(
+            Attachment::fromData(fn () => $pdfData, 'name.pdf')
+        );
     });
 
 メールが送信されなかったことを宣言する方法として、`assertNotSent`と`assertNotQueued`の２つの方法があるのにお気づきでしょうか。時には、メールが送信されなかったこと、**または**キューに入れられなかったことをアサートしたい場合があります。これを実現するには、`assertNothingOutgoing`や`assertNotOutgoing`メソッドを使用してください。

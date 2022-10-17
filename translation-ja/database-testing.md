@@ -168,7 +168,7 @@ Laravelは、[PHPUnit](https://phpunit.de/)機能テスト用にいくつかの�
 <a name="assert-deleted"></a>
 #### assertSoftDeleted
 
-`assertSoftDeleted`メソッドは、指定したEloquentモデルが「ソフト削除」されたことをアサートします。
+`assertSoftDeleted`メソッドは、指定したEloquentモデルが「ソフトデリート」されたことをアサートします。
 
     $this->assertSoftDeleted($user);
 

@@ -9,6 +9,7 @@
     - [主キータイムスタンプ](#timestamps)
     - [データベース接続](#database-connections)
     - [デフォルト属性値](#default-attribute-values)
+    - [Configuring Eloquent Strictness](#configuring-eloquent-strictness)
 - [モデルの取得](#retrieving-models)
     - [コレクション](#collections)
     - [結果の分割](#chunking-results)
@@ -357,6 +358,48 @@ Eloquentモデルの主キーへ、自動増分整数を使用する代わりに
             'delayed' => false,
         ];
     }
+
+<a name="configuring-eloquent-strictness"></a>
+### Eloquent厳格さの設定
+
+Laravelは、さまざまな状況におけるEloquent動作や、「厳密さ」を設定するためメソッドを用意しています。
+
+まず、`preventLazyLoading`メソッドは、オプションで論理値の引数を取り、遅延ロードを防ぐかを指定します。たとえば、非本番環境のみ遅延ロードを無効にし、本番環境にリレーションを遅延ロードするコードが誤って紛れ込んだ場合でも、正常に機能し続けるようにしたい状況はあると思います。通常、このメソッドはアプリケーションの`AppServiceProvider`の`boot`メソッドで呼び出す必要があります。
+
+```php
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * 全アプリケーションサービスの初期起動処理
+ *
+ * @return void
+ */
+public function boot()
+{
+    Model::preventLazyLoading(! $this->app->isProduction());
+}
+```
+
+また、`preventSilentlyDiscardingAttributes`メソッドを呼び出せば、複数代入非許可な属性へ複数代入しようとしたときに例外を投げるようにLaravelに指示することもできます。これは、ローカル開発時に、モデルの`fillable`配列へ追加されていない属性をセットしようとしたときに、予期せぬエラーが発生するのを防ぐのに役立ちます。
+
+```php
+Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
+```
+
+最後に、モデル上の属性にアクセスしようとしたときに、その属性が実際にデータベースから取得されなかったり、その属性が存在しなかったりした場合に、Eloquentへ例外を投げるように指示することもできます。例えば、Eloquentクエリの`select`節に属性を追加し忘れた場合などに起こり得ます。
+
+```php
+Model::preventAccessingMissingAttributes(! $this->app->isProduction());
+```
+
+<a name="enabling-eloquent-strict-mode"></a>
+#### Eloquent「厳格モード」の有効化
+
+簡単に使えるようにするため、`shouldBeStrict`メソッドを呼び出すだけで、前記で説明した３メソッドをすべて有効にできます。
+
+```php
+Model::shouldBeStrict(! $this->app->isProduction());
+```
 
 <a name="retrieving-models"></a>
 ## モデルの取得
@@ -917,7 +960,7 @@ JSONカラムへ代入するときは、各カラムの複数代入可能キー�
 <a name="soft-deleting"></a>
 ### ソフトデリート
 
-Eloquentは、データベースから実際にレコードを削除するだけでなく、モデルを「ソフトデリート」することもできます。モデルがソフト削除されても、実際にはデータベースから削除されません。代わりに、モデルに「deleted_at」属性がセットされ、モデルを「削除」した日時が保存されます。モデルのソフト削除を有効にするには、「Illuminate\Database\Eloquent\SoftDeletes」トレイトをモデルに追加します。
+Eloquentは、データベースから実際にレコードを削除するだけでなく、モデルを「ソフトデリート」することもできます。モデルがソフトデリートされても、実際にはデータベースから削除されません。代わりに、モデルに「deleted_at」属性がセットされ、モデルを「削除」した日時が保存されます。モデルのソフトデリートを有効にするには、「Illuminate\Database\Eloquent\SoftDeletes」トレイトをモデルに追加します。
 
     <?php
 
@@ -947,18 +990,18 @@ Eloquentは、データベースから実際にレコードを削除するだけ
         $table->dropSoftDeletes();
     });
 
-これで、モデルの`delete`メソッドを呼び出すと、`deleted_at`列が現在の日付と時刻に設定されます。ただし、モデルのデータベースレコードはテーブルに残ります。ソフト削除を使用するモデルをクエリすると、ソフト削除されたモデルはすべてのクエリ結果から自動的に除外されます。
+これで、モデルの`delete`メソッドを呼び出すと、`deleted_at`列が現在の日付と時刻に設定されます。ただし、モデルのデータベースレコードはテーブルに残ります。ソフトデリートを使用するモデルをクエリすると、ソフトデリートされたモデルはすべてのクエリ結果から自動的に除外されます。
 
-特定のモデルインスタンスがソフト削除されているかを判断するには、`trashed`メソッドを使用します。
+特定のモデルインスタンスがソフトデリートされているかを判断するには、`trashed`メソッドを使用します。
 
     if ($flight->trashed()) {
         //
     }
 
 <a name="restoring-soft-deleted-models"></a>
-#### ソフト削除したモデルの復元
+#### ソフトデリートしたモデルの復元
 
-ソフト削除したモデルを「削除解除」したい場合もあるでしょう。ソフト削除したモデルを復元するには、モデルインスタンスの`restore`メソッドを呼び出します。`restore`メソッドは、モデルの`deleted_at`カラムを`null`にセットします。
+ソフトデリートしたモデルを「削除解除」したい場合もあるでしょう。ソフトデリートしたモデルを復元するには、モデルインスタンスの`restore`メソッドを呼び出します。`restore`メソッドは、モデルの`deleted_at`カラムを`null`にセットします。
 
     $flight->restore();
 
@@ -975,7 +1018,7 @@ Eloquentは、データベースから実際にレコードを削除するだけ
 <a name="permanently-deleting-models"></a>
 #### モデルの完全な削除
 
-データベースからモデルを本当に削除する必要が起きる場合もあるでしょう。`forceDelete`メソッドを使用して、データベーステーブルからソフト削除されたモデルを完全に削除できます。
+データベースからモデルを本当に削除する必要が起きる場合もあるでしょう。`forceDelete`メソッドを使用して、データベーステーブルからソフトデリートされたモデルを完全に削除できます。
 
     $flight->forceDelete();
 
@@ -987,9 +1030,9 @@ Eloquentリレーションクエリを作成するときに、`forceDelete`メ�
 ### ソフトデリート済みモデルのクエリ
 
 <a name="including-soft-deleted-models"></a>
-#### ソフト削除モデルを含める
+#### ソフトデリートモデルを含める
 
-上記のように、ソフト削除したモデルはクエリ結果から自動的に除外されます。ただし、クエリで`withTrashed`メソッドを呼び出すことにより、ソフト削除したモデルをクエリの結果に含められます。
+上記のように、ソフトデリートしたモデルはクエリ結果から自動的に除外されます。ただし、クエリで`withTrashed`メソッドを呼び出すことにより、ソフトデリートしたモデルをクエリの結果に含められます。
 
     use App\Models\Flight;
 
@@ -1002,9 +1045,9 @@ Eloquentリレーションクエリを作成するときに、`forceDelete`メ�
     $flight->history()->withTrashed()->get();
 
 <a name="retrieving-only-soft-deleted-models"></a>
-#### ソフト削除モデルのみを取得する
+#### ソフトデリートモデルのみを取得する
 
-`onlyTrashed`メソッドは、ソフト削除したモデル**のみ**取得します。
+`onlyTrashed`メソッドは、ソフトデリートしたモデル**のみ**取得します。
 
     $flights = Flight::onlyTrashed()
                     ->where('airline_id', 1)
@@ -1081,7 +1124,7 @@ php artisan model:prune --pretend
 ```
 
 > **Warning**
-> Prunableクエリに一致した場合、ソフト削除するモデルでも、永久的に削除（`forceDelete`）します。
+> Prunableクエリに一致した場合、ソフトデリートするモデルでも、永久的に削除（`forceDelete`）します。
 
 <a name="mass-pruning"></a>
 #### 複数整理
@@ -1612,7 +1655,7 @@ php artisan make:observer UserObserver --model=User
 
     $user->saveQuietly();
 
-また、イベントをディスパッチせずに、与えられたモデルを「更新（update）」、「削除（delete）」、「ソフト削除（soft delete）」、「復元（restore）」、「複製（replicate）」できます。
+また、イベントをディスパッチせずに、与えられたモデルを「更新（update）」、「削除（delete）」、「ソフトデリート（soft delete）」、「復元（restore）」、「複製（replicate）」できます。
 
     $user->deleteQuietly();
 

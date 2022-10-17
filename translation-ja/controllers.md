@@ -31,7 +31,7 @@
     <?php
 
     namespace App\Http\Controllers;
-    
+
     use App\Models\User;
 
     class UserController extends Controller
@@ -69,7 +69,7 @@
     <?php
 
     namespace App\Http\Controllers;
-    
+
     use App\Models\User;
 
     class ProvisionServer extends Controller
@@ -182,6 +182,19 @@ DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
             ->missing(function (Request $request) {
                 return Redirect::route('photos.index');
             });
+
+<a name="soft-deleted-models"></a>
+#### ソフトデリートしたモデル
+
+通常、暗黙のモデルバインディングでは、[ソフトデリート](/docs/{{version}}/eloquent#soft-deleting)したモデルを取得せず、代わりに404 HTTPレスポンスを返します。しかし、リソースルートを定義するときに、`withTrashed`メソッドを呼び出せば、ソフトデリート済みモデルの操作を許可するようにフレームワークへ指示できます。
+
+    use App\Http\Controllers\PhotoController;
+
+    Route::resource('photos', PhotoController::class)->withTrashed();
+
+引数なしで`withTrashed`を呼び出すと、`show`、`edit`、`update`リソースルートでのソフトデリート操作を許可します。`withTrashed`メソッドへ配列を渡し、これらのルートのサブセットを指定することもできます。
+
+    Route::resource('photos', PhotoController::class)->withTrashed(['show']);
 
 <a name="specifying-the-resource-model"></a>
 #### リソースモデルの指定
