@@ -131,7 +131,7 @@ LaravelのFlysystem統合はSFTPでも最適に機能します。ただし、サ
 
         // 暗号化パスワードを使用するSSHキーベースの認証の設定
         'privateKey' => env('SFTP_PRIVATE_KEY'),
-        'password' => env('SFTP_PASSWORD'),
+        'passphrase' => env('SFTP_PASSPHRASE'),
 
         // オプションのSFTP設定
         // 'hostFingerprint' => env('SFTP_HOST_FINGERPRINT'),

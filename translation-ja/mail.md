@@ -965,7 +965,7 @@ Laravelを使用すると、リクエストの現在のロケール以外のロ�
 <a name="testing-mailables"></a>
 ## Mailableのテスト
 
-Laravelは、Mailableに期待するコンテンツが含まれているかどうかをテストするために、便利なメソッドをいくらか用意しています。これらのメソッドは以下の通りです。`assertSeeInHtml`、`assertDontSeeInHtml`、`assertSeeInOrderInHtml`、`assertSeeInText`、`assertDontSeeInText`、`assertSeeInOrderInText`、`assertHasAttachment`、`assertHasAttachedData`、`assertHasAttachmentFromStorage`、`assertHasAttachmentFromStorageDisk`
+Laravelは、Mailableの構造を調べる数多くのメソッドを提供しています。さらに、期待するコンテンツがMailableに含まれているかをテストするために便利なメソッドをいくらか用意しています。これらのメソッドは以下の通りです。`assertSeeInHtml`、`assertDontSeeInHtml`、`assertSeeInOrderInHtml`、`assertSeeInText`、`assertDontSeeInText`、`assertSeeInOrderInText`、`assertHasAttachment`、`assertHasAttachedData`、`assertHasAttachmentFromStorage`、`assertHasAttachmentFromStorageDisk`
 
 ご想像のとおり、"HTML"アサートは、MailableのHTMLバージョンに特定の文字列が含まれていることを宣言し、"text"アサートは、Mailableの平文テキストバージョンに特定の文字列が含まれていることを宣言します。
 
@@ -977,6 +977,15 @@ Laravelは、Mailableに期待するコンテンツが含まれているかど�
         $user = User::factory()->create();
 
         $mailable = new InvoicePaid($user);
+
+        $mailable->assertFrom('jeffrey@example.com');
+        $mailable->assertTo('taylor@example.com');
+        $mailable->assertHasCc('abigail@example.com');
+        $mailable->assertHasBcc('victoria@example.com');
+        $mailable->assertHasReplyTo('tyler@example.com');
+        $mailable->assertHasSubject('Invoice Paid');
+        $mailable->assertHasTag('example-tag');
+        $mailable->assertHasMetadata('key', 'value');
 
         $mailable->assertSeeInHtml($user->email);
         $mailable->assertSeeInHtml('Invoice Paid');

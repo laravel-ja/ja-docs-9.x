@@ -517,6 +517,12 @@ Laravelは、タイプヒントの変数名がルートセグメント名と一�
         });
     });
 
+同様に、`withoutScopedBindings`メソッドを呼び出すことで、バインドをスコープしないよう明示的にLaravelへ指示できます。
+
+    Route::get('/users/{user}/posts/{post:slug}', function (User $user, Post $post) {
+        return $post;
+    })->withoutScopedBindings();
+
 <a name="customizing-missing-model-behavior"></a>
 #### 見つからないモデルの動作をカスタマイズする
 

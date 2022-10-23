@@ -271,7 +271,7 @@ LaravelのHTTPクライアントはGuzzleで動いているので、[Guzzleミ�
 
             return $request;
         })
-    ->get('http://example.com');
+    )->get('http://example.com');
 
 同様に、Guzzleの`mapResponse`ミドルウェアファクトリと組み合わせて`withMiddleware`メソッドをを登録すれば、受信HTTPレスポンスを検査できます。
 
