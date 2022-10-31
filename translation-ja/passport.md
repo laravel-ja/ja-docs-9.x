@@ -10,6 +10,7 @@
     - [クライアントシークレットハッシュ](#client-secret-hashing)
     - [トークン持続時間](#token-lifetimes)
     - [デフォルトモデルのオーバーライド](#overriding-default-models)
+    - [ルートのオーバーライド](#overriding-routes)
 - [アクセストークンの発行](#issuing-access-tokens)
     - [クライアント管理](#managing-clients)
     - [トークンのリクエスト](#requesting-tokens)
@@ -248,6 +249,33 @@ Passportの新しいメジャーバージョンにアップグレードすると
         Passport::useAuthCodeModel(AuthCode::class);
         Passport::usePersonalAccessClientModel(PersonalAccessClient::class);
     }
+
+<a name="overriding-routes"></a>
+### ルートのオーバーライド
+
+Passportが定義するルートをカスタマイズしたい場合もあるでしょう。そのためには、まずアプリケーションの`AppServiceProvider`の`register`メソッドへ、`Passport::ignoreRoutes`を追加し、Passportが登録したルートを無視する必要があります。
+
+    use Laravel\Passport\Passport;
+
+    /**
+     * 全アプリケーションサービスの登録
+     *
+     * @return void
+     */
+    public function register()
+    {
+        Passport::ignoreRoutes();
+    }
+
+そして、Passport自身の[ルートファイル](https://github.com/laravel/passport/blob/11.x/routes/web.php)で定義しているルートをアプリケーションの`routes/web.php`ファイルへコピーして、好みに合わせ変更してください。
+
+    Route::group([
+        'as' => 'passport.',
+        'prefix' => config('passport.path', 'oauth'),
+        'namespace' => 'Laravel\Passport\Http\Controllers',
+    ], function () {
+        // Passportのルート…
+    });
 
 <a name="issuing-access-tokens"></a>
 ## アクセストークンの発行

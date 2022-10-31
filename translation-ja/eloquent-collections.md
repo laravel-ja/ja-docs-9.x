@@ -149,6 +149,8 @@
     $users->load(['comments', 'posts']);
 
     $users->load('comments.author');
+    
+    $users->load(['comments', 'posts' => fn ($query) => $query->where('active', 1)]);
 
 <a name="method-loadMissing"></a>
 #### `loadMissing($relations)` {.collection-method}
@@ -158,6 +160,8 @@
     $users->loadMissing(['comments', 'posts']);
 
     $users->loadMissing('comments.author');
+    
+    $users->loadMissing(['comments', 'posts' => fn ($query) => $query->where('active', 1)]);
 
 <a name="method-modelKeys"></a>
 #### `modelKeys()` {.collection-method}

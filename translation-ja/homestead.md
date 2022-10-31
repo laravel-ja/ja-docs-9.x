@@ -763,7 +763,7 @@ features:
         client_token: "client_value"
 ```
 
-Blackfireサーバの接続情報とクライアントの接続情報が[Blackfireアカウントで要求されます](https://blackfire.io/signup)。Blackfireには、CLIツールやブラウザ拡張機能など、アプリケーションをプロファイリングするためのさまざまなオプションが用意されています。[詳細については、Blackfireのドキュメントを確認してください](https://blackfire.io/docs/cookbooks/index)。
+Blackfireサーバの接続情報とクライアントの接続情報が[Blackfireアカウントで要求されます](https://blackfire.io/signup)。Blackfireには、CLIツールやブラウザ拡張機能など、アプリケーションをプロファイリングするためのさまざまなオプションが用意されています。[詳細については、Blackfireのドキュメントを確認してください](https://blackfire.io/docs/php/integrations/laravel/index)。
 
 <a name="network-interfaces"></a>
 ## ネットワークインターフェイス

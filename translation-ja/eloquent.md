@@ -1238,7 +1238,7 @@ php artisan model:prune --pretend
 
     namespace App\Models;
 
-    use App\Scopes\AncientScope;
+    use App\Models\Scopes\AncientScope;
     use Illuminate\Database\Eloquent\Model;
 
     class User extends Model

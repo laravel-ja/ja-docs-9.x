@@ -1103,7 +1103,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
-    data_set($data, 'products.desk.price', 200, $overwrite = false);
+    data_set($data, 'products.desk.price', 200, overwrite: false);
 
     // ['products' => ['desk' => ['price' => 100]]]
 

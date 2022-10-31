@@ -644,6 +644,7 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 [assertJsonValidationErrors](#assert-json-validation-errors)
 [assertJsonValidationErrorFor](#assert-json-validation-error-for)
 [assertLocation](#assert-location)
+[assertContent](#assert-content)
 [assertNoContent](#assert-no-content)
 [assertNotFound](#assert-not-found)
 [assertOk](#assert-ok)
@@ -942,6 +943,13 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 レスポンスの`Location`ヘッダに指定するURI値があることを宣言します。
 
     $response->assertLocation($uri);
+
+<a name="assert-content"></a>
+#### assertContent
+
+指定した文字列が、レスポンスの内容と一致することを宣言します。
+
+    $response->assertContent($value);
 
 <a name="assert-no-content"></a>
 #### assertNoContent

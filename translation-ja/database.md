@@ -292,6 +292,7 @@ SELECTステートメントに１つのデータベース接続を使用し、IN
     use Illuminate\Database\Connection;
     use Illuminate\Support\Facades\DB;
     use Illuminate\Support\ServiceProvider;
+    use Illuminate\Database\Events\QueryExecuted;
 
     class AppServiceProvider extends ServiceProvider
     {
@@ -312,7 +313,7 @@ SELECTステートメントに１つのデータベース接続を使用し、IN
          */
         public function boot()
         {
-            DB::whenQueryingForLongerThan(500, function (Connection $connection) {
+            DB::whenQueryingForLongerThan(500, function (Connection $connection, QueryExecuted $event) {
                 // 開発チームへ通知を送る…
             });
         }
