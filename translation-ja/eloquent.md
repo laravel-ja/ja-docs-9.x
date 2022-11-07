@@ -246,7 +246,7 @@ Eloquentモデルの主キーへ、自動増分整数を使用する代わりに
         return ['id', 'discount_code'];
     }
 
-ご希望であれば、UUIDの代わりに"ULID"を使用することもできます。ULIDはUUIDに似ていますが、長さは２６文字です。順序付きUUIDのように、ULIDは効率的なデータベースインデックス作成のため、辞書的にソート可能です。ULIDを使用するには、モデルで `Illuminate\Database\Eloquent\Concerns\HasUlids`トレイトを使用してください。
+ご希望であれば、UUIDの代わりに"ULID"を使用することもできます。ULIDはUUIDに似ていますが、長さは２６文字です。順序付きUUIDのように、ULIDは効率的なデータベースインデックス作成のため、辞書的にソート可能です。ULIDを使用するには、モデルで `Illuminate\Database\Eloquent\Concerns\HasUlids`トレイトを使用してください。また、モデルに[ULID相当の主キーカラム](/docs/{{version}}/migrations#column-method-ulid)確実に用意する必要があります。
 
     use Illuminate\Database\Eloquent\Concerns\HasUlids;
     use Illuminate\Database\Eloquent\Model;

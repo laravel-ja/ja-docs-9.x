@@ -867,7 +867,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 </a>
 ```
 
-サブスクリプションが`past_due`状態のときは、アクティブであると見なしたい場合は、Cashierが提供する`keepPastDueSubscriptionsActive`メソッドを使用します。通常、このメソッドは、`App\Providers\AppServiceProvider`の`register`メソッドで呼び出す必要があります。
+もし、サブスクリプションが`past_due`か`incomplete`の状態でも、アクティブとみなしたい場合は、Cashierが提供する`keepPastDueSubscriptionsActive`と、`keepIncompleteSubscriptionsActive`メソッドを使用します。通常、これらのメソッドは`AppAppServiceProviders`の`register`メソッドで呼び出す必要があります。
 
     use Laravel\Cashier\Cashier;
 
@@ -879,6 +879,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
     public function register()
     {
         Cashier::keepPastDueSubscriptionsActive();
+        Cashier::keepIncompleteSubscriptionsActive();
     }
 
 > **Warning**

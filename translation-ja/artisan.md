@@ -6,6 +6,7 @@
     - [コマンド生成](#generating-commands)
     - [コマンド構造](#command-structure)
     - [クロージャコマンド](#closure-commands)
+    - [単一インスタンスコマンド](#isolatable-commands)
 - [入力期待値の定義](#defining-input-expectations)
     - [引数](#arguments)
     - [オプション](#options)
@@ -202,6 +203,55 @@ php artisan make:command SendEmails
     Artisan::command('mail:send {user}', function ($user) {
         // ...
     })->purpose('Send a marketing email to a user');
+
+<a name="isolatable-commands"></a>
+### 単一インスタンスコマンド
+
+> **Warning**
+> この機能を利用するには、アプリケーションで`memcached`、`redis`、`dynamodb`、`database`、`file`、`array`キャッシュドライバをアプリケーションのデフォルトキャッシュドライバとして使用する必要があります。さらに、すべてのサーバから同一のセントルキャッシュサーバと通信する必要があります。
+
+同時に実行できるコマンドのインスタンスが１つだけであることを保証したい場合があります。これを実現するには、コマンドクラスで`Illuminate\Contracts\Console\Isolatable`インターフェイスを実装します。
+
+    <?php
+
+    namespace App\Console\Commands;
+
+    use Illuminate\Console\Command;
+    use Illuminate\Contracts\Console\Isolatable;
+
+    class SendEmails extends Command implements Isolatable
+    {
+        // ...
+    }
+
+コマンドを`Isolatable`とマークすると、Laravel は自動的にコマンドに`--isolated`オプションを追加します。このオプションでコマンドを呼び出すと、Laravelはそのコマンドの他のインスタンスが既に実行されていないことを確認します。Laravelは、アプリケーションのデフォルトキャッシュドライバを使用してアトミックロックの取得を試みることで、この機能を実現します。コマンドの他のインスタンスが実行されている場合、コマンドは実行されませんが、コマンドは正常終了ステータスコードで終了します。
+
+```shell
+php artisan mail:send 1 --isolated
+```
+
+コマンドが実行できなかった場合に返される終了ステータスコードを指定したい場合は、`isolated`オプションで希望するステータスコードを指定できます。
+
+```shell
+php artisan mail:send 1 --isolated=12
+```
+
+<a name="lock-expiration-time"></a>
+#### ロックの有効時間
+
+デフォルトでは、単一コマンドのロックは、コマンド終了後に期限切れとなります。あるいは、コマンドが中断されて終了できなかった場合は、ロックは１時間後に期限切れになります。しかし、コマンドで`isolationLockExpiresAt`メソッドを定義すれば、ロックの有効期限を調整できます。
+
+```php
+/**
+ * 単一コマンドのロック期限を決定
+ *
+ * @return \DateTimeInterface|\DateInterval
+ */
+public function isolationLockExpiresAt()
+{
+    return now()->addMinutes(5);
+}
+```
 
 <a name="defining-input-expectations"></a>
 ## 入力期待値の定義

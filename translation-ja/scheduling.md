@@ -133,6 +133,7 @@ php artisan schedule:list
 `->twiceMonthly(1, 16, '13:00');`  |  毎月１日と１６日の13:00にタスク実行
 `->lastDayOfMonth('15:00');` |  毎月最終日の15:00に実行
 `->quarterly();` |  四半期の初日の00:00にタスク実行
+`->quarterlyOn(4, '14:00');` |  四半期の４日の14:00に実行
 `->yearly();`  |  毎年１月１日の00:00にタスク実行
 `->yearlyOn(6, 1, '17:00');`  |  毎年６月１日の17:00にタスク実行
 `->timezone('America/New_York');` | タスクのタイムゾーンを設定

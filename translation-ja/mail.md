@@ -997,8 +997,8 @@ Laravelは、Mailableの構造を調べる数多くのメソッドを提供し�
         $mailable->assertHasAttachment('/path/to/file');
         $mailable->assertHasAttachment(Attachment::fromPath('/path/to/file'));
         $mailable->assertHasAttachedData($pdfData, 'name.pdf', ['mime' => 'application/pdf']);
-        $mailable->assertHasAttachementFromStorage('/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
-        $mailable->assertHasAttachementFromStorageDisk('s3', '/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
+        $mailable->assertHasAttachmentFromStorage('/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
+        $mailable->assertHasAttachmentFromStorageDisk('s3', '/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
     }
 
 <a name="testing-mailable-sending"></a>
