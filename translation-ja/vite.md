@@ -143,34 +143,34 @@ export default defineConfig({
     plugins: [
         laravel({
             // ...
-            valetTls: 'my-app.test', // [tl! add]
+            valetTls: 'my-app.test', // [tl! 追加]
         }),
     ],
 });
 ```
 
-When using another web server, you should generate a trusted certificate and manually configure Vite to use the generated certificates:
+他のWebサーバを使用する場合は、信頼できる証明書を生成し、その生成した証明書を使用するようにViteを手作業で設定する必要があります。
 
 ```js
 // ...
-import fs from 'fs'; // [tl! add]
+import fs from 'fs'; // [tl! 追加]
 
-const host = 'my-app.test'; // [tl! add]
+const host = 'my-app.test'; // [tl! 追加]
 
 export default defineConfig({
     // ...
-    server: { // [tl! add]
-        host, // [tl! add]
-        hmr: { host }, // [tl! add]
-        https: { // [tl! add]
-            key: fs.readFileSync(`/path/to/${host}.key`), // [tl! add]
-            cert: fs.readFileSync(`/path/to/${host}.crt`), // [tl! add]
-        }, // [tl! add]
-    }, // [tl! add]
+    server: { // [tl! 追加]
+        host, // [tl! 追加]
+        hmr: { host }, // [tl! 追加]
+        https: { // [tl! 追加]
+            key: fs.readFileSync(`/path/to/${host}.key`), // [tl! 追加]
+            cert: fs.readFileSync(`/path/to/${host}.crt`), // [tl! 追加]
+        }, // [tl! 追加]
+    }, // [tl! 追加]
 });
 ```
 
-If you are unable to generate a trusted certificate for your system, you may install and configure the [`@vitejs/plugin-basic-ssl` plugin](https://github.com/vitejs/vite-plugin-basic-ssl). When using untrusted certificates, you will need to accept the certificate warning for Vite's development server in your browser by following the "Local" link in your console when running the `npm run dev` command.
+もし、あなたのシステムで信頼できる証明書を生成できない場合は、[`@vitejs/plugin-basic-ssl`プラグイン](https://github.com/vitejs/vite-plugin-basic-ssl)をインストールし、設定してください。信頼できない証明書を使用する場合は、`npm run dev`コマンドを実行する際にコンソールの"Local"リンクをたどり、ブラウザからVite開発サーバが出す証明書の警告を受け入れる必要があります。
 
 <a name="loading-your-scripts-and-styles"></a>
 ### スクリプトとスタイルの読み込み
@@ -663,14 +663,14 @@ npm install -D vite-plugin-manifest-sri
 ```js
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import manifestSRI from 'vite-plugin-manifest-sri';// [tl! add]
+import manifestSRI from 'vite-plugin-manifest-sri';// [tl! 追加]
 
 export default defineConfig({
     plugins: [
         laravel({
             // ...
         }),
-        manifestSRI(),// [tl! add]
+        manifestSRI(),// [tl! 追加]
     ],
 });
 ```
