@@ -603,9 +603,9 @@ node bootstrap/ssr/ssr.mjs
 ## Scriptとstyleタグ属性
 
 <a name="content-security-policy-csp-nonce"></a>
-### コンテンツセキュリティポリシー（CSP)ノンス
+### コンテンツセキュリティポリシー（CSP）ノンス
 
-コンテンツセキュリティポリシー](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)の一環として、スクリプトやスタイルタグに、[`nonce`属性](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce)を含めたい場合は、カスタム[ミドルウェア](/docs/{{version}}/middleware)の`useCspNonce`メソッドを使用して、ノンスを生成・指定できます。
+[コンテンツセキュリティポリシー](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)の一環として、スクリプトやスタイルタグに、[`nonce`属性](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce)を含めたい場合は、カスタム[ミドルウェア](/docs/{{version}}/middleware)の`useCspNonce`メソッドを使用して、ノンスを生成・指定できます。
 
 ```php
 <?php
@@ -650,7 +650,7 @@ Vite::useCspNonce($nonce);
 ```
 
 <a name="subresource-integrity-sri"></a>
-### サブリソース完全性(SRI)
+### サブリソース完全性（SRI）
 
 Viteマニフェストにアセット用の`integrity`ハッシュが含まれている場合、Laravelは自動的に`integrity`属性を生成するスクリプトとスタイルタグに追加し、[サブリソース完全性](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)を強要します。Viteはデフォルトでは、`integrity`ハッシュをマニフェストに含みませんが、 [`vite-plugin-manifest-uri`](https://www.npmjs.com/package/vite-plugin-manifest-sri) NPMプラグインをインストールすれば、これを有効にできます。
 
