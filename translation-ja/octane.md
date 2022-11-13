@@ -479,6 +479,8 @@ Octaneが処理する同時タスクは、Swooleの「タスクワーカー」�
 php artisan octane:start --workers=4 --task-workers=6
 ```
 
+`concurrently`メソッドを呼び出す場合、Swoole のタスクシステムによる制限のため、1024個以上のタスクを指定してはいけません。
+
 <a name="ticks-and-intervals"></a>
 ## Tickと間隔
 

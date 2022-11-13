@@ -33,10 +33,10 @@ composer require laravel/pint --dev
 ./vendor/bin/pint
 ```
 
-Pintは更新した全ファイルの完全なリストを表示します。Pintを起動する際に、`-v`オプションを指定すれば、Pintが行う変更についてさらに詳しく確認できます。
+Pintは更新した全ファイルの完全なリストを表示します。Pintを起動する際に、`-V`オプションを指定すれば、Pintが行う変更についてさらに詳しく確認できます。
 
 ```shell
-./vendor/bin/pint -v
+./vendor/bin/pint -V
 ```
 
 もし、実際にファイルを変更せず、Pintにコードのスタイルエラーを検査させたい場合は、`--test`オプションを使用します。

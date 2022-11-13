@@ -39,6 +39,7 @@
 - [スタック](#stacks)
 - [サービス注入](#service-injection)
 - [インラインBladeテンプレートのレンダ](#rendering-inline-blade-templates)
+- [Bladeフラグメントのレンダ](#rendering-blade-fragments)
 - [Bladeの拡張](#extending-blade)
     - [カスタムEchoハンドラ](#custom-echo-handlers)
     - [カスタムIf文](#custom-if-statements)
@@ -1687,6 +1688,27 @@ return Blade::render(
     ['name' => 'Julian Bashir'],
     deleteCachedView: true
 );
+```
+
+<a name="rendering-blade-fragments"></a>
+## Bladeフラグメントのレンダ
+
+[Turbo](https://turbo.hotwired.dev/)や[htmx](https://htmx.org/)などのフロントエンドフレームワークを使用する場合は、HTTPレスポンスの中からBladeテンプレートの一部のみを返す必要が起きる場合があります。Bladeの「フラグメント(fragment)」は、まさにそれを可能にします。まず、Bladeテンプレートの一部を`@fragment`ディレクティブと`@endfragment`ディレクティブの中に配置します。
+
+```blade
+@fragment('user-list')
+    <ul>
+        @foreach ($users as $user)
+            <li>{{ $user->name }}</li>
+        @endforeach
+    </ul>
+@endfragment
+```
+
+その後、このテンプレートを利用するビューをレンダする際に、`fragment`メソッドを呼び出し、指定したフラグメントのみを送信HTTPレスポンスへ含めるように指示します。
+
+```php
+return view('dashboard', ['users' => $users])->fragment('user-list');
 ```
 
 <a name="extending-blade"></a>
