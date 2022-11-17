@@ -598,9 +598,9 @@ Scoutを使用すると、検索クエリに単純な「where」節を追加で�
     )->get();
 
 <a name="customizing-the-eloquent-results-query"></a>
-#### Customizing The Eloquent Results Query
+#### Eloquent結果のクエリのカスタマイズ
 
-Scoutがアプリケーションの検索エンジンからマッチするEloquentモデルのリストを取得した後、Eloquentを使用して主キーでマッチするすべてのモデルを取得しようとします。このクエリは`query`メソッドを呼び出し、カスタマイズできます。`query`メソッドは、Eloquentクエリビルダのインスタンスを引数とするクロージャを受け取ります。
+Scoutはアプリケーションの検索エンジンからマッチするEloquentモデルのリストを取得した後、Eloquentを使用して主キーでマッチするすべてのモデルを取得しようとします。このクエリは`query`メソッドを呼び出し、カスタマイズできます。`query`メソッドは、Eloquentクエリビルダのインスタンスを引数とするクロージャを受け取ります。
 
 ```php
 use App\Models\Order;
