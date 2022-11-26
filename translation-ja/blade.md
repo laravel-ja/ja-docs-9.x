@@ -1516,7 +1516,7 @@ Bladeでは幸い、コンポーネントのテンプレートディレクトリ
 @section('title', 'Page Title')
 
 @section('sidebar')
-    @parent
+    @@parent
 
     <p>これはマスターサイドバーに追加される</p>
 @endsection
