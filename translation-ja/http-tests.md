@@ -651,6 +651,7 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 [assertPlainCookie](#assert-plain-cookie)
 [assertRedirect](#assert-redirect)
 [assertRedirectContains](#assert-redirect-contains)
+[assertRedirectToRoute](#assert-redirect-to-route)
 [assertRedirectToSignedRoute](#assert-redirect-to-signed-route)
 [assertSee](#assert-see)
 [assertSeeInOrder](#assert-see-in-order)
@@ -993,10 +994,17 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 
     $response->assertRedirectContains($string);
 
+<a name="assert-redirect-to-route"></a>
+#### assertRedirectToRoute
+
+レスポンスが指定[名前付きルート](/docs/{{version}}/routing#named-routes)へリダイレクトすることを宣言する。
+
+    $response->assertRedirectToRoute($name = null, $parameters = []);
+
 <a name="assert-redirect-to-signed-route"></a>
 #### assertRedirectToSignedRoute
 
-Assert that the response is a redirect to the given [signed route](/docs/{{version}}/urls#signed-urls):
+レスポンスが指定[署名付きルート](/docs/{{version}}/urls#signed-urls)へリダイレクトすることを宣言する。
 
     $response->assertRedirectToSignedRoute($name = null, $parameters = []);
 

@@ -230,7 +230,7 @@ Laravelサービスコンテナを深く理解することは、強力で大規�
 注入されたクラスを受け取るだけでなく、整数などのプリミティブ値も注入され、受け取るクラスがときにはあるでしょう。コンテキストによる結合を使用して、クラスへ必要な値を簡単に依存注入できます。
 
     use App\Http\Controllers\UserController;
-    
+
     $this->app->when(UserController::class)
               ->needs('$variableName')
               ->give($value);
@@ -366,12 +366,14 @@ Laravelサービスコンテナを深く理解することは、強力で大規�
 
     $transistor = $this->app->makeWith(Transistor::class, ['id' => 1]);
 
-サービスプロバイダの外部で、`$app`変数にアクセスできないコードの場所では、`App`　[ファサード](/docs/{{version}}/facades)を使用してコンテナからクラスインスタンスを依存解決します。
+サービスプロバイダの外部で、`$app`変数にアクセスできないコードの場所では、`App`[ファサード](/docs/{{version}}/facades)、`app`[ヘルパ](/docs/{{version}}/helpers#method-app)を使用してコンテナからクラスインスタンスを依存解決します。
 
     use App\Services\Transistor;
     use Illuminate\Support\Facades\App;
 
     $transistor = App::make(Transistor::class);
+
+    $transistor = app(Transistor::class);
 
 Laravelコンテナインスタンス自体をコンテナにより解決中のクラスへ依存注入したい場合は、クラスのコンストラクタで`Illuminate\Container\Container`クラスを入力してください。
 

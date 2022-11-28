@@ -738,6 +738,7 @@ LaravelのViteプラグインは、ほとんどのアプリケーションで動
     {{
         Vite::useHotFile(storage_path('vite.hot')) // 「ホット」なファイルのカスタマイズ
             ->useBuildDirectory('bundle') // ビルドディレクトリのカスタマイズ
+            ->useManifestFilename('assets.json') // マニフェストファイル名のカスタマイズ
             ->withEntryPoints(['resources/js/app.js']) // エントリポイントの指定
     }}
 </head>
@@ -757,5 +758,8 @@ export default defineConfig({
             input: ['resources/js/app.js'], // エントリポイントの指定
         }),
     ],
+    build: {
+      manifest: 'assets.json', // マニフェストファイル名のカスタマイズ
+    },
 });
 ```

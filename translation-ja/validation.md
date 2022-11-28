@@ -846,6 +846,7 @@ The credit card number field is required when payment type is credit card.
 [JSON](#rule-json)
 [より小さい](#rule-lt)
 [以下](#rule-lte)
+[小文字](#rule-lowercase)
 [MACアドレス](#rule-mac)
 [最大値](#rule-max)
 [最大桁数](#rule-max-digits)
@@ -880,6 +881,7 @@ The credit card number field is required when payment type is credit card.
 [文字列](#rule-string)
 [タイムゾーン](#rule-timezone)
 [一意（データベース）](#rule-unique)
+[大文字](#rule-uppercase)
 [URL](#rule-url)
 [UUID](#rule-uuid)
 
@@ -1315,6 +1317,11 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 フィールドが指定した**フィールド**以下であることをバリデートします。２つのフィールドは同じタイプでなくてはなりません。文字列、数値、配列、ファイルは、[`size`](#rule-size)ルールと同じ規約により評価します。
 
+<a name="rule-lowercase"></a>
+#### lowercase:_field_
+
+フィールドが小文字であることをバリデートします。
+
 <a name="rule-mac"></a>
 #### mac_address
 
@@ -1617,6 +1624,11 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 `where`メソッドを使用してクエリをカスタマイズすることにより、追加のクエリ条件を指定できます。たとえば、`account_id`列の値が`1`の検索レコードのみ検索するクエリ条件で絞り込むクエリを追加してみます。
 
     'email' => Rule::unique('users')->where(fn ($query) => $query->where('account_id', 1))
+
+<a name="rule-uppercase"></a>
+#### uppercase:_field_
+
+フィールドが大文字であることをバリデートします。
 
 <a name="rule-url"></a>
 #### url

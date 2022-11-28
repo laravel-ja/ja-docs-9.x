@@ -300,6 +300,16 @@ $schedule->job(new CheckUptime('https://vapor.laravel.com'))
             ->onOneServer();
 ```
 
+同様に、１サーバで実行することを意図している場合、スケジュールするクロージャへ名前を割り当てる必要があります。
+
+```php
+$schedule->call(fn () => User::resetApiRequestCount())
+    ->name('reset-api-request-count')
+    ->daily()
+    ->onOneServer();
+```
+
+
 <a name="background-tasks"></a>
 ### バックグランドタスク
 

@@ -4,6 +4,7 @@
 - [使用可能なメソッド](#available-methods)
 - [その他のユーティリティ](#other-utilities)
     - [ベンチマーク](#benchmarking)
+    - [抽選](#lottery)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -189,6 +190,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [exactly](#method-fluent-str-exactly)
 [explode](#method-fluent-str-explode)
 [finish](#method-fluent-str-finish)
+[headline](#method-fluent-str-headline)
 [inlineMarkdown](#method-fluent-str-inline-markdown)
 [is](#method-fluent-str-is)
 [isAscii](#method-fluent-str-is-ascii)
@@ -2357,6 +2359,21 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 
     // this/string/
 
+<a name="method-fluent-str-headline"></a>
+#### `headline` {.collection-method}
+
+`headline`メソッドは、大小文字、ハイフン、アンダースコアで区切られた文字列の各単語の頭文字を大文字にし、スペースで区切った文字列へ変換します。
+
+    use Illuminate\Support\Str;
+
+    $headline = Str::of('taylor_otwell')->headline();
+
+    // Taylor Otwell
+
+    $headline = Str::of('EmailNotificationSent')->headline();
+
+    // Email Notification Sent
+
 <a name="method-fluent-str-inline-markdown"></a>
 #### `inlineMarkdown` {.collection-method}
 
@@ -3976,3 +3993,43 @@ Str::of('Hello, world!')->wordCount(); // 2
 コールバックを複数回呼び出すには、メソッドの第２引数でコールバックを呼び出す反復回数を指定してください。コールバックを複数回実行する場合、`Benchmark`クラスはコールバックの実行にかかった平均ミリ秒を返します。
 
     Benchmark::dd(fn () => User::count(), iterations: 10); // 0.5 ms
+
+<a name="lottery"></a>
+### 抽選
+
+Laravelの抽選クラスは、指定する一組のオッズに基づいて、コールバックを実行するために使用します。これは、受信リクエストの数パーセントに対してのみコードを実行したい場合、特に便利です。
+
+    use Illuminate\Support\Lottery;
+
+    Lottery::odds(1, 20)
+        ->winner(fn () => $user->won())
+        ->loser(fn () => $user->lost())
+        ->choose();
+
+Laravelの抽選クラスと他のLaravelの機能を組み合わせることも可能です。例えば、スロークエリの一部だけを例外ハンドラへ報告するようにしたい場合です。また、抽選クラスはCallableなため、Callableのメソッドを引数に取るクラスへインスタンスを渡せます。
+
+    use Carbon\CarbonInterval;
+    use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\Lottery;
+
+    DB::whenQueryingForLongerThan(
+        CarbonInterval::seconds(2),
+        Lottery::odds(1, 100)->winner(fn () => report('Querying > 2 seconds.')),
+    );
+
+<a name="testing-lotteries"></a>
+#### 抽選のテスト
+
+Laravelは、アプリケーションの抽選呼び出しを簡単にテストするために、シンプルなメソッドを用意しています。
+
+    // 常に当選する
+    Lottery::alwaysWin();
+
+    // 常に外れる
+    Lottery::alwaysLose();
+
+    // 当選し、次に外れたあとは、通常の振る舞いをする
+    Lottery::fix([true, false]);
+
+    // 通常の振る舞いで抽選する
+    Lottery::determineResultsNormally();

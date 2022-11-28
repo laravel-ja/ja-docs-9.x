@@ -18,7 +18,9 @@
 <a name="laravel-breeze"></a>
 ## Laravel Breeze
 
-[Laravel Breeze](https://github.com/laravel/breeze)へログイン、ユーザー登録、パスワードのリセット、メールの検証、パスワードの確認など、Laravelのすべての[認証機能](/docs/{{version}}/authentication)を最小限シンプルに実装しました。Laravel Breezeのデフォルトビュー層は、[Tailwind CSS](https://tailwindcss.com)でスタイルを設定したシンプルな[Bladeテンプレート](/docs/{{version}}/blade)で構成しています。あるいは、Breezeで、VueやReactと[Inertia](https://inertiajs.com)を使用したアプリケーションのスカフォールドを生成できます。
+[Laravel Breeze](https://github.com/laravel/breeze)は、ログイン、ユーザー登録、パスワードリセット、メール確認、パスワード確認など、すべての[認証機能](/docs/{{version}}/authentication)を最小かつシンプルにLaravelへ実装したものです。さらに、Breezeには、ユーザーが名前、電子メールアドレス、パスワードを更新できるシンプルな「プロファイル」ページが含まれています。
+
+Laravel Breezeのデフォルトのビュー層は、[Tailwind CSS](https://tailwindcss.com)でスタイルした、シンプルな[Bladeテンプレート](/docs/{{version}}/blade)で構成しています。また、VueやReactと[Inertia](https://inertiajs.com)を使用したアプリケーションのスカフォールドを作ることも可能です。
 
 Breezeは、新しいLaravelアプリケーションを始めるための素晴らしい出発点となり、Bladeテンプレートを[Laravel Livewire](https://laravel-livewire.com)を使用し、レベルを上げる計画をしているプロジェクトにも最適な選択肢です。
 
@@ -55,6 +57,15 @@ npm run dev
 ```
 
 続いて、Webブラウザでアプリケーションの`/login`または`/register`のURLにアクセスしてください。Breezeのすべてのルートは、`routes/auth.php'ファイル内に定義しています。
+
+<a name="dark-mode"></a>
+#### ダークモード
+
+アプリケーションのフロントエンドをスカフォールドするとき、「ダークモード」のサポートをBreezeへさせたい場合は、`breeze:install`コマンドを実行時に、`--dark`ディレクティブを指定するだけです。
+
+```shell
+php artisan breeze:install --dark
+```
 
 > **Note**
 > アプリケーションのCSSとJavaScriptのコンパイルについて詳しく知りたい方は、Laravelの[Viteドキュメント](/docs/{{version}}/vite#running-vite)を参照してください。
