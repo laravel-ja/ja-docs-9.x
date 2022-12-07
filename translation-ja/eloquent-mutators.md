@@ -443,8 +443,8 @@ Eloquentは、属性値をPHPの[Enum](https://www.php.net/manual/ja/language.en
 
 モデルにキャストを定義すると、指定した属性を操作する際に、自動的にenumへキャストしたり、enumからキャストされたりするようになります。
 
-    if ($server->status == ServerStatus::provisioned) {
-        $server->status = ServerStatus::ready;
+    if ($server->status == ServerStatus::Provisioned) {
+        $server->status = ServerStatus::Ready;
 
         $server->save();
     }

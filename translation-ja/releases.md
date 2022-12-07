@@ -151,8 +151,8 @@ Eloquentは、属性値をPHPの[「値に依存した（backed）」　Enums](h
 
 一度、モデルでキャストを定義したら、属性を操作するとき、指定した属性は自動的にenumへキャストされたり、enumからキャストされたりします。
 
-    if ($server->status == ServerStatus::provisioned) {
-        $server->status = ServerStatus::ready;
+    if ($server->status == ServerStatus::Provisioned) {
+        $server->status = ServerStatus::Ready;
 
         $server->save();
     }

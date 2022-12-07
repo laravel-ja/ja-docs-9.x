@@ -13,6 +13,7 @@
     - [リソースルートのスコープ](#restful-scoping-resource-routes)
     - [リソースURIのローカライズ](#restful-localizing-resource-uris)
     - [リソースコントローラへのルート追加](#restful-supplementing-resource-controllers)
+    - [シングルトンリソースコントローラ](#singleton-resource-controllers)
 - [依存注入とコントローラ](#dependency-injection-and-controllers)
 
 <a name="introduction"></a>
@@ -374,6 +375,75 @@ Laravelの複数形化機能は、[皆さんがニーズに基づいて設定し
 
 > **Note**
 > コントローラの責務を限定することを思い出してください。典型的なリソースアクションから外れたメソッドが繰り返して必要になっているようであれば、コントローラを２つに分け、小さなコントローラにすることを考えましょう。
+
+<a name="singleton-resource-controllers"></a>
+### シングルトンリソースコントローラ
+
+アプリケーションが単一インスタンスのリソースだけ持つことが時々あります。例えば、ユーザーの「プロフィール」は編集や更新が可能ですが、ユーザーが複数の「プロフィール」を持つことはありません。同様に、画像は１つの「サムネイル」だけを持つことができます。こうしたリソースは、「シングルトンリソース」と呼ばれ、リソースのインスタンスは１つしか存在しないことを意味します。このようなシナリオでは、「シングルトン」リソースコントローラを登録してください。
+
+```php
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+
+Route::singleton('profile', ProfileController::class);
+```
+
+上記のシングルトンリソース定義により、以下のルートを登録します。このように、シングルトンリソースでは「作成」ルートを登録しません。また、リソースのインスタンスが１つしか存在しないため、登録するルートは識別子を受け付けません。
+
+動詞      | URI                               | アクション     | ルート名
+----------|-----------------------------------|--------------|---------------------
+GET       | `/profile`                        | show         | profile.show
+GET       | `/profile/edit`                   | edit         | profile.edit
+PUT/PATCH | `/profile`                        | update       | profile.update
+
+シングルトン・リソースは、標準リソースの中に入れ子にすることもできます。
+
+```php
+Route::singleton('photos.thumbnail', ThumbnailController::class);
+```
+
+この例では、`photos`リソースはすべての[標準リソースルート](#actions-handled-by-resource-controller)を受け取ります。しかし、`thumbnail`リソースは、以下のルートを持つシングルトンリソースとなります。
+
+| 動詞      | URI                              | アクション | ルート名               |
+|-----------|----------------------------------|---------|--------------------------|
+| GET       | `/photos/{photo}/thumbnail`      | show    | photos.thumbnail.show    |
+| GET       | `/photos/{photo}/thumbnail/edit` | edit    | photos.thumbnail.edit    |
+| PUT/PATCH | `/photos/{photo}/thumbnail`      | update  | photos.thumbnail.update  |
+
+<a name="creatable-singleton-resources"></a>
+#### シングルトンリソースの作成
+
+シングルトンリソースを作成、保存するルートを定義したい場合も時にはあります。これを行うには、シングルトンリソースルートを登録する際、`creatable`メソッドを呼び出してください。
+
+```php
+Route::singleton('photos.thumbnail', ThumbnailController::class)->creatable();
+```
+
+この例では、以下のルートを登録します。ご覧の通り、作成可能なシングルトンリソースには、`DELETE`ルートも登録します。
+
+| 動詞      | URI                                | アクション  | ルート名               |
+|-----------|------------------------------------|---------|--------------------------|
+| GET       | `/photos/{photo}/thumbnail/create` | create  | photos.thumbnail.create  |
+| POST      | `/photos/{photo}/thumbnail`        | store   | photos.thumbnail.store   |
+| GET       | `/photos/{photo}/thumbnail`        | show    | photos.thumbnail.show    |
+| GET       | `/photos/{photo}/thumbnail/edit`   | edit    | photos.thumbnail.edit    |
+| PUT/PATCH | `/photos/{photo}/thumbnail`        | update  | photos.thumbnail.update  |
+| DELETE    | `/photos/{photo}/thumbnail`        | destroy | photos.thumbnail.destroy |
+
+<a name="api-singleton-resources"></a>
+#### APIのシングルトンリソース
+
+`apiSingleton`メソッドを使用すると、API経由で操作するシングルトンリソースを登録できます。
+
+```php
+Route::apiSingleton('profile', ProfileController::class);
+```
+
+もちろん、APIシングルトンリソースは、`creatable`にすることも可能で、この場合はそのリソースに対する、`store`と`destroy`ルートを登録します。
+
+```php
+Route::apiSingleton('photos.thumbnail', ProfileController::class)->creatable();
+```
 
 <a name="dependency-injection-and-controllers"></a>
 ## 依存注入とコントローラ

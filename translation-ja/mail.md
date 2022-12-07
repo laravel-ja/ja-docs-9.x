@@ -199,6 +199,16 @@ Mailableクラスを生成したら、その中身を調べるために開いて
         );
     }
 
+お望みであれば、`replyTo`アドレスも指定できます。
+
+    return new Envelope(
+        from: new Address('jeffrey@example.com', 'Jeffrey Way'),
+        replyTo: [
+            new Address('taylor@example.com', 'Taylor Otwell'),
+        ],
+        subject: 'Order Shipped',
+    );
+
 <a name="using-a-global-from-address"></a>
 #### グローバル`from`アドレスの使用
 

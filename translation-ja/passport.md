@@ -1064,6 +1064,9 @@ APIのスコープは、アプリケーションの`App\Providers\AuthServicePro
         'place-orders',
     ]);
 
+> **Note**
+> Passportのデフォルトスコープは、ユーザーによって生成される個人用アクセストークンには適用されません。
+
 <a name="assigning-scopes-to-tokens"></a>
 ### トークンへのスコープ割り付け
 

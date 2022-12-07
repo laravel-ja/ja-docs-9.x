@@ -78,7 +78,7 @@
 キャッシャーの新しいバージョンにアップグレードするときは、[アップグレードガイド](https://github.com/laravel/cashier-stripe/blob/master/UPGRADE.md)を注意深く確認することが重要です。
 
 > **Warning**
-> 重大な変更を防ぐために、Cashierは固定のStripe APIバージョンを使用します。Cashier14はStripe APIバージョン`2022-08-01`を利用しています。Stripe APIバージョンは、新しいStripe機能と改善点を利用するために、マイナーリリースで更新されます。
+> 重大な変更を防ぐために、Cashierは固定のStripe APIバージョンを使用します。Cashier14はStripe APIバージョン`2022-11-15`を利用しています。Stripe APIバージョンは、新しいStripe機能と改善点を利用するために、マイナーリリースで更新されます。
 
 <a name="installation"></a>
 ## インストール

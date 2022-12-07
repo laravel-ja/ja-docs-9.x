@@ -313,6 +313,8 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [policy](#method-policy)
 [redirect](#method-redirect)
 [report](#method-report)
+[report_if](#method-report-if)
+[report_unless](#method-report-unless)
 [request](#method-request)
 [rescue](#method-rescue)
 [resolve](#method-resolve)
@@ -3740,6 +3742,24 @@ Str::of('Hello, world!')->wordCount(); // 2
 `report`関数は文字列を引数に取ります。関数に文字列が与えられると、関数は指定する文字列をメッセージとする例外を作成します。
 
     report('Something went wrong.');
+
+<a name="method-report-if"></a>
+#### `report_if()` {.collection-method}
+
+`report_if`関数は、指定条件が`true`であれば、あなたの[例外ハンドラ](/docs/{{version}}/errors#the-exception-handler)を使って例外を報告します。
+
+    report_if($shouldReport, $e);
+
+    report_if($shouldReport, 'Something went wrong.');
+
+<a name="method-report-unless"></a>
+#### `report_unless()` {.collection-method}
+
+`report_unless`関数は、指定条件が`false`であれば、あなたの[例外ハンドラ](/docs/{{version}}/errors#the-exception-handler)を使って例外を報告します。
+
+    report_unless($reportingDisabled, $e);
+
+    report_unless($reportingDisabled, 'Something went wrong.');
 
 <a name="method-request"></a>
 #### `request()` {.collection-method}

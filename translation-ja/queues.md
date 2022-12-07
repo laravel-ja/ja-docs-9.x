@@ -1468,6 +1468,10 @@ php artisan queue:retry-batch 32dbc76c-4f82-4749-b610-a639fe0099b5
 
     $schedule->command('queue:prune-batches --hours=48 --unfinished=72')->daily();
 
+`jobs_batches`テーブルと同様に、キャンセルされたバッチレコードが蓄積されるかもしれません。`queue:prune-batches`コマンドの`cancelled`オプションを使って、これらのキャンセルされたバッチレコードを整理ように指示してください。
+
+    $schedule->command('queue:prune-batches --hours=48 --cancelled=72')->daily();
+
 <a name="queueing-closures"></a>
 ## クロージャのキュー投入
 
