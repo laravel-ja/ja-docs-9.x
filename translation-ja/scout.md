@@ -181,6 +181,32 @@ Scoutジョブで利用する接続とキューを指定するには、`queue`�
         }
     }
 
+<a name="configuring-filterable-data-for-meilisearch"></a>
+#### Filterableデータ（MeiliSearch）の設定
+
+Scoutの他のドライバと違い、MeiliSearchでは「フィルタリング可能な属性(Filterable)」を事前に定義する必要があります。フィルタリング可能な属性とは、Scoutの`where`メソッドを呼び出した際に、フィルタリングする予定の属性のことです。フィルタリング可能な属性を定義するには、アプリケーションの`scout`設定ファイルにある、`meilisearch`設定エントリの`index-settings`部分を調整します。
+
+```php
+'meilisearch' => [
+    'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
+    'key' => env('MEILISEARCH_KEY', null),
+    'index-settings' => [
+        'users' => [
+            'filterableAttributes'=> ['id', 'name', 'email'],
+        ],
+        'flights' => [
+            'filterableAttributes'=> ['id', 'destination'],
+        ],
+    ],
+],
+```
+
+アプリケーションのフィルタリング属性を設定したら、`scout:sync-index-settings` Artisanコマンドを呼び出す必要があります。このコマンドは、現在設定されているフィルタリング属性をMeiliSearchへ通知します。このコマンドをデプロイプロセスの一部として使用するのが便利でしょう。
+
+```shell
+php artisan scout:sync-index-settings
+```
+
 <a name="configuring-the-model-id"></a>
 ### モデルIDの設定
 
@@ -519,6 +545,9 @@ Scoutを使用すると、検索クエリに単純な「where」節を追加で�
     )->get();
 
 検索インデックスはリレーショナルデータベースではないため、より高度な"where"節は現在サポートしていません。
+
+> **Warning**
+> If your application is using MeiliSearch, you must configure your application's [filterable attributes](#configuring-filterable-data-for-meilisearch) before utilizing Scout's "where" clauses.
 
 <a name="pagination"></a>
 ### ペジネーション
