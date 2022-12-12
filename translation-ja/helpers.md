@@ -119,6 +119,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Str::is](#method-str-is)
 [Str::isAscii](#method-str-is-ascii)
 [Str::isJson](#method-str-is-json)
+[Str::isUlid](#method-str-is-ulid)
 [Str::isUuid](#method-str-is-uuid)
 [Str::kebab](#method-kebab-case)
 [Str::lcfirst](#method-str-lcfirst)
@@ -197,6 +198,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [isEmpty](#method-fluent-str-is-empty)
 [isNotEmpty](#method-fluent-str-is-not-empty)
 [isJson](#method-fluent-str-is-json)
+[isUlid](#method-fluent-str-is-ulid)
 [isUuid](#method-fluent-str-is-uuid)
 [kebab](#method-fluent-str-kebab)
 [lcfirst](#method-fluent-str-lcfirst)
@@ -252,6 +254,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [whenNotExactly](#method-fluent-str-when-not-exactly)
 [whenIs](#method-fluent-str-when-is)
 [whenIsAscii](#method-fluent-str-when-is-ascii)
+[whenIsUlid](#method-fluent-str-when-is-ulid)
 [whenIsUuid](#method-fluent-str-when-is-uuid)
 [whenTest](#method-fluent-str-when-test)
 [wordCount](#method-fluent-str-word-count)
@@ -1516,6 +1519,21 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 
     // false
 
+<a name="method-str-is-ulid"></a>
+#### `Str::isUlid()` {.collection-method}
+
+`Str::isUlid`メソッドは、指定文字列が有効なULIDであることを判定します。
+
+    use Illuminate\Support\Str;
+
+    $isUlid = Str::isUlid('01gd6r360bp37zj17nxb55yv40');
+
+    // true
+
+    $isUlid = Str::isUlid('laravel');
+
+    // false
+
 <a name="method-str-is-uuid"></a>
 #### `Str::isUuid()` {.collection-method}
 
@@ -2467,6 +2485,21 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 
     // false
 
+<a name="method-fluent-str-is-ulid"></a>
+#### `isUlid` {.collection-method}
+
+`isUlid`メソッドは、指定文字列が有効なULIDであることを判定します。
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('01gd6r360bp37zj17nxb55yv40')->isUlid();
+
+    // true
+
+    $result = Str::of('Taylor')->isUlid();
+
+    // false
+
 <a name="method-fluent-str-is-uuid"></a>
 #### `isUuid` {.collection-method}
 
@@ -3233,11 +3266,24 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
 
     use Illuminate\Support\Str;
 
-    $string = Str::of('foo/bar')->whenIsAscii('laravel', function ($string) {
+    $string = Str::of('laravel')->whenIsAscii(function ($string) {
         return $string->title();
     });
 
     // 'Laravel'
+
+<a name="method-fluent-str-when-is-ulid"></a>
+#### `whenIsUlid` {.collection-method}
+
+`whenIsUlid`メソッドは、文字列が有効なULIDである場合、指定するクロージャを呼び出します。クロージャは、Fluent文字列のインスタンスを受け取ります。
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('01gd6r360bp37zj17nxb55yv40')->whenIsUlid(function ($string) {
+        return $string->substr(0, 8);
+    });
+
+    // '01gd6r36'
 
 <a name="method-fluent-str-when-is-uuid"></a>
 #### `whenIsUuid` {.collection-method}
@@ -3246,7 +3292,7 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
 
     use Illuminate\Support\Str;
 
-    $string = Str::of('foo/bar')->whenIsUuid('a0a2a2d2-0b87-4a18-83f2-2529882be2de', function ($string) {
+    $string = Str::of('a0a2a2d2-0b87-4a18-83f2-2529882be2de')->whenIsUuid(function ($string) {
         return $string->substr(0, 8);
     });
 

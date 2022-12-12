@@ -1318,7 +1318,7 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 フィールドが指定した**フィールド**以下であることをバリデートします。２つのフィールドは同じタイプでなくてはなりません。文字列、数値、配列、ファイルは、[`size`](#rule-size)ルールと同じ規約により評価します。
 
 <a name="rule-lowercase"></a>
-#### lowercase:_field_
+#### lowercase
 
 フィールドが小文字であることをバリデートします。
 
@@ -1626,7 +1626,7 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
     'email' => Rule::unique('users')->where(fn ($query) => $query->where('account_id', 1))
 
 <a name="rule-uppercase"></a>
-#### uppercase:_field_
+#### uppercase
 
 フィールドが大文字であることをバリデートします。
 

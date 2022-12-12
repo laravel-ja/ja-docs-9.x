@@ -417,6 +417,7 @@ php artisan migrate:fresh --seed
 [multiPolygon](#column-method-multiPolygon)
 [nullableMorphs](#column-method-nullableMorphs)
 [nullableTimestamps](#column-method-nullableTimestamps)
+[nullableUlidMorphs](#column-method-nullableUlidMorphs)
 [nullableUuidMorphs](#column-method-nullableUuidMorphs)
 [point](#column-method-point)
 [polygon](#column-method-polygon)
@@ -443,6 +444,7 @@ php artisan migrate:fresh --seed
 [unsignedMediumInteger](#column-method-unsignedMediumInteger)
 [unsignedSmallInteger](#column-method-unsignedSmallInteger)
 [unsignedTinyInteger](#column-method-unsignedTinyInteger)
+[ulidMorphs](#column-method-ulidMorphs)
 [uuidMorphs](#column-method-uuidMorphs)
 [ulid](#column-method-ulid)
 [uuid](#column-method-uuid)
@@ -704,6 +706,13 @@ php artisan migrate:fresh --seed
 
     $table->nullableMorphs('taggable');
 
+<a name="column-method-nullableUlidMorphs"></a>
+#### `nullableUlidMorphs()` {.collection-method}
+
+このメソッドは[ulidMorphs](#column-method-ulidMorphs)メソッドと似ていますが、作成するカラムは"NULLABLE"になります。
+
+    $table->nullableUlidMorphs('taggable');
+
 <a name="column-method-nullableUuidMorphs"></a>
 #### `nullableUuidMorphs()` {.collection-method}
 
@@ -885,6 +894,15 @@ php artisan migrate:fresh --seed
 `unsignedTinyInteger`メソッドは` UNSIGNED　TINYINT`カラムを作成します。
 
     $table->unsignedTinyInteger('votes');
+
+<a name="column-method-ulidMorphs"></a>
+#### `ulidMorphs()` {.collection-method}
+
+`ulidMorphs`メソッドは、`{column}_id` `CHAR(26)`カラムと、`{column}_type` `VARCHAR`カラムを追加する便利なメソッドです。
+
+このメソッドは、ULID識別子を使用するポリモーフィック[Eloquentリレーション](/docs/{{version}}/eloquent-relationships)に必要なカラムを定義するために使用することを想定しています。以下の例では、`taggable_id`と`taggable_type`というカラムが作成されます。
+
+    $table->ulidMorphs('taggable');
 
 <a name="column-method-uuidMorphs"></a>
 #### `uuidMorphs()` {.collection-method}

@@ -364,6 +364,7 @@ JSONレスポンスの指定パスに指定データが含まれていること�
             ->assertJson(fn (AssertableJson $json) =>
                 $json->where('id', 1)
                      ->where('name', 'Victoria Faith')
+                     ->where('email', fn ($email) => str($email)->is('victoria@gmail.com'))
                      ->whereNot('status', 'pending')
                      ->missing('password')
                      ->etc()
@@ -419,6 +420,7 @@ JSONレスポンスの指定パスに指定データが含まれていること�
                  ->first(fn ($json) =>
                     $json->where('id', 1)
                          ->where('name', 'Victoria Faith')
+                         ->where('email', fn ($email) => str($email)->is('victoria@gmail.com'))
                          ->missing('password')
                          ->etc()
                  )
@@ -445,6 +447,7 @@ JSONレスポンスの指定パスに指定データが含まれていること�
                  ->has('users.0', fn ($json) =>
                     $json->where('id', 1)
                          ->where('name', 'Victoria Faith')
+                         ->where('email', fn ($email) => str($email)->is('victoria@gmail.com'))
                          ->missing('password')
                          ->etc()
                  )
@@ -458,6 +461,7 @@ JSONレスポンスの指定パスに指定データが含まれていること�
                  ->has('users', 3, fn ($json) =>
                     $json->where('id', 1)
                          ->where('name', 'Victoria Faith')
+                         ->where('email', fn ($email) => str($email)->is('victoria@gmail.com'))
                          ->missing('password')
                          ->etc()
                  )

@@ -182,9 +182,11 @@ Scoutジョブで利用する接続とキューを指定するには、`queue`�
     }
 
 <a name="configuring-filterable-data-for-meilisearch"></a>
-#### Filterableデータ（MeiliSearch）の設定
+#### Filterableデータとインデックス（MeiliSearch）の設定
 
-Scoutの他のドライバと違い、MeiliSearchでは「フィルタリング可能な属性(Filterable)」を事前に定義する必要があります。フィルタリング可能な属性とは、Scoutの`where`メソッドを呼び出した際に、フィルタリングする予定の属性のことです。フィルタリング可能な属性を定義するには、アプリケーションの`scout`設定ファイルにある、`meilisearch`設定エントリの`index-settings`部分を調整します。
+Scoutの他のドライバと異なり、MeiliSearchでは、フィルタリング可能な属性（Filterable）、ソート可能な属性（Sortable）や[その他サポートされている設定フィールド](https://docs.meilisearch.com/reference/api/settings.html)などのインデックス検索設定を事前に定義しておく必要があります。
+
+フィルタリング可能な属性とは、Scoutの`where`メソッドを呼び出す際にフィルタリングする予定の属性であり、ソート可能な属性とは、Scoutの`orderBy`メソッドを呼び出す際にソートする予定の属性のことです。インデックスの設定を行うには、アプリケーションの`scout`設定ファイルにある、`meilisearch`設定項目の`index-settings`部分を調整します。
 
 ```php
 'meilisearch' => [
@@ -193,15 +195,18 @@ Scoutの他のドライバと違い、MeiliSearchでは「フィルタリング�
     'index-settings' => [
         'users' => [
             'filterableAttributes'=> ['id', 'name', 'email'],
+            'sortableAttributes' => ['created_at'],
+            // その他の設定項目…
         ],
         'flights' => [
             'filterableAttributes'=> ['id', 'destination'],
+            'sortableAttributes' => ['updated_at'],
         ],
     ],
 ],
 ```
 
-アプリケーションのフィルタリング属性を設定したら、`scout:sync-index-settings` Artisanコマンドを呼び出す必要があります。このコマンドは、現在設定されているフィルタリング属性をMeiliSearchへ通知します。このコマンドをデプロイプロセスの一部として使用するのが便利でしょう。
+アプリケーションのインデックス設定後に、`scout:sync-index-settings` Artisanコマンドを呼び出す必要があります。このコマンドは、現在設定しているインデックス設定をMeiliSearchに通知します。このコマンドをデプロイプロセスの一部とすると便利です。
 
 ```shell
 php artisan scout:sync-index-settings

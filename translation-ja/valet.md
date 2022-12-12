@@ -424,6 +424,8 @@ valet proxies
 
 単一のアプリケーション用にカスタムValetドライバを定義する場合は、アプリケーションのルートディレクトリに`LocalValetDriver.php`ファイルを作成します。カスタムドライバは、基本の`ValetDriver`クラスを拡張するか、`LaravelValetDriver`などの既存のアプリケーション固有のドライバを拡張する場合があります。
 
+    use Valet\Drivers\LaravelValetDriver;
+
     class LocalValetDriver extends LaravelValetDriver
     {
         /**
