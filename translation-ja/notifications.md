@@ -206,6 +206,21 @@ php artisan make:notification InvoicePaid
      */
     public $connection = 'redis';
 
+もしくは、通知でサポートしている各通知チャンネルで使用する特定のキュー接続を指定したい場合は、自身の通知に`viaConnections`メソッドを定義してください。このメソッドは、チャンネル名とキュー接続名のペアの配列を返す必要があります。
+
+    /**
+     * 各通知チャンネルで使用する接続を決定
+     *
+     * @return array
+     */
+    public function viaConnections()
+    {
+        return [
+            'mail' => 'redis',
+            'database' => 'sync',
+        ];
+    }
+
 <a name="customizing-notification-channel-queues"></a>
 #### 通知チャンネルキューのカスタマイズ
 
@@ -1287,7 +1302,7 @@ Laravelを使用すると、HTTPリクエストの現在のロケール以外の
 
     use App\Listeners\CheckNotificationStatus;
     use Illuminate\Notifications\Events\NotificationSending;
-    
+
     /**
      * アプリケーションにマップするイベントリスナの登録
      *
@@ -1336,7 +1351,7 @@ Laravelを使用すると、HTTPリクエストの現在のロケール以外の
 
     use App\Listeners\LogNotification;
     use Illuminate\Notifications\Events\NotificationSent;
-    
+
     /**
      * アプリケーションにマップするイベントリスナの登録
      *

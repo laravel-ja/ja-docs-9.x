@@ -1,6 +1,7 @@
 # Bladeテンプレート
 
 - [イントロダクション](#introduction)
+    - [LivewireでBlaseを強化する](#supercharging-blade-with-livewire)
 - [データの表示](#displaying-data)
     - [HTMLエンティティエンコーディング](#html-entity-encoding)
     - [BladeとJavaScriptフレームワーク](#blade-and-javascript-frameworks)
@@ -55,8 +56,10 @@ Bladeビューは、グローバルな`view`ヘルパを使用してルートま
         return view('greeting', ['name' => 'Finn']);
     });
 
-> **Note**
-> Bladeテンプレートを次のレベルに引き上げ、ダイナミックなインターフェイスを簡単に構築したいと思いませんか？[Laravel Livewire](https://laravel-livewire.com)をチェックしてください。
+<a name="supercharging-blade-with-livewire"></a>
+### LivewireでBlaseを強化する
+
+Bladeテンプレートを次のレベルに引き上げ、ダイナミックなインターフェイスを簡単に構築したくありませんか？[Laravel Livewire](https://laravel-livewire.com)をチェックしてください。Livewireは、ReactやVueのようなフロントエンドフレームワークにのみ可能な動的機能で拡張したBladeコンポーネントを書けるようになります。多くのJavaScriptフレームワークの複雑さ、クライアントサイドレンダリング、構築ステップなしで、モダンなリアクティブフロントエンドを構築する素晴らしいアプローチです。
 
 <a name="displaying-data"></a>
 ## データの表示

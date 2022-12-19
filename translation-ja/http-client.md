@@ -236,11 +236,17 @@ Guzzleのデフォルト動作とは異なり、LaravelのHTTPクライアント
     // クライアントまたはサーバのエラーが発生した場合は、例外を投げる
     $response->throw();
 
-    // エラーが発生するか、指定条件が真の場合は、例外を投げる
+    // エラーが発生し、指定条件が真の場合は、例外を投げる
     $response->throwIf($condition);
 
-    // エラーが発生するか、指定条件が偽の場合は、例外を投げる
+    // エラーが発生し、指定クロージャの結果が真の場合は例外を投げる
+    $response->throwIf(fn ($response) => true);
+
+    // エラーが発生し、指定条件が偽の場合は、例外を投げる
     $response->throwUnless($condition);
+
+    // エラーが発生し、指定クロージャの結果が儀の場合は例外を投げる
+    $response->throwUnless(fn ($response) => false);
 
     return $response['user']['id'];
 

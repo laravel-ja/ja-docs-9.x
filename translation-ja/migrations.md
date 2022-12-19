@@ -15,6 +15,7 @@
     - [利用可能なカラムタイプ](#available-column-types)
     - [カラム修飾子](#column-modifiers)
     - [カラムの変更](#modifying-columns)
+    - [カラムのリネーム](#renaming-columns)
     - [カラムの削除](#dropping-columns)
 - [インデックス](#indexes)
     - [インデックスの生成](#creating-indexes)
@@ -1056,21 +1057,31 @@ use Illuminate\Database\DBAL\TimestampType;
 > 以降のカラムタイプを変更できます。`bigInteger`、`binary`、`boolean`、`char`、`date`、`dateTime`、`dateTimeTz`、`decimal`、`double`、`integer`、`json`、`longText`、`mediumText`、`smallInteger`、`string`、`text`、`time`、`tinyText`、`unsignedBigInteger`、`unsignedInteger`、`unsignedSmallInteger`、`uuid`。`timestamp`のカラムタイプを変更するには、[Doctrineタイプを登録する必要があります](#prerequisites)。
 
 <a name="renaming-columns"></a>
-#### カラムのリネーム
+### カラムのリネーム
 
-カラムをリネームするには、スキーマビルダBlueprintが提供する`renameColumn`メソッドを使用します。カラムの名前を変更する前に、Composerパッケージマネージャを介して`doctrine/dbal`ライブラリをインストールしていることを確認してください。
+カラムの名前を変更するには、スキーマビルダが提供する、`renameColumn`メソッドを使用します。
 
     Schema::table('users', function (Blueprint $table) {
         $table->renameColumn('from', 'to');
     });
 
-> **Warning**
-> `enum`カラムの名前変更は現在サポートしていません。
+<a name="renaming-columns-on-legacy-databases"></a>
+#### レガシーデータベースにおけるカラムのリネーム
+
+以下のリリースよりも古いデータベースを使用している場合、カラムの名前を変更する前に、Composerパッケージマネージャで、`doctrine/dbal`ライブラリをインストールしておく必要があります。
+
+<div class="content-list" markdown="1">
+
+- MySQL < `8.0.3`
+- MariaDB < `10.5.2`
+- SQLite < `3.25.0`
+
+</div>
 
 <a name="dropping-columns"></a>
 ### カラムの削除
 
-カラムを削除するには、スキーマビルダのBlueprintで`dropColumn`メソッドを使用します。アプリケーションがSQLiteデータベースを利用している場合、`dropColumn`メソッドを使用する前に、Composerパッケージマネージャを介して`doctrine/dbal`パッケージをインストールする必要があります。
+カラムを削除するには、スキーマビルダの`dropColumn`メソッドを使用します。
 
     Schema::table('users', function (Blueprint $table) {
         $table->dropColumn('votes');
@@ -1082,8 +1093,11 @@ use Illuminate\Database\DBAL\TimestampType;
         $table->dropColumn(['votes', 'avatar', 'location']);
     });
 
-> **Warning**
-> SQLiteデータベースの使用時に、１回のマイグレーションで複数のカラムを削除または変更することはサポートしていません。
+
+<a name="dropping-columns-on-legacy-databases"></a>
+#### レガシーデータベースにおけるカラム削除
+
+バージョンが`3.35.0`より前のSQLiteの場合、`dropColumn`メソッドを使う前に、Composerパッケージマネージャで、`doctrine/dbal`パッケージをインストールしておく必要があります。このパッケージを使用しても、１回のマイグレーションで複数のカラムを削除したり、変更したりすることはサポートされていません。
 
 <a name="available-command-aliases"></a>
 #### 使用可能なコマンドエイリアス
@@ -1166,6 +1180,9 @@ LaravelのスキーマビルダBlueprintクラスは、Laravelでサポートし
 インデックスの名前を変更するには、スキーマビルダBlueprintが提供する`renameIndex`メソッドを使用します。このメソッドは、現在のインデックス名を最初の引数として取り、目的の名前を２番目の引数として取ります。
 
     $table->renameIndex('from', 'to')
+
+> **Warning**
+> アプリケーションでSQLiteデータベースを利用する場合、`renameIndex`メソッドを使用する前に、Composerパッケージマネージャで、`doctrine/dbal`パッケージをインストールしておく必要があります。
 
 <a name="dropping-indexes"></a>
 ### インデックスの削除

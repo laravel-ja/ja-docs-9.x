@@ -650,6 +650,7 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 [assertLocation](#assert-location)
 [assertContent](#assert-content)
 [assertNoContent](#assert-no-content)
+[assertStreamedContent](#assert-streamed-content)
 [assertNotFound](#assert-not-found)
 [assertOk](#assert-ok)
 [assertPlainCookie](#assert-plain-cookie)
@@ -962,6 +963,13 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 レスポンスに指定するHTTPステータスコードがあり、コンテンツがないことを宣言します。
 
     $response->assertNoContent($status = 204);
+
+<a name="assert-streamed-content"></a>
+#### assertStreamedContent
+
+指定文字列がストリームしたレスポンスの内容に一致することを宣言します。
+
+    $response->assertStreamedContent($value);
 
 <a name="assert-not-found"></a>
 #### assertNotFound

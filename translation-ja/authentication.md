@@ -282,7 +282,7 @@ Laravelのリダイレクタが提供する`intended`メソッドは、認証ミ
         'email' => $email, 
         'password' => $password, 
         fn ($query) => $query->has('activeSubscription'),
-    ]) {
+    ])) {
         // 認証成功
     }
 

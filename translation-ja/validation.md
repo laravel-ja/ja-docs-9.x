@@ -806,6 +806,7 @@ The credit card number field is required when payment type is credit card.
 [アルファベット記号](#rule-alpha-dash)
 [アルファベット数字](#rule-alpha-num)
 [配列](#rule-array)
+[Ascii](#rule-ascii)
 [継続終了](#rule-bail)
 [（日付）より前](#rule-before)
 [（日付）以前](#rule-before-or-equal)
@@ -883,6 +884,7 @@ The credit card number field is required when payment type is credit card.
 [一意（データベース）](#rule-unique)
 [大文字](#rule-uppercase)
 [URL](#rule-url)
+[ULID](#rule-ulid)
 [UUID](#rule-uuid)
 
 </div>
@@ -955,6 +957,11 @@ The credit card number field is required when payment type is credit card.
     ]);
 
 一般に、配列に存在を許すキーは、常に指定する必要があります。
+
+<a name="rule-ascii"></a>
+#### ascii
+
+フィールドが全て７ビットのアスキー文字であることをバリデートします。
 
 <a name="rule-bail"></a>
 #### bail
@@ -1634,6 +1641,11 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 #### url
 
 フィールドが有効なURLであることをバリデートします。
+
+<a name="rule-ulid"></a>
+#### ulid
+
+フィールドが有効なULID（[Universally Unique Lexicographically Sortable Identifier](https://github.com/ulid/spec)）であることをバリデートします。
 
 <a name="rule-uuid"></a>
 #### uuid

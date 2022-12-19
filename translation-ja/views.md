@@ -1,6 +1,7 @@
 # ビュー
 
 - [イントロダクション](#introduction)
+    - [React/Vueでのビュー記述](#writing-views-in-react-or-vue)
 - [ビューの作成とレンダ](#creating-and-rendering-views)
     - [ネストしたビューディレクトリ](#nested-view-directories)
     - [最初に利用可能なビュー](#creating-the-first-available-view)
@@ -14,7 +15,9 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-もちろん、ルートやコントローラから直接HTMLドキュメントの文字列全体を返すことは実用的ではありません。幸い、Laravelのビュー機能はすべてのHTMLを別々のファイルに配置できる便利な方法を提供します。ビューはプレゼンテーションロジックをコントローラ／アプリケーションロジックから分離し、`resources/views`ディレクトリ下へ保存します。単純なビューは以下のようになります。
+もちろん、ルートやコントローラから直接HTML文書全体の文字列を返すのは現実的ではありません。ありがたいことに、ビューがすべてのHTMLを別々のファイルに格納する便利な方法を提供します。
+
+ビューは、コントローラ/アプリケーションロジックをプレゼンテーションロジックから分離し、`resources/views`ディレクトリに格納されます。Laravelを使用する場合、ビューテンプレートは通常、[Bladeテンプレート言語](/docs/{{version}}/blade)で記述します。単純なビューは以下のようになります。
 
 ```blade
 <!-- View stored in resources/views/greeting.blade.php -->
@@ -34,6 +37,13 @@
 
 > **Note**
 > Bladeテンプレートの作成方法の詳細をお探しですか？最初に完全な[Bladeドキュメント](/docs/{{version}}/blade)を確認してください。
+
+<a name="writing-views-in-react-or-vue"></a>
+### React/Vueでのビュー記述
+
+フロントエンドのテンプレートをBladeを使ってPHPで書く代わりに、多くの開発者はReactやVueを使ってテンプレートを書くことを好むようになりました。Laravelでは、[Inertia](https://inertiajs.com/)というライブラリのおかげで、React / VueのフロントエンドをLaravelのバックエンドに簡単に結びつけることができ、典型的なSPAの構築のように複雑なことは必要ありません。
+
+BreezeとJetstreamの[スターターキット](/docs/{{version}}/starter-kits)は、Inertiaを利用する次のLaravelアプリケーションのための素晴らしい開始点を提供します。また、[Laravel Bootcamp](https://bootcamp.laravel.com)は、VueとReactの例を含め、Inertiaを利用したLaravelアプリケーションの構築の完全なデモンストレーションを提供しています。
 
 <a name="creating-and-rendering-views"></a>
 ## ビューの作成とレンダ
