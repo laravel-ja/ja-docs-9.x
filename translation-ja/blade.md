@@ -29,7 +29,7 @@
     - [匿名インデックスコンポーネント](#anonymous-index-components)
     - [データプロパティ／属性](#data-properties-attributes)
     - [親データへのアクセス](#accessing-parent-data)
-    - [匿名コンポーネントの名前空間](#anonymous-component-namespaces)
+    - [匿名コンポーネントのパス](#anonymous-component-paths)
 - [レイアウト構築](#building-layouts)
     - [コンポーネントを使用したレイアウト](#layouts-using-components)
     - [テンプレートの継承を使用したレイアウト](#layouts-using-template-inheritance)
@@ -1381,14 +1381,12 @@ Bladeでは幸い、コンポーネントのテンプレートディレクトリ
 > **Warning**
 > `@aware`ディレクティブは、HTML属性によって親コンポーネントに明示的に渡されていない親データにはアクセスできません。親コンポーネントに明示的に渡されていないデフォルトの`@props`値は、`@aware`ディレクティブではアクセスすることができません。
 
-<a name="anonymous-component-namespaces"></a>
-### 匿名コンポーネントの名前空間
+<a name="anonymous-component-paths"></a>
+### 匿名コンポーネントのパス
 
 前で説明したように、匿名コンポーネントは通常、`resources/views/components`ディレクトリに、Bladeテンプレートを配置することにより定義します。しかし、時にはデフォルトのパスに加えて、他の匿名コンポーネントパスをLaravelへ登録したい場合が起こるでしょう。
 
-例えば、バケーション予約アプリケーションを構築する場合、フライト予約関連の匿名コンポーネントを`resources/views/flights/bookings/components`ディレクトリに置きたいと思うかもしれません。この匿名コンポーネントの場所をLaravelへ登録するには、`Blade`ファサードが提供している`anonymousComponentNamespace`メソッドを使用します。
-
-この`anonymousComponentNamespace`メソッドは、最初の引数に匿名コンポーネントの場所の「パス」を、２番目の引数にコンポーネントを配置する「名前空間（namespace）」を取ります。以下の例の通り、「名前空間」はコンポーネントをレンダするときに、コンポーネント名の前に付けられます。通常、このメソッドはアプリケーションの[サービスプロバイダ](/docs/{{version}}/providers)の`boot`メソッドで呼び出される必要があります。
+`anonymousComponentPath`メソッドは、最初の引数に匿名コンポーネントの場所の「パス」、第２番引数としてコンポーネントを配置するための「名前空間」をオプションで取ります。通常、このメソッドはアプリケーションの[サービスプロバイダ](/docs/{{version}}/providers)の`boot`メソッドから呼び出す必要があります。
 
     /**
      * アプリケーションの全サービスの初期起動処理
@@ -1397,13 +1395,23 @@ Bladeでは幸い、コンポーネントのテンプレートディレクトリ
      */
     public function boot()
     {
-        Blade::anonymousComponentNamespace('flights.bookings.components', 'flights');
+        Blade::anonymousComponentPath(__DIR__.'/../components');
     }
 
-上記の例の場合、新しく登録したコンポーネントディレクトリに存在する、`panel`コンポーネントは以下のようにレンダします。
+上記の例のように、コンポーネントパスへプレフィックスを指定せず登録した場合、対応するプレフィックスを指定していないBladeコンポーネントと同様にレンダーします。例えば、上記で登録したパスに`panel.blade.php`コンポーネントが存在する場合、以下のようにレンダーされるでしょう。
 
 ```blade
-<x-flights::panel :flight="$flight" />
+<x-panel />
+```
+
+プレフィックスの「名前空間」は、`anonymousComponentPath`メソッドの第２引数として与えます。
+
+    Blade::anonymousComponentPath(__DIR__.'/../components', 'dashboard');
+
+プレフィックスを指定すると、その「名前空間」内のコンポーネントは、コンポーネントがレンダーされるとき、そのコンポーネントの名前空間にプレフィックスを付けレンダーされます。
+
+```blade
+<x-dashboard::panel />
 ```
 
 <a name="building-layouts"></a>

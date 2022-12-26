@@ -236,6 +236,10 @@ Laravelサービスコンテナにより、ルートのコールバックへ自�
         //
     })->whereUuid('id');
 
+    Route::get('/user/{id}', function ($id) {
+        //
+    })->whereUlid('id');
+
     Route::get('/category/{category}', function ($category) {
         //
     })->whereIn('category', ['movie', 'song', 'painting']);

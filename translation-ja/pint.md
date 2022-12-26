@@ -33,6 +33,14 @@ composer require laravel/pint --dev
 ./vendor/bin/pint
 ```
 
+また、特定のファイルやディレクトリに対してPintを実行することもできます。
+
+```shell
+./vendor/bin/pint app/Models
+
+./vendor/bin/pint app/Models/User.php
+```
+
 Pintは更新した全ファイルの完全なリストを表示します。Pintを起動する際に、`-v`オプションを指定すれば、Pintが行う変更についてさらに詳しく確認できます。
 
 ```shell

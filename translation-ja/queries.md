@@ -485,7 +485,7 @@ select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 <a name="json-where-clauses"></a>
 ### JSON WHERE句
 
-Laravelは、JSONカラム型のサポートを提供するデータベースで、JSONカラム型のクエリもサポートしています。現在、MySQL5.7以上、PostgreSQL、SQL Server 2016、SQLite3.9.0（[JSON1拡張](https://www.sqlite.org/json1.html)を使用）がこれに該当します。JSONカラムをクエリするには、`->`演算子を使用します。
+Laravelは、JSONカラム型のサポートを提供するデータベースで、JSONカラム型のクエリもサポートしています。現在、MySQL5.7以上、PostgreSQL、SQL Server 2016、SQLite3.39.0（[JSON1拡張](https://www.sqlite.org/json1.html)を使用）がこれに該当します。JSONカラムをクエリするには、`->`演算子を使用します。
 
     $users = DB::table('users')
                     ->where('preferences->dining->meal', 'salad')

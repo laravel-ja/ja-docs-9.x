@@ -817,6 +817,7 @@ The credit card number field is required when payment type is credit card.
 [日付](#rule-date)
 [同一日付](#rule-date-equals)
 [日付形式](#rule-date-format)
+[Decimal](#rule-decimal)
 [拒否](#rule-declined)
 [条件一致時拒否](#rule-declined-if)
 [相違](#rule-different)
@@ -1020,6 +1021,17 @@ The credit card number field is required when payment type is credit card.
 #### date\_format:_フォーマット_
 
 バリデーションされる値が**フォーマット**定義と一致するか確認します。バリデーション時には`date`か`date_format`の**どちらか**を使用しなくてはならず、両方はできません。このバリデーションはPHPの[DateTime](https://www.php.net/manual/ja/class.datetime.php)クラスがサポートするフォーマットをすべてサポートしています。
+
+<a name="rule-decimal"></a>
+#### decimal:_min_,_max_
+
+フィールドが数値であり、指定された小数点以下の桁数を含んでいることをバリデートします。
+
+    // 小数点以下が2桁ピッタリの必要がある(9.99)
+    'price' => 'decimal:2'
+
+    // 小数点以下が２から４桁である必要がある
+    'price' => 'decimal:2,4'
 
 <a name="rule-declined"></a>
 #### declined
