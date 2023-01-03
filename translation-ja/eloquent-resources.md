@@ -528,6 +528,10 @@ Laravel ペジネータインスタンスをリソースの`collection`メソッ
         return 'secret-value';
     }),
 
+`whenHas`メソッドは、元となるモデルへ実際にその属性が存在する場合に含めたい時に使えます。
+
+    'name' => $this->whenHas('name'),
+
 さらに、`whenNotNull`メソッドを使用すると、属性がNULLでない場合、その属性をリソースレスポンスへ含められます。
 
     'name' => $this->whenNotNull($this->name),

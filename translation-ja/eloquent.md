@@ -1501,7 +1501,7 @@ Eloquentイベントを定義してマッピングした後は、そのイベン
 php artisan make:observer UserObserver --model=User
 ```
 
-このコマンドは、新しいオブザーバーを`App/Observers`ディレクトリに配置します。このディレクトリが存在しない場合は、Artisanが作成します。新しいオブザーバーは以下のようになります。
+このコマンドは、新しいオブザーバーを`app/Observers`ディレクトリに配置します。このディレクトリが存在しない場合は、Artisanが作成します。新しいオブザーバーは以下のようになります。
 
     <?php
 

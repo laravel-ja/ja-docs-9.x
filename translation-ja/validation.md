@@ -1018,9 +1018,9 @@ The credit card number field is required when payment type is credit card.
 フィールドが、指定した日付と同じことをバリデートします。日付を有効な`DateTime`インスタンスに変換するために、PHPの`strtotime`関数へ渡します。
 
 <a name="rule-date-format"></a>
-#### date\_format:_フォーマット_
+#### date_format:_フォーマット_,…
 
-バリデーションされる値が**フォーマット**定義と一致するか確認します。バリデーション時には`date`か`date_format`の**どちらか**を使用しなくてはならず、両方はできません。このバリデーションはPHPの[DateTime](https://www.php.net/manual/ja/class.datetime.php)クラスがサポートするフォーマットをすべてサポートしています。
+バリデーションされる値が、指定する**フォーマット**定義のどれか一つと一致するかバリデートします。バリデーション時には`date`か`date_format`の**どちらか**を使用しなくてはならず、両方はできません。このバリデーションはPHPの[DateTime](https://www.php.net/manual/ja/class.datetime.php)クラスがサポートするフォーマットをすべてサポートしています。
 
 <a name="rule-decimal"></a>
 #### decimal:_min_,_max_

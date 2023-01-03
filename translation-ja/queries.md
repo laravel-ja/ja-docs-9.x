@@ -560,6 +560,24 @@ Laravelは、JSONカラム型のサポートを提供するデータベースで
                         ->whereNotIn('id', [1, 2, 3])
                         ->get();
 
+`whereIn`メソッドの第２引数へ、クエリオブジェクトを指定することもできます。
+
+    $activeUsers = DB::table('users')->select('id')->where('is_active', 0);
+
+    $users = DB::table('comments')
+                        ->whereIn('user_id', $activeUsers)
+                        ->get();
+
+上記例は、以下のSQLを生成します。
+
+```sql
+select * from comments where user_id in (
+    select id
+    from users
+    where is_active = 0
+)
+```
+
 > **Warning**
 > クエリに整数バインディングの大きな配列を追加する場合は、`whereIntegerInRaw`または`whereIntegerNotInRaw`メソッドを使用してメモリ使用量を大幅に削減できます。
 
