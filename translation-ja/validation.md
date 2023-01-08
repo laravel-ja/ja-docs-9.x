@@ -1825,7 +1825,7 @@ Sometimes you may need to access the value for a given nested array element when
 <a name="error-message-indexes-and-positions"></a>
 ### エラーメッセージインデックスとポジション
 
-配列のバリデーションを行うとき、失敗した特定項目のインデックスや位置をアプリケーションのエラーメッセージから参照したいことがあります。これを行うには、[カスタムバリデーションメッセージ] (#manual-customizing-the-error-messages)へ、`:index`と`:position`のプレースホルダを使ってください。
+配列のバリデーションを行うとき、失敗した特定項目のインデックスや位置をアプリケーションのエラーメッセージから参照したいことがあります。これを行うには、[カスタムバリデーションメッセージ] (#manual-customizing-the-error-messages)へ、`:index`（０始点）と`:position`（１始点）のプレースホルダを使ってください。
 
     use Illuminate\Support\Facades\Validator;
 

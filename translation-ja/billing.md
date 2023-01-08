@@ -32,6 +32,7 @@
     - [価格の変更](#changing-prices)
     - [サブスクリプション数量](#subscription-quantity)
     - [複数商品のサブスクリプション](#subscriptions-with-multiple-products)
+    - [複数のサブスクリプション](#multiple-subscriptions)
     - [使用量ベースの料金](#metered-billing)
     - [サブスクリプションの税率](#subscription-taxes)
     - [サブスクリプション基準日](#subscription-anchor-date)
@@ -1105,6 +1106,31 @@ Stripeは複数商品を持つサブスクリプションに価格を追加ま�
     $user = User::find(1);
 
     $subscriptionItem = $user->subscription('default')->findItemOrFail('price_chat');
+
+<a name="multiple-subscriptions"></a>
+### 複数のサブスクリプション
+
+Stripeの顧客は, サブスクリプションを同時に複数利用可能です。例えば、水泳とウェイトリフティング両方のサブスクリプションを提供するスポーツジムを経営している場合、各サブスクリプションは異なる価格設定になっているでしょう。もちろん、顧客はどちらか、もしくは両方のプランを申し込むことができるでしょう。
+
+アプリケーションでサブスクリプションを作成するときに、`newSubscription`メソッドへサブスクリプションの名前を指定してください。この名前は、ユーザーが開始するサブスクリプションのタイプを表す任意の文字列にできます。
+
+    use Illuminate\Http\Request;
+
+    Route::post('/swimming/subscribe', function (Request $request) {
+        $request->user()->newSubscription('swimming')
+            ->price('price_swimming_monthly')
+            ->create($request->paymentMethodId);
+
+        // ...
+    });
+
+この例は、顧客に月ごとの水泳サブスクリプションを開始しました。しかし、彼らは後で年間サブスクリプションに変更したいと思うかもしれません。顧客のサブスクリプションを調整するときは、単純に`swimming`サブスクリプションの価格を交換できます。
+
+    $user->subscription('swimming')->swap('price_swimming_yearly');
+
+もちろん、完全に解約することも可能です。
+
+    $user->subscription('swimming')->cancel();
 
 <a name="metered-billing"></a>
 ### 使用量ベースの料金

@@ -60,6 +60,7 @@ Homesteadは、Windows、macOS、Linuxシステムで実行でき、Nginx、PHP�
 
 - Ubuntu 20.04
 - Git
+- PHP 8.2
 - PHP 8.1
 - PHP 8.0
 - PHP 7.4
@@ -72,7 +73,7 @@ Homesteadは、Windows、macOS、Linuxシステムで実行でき、Nginx、PHP�
 - MySQL 8.0
 - lmm
 - Sqlite3
-- PostgreSQL 13
+- PostgreSQL 15
 - Composer
 - Docker
 - Node (Yarn、Bower、Bower、Grunt、Gulpを含む)
@@ -555,7 +556,7 @@ ports:
 <a name="php-versions"></a>
 ### PHPバージョン
 
-Homestead6では、同じ仮想マシンで複数のバージョンのPHPを実行するためのサポートが導入されました。`Homestead.yaml`ファイル内の特定のサイトに使用するPHPのバージョンを指定できます。使用可能なPHPバージョンは、"5.6", "7.0", "7.1", "7.2", "7.3", "7.4"、"8.0"(デフォルト)、"8.1"です。
+Homesteadは、同じ仮想マシンで複数のバージョンのPHPを実行するためサポートしています。`Homestead.yaml`ファイル内の特定のサイトに使用するPHPのバージョンを指定できます。使用可能なPHPバージョンは、"5.6", "7.0", "7.1", "7.2", "7.3", "7.4"、"8.0"、"8.1","8.2"（デフォルト）です。
 
 ```yaml
 sites:
@@ -575,6 +576,7 @@ php7.3 artisan list
 php7.4 artisan list
 php8.0 artisan list
 php8.1 artisan list
+php8.2 artisan list
 ```
 
 Homestead仮想マシン内から以下のコマンドを実行すれば、CLIで使用するPHPのデフォルトバージョンを変更できます。
@@ -588,6 +590,7 @@ php73
 php74
 php80
 php81
+php82
 ```
 
 <a name="connecting-to-databases"></a>

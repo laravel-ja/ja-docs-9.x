@@ -129,12 +129,12 @@ php@7.2
 <a name="resetting-your-installation"></a>
 #### インストレーションのリセット
 
-Valetインストレーションが正しく動作せずに問題が起きた時は、`composer global update`の後に、`valet install`を実行してください。これによりインストール済みのValetがリセットされ、さまざまな問題が解決されます。稀にValetを「ハードリセット」する必要がある場合もあり、その場合は`valet install`の前に`valet uninstall --force`を実行してください。
+Valetインストレーションが正しく動作せずに問題が起きた時は、`composer global require laravel/valet`の後に、`valet install`を実行してください。これによりインストール済みのValetがリセットされ、さまざまな問題が解決されます。稀にValetを「ハードリセット」する必要がある場合もあり、その場合は`valet install`の前に`valet uninstall --force`を実行してください。
 
 <a name="upgrading-valet"></a>
 ### Valetのアップグレード
 
-ターミナルで`composer global update`コマンドを実行すると、Valetのインストールを更新できます。アップグレード後、`valet install`コマンドを実行して、Valetが必要に応じて設定ファイルへ追加のアップグレードを行うことを推奨します。
+ターミナルで`composer global require laravel/valet`コマンドを実行すると、Valetのインストールを更新できます。アップグレード後、`valet install`コマンドを実行して、Valetが必要に応じて設定ファイルへ追加のアップグレードを行うことを推奨します。
 
 <a name="serving-sites"></a>
 ## サイト動作

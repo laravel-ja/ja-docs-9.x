@@ -562,7 +562,7 @@ Laravelは、JSONカラム型のサポートを提供するデータベースで
 
 `whereIn`メソッドの第２引数へ、クエリオブジェクトを指定することもできます。
 
-    $activeUsers = DB::table('users')->select('id')->where('is_active', 0);
+    $activeUsers = DB::table('users')->select('id')->where('is_active', 1);
 
     $users = DB::table('comments')
                         ->whereIn('user_id', $activeUsers)
@@ -574,7 +574,7 @@ Laravelは、JSONカラム型のサポートを提供するデータベースで
 select * from comments where user_id in (
     select id
     from users
-    where is_active = 0
+    where is_active = 1
 )
 ```
 
