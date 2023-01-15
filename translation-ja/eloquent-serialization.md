@@ -123,6 +123,12 @@ EloquentモデルをJSONに変換すると、ロードずみのリレーショ�
 
     return $user->makeHidden('attribute')->toArray();
 
+一時的にすべてのvisible属性やhidden属性を上書きしたい場合は、`setVisible`メソッドや`setHidden`メソッドが使用できます。
+
+    return $user->setVisible(['id', 'name'])->toArray();
+
+    return $user->setHidden(['email', 'password', 'remember_token'])->toArray();
+
 <a name="appending-values-to-json"></a>
 ## JSONへ値の追加
 

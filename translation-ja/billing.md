@@ -212,7 +212,7 @@ CASHIER_CURRENCY_LOCALE=nl_BE
 この機能を正常に動作させるためには、顧客の氏名、住所、課税IDなどの請求情報がStripeに同期されている必要があります。そのために、Cashierが提供する[顧客データの同期](#syncing-customer-data-with-stripe)や[課税ID](#tax-ids)のメソッドを使用できます。
 
 > **Warning**
-> 残念ながら今のところ、[一回限りの課金](#single-charges)や[一回限りの支払い](#single-charge-checkouts)では税金が計算されません。また、Stripe Taxは現在、ベータ期間中で「招待制」となっています。Stripe Taxへのアクセスをリクエストするには、[Stripe Taxウェブサイト](https://stripe.com/tax#request-access)をご利用ください。
+> [一回限りの課金](#single-charges)や[一回限りの支払い](#single-charge-checkouts)では税金が計算されません。
 
 <a name="logging"></a>
 ### ログ
@@ -1468,6 +1468,7 @@ Stripeは、Webフックを介してさまざまなイベントをアプリケ�
 - `customer.subscription.deleted`
 - `customer.updated`
 - `customer.deleted`
+- `invoice.payment_succeeded`
 - `invoice.payment_action_required`
 
 Cashierは、`cashier:webhook` Artisanコマンドを利便性のために用意しています。このコマンドはCashierが必要とするすべてのイベントをリッスンする、StripeのWebフックを作成します。

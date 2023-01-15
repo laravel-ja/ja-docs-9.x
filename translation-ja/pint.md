@@ -53,6 +53,12 @@ Pintは更新した全ファイルの完全なリストを表示します。Pint
 ./vendor/bin/pint --test
 ```
 
+もし、Gitへコミットされていない変更のあるファイルだけをPintに修正させたい場合は、`--dirty` オプションを使用します。
+
+```shell
+./vendor/bin/pint --dirty
+```
+
 <a name="configuring-pint"></a>
 ## Pintの設定
 

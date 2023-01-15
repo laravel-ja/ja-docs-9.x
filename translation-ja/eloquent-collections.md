@@ -75,6 +75,8 @@
 [makeVisible](#method-makeVisible)
 [makeHidden](#method-makeHidden)
 [only](#method-only)
+[setVisible](#method-setVisible)
+[setHidden](#method-setHidden)
 [toQuery](#method-toquery)
 [unique](#method-unique)
 
@@ -149,7 +151,7 @@
     $users->load(['comments', 'posts']);
 
     $users->load('comments.author');
-    
+
     $users->load(['comments', 'posts' => fn ($query) => $query->where('active', 1)]);
 
 <a name="method-loadMissing"></a>
@@ -160,7 +162,7 @@
     $users->loadMissing(['comments', 'posts']);
 
     $users->loadMissing('comments.author');
-    
+
     $users->loadMissing(['comments', 'posts' => fn ($query) => $query->where('active', 1)]);
 
 <a name="method-modelKeys"></a>
@@ -192,6 +194,20 @@
 `only`メソッドは、指定主キーを持つすべてのモデルを返します。
 
     $users = $users->only([1, 2, 3]);
+
+<a name="method-setVisible"></a>
+#### `setVisible($attributes)` {.collection-method}
+
+`setVisible`メソッドは、コレクション内の各モデルの全てのvisible属性を[一時的に上書き](/docs/{{version}}/eloquent-serialization#temporarily-modifying-attribute-visibility)します。
+
+    $users = $users->setVisible(['id', 'name']);
+
+<a name="method-setHidden"></a>
+#### `setHidden($attributes)` {.collection-method}
+
+`setHidden`メソッドは、コレクション内の各モデルの全てのhidden属性を[一時的に上書き](/docs/{{version}}/eloquent-serialization#temporarily-modifying-attribute-visibility)します。
+
+    $users = $users->setHidden(['email', 'password', 'remember_token']);
 
 <a name="method-toquery"></a>
 #### `toQuery()` {.collection-method}

@@ -430,6 +430,12 @@ Route::singleton('photos.thumbnail', ThumbnailController::class)->creatable();
 | PUT/PATCH | `/photos/{photo}/thumbnail`        | update  | photos.thumbnail.update  |
 | DELETE    | `/photos/{photo}/thumbnail`        | destroy | photos.thumbnail.destroy |
 
+Laravelにシングルトンリソースの`DELETE`ルートを登録し、作成／保存ルートは登録したくない場合は、`destroyable`メソッドを利用します。
+
+```php
+Route::singleton(...)->destroyable();
+```
+
 <a name="api-singleton-resources"></a>
 #### APIのシングルトンリソース
 
