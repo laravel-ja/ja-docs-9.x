@@ -1272,6 +1272,10 @@ Laravelは、データベースレベルで参照整合性を強制するため�
 
     Schema::disableForeignKeyConstraints();
 
+    Schema::withoutForeignKeyConstraints(function () {
+        // Constraints disabled within this closure...
+    });
+
 > **Warning**
 > SQLiteは、デフォルトで外部キー制約を無効にします。SQLiteを使用する場合は、マイグレーションでデータベースを作成する前に、データベース設定の[外部キーサポートを有効にする](/docs/{{version}}/database#configuration)を確実に行ってください。さらに、SQLiteはテーブルの作成時にのみ外部キーをサポートし、[テーブルを変更する場合はサポートしません](https://www.sqlite.org/omitted.html)。
 

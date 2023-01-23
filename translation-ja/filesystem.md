@@ -187,6 +187,18 @@ composer require league/flysystem-read-only "^3.0"
 
     'endpoint' => env('AWS_ENDPOINT', 'https://minio:9000'),
 
+<a name="minio"></a>
+#### MinIO
+
+LaravelのFlysystemインテグレーションでMinIOを使用する際に、適切なURLを生成するには、`AWS_URL`環境変数を定義し、アプリケーションのローカルURLと一致させ、URLパスにバケット名を含める必要があります。
+
+```ini
+AWS_URL=http://localhost:9000/local
+```
+
+> **Warning**
+> MinIOを使用する場合、`temporaryUrl`メソッドによる一時保存用URLの生成はサポートしていません。
+
 <a name="obtaining-disk-instances"></a>
 ## ディスクインスタンスの取得
 
@@ -333,6 +345,10 @@ Laravelは、ファイルの読み取りと書き込みに加えて、ファイ�
 `lastModified`メソッドは、ファイルが最後に変更されたときのUNIXタイムスタンプを返します。
 
     $time = Storage::lastModified('file.jpg');
+
+指定ファイルのMIMEタイプは、`mimeType`メソッドで取得できます。
+
+    $mime = Storage::mimeType('file.jpg')
 
 <a name="file-paths"></a>
 #### ファイルパス

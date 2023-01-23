@@ -1104,6 +1104,8 @@ Laravelは様々なメールトランスポートを用意していますが、L
          */
         public function __construct(ApiClient $client)
         {
+            parent::__construct();
+            
             $this->client = $client;
         }
 

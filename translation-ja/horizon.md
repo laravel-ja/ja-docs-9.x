@@ -5,6 +5,7 @@
     - [設定](#configuration)
     - [バランス戦略](#balancing-strategies)
     - [ダッシュボードの認可](#dashboard-authorization)
+    - [非表示のジョブ](#silenced-jobs)
 - [Horizonのアップグレード](#upgrading-horizon)
 - [Horizonの実行](#running-horizon)
     - [Horizonのデプロイ](#deploying-horizon)
@@ -145,6 +146,26 @@ Horizo​​nは、`/horizo​​n`のURIでダッシュボードを公開しま
 #### その他の認証戦略
 
 Laravelは認証済みユーザーをゲートクロージャへ自動的に依存挿入することを忘れないでください。アプリケーションがIP制限などの別の方法でHorizo​​nセキュリティを提供する場合、Horizo​​nユーザーは「ログイン」する必要がない場合もあります。したがって、Laravelの認証を必要としないようにするには、上記の`function($user)`クロージャ引数を`function($user=null)`に変更する必要があります。
+
+<a name="silenced-jobs"></a>
+### 非表示のジョブ
+
+アプリケーションやサードパーティパッケージが送信する特定のジョブを見たくない場合があるでしょう。こうしたジョブで「完了したジョブ」リスト上の領域を占有させずに、非表示にできます。最初の方法は、アプリケーションの`horizon`設定ファイルにある、`silenced`設定オプションへジョブのクラス名を追加します。
+
+    'silenced' => [
+        App\Jobs\ProcessPodcast::class,
+    ],
+
+別の方法は、表示しないジョブへ`Laravel\Horizon\Contracts\Silenced`インターフェイスを実装します。このインターフェイスを実装したジョブは、`silenced`設定配列に存在しなくても、自動的に表示しません。
+
+    use Laravel\Horizon\Contracts\Silenced;
+
+    class ProcessPodcast implements ShouldQueue, Silenced
+    {
+        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+        // ...
+    }
 
 <a name="upgrading-horizon"></a>
 ## Horizonのアップグレード

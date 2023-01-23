@@ -273,7 +273,7 @@ LaravelのHTTPクライアントはGuzzleで動いているので、[Guzzleミ�
 
     $response = Http::withMiddleware(
         Middleware::mapRequest(function (RequestInterface $request) {
-            $request->withHeader('X-Example', 'Value');
+            $request = $request->withHeader('X-Example', 'Value');
 
             return $request;
         })

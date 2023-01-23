@@ -104,7 +104,7 @@ php artisan migrate
 
 **Redisクラスタ**
 
-Redisキュー接続でRedisクラスタを使用する場合、キュー名に[キーハッシュタグ](https://redis.io/topics/cluster-spec#keys-hash-tags)を含める必要があります。これは、特定のキューのすべてのRedisキーが同じハッシュスロットに配置されるようにするために必要です。
+Redisキュー接続でRedisクラスタを使用する場合、キュー名に[キーハッシュタグ](https://redis.io/docs/reference/cluster-spec/#hash-tags)を含める必要があります。これは、特定のキューのすべてのRedisキーが同じハッシュスロットに配置されるようにするために必要です。
 
     'redis' => [
         'driver' => 'redis',
@@ -1174,9 +1174,11 @@ public $failOnTimeout = true;
         $this->fail();
     }
 
-キャッチした例外が原因でジョブを失敗としてマークしたい場合は、例外を`fail`メソッドへ渡せます。
+キャッチした例外が原因でジョブを失敗としてマークしたい場合は、その例外を`fail`メソッドへ渡せます。また、エラーメッセージを文字列で渡せば、例外に変換してくれるのも便利でしょう。
 
     $this->fail($exception);
+
+    $this->fail('Something went wrong.');
 
 > **Note**
 > 失敗したジョブの詳細は、[ジョブの失敗の処理に関するドキュメント](#dealing-with-failed-jobs)を確認してください。
