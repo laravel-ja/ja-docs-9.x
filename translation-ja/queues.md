@@ -859,7 +859,8 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
         // チェーン内のジョブが失敗
     })->dispatch();
 
-> {note} チェーンコールバックはシリアライズされ、Laravelのキューによって後ほど実行されるため、チェーンコールバック内で`$this`変数を使用するべきではありません。
+> **Warning**
+> チェーンコールバックはシリアライズされ、Laravelのキューによって後ほど実行されるため、チェーンコールバック内で`$this`変数を使用するべきではありません。
 
 <a name="customizing-the-queue-and-connection"></a>
 ### キューと接続のカスタマイズ
@@ -1495,7 +1496,8 @@ php artisan queue:retry-batch 32dbc76c-4f82-4749-b610-a639fe0099b5
         // このジョブは失敗
     });
 
-> {note} `catch`コールバックはシリアライズされ、Laravel のキューにより後ほど実行されるため、`catch`コールバック内で`$this`変数を使用するべきではありません。
+> **Warning**
+> `catch`コールバックはシリアライズされ、Laravel のキューにより後ほど実行されるため、`catch`コールバック内で`$this`変数を使用するべきではありません。
 
 <a name="running-the-queue-worker"></a>
 ## キューワーカの実行
