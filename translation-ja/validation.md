@@ -870,6 +870,11 @@ The credit card number field is required when payment type is credit card.
 [MIMEタイプ(ファイル拡張子)](#rule-mimes)
 [最小値](#rule-min)
 [最小桁数](#rule-min-digits)
+[非入力](#rule-missing)
+[条件一致時非入力](#rule-missing-if)
+[条件不一致時非入力](#rule-missing-unless)
+[存在時非入力](#rule-missing-with)
+[全不在時非入力](#rule-missing-with-all)
 [倍数値](#rule-multiple-of)
 [非内包](#rule-not-in)
 [正規表現不一致](#rule-not-regex)
@@ -938,17 +943,35 @@ The credit card number field is required when payment type is credit card.
 <a name="rule-alpha"></a>
 #### alpha
 
-フィールドが全部アルファベット文字であることをバリデートします。
+フィールドは、[`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=)、並びに[`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=)に含まれる、Unicodeのアルファベット文字のみであることをバリデートします。
+
+このバリデーションルールをASCII文字（`a-z`と`A-Z`）の範囲に限定したい場合は、`ascii`オプションを指定してください。
+
+```php
+'username' => 'alpha:ascii',
+```
 
 <a name="rule-alpha-dash"></a>
 #### alpha_dash
 
-フィールドが全部アルファベット文字と数字、ダッシュ(-)、下線(_)であることをバリデートします。
+フィールドは、[`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=)、並びに[`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=)、[`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=)に含まれる、Unicodeのアルファベット文字と数字、およびASCIIのダッシュ(`-`)とASCIIの下線(`_`)であることをバリデートします。
+
+このバリデーションルールをASCII文字（`a-z`と`A-Z`）の範囲に限定したい場合は、`ascii`オプションを指定してください。
+
+```php
+'username' => 'alpha_dash:ascii',
+```
 
 <a name="rule-alpha-num"></a>
 #### alpha_num
 
-フィールドが全部アルファベット文字と数字であることをバリデートします。
+フィールドは、[`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=)、並びに[`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=)、[`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=)に含まれる、Unicodeのアルファベット文字と数字のみであることをバリデートします。
+
+このバリデーションルールをASCII文字（`a-z`と`A-Z`）の範囲に限定したい場合は、`ascii`オプションを指定してください。
+
+```php
+'username' => 'alpha_num:ascii',
+```
 
 <a name="rule-array"></a>
 #### array
@@ -1410,6 +1433,31 @@ PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに�
 
 > **Warning**
 > `multiple_of`ルールを使用するには、[`bcmath` PHP 拡張機能](https://www.php.net/manual/ja/book.bc.php)が必要です。
+
+<a name="rule-missing"></a>
+#### missing
+
+フィールドが入力データ中に存在しないことをバリデートします。
+
+ <a name="rule-missing-if"></a>
+ #### missing_if:_他のフィールド_,_値_,...
+
+ **他のフィールド**が**値**のどれかと等しい場合、フィールドが入力データ中に存在しないことをバリデートします。
+
+ <a name="rule-missing-unless"></a>
+ #### missing_unless:_他のフィールド_,_値_
+
+**他のフィールド**が**値**の全てに一致しない場合、フィールドが入力データ中に存在しないことをバリデートします。
+
+ <a name="rule-missing-with"></a>
+ #### missing_with:_foo_,_bar_,...
+
+  指定したフィールドのどれかが存在する**場合のみ**、フィールドが入力データ中に存在しないことをバリデートします。
+
+ <a name="rule-missing-with-all"></a>
+ #### missing_with_all:_foo_,_bar_,...
+
+ 指定したフィールド全てが存在する**場合のみ**、フィールドが入力データ中に存在しないことをバリデートします。
 
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...

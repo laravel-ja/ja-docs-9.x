@@ -156,13 +156,13 @@ Telescopeダッシュボードには、`/telescope`ルートでアクセスで�
 php artisan telescope:publish
 ```
 
-アセットを最新状態に保ち、将来のアップデートで起きる問題を防ぐために、アプリケーションの`composer.json`ファイルの`post-update-cmd`スクリプトへ`telescope:publish`コマンドを追加しておくのが良いでしょう。
+アセットを最新状態に保ち、将来のアップデートで起きる問題を防ぐために、アプリケーションの`composer.json`ファイルの`post-update-cmd`スクリプトへ、`vendor:publish --tag=laravel-assets`コマンドを追加しておくのが良いでしょう。
 
 ```json
 {
     "scripts": {
         "post-update-cmd": [
-            "@php artisan telescope:publish --ansi"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ]
     }
 }

@@ -176,13 +176,13 @@ Horizo​​nの新しいメジャーバージョンにアップグレードす�
 php artisan horizon:publish
 ```
 
-アセットを最新の状態に保ち、将来の更新で問題が発生しないようにするには、アプリケーションの`composer.json`ファイルの`post-update-cmd`スクリプトに`horizo​​n:publish`コマンドを追加します。
+アセットを最新の状態に保ち、将来の更新で問題が発生しないようにするには、アプリケーションの`composer.json`ファイルの`post-update-cmd`スクリプトに、`vendor:publish --tag=laravel-assets`コマンドを追加します。
 
 ```json
 {
     "scripts": {
         "post-update-cmd": [
-            "@php artisan horizon:publish --ansi"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ]
     }
 }

@@ -1722,6 +1722,26 @@ return Blade::render(
 return view('dashboard', ['users' => $users])->fragment('user-list');
 ```
 
+`fragmentIf`メソッドを使用すると、指定条件に基づき、ビューの断片を条件付きで返せます。そうでなければ、ビュー全体を返します。
+
+```php
+return view('dashboard', ['users' => $users])
+    ->fragmentIf($request->hasHeader('HX-Request'), 'user-list');
+```
+
+`fragments`と`fragmentsIf`メソッドを使用すると、レスポンスへ複数のビューフラグメントを返せます。フラグメントは一つに連結します。
+
+```php
+view('dashboard', ['users' => $users])
+    ->fragments(['user-list', 'comment-list']);
+
+view('dashboard', ['users' => $users])
+    ->fragmentsIf(
+        $request->hasHeader('HX-Request'),
+        ['user-list', 'comment-list']
+    );
+```
+
 <a name="extending-blade"></a>
 ## Bladeの拡張
 

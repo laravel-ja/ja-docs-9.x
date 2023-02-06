@@ -1406,7 +1406,7 @@ Cashierは、顧客が非課税であるかどうかを判断するために、`
     ]);
 
 > **Warning**
-> Billableなモデルのクラス定義内の`trial_ends_at`属性に[日付のキャスト](/docs/{{version}}/eloquent-mutators##date-casting)を必ず追加してください。
+> Billableなモデルのクラス定義内の`trial_ends_at`属性に[日付のキャスト](/docs/{{version}}/eloquent-mutators#date-casting)を必ず追加してください。
 
 Cashierはこのタイプの無料トライアル期間を「一般的な無料トライアル期間（generic trial）」と呼んでいます。これは、既存のサブスクリプションに関連付けられていないからです。Billableなモデルインスタンスの`onTrial`メソッドは、現在の日付が`trial_ends_at`の値を超えていない場合に`true`を返します。
 

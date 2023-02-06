@@ -449,6 +449,23 @@ Eloquentは、属性値をPHPの[Enum](https://www.php.net/manual/ja/language.en
         $server->save();
     }
 
+<a name="casting-arrays-of-enums"></a>
+#### Enum配列のキャスト
+
+時に、１つのカラムにenum値の配列を格納するモデルが必要になることがあります。これを実現するには、Laravelが提供する`AsEnumArrayObject`、または`AsEnumCollection`キャストを利用します。
+
+    use App\Enums\ServerStatus;
+    use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
+
+    /**
+     * キャストする属性
+     *
+     * @var array
+     */
+    protected $casts = [
+        'statuses' => AsEnumCollection::class.':'.ServerStatus::class,
+    ];
+
 <a name="encrypted-casting"></a>
 ### 暗号化キャスト
 

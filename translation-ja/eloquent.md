@@ -339,7 +339,7 @@ Eloquentモデルの主キーへ、自動増分整数を使用する代わりに
 <a name="default-attribute-values"></a>
 ### デフォルト属性値
 
-デフォルトでは、新しくインスタンス化するモデルインスタンスに属性値は含まれません。モデルの属性の一部にデフォルト値を定義したい場合は、モデルに`$attributes`プロパティを定義できます。
+デフォルトでは、新しくインスタンス化するモデルインスタンスに属性値は含まれません。モデルの属性の一部にデフォルト値を定義したい場合は、モデルに`$attributes`プロパティを定義できます。`$attributes`配列に格納する属性値は、データベースから読みこみたてのような、生の「保存可能」形式であるべきです。
 
     <?php
 
@@ -355,6 +355,7 @@ Eloquentモデルの主キーへ、自動増分整数を使用する代わりに
          * @var array
          */
         protected $attributes = [
+            'options' => '[]',
             'delayed' => false,
         ];
     }
@@ -1420,7 +1421,7 @@ Eloquentはクロージャを使用してグローバルスコープを定義す
 > **Note**
 > Eloquentのイベントをクライアントサイドのアプリケーションへ直接ブロードキャストしたいですか？Laravelの[モデル・イベント・ブロードキャスト](/docs/{{version}}/broadcasting#model-broadcasting)をチェックしてください。
 
-Eloquentモデルはいくつかのイベントをディスパッチし、モデルのライフサイクルの以下の瞬間をフックできるようにしています。：`retrieved`、`creating`、`created`、`updating`、`updated`、`saving`、`saved`、`deleting`、`deleted`、`trashed`、`forceDeleted`、`restoring`、`restored`、`replicating`。
+Eloquentモデルはいくつかのイベントをディスパッチし、モデルのライフサイクルの以下の瞬間をフックできるようにしています。：`retrieved`、`creating`、`created`、`updating`、`updated`、`saving`、`saved`、`deleting`、`deleted`、`trashed`、`forceDeleting`、`forceDeleted`、`restoring`、`restored`、`replicating`。
 
 `retrieved`イベントは、既存のモデルをデータベースから取得したときにディスパッチします。新しいモデルをはじめて保存するときは、`creating`イベントと`created`イベントをディスパッチします。`updating`／`updated`イベントは、既存のモデルを変更し、`save`メソッドが呼び出されたときにディスパッチします。`saving`／`saved`イベントは、モデルを作成または更新したときにディスパッチします。モデルの属性に変化がない場合でも、ディスパッチします。イベント名が`-ing`で終わるイベントは、モデルへの変更が永続化される前にディスパッチされ、`-ed`で終わるイベントは、モデルへの変更が永続化された後にディスパッチされます。
 
@@ -1658,5 +1659,5 @@ php artisan make:observer UserObserver --model=User
 また、イベントをディスパッチせずに、与えられたモデルを「更新（update）」、「削除（delete）」、「ソフトデリート（soft delete）」、「復元（restore）」、「複製（replicate）」できます。
 
     $user->deleteQuietly();
-
+    $user->forceDeleteQuietly();
     $user->restoreQuietly();

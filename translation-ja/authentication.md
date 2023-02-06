@@ -279,8 +279,8 @@ Laravelのリダイレクタが提供する`intended`メソッドは、認証ミ
 クエリ条件が複雑な場合は、配列へクロージャを渡します。このクロージャはアプリケーションの要件に基づき、クエリをカスタマイズ出来るようにクエリのインスタンスと一緒に起動されます。
 
     if (Auth::attempt([
-        'email' => $email, 
-        'password' => $password, 
+        'email' => $email,
+        'password' => $password,
         fn ($query) => $query->has('activeSubscription'),
     ])) {
         // 認証成功
@@ -610,6 +610,12 @@ Laravelは、現在のデバイスのセッションを無効にすることな�
             'driver' => 'custom-token',
         ],
     ],
+
+最後に、認証ミドルウェアをルートへ割り当てるときに、ガードを参照してください。
+
+    Route::middleware('auth:api')->roup(function () {
+        // ...
+    }
 
 <a name="adding-custom-user-providers"></a>
 ## カスタムユーザープロバイダの追加

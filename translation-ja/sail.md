@@ -323,15 +323,15 @@ selenium:
 <a name="previewing-emails"></a>
 ## メールのプレビュー
 
-LaravelSailのデフォルトの `docker-compose.yml`ファイルには、[MailHog](https://github.com/mailhog/MailHog)のサービスエントリが含まれています。MailHogは、ローカル開発中にアプリケーションから送信された電子メールをインターセプトし、ブラウザで電子メールメッセージをプレビューできる便利なWebインターフェイスを提供します。Sailを使う場合、MailHogのデフォルトホストは`mailhog`で、ポートは1025です。
+Laravel Sailのデフォルトの`docker-compose.yml`ファイルは、[Mailpit](https://github.com/axllent/mailpit)のサービスエントリを含んでいます。Mailpitは、ローカル開発中にアプリケーションが送信したメールを傍受し、ブラウザでメールメッセージをプレビューできるように、便利なWebインタフェースを提供します。Sailを使用している場合、Mailpitのデフォルトのホストは、`mailpit`で、ポート1025経由で利用可能です。
 
 ```ini
-MAIL_HOST=mailhog
+MAIL_HOST=mailpit
 MAIL_PORT=1025
 MAIL_ENCRYPTION=null
 ```
 
-Sailの実行中に、`http://localhost:8025`でMailHog Webインターフェイスにアクセスできます。
+Sailが起動している場合、http://localhost:8025で、MailpitのWebインターフェイスにアクセスできます：
 
 <a name="sail-container-cli"></a>
 ## コンテナCLI

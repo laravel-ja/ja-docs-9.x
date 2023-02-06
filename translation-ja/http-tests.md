@@ -15,6 +15,7 @@
 - [利用可能なアサート](#available-assertions)
     - [レスポンスのアサート](#response-assertions)
     - [認証のアサート](#authentication-assertions)
+    - [バリデーションのアサート](#validation-assertions)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -639,6 +640,8 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 [assertJson](#assert-json)
 [assertJsonCount](#assert-json-count)
 [assertJsonFragment](#assert-json-fragment)
+[assertJsonIsArray](#assert-json-is-array)
+[assertJsonIsObject](#assert-json-is-object)
 [assertJsonMissing](#assert-json-missing)
 [assertJsonMissingExact](#assert-json-missing-exact)
 [assertJsonMissingValidationErrors](#assert-json-missing-validation-errors)
@@ -803,6 +806,20 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
     });
 
     $response->assertJsonFragment(['name' => 'Taylor Otwell']);
+
+<a name="assert-json-is-array"></a>
+#### assertJsonIsArray
+
+レスポンスのJSONが、配列であることを宣言します。
+
+    $response->assertJsonIsArray();
+
+<a name="assert-json-is-object"></a>
+#### assertJsonIsObject
+
+レスポンスのJSONが、オブジェクトであることを宣言します。
+
+    $response->assertJsonIsObject();
 
 <a name="assert-json-missing"></a>
 #### assertJsonMissing
@@ -1271,3 +1288,33 @@ Laravelは、アプリケーションの機能テストで利用できるさま�
 特定のユーザーが認証済みであることを宣言します。
 
     $this->assertAuthenticatedAs($user, $guard = null);
+
+<a name="validation-assertions"></a>
+## バリデーションのアサート
+
+Laravelは、リクエストが提供するデータが有効か無効かを確認するために使用する、２つの主要なバリデーションに関連したアサートを提供しています。
+
+<a name="validation-assert-valid"></a>
+#### assertValid
+
+レスポンスに、指定したキーのバリデーションエラーが存在しないことを宣言します。このメソッドは、バリデーションエラーをJSON構造体として返すレスポンスや、バリデーションエラーがセッションに一時保存されるレスポンスに対してアサートするために使用します。
+
+    // バリデーションエラーがないことを宣言
+    $response->assertValid();
+
+    // 指定キーにバリデーションエラーがないことを宣言
+    $response->assertValid(['name', 'email']);
+
+<a name="validation-assert-invalid"></a>
+#### assertInvalid
+
+レスポンスに、指定したキーのバリデーションエラーがあることを宣言します。このメソッドは、バリデーションエラーをJSON構造体として返すレスポンスや、バリデーションエラーがセッションに一時保存されるレスポンスに対してアサートするために使用します。
+
+    $response->assertInvalid(['name', 'email']);
+
+また、指定キーが特定のバリデーションエラーメッセージを持っていることを宣言することもできます。その場合、メッセージ全体を指定することもできますし、メッセージの一部だけを指定することもできます。
+
+    $response->assertInvalid([
+        'name' => 'The name field is required.',
+        'email' => 'valid email address',
+    ]);

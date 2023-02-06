@@ -260,7 +260,13 @@ export default defineConfig({
 <a name="vue"></a>
 ### Vue
 
-LaravelプラグインでVueプラグインを使用する場合、`vite.config.js`設定ファイルへ追加オプションをいくつか追加する必要があります。
+[Vue](https://vuejs.org/)フレームワークを使用してフロントエンドを構築したい場合は、`@vitejs/plugin-vue`プラグインもインストールする必要があります。
+
+```sh
+npm install --save-dev @vitejs/plugin-vue
+```
+
+続いて、`vite.config.js`設定ファイルの中で、プラグインをインクルードしてください。LaravelでVueプラグインを使用する場合、いくつかの追加オプションが必要です。
 
 ```js
 import { defineConfig } from 'vite';
@@ -298,7 +304,30 @@ export default defineConfig({
 <a name="react"></a>
 ### React
 
-ViteをReactで使用する場合、JSXを含むすべてのファイルに`.jsx`または`.tsx`拡張子が付いていることを確認し、[上記](#configuring-vite)のように、必要に応じてエントリポイントを更新することを忘れないようにする必要があります。また、既存の`@vite`ディレクティブとともに追加の`@viteReactRefresh` Bladeディレクティブを含める必要もあります。
+[React](https://reactjs.org/)フレームワークを使用してフロントエンドを構築したい場合、`@vitejs/plugin-react`プラグインもインストールする必要があります。
+
+```sh
+npm install --save-dev @vitejs/plugin-react
+```
+
+その後、`vite.config.js`設定ファイル中で、プラグインをインクルードしてください。
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+    plugins: [
+        laravel(['resources/js/app.jsx']),
+        react(),
+    ],
+});
+```
+
+JSXを含むすべてのファイルの拡張子を確実に、`.jsx`または`.tsx`にし、必要であれば[上記のように](#configuring-vite)、エントリポイントの更新を忘れないでください。
+
+更に、既存の`@vite`ディレクティブと一緒に、追加で`@viteReactRefresh` Bladeディレクティブをインクルードする必要があります。
 
 ```blade
 @viteReactRefresh
@@ -467,7 +496,7 @@ export default defineConfig({
 <a name="blade-aliases"></a>
 ### エイリアス
 
-JavaScriptアプリケーションでは、定期的に参照するディレクトリに[エイリアス](#aliases)を作成することが一般的です。しかし、`Illuminate\Support\Vite`クラスの`macro`メソッドを使用して、Bladeで使用するエイリアスを作成することもできます。通常、「マクロ」は、[サービスプロバイダ](/docs/{{version}}/providers)の`boot`メソッド内で定義する必要があります。
+JavaScriptアプリケーションでは、定期的に参照するディレクトリに[エイリアス](#aliases)を作成することが一般的です。しかし、`Illuminate\Support\Facades\Vite`クラスの`macro`メソッドを使用して、Bladeで使用するエイリアスを作成することもできます。通常、「マクロ」は、[サービスプロバイダ](/docs/{{version}}/providers)の`boot`メソッド内で定義する必要があります。
 
     /**
      * 全アプリケーションサービスの初期起動処理
@@ -655,7 +684,7 @@ Vite::useCspNonce($nonce);
 Viteマニフェストにアセット用の`integrity`ハッシュが含まれている場合、Laravelは自動的に`integrity`属性を生成するスクリプトとスタイルタグに追加し、[サブリソース完全性](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)を強要します。Viteはデフォルトでは、`integrity`ハッシュをマニフェストに含みませんが、 [`vite-plugin-manifest-uri`](https://www.npmjs.com/package/vite-plugin-manifest-sri) NPMプラグインをインストールすれば、これを有効にできます。
 
 ```shell
-npm install -D vite-plugin-manifest-sri
+npm install --save-dev vite-plugin-manifest-sri
 ```
 
 このプラグインは、`vite.config.js`ファイルで有効にします。

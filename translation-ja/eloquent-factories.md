@@ -256,6 +256,16 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
                     ->sequence(fn ($sequence) => ['name' => 'Name '.$sequence->index])
                     ->create();
 
+使いやすいように、シーケンスは、`sequence`メソッドを使用して適用することもできます。このメソッドは、内部的に`state`メソッドを呼び出すだけです。`sequence`メソッドには、クロージャまたはシーケンスの属性を表す配列を指定します。
+
+    $users = User::factory()
+                    ->count(2)
+                    ->sequence(
+                        ['name' => 'First User'],
+                        ['name' => 'Second User'],
+                    )
+                    ->create();
+
 <a name="factory-relationships"></a>
 ## リレーションのファクトリ
 

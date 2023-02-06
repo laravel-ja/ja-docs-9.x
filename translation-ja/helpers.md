@@ -62,6 +62,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Arr::set](#method-array-set)
 [Arr::shuffle](#method-array-shuffle)
 [Arr::sort](#method-array-sort)
+[Arr::sortDesc](#method-array-sort-desc)
 [Arr::sortRecursive](#method-array-sort-recursive)
 [Arr::toCssClasses](#method-array-to-css-classes)
 [Arr::undot](#method-array-undot)
@@ -901,6 +902,41 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
             ['name' => 'Chair'],
             ['name' => 'Desk'],
             ['name' => 'Table'],
+        ]
+    */
+
+<a name="method-array-sort-desc"></a>
+#### `Arr::sortDesc()` {.collection-method}
+
+`Arr::sortDesc`メソッドは、配列を値の降順でソートします。
+
+    use Illuminate\Support\Arr;
+
+    $array = ['Desk', 'Table', 'Chair'];
+
+    $sorted = Arr::sortDesc($array);
+
+    // ['Table', 'Desk', 'Chair']
+
+また、指定クロージャの結果により、配列をソートすることもできます。
+
+    use Illuminate\Support\Arr;
+
+    $array = [
+        ['name' => 'Desk'],
+        ['name' => 'Table'],
+        ['name' => 'Chair'],
+    ];
+
+    $sorted = array_values(Arr::sortDesc($array, function ($value) {
+        return $value['name'];
+    }));
+
+    /*
+        [
+            ['name' => 'Table'],
+            ['name' => 'Desk'],
+            ['name' => 'Chair'],
         ]
     */
 
@@ -2622,11 +2658,15 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 
     // tay***************
 
-必要であれば、`mask`メソッドの第３引数に負の数を指定し、文字列の最後から指定する文字数分戻った箇所からマスキングを開始するように指示できます。
+必要であれば、`mask`メソッドの第３・４引数に負の数を指定し、文字列の最後から指定する文字数分戻った箇所からマスキングを開始するように指示できます。
 
     $string = Str::of('taylor@example.com')->mask('*', -15, 3);
 
     // tay***@example.com
+
+    $string = Str::of('taylor@example.com')->mask('*', 4, -4);
+
+    // tayl**********.com
 
 <a name="method-fluent-str-match"></a>
 #### `match` {.collection-method}
@@ -3994,7 +4034,7 @@ Str::of('Hello, world!')->wordCount(); // 2
 <a name="method-value"></a>
 #### `value()` {.collection-method}
 
-`value`関数は、指定値を返します。ただし、関数へクロージャを渡すと、クロージャが実行され、その戻り値を返します。
+`value`関数は、指定値を返します。ただし、関数へクロージャを渡すと、そのクロージャを実行し、その戻り値を返します。
 
     $result = value(true);
 
@@ -4005,6 +4045,14 @@ Str::of('Hello, world!')->wordCount(); // 2
     });
 
     // false
+
+`value`関数に追加の引数を渡すこともできます。最初の引数がクロージャであれば、追加した引数はクロージャの引数として渡されます。クロージャでなければ、無視します。
+
+    $result = value(function ($name) {
+        return $parameter;
+    }, 'Taylor');
+
+    // 'Taylor'
 
 <a name="method-view"></a>
 #### `view()` {.collection-method}

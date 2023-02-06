@@ -35,6 +35,10 @@
 
     return redirect()->route('profile', ['id' => 1]);
 
+For convenience, Laravel also offers the global `to_route` function:
+
+    return to_route('profile', ['id' => 1]);
+
 <a name="populating-parameters-via-eloquent-models"></a>
 #### Eloquentモデルを使用したパラメータの埋め込み
 

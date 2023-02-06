@@ -935,7 +935,7 @@ Mailableのテンプレートを設計するときは、通常のBladeテンプ�
     });
 
 > **Warning**
-> [インライン添付ファイル](#inline-attachments)は、Mailableファイルがブラウザでプレビューされたときにレンダリングされません。これらのメーラブルをプレビューするには、[MailHog](https://github.com/mailhog/MailHog)や[HELO](https://usehelo.com)などのメールテストアプリケーションに送信する必要があります。
+> [インライン添付ファイル](#inline-attachments)は、Mailableファイルがブラウザでプレビューされたときにレンダリングされません。これらのメーラブルをプレビューするには、[Mailpit](https://github.com/axllent/mailpit)や[HELO](https://usehelo.com)などのメールテストアプリケーションに送信する必要があります。
 
 <a name="localizing-mailables"></a>
 ## Mailableの多言語化
@@ -1027,11 +1027,11 @@ Laravelは、Mailableの構造を調べる数多くのメソッドを提供し�
 メールを送信する代わりに、`log`メールドライバは検査のためにすべてのメールメッセージをログファイルに書き込みます。通常、このドライバはローカル開発中にのみ使用されます。環境ごとのアプリケーションの設定の詳細については、[設定ドキュメント](/docs/{{version}}/configuration#environment-configuration)を確認してください。
 
 <a name="mailtrap"></a>
-#### HELO／Mailtrap／MailHog
+#### HELO／Mailtrap／Mailpit
 
 もしくは、[HELO](https://usehelo.com)や[Mailtrap](https://mailtrap.io)などのサービスと`smtp`ドライバを使用して、メールメッセージを「ダミー」メールボックスに送信可能です。本当の電子メールクライアントでそれらを表示できます。このアプローチには、Mailtrapのメッセージビューアで最終的な電子メールを実際に調べられるという利点があります。
 
-[Laravel Sail](/docs/{{version}}/sale)を使用している場合は、[MailHog](https://github.com/mailhog/MailHog)を使用してメッセージをプレビューできます。Sailの実行中は、`http://localhost:8025`でMailHogインターフェイスにアクセスできます。
+[Laravel Sail](/docs/{{version}}/sale)を使用している場合は、[Mailpit](https://github.com/axllent/mailpit)を使用してメッセージをプレビューできます。Sailの実行中は、`http://localhost:8025`でMailpitインターフェイスにアクセスできます。
 
 <a name="using-a-global-to-address"></a>
 #### グローバルな`to`アドレスの使用
