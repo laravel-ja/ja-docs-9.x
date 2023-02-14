@@ -62,6 +62,15 @@ php artisan sail:install
 ./vendor/bin/sail up
 ```
 
+<a name="adding-additional-services"></a>
+#### サービスの追加
+
+既存のSailのインストールにサービスを追加したい場合は、`sail:add` Artisanコマンドを実行してください。
+
+```shell
+php artisan sail:add
+```
+
 <a name="using-devcontainers"></a>
 #### Devcontainerの使用
 
@@ -210,7 +219,7 @@ sail yarn
 
 コンテナを起動したら、アプリケーションの`.env`ファイル内の`DB_HOST`環境変数を`mysql`に設定することで、アプリケーション内のMySQLインスタンスに接続できます。
 
-ローカルマシンからアプリケーションのMySQLデータベースに接続するには、[TablePlus](https://tableplus.com)などのグラフィカルデータベース管理アプリケーションを使用できます。デフォルトでMySQLデータベースは、`localhost`のポート3306からアクセスできます。
+ローカルマシンからアプリケーションのMySQLデータベースに接続するには、[TablePlus](https://tableplus.com)のようなグラフィカルなデータベース管理アプリケーションを使用する方が多いでしょう。デフォルトでは、MySQLデータベースへは`localhost`の3306ポートでアクセスでき、アクセス資格情報は`DB_USERNAME`と`DB_PASSWORD`環境変数の値に対応します。あるいは、`DB_PASSWORD`環境変数値をパスワードとして、`root`ユーザーとして接続することもできます。
 
 <a name="redis"></a>
 ### Redis

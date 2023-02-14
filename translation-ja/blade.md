@@ -426,7 +426,7 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 | `$loop->parent`     |  ループがネストしている場合、親のループ変数 |
 
 <a name="conditional-classes"></a>
-### 条件クラス
+### 条件付きクラスとスタイル
 
 `@class`ディレクティブは、CSSのクラス文字列を条件付きでコンパイルします。このディレクティブは、クラスの配列を受け取ります。配列のキーには、追加したいクラスが入り、値は論理値です。配列のキーが数字の場合は、レンダリングするクラスリストへ常に取り込みます。
 
@@ -446,10 +446,25 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 <span class="p-4 text-gray-500 bg-red"></span>
 ```
 
+同様に、`@style`ディレクティブは、条件付きでHTML要素へインラインのCSSスタイルを追加するために使用します。
+
+```blade
+@php
+    $isActive = true;
+@endphp
+
+<span @style([
+    'background-color: red',
+    'font-weight: bold' => $isActive,
+])></span>
+
+<span style="background-color: red; font-weight: bold;"></span>
+```
+
 <a name="additional-attributes"></a>
 ### その他の属性
 
-利便が良いよう、指定したHTMLのチェックボックス入力が"checked"であることを簡単に表すため、`@checked`ディレクティブを使用できます。このディレクティブは、指定条件が`true`と評価された場合、`checked`をechoします。
+使いやすくするため、指定したHTMLのチェックボックス入力が"checked"であることを表す、`@checked`ディレクティブも使用できます。このディレクティブは、指定条件が`true`と評価された場合、`checked`をechoします。
 
 ```blade
 <input type="checkbox"

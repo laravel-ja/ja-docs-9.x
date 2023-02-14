@@ -25,16 +25,17 @@ Laravelフレームワークにはいくつかのシステム要件がありま�
 <div class="content-list" markdown="1">
 
 - PHP >= 8.0
-- BCMath PHP拡張
 - Ctype PHP拡張
 - cURL PHP拡張
 - DOM PHP拡張
 - Fileinfo PHP拡張
-- JSON PHP拡張
+- Filter PHP拡張
+- Hash PHP拡張
 - Mbstring PHP拡張
 - OpenSSL PHP拡張
 - PCRE PHP拡張
 - PDO PHP拡張
+- Session PHP拡張
 - Tokenizer PHP拡張
 - XML PHP拡張
 

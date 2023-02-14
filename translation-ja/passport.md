@@ -551,6 +551,9 @@ axios.delete('/oauth/tokens/' + tokenId);
 # 取り消されたか期限が切れた、トークンと認証コードの削除
 php artisan passport:purge
 
+# 期限切れから６時間以上経っているトークンのみ削除
+php artisan passport:purge --hours=6
+
 # 取り消されたトークンと認証コードのみを削除
 php artisan passport:purge --revoked
 

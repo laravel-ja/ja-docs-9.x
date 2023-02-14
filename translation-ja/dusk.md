@@ -6,7 +6,7 @@
     - [他ブラウザの使用](#using-other-browsers)
 - [利用の開始](#getting-started)
     - [テストの生成](#generating-tests)
-    - [データベースマイグレーション](#migrations)
+    - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
     - [テストの実行](#running-tests)
     - [環境の処理](#environment-handling)
 - [ブラウザの基本](#browser-basics)
@@ -142,10 +142,15 @@ Duskのテストを生成するには、`dusk:make` Artisanコマンドを使い
 php artisan dusk:make LoginTest
 ```
 
-<a name="migrations"></a>
-### データベースマイグレーション
+<a name="resetting-the-database-after-each-test"></a>
+### テスト終了毎のデータベースリセット
 
-作成するテストのほとんどは、アプリケーションのデータベースからデータを取得するページを操作します。ただし、Duskテストでは`RefreshDatabase`トレイトを使用しないでください。`RefreshDatabase`トレイトは、HTTPリクエスト間で適用または利用できないデータベーストランザクションを活用します。代わりに、`DatabaseMigrations`トレイトを使用してください。これにより、テストごとにデータベースが再マイグレーションされます。
+作成するテストのほとんどは、アプリケーションのデータベースからデータを取得するページを操作します。ただし、Duskテストでは`RefreshDatabase`トレイトを使用しないでください。`RefreshDatabase`トレイトは、HTTPリクエスト間で適用または利用できないデータベーストランザクションを活用します。代わりに`DatabaseMigrations`か、`DatabaseTruncation`の２トレイトを使用するオプションがあります。
+
+<a name="reset-migrations"></a>
+#### データベースマイグレーションの利用
+
+`DatabaseMigrations`トレイトは、各テスト実行前に、データベースのマイグレーションを実行します。しかし、テストごとにデータベースのテーブルを削除し、再作成するのは一般的に、テーブルを切り詰めるよりも遅いでしょう。
 
     <?php
 
@@ -163,6 +168,58 @@ php artisan dusk:make LoginTest
 
 > **Warning**
 > Duskテストの実行時には、SQLiteインメモリデータベースを使用できません。ブラウザは独自のプロセス内で実行されるため、他のプロセスのメモリ内データベースにアクセスすることはできません。
+
+<a name="reset-truncation"></a>
+#### データベーストランザクションの利用
+
+`DatabaseTruncation`トレイトを使用する場合は、事前にComposerパッケージマネージャを使用し、`doctrine/dbal`パッケージをインストールする必要があります。
+
+```shell
+composer require --dev doctrine/dbal
+```
+
+`DatabaseTruncation`トレイトは、最初のテストで、データベースのテーブルを確実に作成するため、データベースマイグレーションを実行します。しかし、以降のテストでは、すべてのデータベースマイグレーションを再実行するよりも速度が早いため、データベースのテーブルを単に切り捨てます。
+
+    <?php
+
+    namespace Tests\Browser;
+
+    use App\Models\User;
+    use Illuminate\Foundation\Testing\DatabaseTruncation;
+    use Laravel\Dusk\Chrome;
+    use Tests\DuskTestCase;
+
+    class ExampleTest extends DuskTestCase
+    {
+        use DatabaseTruncation;
+    }
+
+デフォルトでこのトレイトは、`migrations`を除くすべてのテーブルを切り捨てます。切り捨てるテーブルをカスタマイズしたい場合は、`$tablesToTruncate`プロパティをテストクラスで定義してください。
+
+    /**
+     * 切り捨てるテーブルを指定
+     *
+     * @var array
+     */
+    protected $tablesToTruncate = ['users'];
+
+もしくは、テストクラスに`$exceptTables`プロパティを定義し、切り捨てから除外するテーブルを指定することもできます。
+
+    /**
+     * 切り捨てから除外するテーブルを指定
+     *
+     * @var array
+     */
+    protected $exceptTables = ['users'];
+
+テーブルを切り詰めるデータベースの接続を指定するには、テストクラスに `$connectionsToTruncate`プロパティを定義してください。
+
+    /**
+     * テーブルを切り詰める接続を指定
+     *
+     * @var array
+     */
+    protected $connectionsToTruncate = ['mysql'];
 
 <a name="running-tests"></a>
 ### テストの実行

@@ -41,15 +41,13 @@ composer require guzzlehttp/guzzle
 `get`メソッドは`Illuminate\Http\Client\Response`のインスタンスを返します。これは、レスポンスを調べるために使用できるさまざまなメソッドを提供します。
 
     $response->body() : string;
-    $response->json($key = null) : array|mixed;
+    $response->json($key = null, $default = null) : array|mixed;
     $response->object() : object;
     $response->collect($key = null) : Illuminate\Support\Collection;
     $response->status() : int;
-    $response->ok() : bool;
     $response->successful() : bool;
     $response->redirect(): bool;
     $response->failed() : bool;
-    $response->serverError() : bool;
     $response->clientError() : bool;
     $response->header($header) : string;
     $response->headers() : array;
@@ -57,6 +55,39 @@ composer require guzzlehttp/guzzle
 `Illuminate\Http\Client\Response`オブジェクトはPHPの`ArrayAccess`インターフェイスも実装しており、そのレスポンスのJSONレスポンスデータへ直接アクセスできます。
 
     return Http::get('http://example.com/users/1')['name'];
+
+上記レスポンスメソッドに加え、以下のメソッドにより、レスポンスが特定のステータスコードを持つか判断できます。
+
+    $response->ok() : bool;                  // 200 OK
+    $response->created() : bool;             // 201 Created
+    $response->accepted() : bool;            // 202 Accepted
+    $response->noContent() : bool;           // 204 No Content
+    $response->movedPermanently() : bool;    // 301 Moved Permanently
+    $response->found() : bool;               // 302 Found
+    $response->badRequest() : bool;          // 400 Bad Request
+    $response->unauthorized() : bool;        // 401 Unauthorized
+    $response->paymentRequired() : bool;     // 402 Payment Required
+    $response->forbidden() : bool;           // 403 Forbidden
+    $response->notFound() : bool;            // 404 Not Found
+    $response->requestTimeout() : bool;      // 408 Request Timeout
+    $response->conflict() : bool;            // 409 Conflict
+    $response->unprocessableEntity() : bool; // 422 Unprocessable Entity
+    $response->tooManyRequests() : bool;     // 429 Too Many Requests
+    $response->serverError() : bool;         // 500 Internal Server Error
+
+<a name="uri-templates"></a>
+#### URIテンプレート
+
+HTTPクライアントは、[URIテンプレート仕様](https://www.rfc-editor.org/rfc/rfc6570)を用いて、リクエストURLを構築することも可能です。URIテンプレートで展開できるURLパラメータを定義するには、`withUrlParameters`メソッドを使用します。
+
+```php
+Http::withUrlParameters([
+    'endpoint' => 'https://laravel.com',
+    'page' => 'docs',
+    'version' => '9.x',
+    'topic' => 'validation',
+])->get('{+endpoint}/{page}/{version}/{topic}');
+```
 
 <a name="dumping-requests"></a>
 #### リクエストのダンプ

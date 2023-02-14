@@ -334,8 +334,8 @@ Redisの設定の詳細については、[Laravelドキュメントページ](/d
 
 `get`メソッドもクロージャを受け入れます。クロージャが実行された後、Laravelは自動的にロックを解除します。
 
-    Cache::lock('foo')->get(function () {
-        // ロックは無期限に取得され、自動的に解放
+    Cache::lock('foo', 10)->get(function () {
+        // ロックを１０秒間取得し、自動的に開放
     });
 
 リクエストした時点でロックが利用できない場合に、指定された秒数待つようにLaravelへ指示できます。指定された制限時間内にロックを取得できない場合、`Illuminate\Contracts\Cache\LockTimeoutException`を投げます。

@@ -671,7 +671,23 @@ Route::get('/categories/{category}', function (Category $category) {
 <a name="defining-rate-limiters"></a>
 ### レート制限の定義
 
-Laravelは特定のルートまたはルートのグループのトラフィック量を制限するために利用できる、強力でカスタマイズ可能なレート制限サービスを用意しています。使い始めるには、アプリケーションのニーズを満たすレート制限設定を定義する必要があります。通常、これはアプリケーションの`App\Providers\RouteServiceProvider`クラスの`configureRateLimiting`メソッド内で実行する必要があります。
+Laravelには、強力でカスタマイズ可能なレート制限サービスがあり、特定のルートやルートグループのトラフィック量を制限するために利用できます。使い始めるには、アプリケーションのニーズに合わせ、レート制限の設定を定義する必要があります。通常、これはアプリケーションの`App\Providers\RouteServiceProvider`クラスの`configureRateLimiting`メソッド内で行います。アプリケーションの`routes/api.php`ファイル中のルートに適用するレート制限定義は、予めこのクラスで定義済みです。
+
+```php
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+
+/**
+ * アプリケーションのレート制限の設定
+ */
+protected function configureRateLimiting(): void
+{
+    RateLimiter::for('api', function (Request $request) {
+        return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+    });
+}
+```
 
 レート制限は、`RateLimiter`ファサードの`for`メソッドを使用して定義します。`for`メソッドは、レート制限名と、レート制限をしていするルートへ適用する必要がある制限構成を返すクロージャを引数に取ります。制限設定は、`Illuminate\Cache\RateLimiting\Limit`クラスのインスタンスです。このクラスには、制限を簡単に定義するのに役立つ「組み立て」メソッドを用意しています。レート制限名は、任意の文字列にできます。
 

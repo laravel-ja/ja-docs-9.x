@@ -43,7 +43,7 @@
 
 `Illuminate\Foundation\Testing\RefreshDatabase`トレイトは、スキーマが最新であれば、データベースをマイグレートしません。その代わりに、データベーストランザクション内でテストを実行するだけです。したがって、このトレイトを使用しないテストケースによってデータベースに追加されたレコードは、まだデータベースに残っている可能性があります。
 
-マイグレーションを使用してデータベースを完全にリセットしたい場合は、代わりに`Illuminate\Foundation\Testing\DatabaseMigrations`トレイトを使用します。しかし、`DatabaseMigrations`は`RefreshDatabase`よりかなり低速です。
+データベースを完全にリセットしたい場合は、代わりに`Illuminate\Foundation\Testing\DatabaseMigrations`、または`Illuminate\Foundation\Testing\DatabaseTruncation`トレイトを使用してください。しかし、両選択肢とも、`RefreshDatabase`トレイトよりもかなり遅いです。
 
 <a name="model-factories"></a>
 ## モデルファクトリ
@@ -202,3 +202,12 @@ Laravelは、[PHPUnit](https://phpunit.de/)機能テスト用にいくつかの�
     $user->delete();
 
     $this->assertModelMissing($user);
+
+<a name="expects-database-query-count"></a>
+#### expectsDatabaseQueryCount
+
+`expectsDatabaseQueryCount`メソッドは、テスト中に実行されるであろうデータベースクエリの総数をアサートします。実際に実行されたクエリの数がこの期待値と一致しない場合、テストは失敗します。
+
+    $this->expectsDatabaseQueryCount(5);
+
+    // Test...

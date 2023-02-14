@@ -27,6 +27,7 @@
   - [サブリソース完全性(SRI)](#subresource-integrity-sri)
   - [任意の属性](#arbitrary-attributes)
 - [高度なカスタマイズ](#advanced-customization)
+  - [開発サーバURLの修正](#correcting-dev-server-urls)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -681,7 +682,7 @@ Vite::useCspNonce($nonce);
 <a name="subresource-integrity-sri"></a>
 ### サブリソース完全性（SRI）
 
-Viteマニフェストにアセット用の`integrity`ハッシュが含まれている場合、Laravelは自動的に`integrity`属性を生成するスクリプトとスタイルタグに追加し、[サブリソース完全性](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)を強要します。Viteはデフォルトでは、`integrity`ハッシュをマニフェストに含みませんが、 [`vite-plugin-manifest-uri`](https://www.npmjs.com/package/vite-plugin-manifest-sri) NPMプラグインをインストールすれば、これを有効にできます。
+Viteマニフェストにアセット用の`integrity`ハッシュが含まれている場合、Laravelは自動的に`integrity`属性を生成するスクリプトとスタイルタグに追加し、[サブリソース完全性](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)を強要します。Viteはデフォルトでは、`integrity`ハッシュをマニフェストに含みませんが、 [`vite-plugin-manifest-sri`](https://www.npmjs.com/package/vite-plugin-manifest-sri) NPMプラグインをインストールすれば、これを有効にできます。
 
 ```shell
 npm install --save-dev vite-plugin-manifest-sri
@@ -791,4 +792,42 @@ export default defineConfig({
       manifest: 'assets.json', // マニフェストファイル名のカスタマイズ
     },
 });
+```
+
+<a name="correcting-dev-server-urls"></a>
+### 開発サーバURLの修正
+
+Viteエコシステム内のプラグインのいくつかは、フォワードスラッシュで始まるURLを常にVite開発サーバを指すと仮定しています。しかし、Laravelとの統合の関係上、これは好ましくありません。
+
+例えば、`vite-imagetools`プラグインは、Viteがあなたのリソースを提供しているとき、以下のようなURLを出力します。
+
+```html
+<img src="/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520">
+```
+
+`vite-imagetools`プラグインは、Viteが出力するURLを傍受し、このプラグインが`/@imagetools`で始まるすべての URLを処理すると仮定しています。このような挙動を期待するプラグインを使用している場合、手作業でURLを修正する必要があります。これは、`vite.config.js`ファイルの`transformOnServe`オプションを使用して行います。
+
+この例は、生成されたコード内で、`/@imagetools`の全出現箇所に、開発サーバのURLを追加します。
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import { imagetools } from 'vite-imagetools';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            // ...
+            transformOnServe: (code, devServerUrl) => code.replaceAll('/@imagetools', devServerUrl+'/@imagetools'),
+        }),
+        imagetools(),
+    ],
+});
+```
+
+これで、Viteがアセットを配信する間、Viteの開発サーバを指すURLが出力されます。
+
+```html
+- <img src="/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520"><!-- [tl! remove] -->
++ <img src="http://[::1]:5173/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520"><!-- [tl! add] -->
 ```

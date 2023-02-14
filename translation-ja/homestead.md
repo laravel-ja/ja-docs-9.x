@@ -139,7 +139,7 @@ Homesteadは、Windows、macOS、Linuxシステムで実行でき、Nginx、PHP�
 <a name="first-steps"></a>
 ### 最初の段階
 
-Homestead環境を起動する前に、[Vagrant](https://www.vagrantup.com/downloads.html)と、サポートいている以下のプロバイダのいずれかをインストールする必要があります。
+Homestead環境を起動する前に、[Vagrant](https://developer.hashicorp.com/vagrant/downloads)と、サポートいている以下のプロバイダのいずれかをインストールする必要があります。
 
 - [VirtualBox 6.1.x](https://www.virtualbox.org/wiki/Downloads)
 - [Parallels](https://www.parallels.com/products/desktop/)

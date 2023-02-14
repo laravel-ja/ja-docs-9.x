@@ -1016,7 +1016,7 @@ LaravelでSMS通知を送るには、[Vonage](https://www.vonage.com/)（旧Nexm
 
 パッケージは、[設定ファイル](https://github.com/laravel/vonage-notification-channel/blob/3.x/config/vonage.php)を持っています。しかし、この設定ファイルを自分のアプリケーションにエクスポートする必要はありません。環境変数`VONAGE_KEY`と`VONAGE_SECRET`を使い、Vonageの公開鍵と秘密鍵を定義するだけです。
 
-キーを定義したら、`VONAGE_SMS_FROM`環境変数を設定して、デフォルトでSMSメッセージを送信する電話番号を定義してください。この電話番号はVonageコントロールパネルで生成できます。
+キーを定義したら、`VONAGE_SMS_FROM`環境変数を設定して、デフォルトでSMSメッセージを送信する電話番号を定義する必要があります。この電話番号はVonageコントロールパネルで生成できます。
 
     VONAGE_SMS_FROM=15556666666
 
