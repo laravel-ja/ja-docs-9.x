@@ -190,9 +190,9 @@ Laravelでセッションデータを操作する主な方法は、グローバ�
 <a name="#incrementing-and-decrementing-session-values"></a>
 #### セッション値の増分と減分
 
-セッションデータが増分や減分をしたい整数の場合は、`Inclient`メソッドと`Decrement`メソッドを使えます。
+セッションデータが増分や減分をしたい整数の場合は、`increment`メソッドと`decrement`メソッドを使えます。
 
-    $request->session()->increment('count');
+    $request->session()->('count');
 
     $request->session()->increment('count', $incrementBy = 2);
 
